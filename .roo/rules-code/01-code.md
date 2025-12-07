@@ -126,7 +126,7 @@ Before finishing, verify:
 **Every** function or class you touch MUST have this comment header:
 ```python
 # [Created-or-Modified] by [Model_Name] | YYYY-MM-DD_[Iteration]
-# Example: # Modified by Claude-3.5-Sonnet | 2024-10-27_01
+# Example: # Modified by Claude-4.5-Sonnet | 2025-11-27_01
 ```
 #### 2. Syntax & Style
 Quotes: Enforce Double Quotes (") over Single Quotes (').
@@ -202,7 +202,7 @@ Notes:
 - Update `log file`.
 - User confirmation: user satisfied or has additional instructions.
 - Archive completed log file to `.roo/docs/plans_completed/`. Append "_[iteration]" if collision.
-4)  Continuous Learning Protocol.
+3)  Continuous Learning Protocol.
 - Analyze what worked well and what could be improved.
 - Store successful approaches and solutions in memory.
 - Update memory with lessons learned from the work.

@@ -225,10 +225,10 @@ class FolderItem:
         self._backup_rows = []
     
     def update_preview_header_to_completed(self) -> None:
-        """Update the preview header from 'will be' to 'are now' after execution completes."""
+        """Update the preview header from 'will be' to 'were' after execution completes."""
         # [Created] by Sonnet 4.5 | 2025-12-04_03
         if hasattr(self, "_preview_header_label") and self._preview_header_label:
-            self._preview_header_label.config(text="These files are now updated:")
+            self._preview_header_label.config(text="These files were updated:")
     
     def mark_preview_replaced(self, relative_path: str) -> None:
         """Mark a single preview row as replaced for the given relative path."""

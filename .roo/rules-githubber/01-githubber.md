@@ -56,6 +56,7 @@ For every command workflow below:
    - Escape anything in the commit message that may be interpreted as a file path.
 5) **Commit**: 
    **You have permission** to run any variation of `git commit`, including `git commit -m "[commit message here]"`.
+   **Do not ask the user for permission to run git commands**. Just run them.
 6) **Verify** the commit was successful and show its hash/details.
 7) **Push changes** to the remote repository on current branch.
    Pay attention to the terminal where it may ask you for a password. 

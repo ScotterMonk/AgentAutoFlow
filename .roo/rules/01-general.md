@@ -1,8 +1,8 @@
 # ALL MODES
 
 ## Environment & Commands
-- **Platform:** Windows 11. Use PowerShell syntax.
-- **Sequence:** Execute numbered steps in strict linear order. Do not skip or reorder.
+- **Platform**: Windows 11. Use PowerShell syntax.
+- **Sequence**: Execute numbered steps in strict linear order. Do not skip or reorder.
 
 ---
 
@@ -17,15 +17,52 @@
 - **Web automation** & **browsing**: `browser_action`
 - **Useful Discoveries**: Make use of and contribute to `.roo/docs/useful.md`.
 
+<!-- Useful Discoveries subsection -->
+#### Useful Discoveries System
+**Purpose**: `.roo/docs/useful.md` is a knowledge base for solutions, patterns, and workarounds discovered during development.
+
+**When to READ from useful.md**:
+- Before starting complex or unfamiliar tasks
+- When encountering errors or unexpected behavior
+- When stuck after trying initial approaches
+- Before implementing workarounds or non-obvious solutions
+
+**When to WRITE to useful.md**:
+- After solving a non-obvious bug or error
+- When discovering a workaround for a limitation
+- After finding an effective pattern or approach worth reusing
+- When learning something about the environment, tools, or dependencies
+- After resolving a problem that took significant investigation
+
+**Entry Format** (use exactly this format):
+```
+YYYY-MM-DD HH:MM | [Category] | [Brief description of discovery]
+- Context: [What task/situation led to this]
+- Solution: [What worked and why]
+- Related files: [Affected or relevant files]
+```
+
+**Category Examples**:
+- `Testing`, `Database`, `Flask`, `Python`, `Config`, `Dependencies`, `Performance`, `UI/UX`, `Debugging`, `Workflow`
+
+**Example Entry**:
+```
+2025-12-18 14:23 | Python | Multi-line scripts must be run from .py files, not pasted into terminal
+- Context: Terminal would fail when pasting complex database queries
+- Solution: Always create temporary .py files in utils_db/ for multi-line operations
+- Related files: utils_db/*.py
+```
+<!-- End Useful Discoveries subsection -->
+
 ### Database
 See `.roo/rules/02-database.md` for all database procedures.
 
 ### Modes
 **Planning & Orchestration**
-- `/architect`: Simple planning. Create phases and tasks -> QA -> User Approval -> Switch to `/orchestrator`.
-- `/planner-a`: Complex Plan Stage 1. Create phases -> Brainstorm -> Switch to `/planner-b`.
-- `/planner-b`: Complex Plan Stage 2. Create detailed tasks -> User Approval -> Switch to `/planner-c`.
-- `/planner-c`: Complex Plan Stage 3. QA -> Finalize -> Switch to `/orchestrator`.
+- `/architect`: All-in-one planning. Create phases and tasks -> QA -> User Approval -> Switch to `/orchestrator`.
+- `/planner-a`: Complex Planing Stage 1. Create phases -> Brainstorm -> Switch to `/planner-b`.
+- `/planner-b`: Complex Planning Stage 2. Create detailed tasks -> User Approval -> Switch to `/planner-c`.
+- `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> Switch to `/orchestrator`.
 - `/orchestrator`: Manage execution. Coordinate implementation modes to fulfill plan.
 
 **Implementation & Ops**
@@ -44,14 +81,13 @@ See `.roo/rules/02-database.md` for all database procedures.
 1.  **Low Budget** (Renaming, moving files, simple text replacement, DB column copying)
     - Use `/task-simple`
 2.  **Medium Budget** (Refactoring, simple function creation, writing)
-    - Use `/code-monkey` or `/tester`
-3.  **High Budget** (Complex modification, or if Medium fails)
-    - Use `/code`
+    - Use `/code-monkey`
+3.  **High Budget** (Complex modification, test creation and use, or if Medium fails)
+    - Use `/code` or `/tester`
 4.  **Highest Budget** (Debugging, or if High fails)
     - Use `/debug`
-**Special Exception:**
+**Special Exception**:
 - **Front-End Tasks** (Medium or High complexity): **Always use** `/front-end`
-
 ---
 
 ## Standards
@@ -83,7 +119,7 @@ Enforcement: Re-apply `jinja-html` mode immediately after every save to prevent 
 **Rationale**: Group related code by **Domain** (Subject) first, then **Specific** (Action/Qualifier).
 
 #### 1. The Core Pattern
-**Invert the standard naming order:**
+**Invert the standard naming order**:
 - **Bad**: `{specific}_{domain}` (e.g., `edit_user`)
 - **Good**: `{domain}_{specific}` (e.g., `user_edit`)
 
@@ -103,7 +139,7 @@ Enforcement: Re-apply `jinja-html` mode immediately after every save to prevent 
 - **New Code**: **Always** apply this pattern.
 - **Existing Code**: Apply **only** if you are already actively editing the file.
 
-**STOP! Do NOT rename without explicit approval:**
+**STOP! Do NOT rename without explicit approval**:
 - **Public APIs**: HTTP routes, library exports, CLI flags.
 - **Database**: Tables and columns (requires migration).
 - **Standards**: `__init__.py`, `setUp()`, `settings.py` (Django).
@@ -137,12 +173,12 @@ Spacing: Keep vertical spacing compact (no excessive blank lines).
 Readability: Prioritize Readable Code over "clever" one-liners.
 
 #### 3. Comments
-Preserve: Do NOT delete existing comments.
-Add: Comment liberally. Explain why, not just what.
+**Preserve comments**: Do NOT delete existing, still relevant comments.
+**Comment liberally**: Explain why, not just what.
 
 #### 4. Logic & Operations
-File Collisions: If a file exists, append _[timestamp] to the new filename.
-Simplicity: Choose the simplest working solution.
+**File Collisions**: If a file exists, append _[timestamp] to the new filename.
+**Simplicity**: Choose the simplest working solution.
 
 #### 5. Tooling Preference (Web)
 Primary: browser_action (ALWAYS try this first).
@@ -173,18 +209,18 @@ Good: See `Critical Resources` in `.roo/rules/01-general.md`
 #### Formatting Standards
 **Strictly enforce** the following minimalist formatting rules.
 **Style & Typography**
-- **References:** Use inline code backticks (e.g., `file.py`) for files and code. Never use brackets or links.
-- **Indentation:** Use exactly 4 spaces for nested items.
+- **References**: Use inline code backticks (e.g., `file.py`) for files and code. Never use brackets or links.
+- **Indentation**: Use exactly 4 spaces for nested items.
 **Lists & Spacing**
-- **Numbering:** Use `)` as the separator (e.g., `1)`, `2)`). Never use periods (`1.`).
-- **Density:** No empty lines between list items. Group related items tightly.
-- **Headers:** Content must start on the very next line after a header. Do not insert an empty line.
+- **Numbering**: Use `)` as the separator (e.g., `1)`, `2)`). Never use periods (`1.`).
+- **Density**: No empty lines between list items. Group related items tightly.
+- **Headers**: Content must start on the very next line after a header. Do not insert an empty line.
 **Examples**
 **Bad** (Wrong list style, extra spacing):
 ```markdown
 ## Analysis
 
-**Points:**
+**Points**:
 
 1. First item
 
@@ -194,7 +230,7 @@ Good: See `Critical Resources` in `.roo/rules/01-general.md`
 **Good** (Compact, correct list style):
 ```markdown
 ## Analysis
-**Points:**
+**Points**:
 1) First item
     - Nested detail
 2) Second item
@@ -205,31 +241,31 @@ Good: See `Critical Resources` in `.roo/rules/01-general.md`
 ## Testing
 
 ### Python Script Execution
-**Constraint:** Do not execute multi-line Python scripts directly in the terminal.
+**Constraint**: Do not execute multi-line Python scripts directly in the terminal.
 
-**Procedure for Multi-line Scripts:**
-1) **Search:** Check codebase and memory for existing scripts.
-2) **Evaluate:**
-    - **Exact Match Found:** Execute the existing script.
-    - **Similar Match Found:**
+**Procedure for Multi-line Scripts**:
+1) **Search**: Check codebase and memory for existing scripts.
+2) **Evaluate**:
+    - **Exact Match Found**: Execute the existing script.
+    - **Similar Match Found**:
         - Analyze dependencies (what relies on this script?).
         - Determine strategy: Modify existing vs. Duplicate new.
         - Execute the modified or duplicated script.
-    - **No Match:** Create a new script file, then execute it.
+    - **No Match**: Create a new script file, then execute it.
 
 ---
 
 Here is the improved version, focusing on strict payload requirements and clear protocols:
 
 ## Mode Communication
-**Mechanism:** Delegate tasks strictly via the `message` parameter.
+**Mechanism**: Delegate tasks strictly via the `message` parameter.
 
-**Payload Requirements:**
-- **Context:** Include relevant bug/issue details. If a `plan` is active, include pertinent sections.
-- **Instructions:** Provide specific, actionable implementation steps.
-- **Completion Trigger:** Specify the exact command to return when the task is finished.
+**Payload Requirements**:
+- **Context**: Include relevant bug/issue details. If a `plan` is active, include pertinent sections.
+- **Instructions**: Provide specific, actionable implementation steps.
+- **Completion Trigger**: Specify the exact command to return when the task is finished.
 
-**Response Protocol:**
+**Response Protocol**:
 - Mandate a reply via the `result` parameter containing a concise summary of the outcome.
 
 ---
@@ -238,8 +274,8 @@ Here is the improved version, emphasizing mandatory checks and knowledge retenti
 
 ## Error Handling & QA
 **Validation**
-- **Immediate Check:** Inspect terminal output and VS Code Problems panel after *every* edit.
-- **Fix First:** Resolve regressions or new errors before proceeding.
+- **Immediate Check**: Inspect terminal output and VS Code Problems panel after *every* edit.
+- **Fix First**: Resolve regressions or new errors before proceeding.
 
 **Documentation**
-- **Log Findings:** Append significant bugs, non-obvious fixes, or environment quirks to `.roo/docs/useful.md`.
+- **Log Findings**: Append significant bugs, non-obvious fixes, or environment quirks to `.roo/docs/useful.md`.

@@ -178,7 +178,12 @@ Some of the tips below are subject to change often, especially which models to u
 1) Use *free* Roo Code.
 2) Use *free* AgentFlow (just a bunch of .md files telling modes exactly how to act, delegate, and more).
 3) Pick the right models for each mode:
+**Front-loading the intelligence**:
 The following tips are based on the way AgentFlow "front loads" the heavy-lifting (deep thought) in the architecting/planning, making plans so detailed and tasks so atomic, that when a "worker" mode gets its assignment, it knows *exactly* what to do. That allows you to use "dumber" models for "worker" tasks. That said, I still assign  a pretty "smart" model to "Code" mode.
+**Modularity and low context usage**:
+When creating a plan based on user input, for larger projects, I divided "architect" up into "planner-a, b, c" so that, for example, "planner-a" will process user query and brainstorm with user to create a high level "plan" file. It will then pass that file on to "planner-b". This mode-switch provides a new fresh context window to do its work in. It will then create *very* detailed tasks that may include, per task:
+	- Either pseudo-code or code.
+	- Mode hints. Ex: "Use this mode: Code (Senior Coder)", "Code Monkey (Jr Coder)", "Task-Simple", "Tester", etc.
 - **Architect** and **Planner (team)**: GPT-5.1-R-H or M | Sonnet 4.5-R.
 - **Code (Senior Coder)**, **Front-end**, **Debugger**, **Tester**: Sonnet 4.5 | GPT-5.1-R-M. Note: On paper, GPT 5.1 seems far more expensive than it really is but I find it runs so efficiently that it ends up doing a lot for pennies! I use it through OpenRouter or through OpenAI, choosing "Flex" service tier because I'm fine with how slow it is for saving $.
 - **Code Monkey (Jr Coder)**: GPT-5.1-Low | GLM 4.6 | Kimi K2 | Gemini 2.5 Flash (through OpenRouter is least expensive) or any comparable model because "Architect" (AgentFlow's version) and "Planner" team write a very detailed plan that even includes pseudocode or code so that when the plan gets delegated by Orchestrator, Code and Code Monkey know *exactly* what they are expected to do.

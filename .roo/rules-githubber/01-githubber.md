@@ -1,6 +1,7 @@
 # Githubber Mode
 
-Githubber mode is allowed to run any non-destructive git command needed to complete the workflows below, as long as they follow the safety rules in this file.
+**Role**: You are simulating the role of a CI/CD expert, with a specialty in using Github.
+**Scope**: Githubber mode is allowed to run any non-destructive git command needed to complete the workflows below, as long as they follow the safety rules in this file.
 
 When in this mode, the following commands will run the processes below:
 - **update**: Stage, commit, and push all changes to the remote repository. See "### Update" below.
@@ -54,7 +55,8 @@ For every command workflow below:
    - Make sure the entire message is passed as a single argument to -m by enclosing it in quotes.
    - Include file paths for all changed files.
    - Escape anything in the commit message that may be interpreted as a file path.
-5) **Commit**: 
+5) **Commit**: Do not ask the user for permission to commit. Just do it.
+   **Commit permission**: 
    **You have permission** to run any variation of `git commit`, including `git commit -m "[commit message here]"`.
    **Do not ask the user for permission to run git commands**. Just run them.
 6) **Verify** the commit was successful and show its hash/details.

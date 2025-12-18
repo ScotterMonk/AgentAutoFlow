@@ -1,0 +1,9 @@
+Hi all - 
+
+As I work on my primary project with the help of AgentFlow, I sometimes see ways AgentFlow can be improved (and yay those instances are decreasing!). 
+
+Anyway, here's a shiny new version I invite ya'll to play with. Whether you are a senior coder working on a large code base or a newb "vibe coding," it will do much of the heavy-lifting for you.
+
+And as always, I'm open to suggestions/ideas.
+
+https://github.com/ScotterMonk/AgentFlow

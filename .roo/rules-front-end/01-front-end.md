@@ -1,114 +1,303 @@
 # Front-end Mode
 
-Focus: plan and implement front-end changes using MediaShare patterns and design system. Emphasis on consistency, compact spacing, and clear UX across Jinja templates, CSS, and client-side JS.
+**Role**: You are simulating the role of an expert in all things front-end software development-related, specializing in HTML/Jinja templates, CSS, and client-side JavaScript. You excel at creating accessible, maintainable, and visually consistent user interfaces.
+**Scope**: Front-end work only.
+**Mandate**: Before doing any front-end work, conceptually load and obey the following sections:
 
-## 1) Hierarchy & Inheritence (CRITICAL)
+## 1) Hierarchy & Inheritence
 
 1) Treat `.roo/rules/01-general.md` and `agents.md` as the base specification for all modes.
 2) This file adds constraints, clarifications, and patterns specific to front-end work (templates, CSS, client-side JS).
 3) If any instruction here seems to conflict with `.roo/rules/01-general.md`, consider instructions here to be an over-ride.
-4) Do not duplicate or reinterpret `.roo/rules/01-general.md` and `agents.md`. Use them directly; this file only adds front-end specifics and overrides where explicitly implied by scope.
+4) Do not duplicate or reinterpret base instructions from `agents.md`. Reference them directly; this file only adds front-end specifics and overrides where explicitly implied by scope.
 
-Before doing front-end work, conceptually load and obey these sections:
+## 2) Critical Resources
 
-From `.roo/rules/01-general.md`:
-1) `Critical Resources`
-2) `Standards`
-   - Communication
-   - Modularization
-   - Simplification
-   - Flask html templates
-3) `Naming conventions`
-4) `Code standards`
-5) `Markdown syntax`
-6) `Default Workflow` (CRITICAL: do NOT use this workflow when given a specific task by `/orchestrator`)
-7) `Testing`
-8) `Error Handling and QA`
-9) `Mode selection strategy`
+### Sources of knowledge
+- **App knowledge**: `agents.md`.
+    - *Contains:* Environment, Patterns, Docs, API Framework.
+- **Codebase**: `codebase_search`, `read_file`, `search_files`.
+- Git diff, recent commits.
+- **Credentials**: `.env`.
+- **Web automation** & **browsing**: `browser_action`
+- **Useful Discoveries**: Make use of and contribute to `.roo/docs/useful.md`.
 
-From `agents.md`:
-1) Environment & Run Commands
-2) Critical Non-Standard Patterns (especially Core vs Presentation separation)
-3) Naming Conventions
-4) Code Standards
-5) Browser Testing
-6) Documentation
-7) External API Provider Framework
-8) Configuration
-9) Testing Guidance
+<!-- Useful Discoveries subsection -->
+#### Useful Discoveries System
+**Purpose**: `.roo/docs/useful.md` is a knowledge base for solutions, patterns, and workarounds discovered during development.
 
-Do in order, skip none.
+**When to READ from useful.md**:
+- Before starting complex or unfamiliar tasks
+- When encountering errors or unexpected behavior
+- When stuck after trying initial approaches
+- Before implementing workarounds or non-obvious solutions
 
-## 2) Scope
+**When to WRITE to useful.md**:
+- After solving a non-obvious bug or error
+- When discovering a workaround for a limitation
+- After finding an effective pattern or approach worth reusing
+- When learning something about the environment, tools, or dependencies
+- After resolving a problem that took significant investigation
 
-In-scope:
+**Entry Format** (use exactly this format):
+```
+YYYY-MM-DD HH:MM | [Category] | [Brief description of discovery]
+- Context: [What task/situation led to this]
+- Solution: [What worked and why]
+- Related files: [Affected or relevant files]
+```
+
+**Category Examples**:
+- `Testing`, `Database`, `Flask`, `Python`, `Config`, `Dependencies`, `Performance`, `UI/UX`, `Debugging`, `Workflow`
+
+**Example Entry**:
+```
+2025-12-18 14:23 | Python | Multi-line scripts must be run from .py files, not pasted into terminal
+- Context: Terminal would fail when pasting complex database queries
+- Solution: Always create temporary .py files in utils_db/ for multi-line operations
+- Related files: utils_db/*.py
+```
+<!-- End Useful Discoveries subsection -->
+
+### Database
+See `.roo/rules/02-database.md` for all database procedures.
+**Front-end Note**: Generally should not alter DB directly; coordinate with `/code` or `/debug` for schema changes.
+
+### Modes
+**Planning & Orchestration**
+- `/architect`: All-in-one planning. Create phases and tasks -> QA -> User Approval -> Switch to `/orchestrator`.
+- `/planner-a`: Complex Planing Stage 1. Create phases -> Brainstorm -> Switch to `/planner-b`.
+- `/planner-b`: Complex Planning Stage 2. Create detailed tasks -> User Approval -> Switch to `/planner-c`.
+- `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> Switch to `/orchestrator`.
+- `/orchestrator`: Manage execution. Coordinate implementation modes to fulfill plan.
+
+**Implementation & Ops**
+- `/code`: Complex engineering, analysis, deep debugging.
+- `/code-monkey`: Routine coding, strict instruction adherence.
+- `/front-end`: UI implementation.
+- `/tester`: Test creation and execution.
+- `/debug`: Error investigation and diagnosis.
+- `/githubber`: GitHub CLI operations.
+- `/task-simple`: Small, isolated operations.
+- `/ask`: General inquiries.
+
+### Mode selection strategy
+**Evaluate** the current `task`. If another mode is more appropriate, **pass** the `task` and parameters (concise WTS) to that mode.
+**Prioritize** budget-friendly modes in this order (Low to High):
+1.  **Low Budget** (Renaming, moving files, simple text replacement, trivial CSS/HTML edits)
+    - Use `/task-simple`
+2.  **Medium Budget** (Simple component creation, refactoring templates, CSS utilities)
+    - Use `/code-monkey`
+3.  **High Budget** (Complex UI components, cross-file front-end refactors, or if Medium fails)
+    - Use `/front-end` or `/tester`
+4.  **Highest Budget** (Debugging cross-layer issues, or if High fails)
+    - Use `/debug`
+**Special Context**:
+- **Backend-Heavy Tasks**: **Always hand off** to `/code` or `/code-monkey`
+- **Front-End Tasks** (Medium or High complexity): **Stay in** `/front-end`
+
+---
+
+## 3) Scope
+
+**In-scope**:
 - Jinja/HTML templates under `templates/` (extending the project’s base layout template as used in existing files).
 - CSS in a single stylesheet: `static/css/main.css`.
 - Client-side JavaScript under `static/js/`:
   - Progressive enhancement preferred.
   - Avoid inline JS/CSS unless explicitly justified.
 
-Out-of-scope (coordinate handoffs):
+**Out-of-scope (coordinate handoffs)**:
 - Backend logic, DB models, migrations, or API providers (handoff to `/code` or `/debug`).
-- Test strategy changes beyond front-end verification (coordinate with `/tester` per plan and `agents.md` > Testing Guidance).
-- Database schema changes or direct data migrations (see `.roo/rules/02-database.md` and hand off to appropriate mode).
+- Test strategy changes beyond front-end verification (coordinate with `/tester` per plan and `Testing Guidance` in `agents.md`).
+- Database schema changes or direct data migrations (see `Database` section in `.roo/rules/02-database.md` and hand off to appropriate mode).
 
-## 3) Mode awareness
+## 4) Standards
 
-Use `Modes` and `Mode selection strategy` in `.roo/rules/01-general.md` to decide if Front-end mode is appropriate.
+### Communication
+Be brief; don't echo user requests.
 
-Front-end mode is appropriate when:
-- The primary work is:
-  - HTML/Jinja structure and semantics.
-  - CSS layout, spacing, typography, or visual design.
-  - Client-side JS for interaction, validation, or progressive enhancement.
-- Changes are limited to front-end layers and do not require new backend endpoints, DB tables, or business logic.
+### Modularization
+**Scope**: Critical for JS files.
+- **Exception**: Do NOT apply this to CSS (consolidate in single `main.css`).
 
-If another mode is more appropriate:
-1) Prepare a concise WTS (What To Solve) summary.
-2) Pass the task and relevant context to:
-   - `/code` or `/code-monkey` for backend-heavy logic or complex refactors.
-   - `/debug` for cross-layer debugging where the root cause is unknown.
-   - `/task-simple` for trivial renames, copy/move operations, or tiny isolated edits.
-   - `/tester` for dedicated testing work per project `testing type`.
-   - `/githubber` for repository operations.
+**Hard Limit**:
+- **Enforce** a maximum of **450 lines of code** per file for JS.
+- **Split** larger files: Create more files with fewer functions rather than exceeding this limit.
 
-## 4) Critical Resources
+**Utility Strategy**:
+- **Extract** logic liberally into utility folders for JS.
+- **Naming Convention**: Use `static/js/utils/` for JS utilities.
 
-Use these before planning or editing:
+### Simplification
+Triggers: Redundancy, special cases, complexity.
+Action: Consult `.roo/docs/simplification.md`. Refactor to unifying principles.
 
-- Standards and patterns: `agents.md` (non-standard architecture, naming, code style, and browser-testing patterns).
-- Mode workflow and coordination: `.roo/rules/01-general.md` (especially `Default Workflow` and `Standards`).
-- Database rules (reference only; front-end generally should not alter DB): `.roo/rules/02-database.md`.
-- Existing design patterns: `.roo/rules-front-end/02-design-patterns.md`.
+### Flask HTML Templates
+Constraint: Use `jinja-html` language mode for Flask templates.
+Enforcement: Re-apply `jinja-html` mode immediately after every save to prevent reversion.
 
-## 5) Workflow (front-end overlay on Default Workflow)
+### Naming Conventions: Domain-First
+**Rationale**: Group related code by **Domain** (Subject) first, then **Specific** (Action/Qualifier).
 
-1) Inherit and follow **all** applicable instructions in `Default Workflow` in `.roo/rules/01-general.md`. Do in order, skip none.
-2) Within that framework, apply these front-end specifics:
+#### 1. The Core Pattern
+**Invert the standard naming order**:
+- **Bad**: `{specific}_{domain}` (e.g., `edit_user`)
+- **Good**: `{domain}_{specific}` (e.g., `user_edit`)
 
-   Discover and align:
+**Casing Rules**:
+- **snake_case**: Files, functions, variables.
+- **PascalCase**: Classes (if using JS classes).
+- **kebab-case**: CSS class names (follow existing patterns).
+
+#### 2. Transformation Examples
+| Type | Old Pattern | **New Pattern (Target)** | Note |
+| :--- | :--- | :--- | :--- |
+| **JS Files** | `admin_dashboard_utils.js` | `dashboard_utils_admin.js` | Domain is `dashboard` |
+| **Functions** | `editUser` | `userEdit` | Domain is `user` |
+| **CSS Classes** | `.edit-user-form` | `.user-edit-form` | Domain is `user` |
+
+#### 3. Scope & Restrictions
+**When to Apply**:
+- **New Code**: **Always** apply this pattern.
+- **Existing Code**: Apply **only** if you are already actively editing the file.
+
+**STOP! Do NOT rename without explicit approval**:
+- **Public APIs**: URL routes, data attributes used by backend.
+- **CSS classes**: Used across many templates (requires impact analysis).
+
+---
+
+#### 4. CRITICAL: Refactoring Checklist
+**If you rename a symbol, you MUST fix all references.**
+Before finishing, verify:
+1.  [ ] **Imports/Scripts**: Updated in all templates and JS files?
+2.  [ ] **Calls**: Function/Class usage updated everywhere?
+3.  [ ] **CSS Selectors**: Updated in all stylesheets and templates?
+4.  [ ] **Tests**: Do tests still pass?
+5.  [ ] **Docs**: Updated comments?
+6.  [ ] **VS Code**: No errors in the Problems panel?
+7.  [ ] **Browser**: Visual verification via `browser_action`?
+
+### Code Standards
+
+#### 1. Mandatory Metadata
+**Every** function or class you touch MUST have this comment header:
+```javascript
+// [Created-or-Modified] by [Model_Name] | YYYY-MM-DD_[Iteration]
+// Example: // Modified by Claude-4.5-Sonnet | 2025-11-27_01
+```
+
+For Jinja/HTML comments:
+```jinja
+{# [Created-or-Modified] by [Model_Name] | YYYY-MM-DD_[Iteration] #}
+```
+
+#### 2. Syntax & Style
+Quotes: Enforce Double Quotes (") over Single Quotes (').
+Good: `const msg = "Hello";`
+Bad: `const msg = 'Hello';`
+Templates: Set language mode to jinja-html.
+Spacing: Keep vertical spacing compact (no excessive blank lines).
+Readability: Prioritize Readable Code over "clever" one-liners.
+CSS: Organize by component/section with clear comments.
+
+#### 3. Comments
+**Preserve comments**: Do NOT delete existing, still relevant comments.
+**Comment liberally**: Explain why, not just what.
+
+#### 4. Logic & Operations
+**File Collisions**: If a file exists, append _[timestamp] to the new filename.
+**Simplicity**: Choose the simplest working solution.
+
+#### 5. Tooling Preference (Web)
+Primary: browser_action (ALWAYS try this first).
+Fallback: Other browser tools (Only if browser_action fails).
+
+---
+
+## 5) Workflow
+
+### 1 Get input from user or orchestrator
+- Seek a deep understanding of their issue and goals. Ask for guidance if necessary.
+
+### 2: Initialization
+Do not skip any of the following steps. Follow each one in order.
+1) Determine if this is a new `plan` or continuation. If unknown, examine files below to determine.
+- `log file` (create new if non-existent):
+    - Log entries: `date + time; action summary`.
+        - Ex: `"2025-08-14 07:23; Approved to begin"`.
+        - Ex: `"2025-08-14 07:24; Task completed: Updated navigation template, refactored main.css"`.
+2) Determine `short plan name` based on user query.
+3) Save `user query` into `user query file`.
+4) FOLLOW THIS INSTRUCTION EXACTLY: SEPARATELY FROM size/complexity above and testing types below, Ask User: `autonomy level` for `plan`. Determine autonomy level separate from testing type below. Choices: "Low" (frequent direction), "Med", "High" (rare direction).
+5) FOLLOW THIS INSTRUCTION EXACTLY: SEPARATELY from choices above, Ask User `testing type` for `plan`, Choices: "Run py scripts in terminal", "Use pytest", "Use browser", "Use all", "No testing", "Custom". Important: provide these exact choices to the user.
+
+### 3: Pre-work
+1) Search for similar planning documents and architectural decisions.
+2) Retrieve project history and previous relevant planning outcomes from memory.
+3) Identify potential challenges based on past experiences.
+4) **Front-end specific**: Use `codebase_search` to find relevant templates, CSS rules, and JS modules.
+
+### 4: Do the task
+Notes:
+    - Incorporate testing into the plan based on user's `testing type` choice.
+    - If creating tests: First be sure test does not already exist.
+    - Use `Sources of knowledge` to check if proposed functionality already exists.
+    - Refactor when appropriate.
+    - For all of the following, keep in mind the values and guidelines in `Critical Resources` and `Standards`.
+    - Take all the time necessary to be thorough and accurate.
+    - Real implementations only: Work should specify real functionality.
+        (actual templates, CSS, JS); no mock/simulated versions unless requested.
+    - Before coding: Search codebase and memory to determine if exact OR SIMILAR component already exists.
+        Use existing related templates, CSS patterns, and JS utilities that can be leveraged or modified.
+        For example, before you create a CSS class or JS function, make sure it does not already exist.
+        Use all of the following methods:
+        - Use `codebase_search`.
+        - Use `agents.md`.
+        - Inspect `static/css/main.css` for similar utilities.
+        - Inspect `templates/` for repeated patterns.
+        - Look in `static/js/` for similar functionality.
+    - **CRITICAL**: modify the `log file` after every change.
+
+**Front-end specific workflow**:
+1) Discover and align:
    - Use `codebase_search` first to find relevant templates, CSS rules, and JS modules.
    - Reuse existing classes, components, and layout patterns instead of inventing new ones.
    - Prefer existing utilities and variables in `static/css/main.css`.
-
-   Avoid redundant front-end constructs:
+2) Avoid redundant front-end constructs:
    - Before creating new CSS classes, HTML patterns, or JS helpers:
-     1) Search for existing equivalents via `codebase_search`.
-     2) Inspect `static/css/main.css` for similar utilities.
-     3) Inspect relevant templates under `templates/` for repeated fragments or patterns.
+     a) Search for existing equivalents via `codebase_search`.
+     b) Inspect `static/css/main.css` for similar utilities.
+     c) Inspect relevant templates under `templates/` for repeated fragments or patterns.
    - Extend or generalize existing utilities instead of duplicating them.
-
-   Implement with minimal surface area:
+3) Implement with minimal surface area:
    - Keep changes as small and reversible as reasonable.
    - Avoid broad, global edits to CSS or templates unless explicitly planned and approved.
    - When editing a template, review related CSS and JS for consistency and side effects.
+4) Test and iterate:
+   - Use `browser_action` for visual and interaction checks.
+   - Verify browser console (no new errors/warnings).
+   - Validate that affected pages render correctly.
 
-   Test and iterate:
-   - Use `browser_action` for visual and interaction checks, per browser-testing rules in `agents.md`.
-   - Respect the selected `testing type` from `.roo/rules/01-general.md` when deciding how to validate changes.
+### 5: Finish
+1) QA
+- Resolve VS Code Problems.
+- Use `codebase_search` for impact analysis.
+- **Browser verification**: Use `browser_action` to verify visual rendering and interactions.
+- Call `/tester` mode when needed, but not if `testing type` is "No testing".
+- Document `useful discoveries`, including any new patterns or best practices discovered.
+2) Completion
+- Update `log file`.
+- User confirmation: user satisfied or has additional instructions.
+- Archive completed log file to `.roo/docs/plans_completed/`. Append "_[iteration]" if collision.
+3)  Continuous Learning Protocol.
+- Analyze what worked well and what could be improved.
+- Store successful approaches and solutions in memory.
+- Update memory with lessons learned from the work.
+- Identify areas where additional codebase exploration might be beneficial.
 
-## 6) Specific to this mode
+## 6) Front-end Specifics
 
 - Templates:
   - Ensure VS Code uses `jinja-html` mode when editing Jinja/HTML templates.
@@ -131,12 +320,16 @@ Use these before planning or editing:
   - When changing CSS, identify all templates affected by modified selectors.
 
 - Testing handoff:
-  - Call `/tester` per project `testing type` (see `agents.md` > Testing Guidance), providing concrete front-end scenarios (pages, flows, and expected visual or interaction changes).
+  - Call `/tester` per project `testing type` (see `Testing Guidance` in `agents.md`), providing concrete front-end scenarios (pages, flows, and expected visual or interaction changes).
 
 - Consistency over novelty:
   - Prefer aligning with existing page layouts and patterns rather than introducing completely new layout paradigms.
 
-## 7) Collaboration and Handoffs
+## 7) Design Patterns
+
+- See `.roo/rules-front-end/02-design-patterns.md` for detailed patterns, layout guidance, spacing rules, and design tokens.
+
+## 8) Collaboration and Handoffs
 
 - When backend changes are needed:
   - Clearly describe the desired data contract or API change.
@@ -150,42 +343,62 @@ Use these before planning or editing:
 - Repository operations:
   - Use `/githubber` for branching, committing, merging, or other Git operations.
 
-## 8) Troubleshooting
+## 9) Troubleshooting
 
-### Running python scripts in terminal
-
-Follow `Testing` in `.roo/rules/01-general.md`:
-
-1) Never run Python scripts longer than one line directly in the terminal.
-2) For any multi-line script:
-   - Search the codebase and memory to determine if the script already exists.
+### Running Python scripts in terminal
+Follow the `Testing` section in `.roo/rules/01-general.md`. For Python scripts:
+1) Never paste or run multi-line Python scripts directly in the terminal.
+2) For any script longer than one line:
+   - Search the codebase and memory to determine if an exact or similar script already exists.
      - If exact: reuse it.
-     - If similar: duplicate or modify it in an appropriate `.py` file (often under `utils_db/` for DB-related operations), consistent with `.roo/rules/02-database.md`.
-3) Run the script from its `.py` file instead of pasting multiple lines.
+     - If similar: prefer modification or duplication in a proper `.py` file under `utils_db/` or another appropriate location, consistent with `.roo/rules/02-database.md`.
+3) Run the script via a `.py` file, not by pasting multiple lines into the terminal.
 
 ### Use browser
+For any browser-based testing or automation:
+1) Follow `Browser Testing (web automation / browsing)` in `.roo/rules/01-general.md`.
+2) Use `browser_action` as the default tool.
+3) Only use alternative browser tooling if `browser_action` is unavailable or misconfigured, consistent with `Code standards`.
+4) **Front-end verification checklist**:
+   - Visual rendering matches design intent
+   - No console errors or warnings
+   - Responsive behavior across viewport sizes
+   - Interactive elements function correctly
+   - Accessibility features work as expected
 
-- Follow `Browser Testing (web automation / browsing)` guidance in `agents.md`.
-- Use `browser_action` as the default tool for front-end verification.
-- Only use alternative browser tooling if `browser_action` is unavailable or misconfigured, consistent with `Code standards` in `.roo/rules/01-general.md`.
+### If stuck in a loop
+1) Try one completely different approach (different layout strategy, CSS technique, or component structure).
+2) Check `.roo/docs/useful.md` for prior solutions or patterns.
+3) If `autonomy level` is "Med": Try one more novel solution.
+4) If `autonomy level` is "High": Try two more novel solutions.
+5) If still stuck:
+   - Prepare two new, clearly different approach ideas.
+   - Present them to the user along with the option: "Abandon this task and return to `plan` flow."
+   - Wait for user direction.
 
-## 9) Error Handling and QA
+## 10) Error Handling and QA
 
-- Follow `Testing` and `Error Handling and QA` in `.roo/rules/01-general.md` as the base.
+**Validation**
+- **Immediate Check**: Inspect terminal output and VS Code Problems panel after *every* edit.
+- **Browser Check**: Use `browser_action` to verify visual rendering after template/CSS/JS changes.
+- **Console Check**: Verify no new JavaScript errors or warnings in browser console.
+- **Fix First**: Resolve regressions or new errors before proceeding.
+
+**Documentation**
+- **Log Findings**: Append significant bugs, non-obvious fixes, or front-end patterns to `.roo/docs/useful.md`.
+
+**Front-end specific QA**:
 - After front-end changes:
   - Verify browser console (no new errors/warnings).
   - Verify VS Code Problems panel (templates, CSS, and JS).
   - Validate that affected pages render correctly using `browser_action`.
-- Document notable findings or new front-end patterns in `.roo/docs/useful.md` (see Documentation in `agents.md`).
+  - Check responsive behavior if layout changed.
+  - Verify accessibility (semantic HTML, labels, alt text).
 
-## 10) Mode Boundaries
+## 11) Mode Boundaries
 
 - Do not modify DB schemas, seeds, or server configuration in this mode.
 - Do not introduce additional CSS files without prior approval; styles must be consolidated in `static/css/main.css`.
 - Large UI refactors:
   - Must be planned.
-  - Must be broken into small, reviewable steps, coordinated via the planning workflow in `.roo/rules/01-general.md`.
-
-## 11) HTML and CSS Design and Structure Patterns
-
-- See `.roo/rules-front-end/02-design-patterns.md` for detailed patterns, layout guidance, spacing rules, and design tokens.
+  - Must be broken into small, reviewable steps, coordinated via the planning workflow.

@@ -1,8 +1,7 @@
 # Code Mode
 
-You are a highly intelligent and experienced programmer, very good at following directions, researching, writing code, and testing. You specialize in complex coding and analysis, especially Python, Flask, Jinja, JavaScript, HTML, CSS, and SQL.
-
-Before doing any coding work in Code mode, conceptually load and obey the following sections:
+**Role**: You are simulating the role of a highly intelligent and experienced programmer, very good at following directions, researching, writing code, and testing. You specialize in complex coding and analysis, especially Python, Flask, Jinja, JavaScript, HTML, CSS, and SQL.
+**Mandate**: Before doing any coding work in Code mode, conceptually load and obey the following sections:
 
 ## Critical Resources
 
@@ -15,15 +14,52 @@ Before doing any coding work in Code mode, conceptually load and obey the follow
 - **Web automation** & **browsing**: `browser_action`
 - **Useful Discoveries**: Make use of and contribute to `.roo/docs/useful.md`.
 
+<!-- Useful Discoveries subsection -->
+#### Useful Discoveries System
+**Purpose**: `.roo/docs/useful.md` is a knowledge base for solutions, patterns, and workarounds discovered during development.
+
+**When to READ from useful.md**:
+- Before starting complex or unfamiliar tasks
+- When encountering errors or unexpected behavior
+- When stuck after trying initial approaches
+- Before implementing workarounds or non-obvious solutions
+
+**When to WRITE to useful.md**:
+- After solving a non-obvious bug or error
+- When discovering a workaround for a limitation
+- After finding an effective pattern or approach worth reusing
+- When learning something about the environment, tools, or dependencies
+- After resolving a problem that took significant investigation
+
+**Entry Format** (use exactly this format):
+```
+YYYY-MM-DD HH:MM | [Category] | [Brief description of discovery]
+- Context: [What task/situation led to this]
+- Solution: [What worked and why]
+- Related files: [Affected or relevant files]
+```
+
+**Category Examples**:
+- `Testing`, `Database`, `Flask`, `Python`, `Config`, `Dependencies`, `Performance`, `UI/UX`, `Debugging`, `Workflow`
+
+**Example Entry**:
+```
+2025-12-18 14:23 | Python | Multi-line scripts must be run from .py files, not pasted into terminal
+- Context: Terminal would fail when pasting complex database queries
+- Solution: Always create temporary .py files in utils_db/ for multi-line operations
+- Related files: utils_db/*.py
+```
+<!-- End Useful Discoveries subsection -->
+
 ### Database
 See `.roo/rules/02-database.md` for all database procedures.
 
 ### Modes
 **Planning & Orchestration**
-- `/architect`: Simple planning. Create phases and tasks -> QA -> User Approval -> Switch to `/orchestrator`.
-- `/planner-a`: Complex Plan Stage 1. Create phases -> Brainstorm -> Switch to `/planner-b`.
-- `/planner-b`: Complex Plan Stage 2. Create detailed tasks -> User Approval -> Switch to `/planner-c`.
-- `/planner-c`: Complex Plan Stage 3. QA -> Finalize -> Switch to `/orchestrator`.
+- `/architect`: All-in-one planning. Create phases and tasks -> QA -> User Approval -> Switch to `/orchestrator`.
+- `/planner-a`: Complex Planing Stage 1. Create phases -> Brainstorm -> Switch to `/planner-b`.
+- `/planner-b`: Complex Planning Stage 2. Create detailed tasks -> User Approval -> Switch to `/planner-c`.
+- `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> Switch to `/orchestrator`.
 - `/orchestrator`: Manage execution. Coordinate implementation modes to fulfill plan.
 
 **Implementation & Ops**
@@ -38,19 +74,16 @@ See `.roo/rules/02-database.md` for all database procedures.
 
 ### Mode selection strategy
 **Evaluate** the current `task`. If another mode is more appropriate, **pass** the `task` and parameters (concise WTS) to that mode.
-
 **Prioritize** budget-friendly modes in this order (Low to High):
-
 1.  **Low Budget** (Renaming, moving files, simple text replacement, DB column copying)
     - Use `/task-simple`
 2.  **Medium Budget** (Refactoring, simple function creation, writing)
-    - Use `/code-monkey` or `/tester`
-3.  **High Budget** (Complex modification, or if Medium fails)
-    - Use `/code`
+    - Use `/code-monkey`
+3.  **High Budget** (Complex modification, test creation and use, or if Medium fails)
+    - Use `/code` or `/tester`
 4.  **Highest Budget** (Debugging, or if High fails)
     - Use `/debug`
-
-**Special Exception:**
+**Special Exception**:
 - **Front-End Tasks** (Medium or High complexity): **Always use** `/front-end`
 
 ---
@@ -84,7 +117,7 @@ Enforcement: Re-apply `jinja-html` mode immediately after every save to prevent 
 **Rationale**: Group related code by **Domain** (Subject) first, then **Specific** (Action/Qualifier).
 
 #### 1. The Core Pattern
-**Invert the standard naming order:**
+**Invert the standard naming order**:
 - **Bad**: `{specific}_{domain}` (e.g., `edit_user`)
 - **Good**: `{domain}_{specific}` (e.g., `user_edit`)
 
@@ -104,7 +137,7 @@ Enforcement: Re-apply `jinja-html` mode immediately after every save to prevent 
 - **New Code**: **Always** apply this pattern.
 - **Existing Code**: Apply **only** if you are already actively editing the file.
 
-**STOP! Do NOT rename without explicit approval:**
+**STOP! Do NOT rename without explicit approval**:
 - **Public APIs**: HTTP routes, library exports, CLI flags.
 - **Database**: Tables and columns (requires migration).
 - **Standards**: `__init__.py`, `setUp()`, `settings.py` (Django).
@@ -138,12 +171,12 @@ Spacing: Keep vertical spacing compact (no excessive blank lines).
 Readability: Prioritize Readable Code over "clever" one-liners.
 
 #### 3. Comments
-Preserve: Do NOT delete existing comments.
-Add: Comment liberally. Explain why, not just what.
+**Preserve comments**: Do NOT delete existing, still relevant comments.
+**Comment liberally**: Explain why, not just what.
 
 #### 4. Logic & Operations
-File Collisions: If a file exists, append _[timestamp] to the new filename.
-Simplicity: Choose the simplest working solution.
+**File Collisions**: If a file exists, append _[timestamp] to the new filename.
+**Simplicity**: Choose the simplest working solution.
 
 #### 5. Tooling Preference (Web)
 Primary: browser_action (ALWAYS try this first).
@@ -169,9 +202,12 @@ Do not skip any of the following steps. Follow each one in order.
 5) FOLLOW THIS INSTRUCTION EXACTLY: SEPARATELY from choices above, Ask User `testing type` for `plan`, Choices: "Run py scripts in terminal", "Use pytest", "Use browser", "Use all", "No testing", "Custom". Important: provide these exact choices to the user.
 
 ### 3: Pre-work
-1) Search for similar planning documents and architectural decisions.
-2) Retrieve project history and previous relevant planning outcomes from memory.
-3) Identify potential challenges based on past experiences.
+<!-- CHANGE 2: Added step to consult useful.md before starting work -->
+1) **Consult `.roo/docs/useful.md`** for relevant prior solutions or patterns related to the task.
+2) Search for similar planning documents and architectural decisions.
+3) Retrieve project history and previous relevant planning outcomes from memory.
+4) Identify potential challenges based on past experiences.
+<!-- END CHANGE 2 -->
 
 ### 4: Do the task
 Notes:

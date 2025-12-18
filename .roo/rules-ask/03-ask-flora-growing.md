@@ -78,18 +78,18 @@ Good: See `Critical Resources` in `.roo/rules/01-general.md`
 #### Formatting Standards
 **Strictly enforce** the following minimalist formatting rules.
 **Style & Typography**
-- **References:** Use inline code backticks (e.g., `file.py`) for files and code. Never use brackets or links.
-- **Indentation:** Use exactly 4 spaces for nested items.
+- **References**: Use inline code backticks (e.g., `file.py`) for files and code. Never use brackets or links.
+- **Indentation**: Use exactly 4 spaces for nested items.
 **Lists & Spacing**
-- **Numbering:** Use `)` as the separator (e.g., `1)`, `2)`). Never use periods (`1.`).
-- **Density:** No empty lines between list items. Group related items tightly.
-- **Headers:** Content must start on the very next line after a header. Do not insert an empty line.
+- **Numbering**: Use `)` as the separator (e.g., `1)`, `2)`). Never use periods (`1.`).
+- **Density**: No empty lines between list items. Group related items tightly.
+- **Headers**: Content must start on the very next line after a header. Do not insert an empty line.
 **Examples**
 **Bad** (Wrong list style, extra spacing):
 ```markdown
 ## Analysis
 
-**Points:**
+**Points**:
 
 1. First item
 
@@ -99,7 +99,7 @@ Good: See `Critical Resources` in `.roo/rules/01-general.md`
 **Good** (Compact, correct list style):
 ```markdown
 ## Analysis
-**Points:**
+**Points**:
 1) First item
     - Nested detail
 2) Second item

@@ -1,4 +1,4 @@
-# Plan: AgentFlow File Sync Utility
+# Plan: AgentAutoFlow File Sync Utility
 
 short plan name: 251113_file_sync
 log file: .roo/docs/plans/plan_251113_file_sync_log.md
@@ -8,7 +8,7 @@ testing type: Run py scripts in terminal and pytest
 
 ## Overview
 Build a standalone Python GUI utility to synchronize files across multiple project directories by comparing modification timestamps and copying newer versions to older locations.
-Note: While this utility lives in (and is part of) the AgentFlow project, the goal is about syncing the .roo/ part of AgentFlow with the .roo/ part of other completely separate projects in completely separate locations on the same network.
+Note: While this utility lives in (and is part of) the AgentAutoFlow project, the goal is about syncing the .roo/ part of AgentAutoFlow with the .roo/ part of other completely separate projects in completely separate locations on the same network.
 
 ## Core Objective
 Create a modular, user-friendly file sync tool that allows users to:
@@ -39,7 +39,7 @@ Scope and matching rules:
     - Note: tests use temporary directories to avoid touching real files
 
 ## Constraints
-- Build in project root: d:/Dropbox/Projects/AgentFlow
+- Build in project root: d:/Dropbox/Projects/AgentAutoFlow
 - GUI window: 800x480 (configurable)
 - Use tkinter (Python standard library)
 - Keep modules under 400 lines
@@ -200,7 +200,7 @@ Implement the tkinter-based user interface with folder management and sync contr
 
 Task 19: Create sync_file.py - main window setup
 Mode hint: /front-end
-Action: Create `sync_file.py` with main tkinter window; load config; set window size from config; add title "AgentFlow File Sync" and description label "Use this utility to sync up all your AgentFlow files across as many projects as you want. Most recent 'date modified' will be used as source."
+Action: Create `sync_file.py` with main tkinter window; load config; set window size from config; add title "AgentAutoFlow File Sync" and description label "Use this utility to sync up all your AgentAutoFlow files across as many projects as you want. Most recent 'date modified' will be used as source."
 Acceptance: Window opens; correct size; title and description displayed.
 
 Task 20: Add Browse button and folder selection

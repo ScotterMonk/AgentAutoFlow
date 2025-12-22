@@ -30,7 +30,7 @@ def _to_bool(value: str) -> bool:
 def resolve_config_path(config_path: Optional[str] = None) -> str:
     # [Created-or-Modified] by [LLM model] | 2025-11-13_01
     """
-    Resolve the config file path, checking .env for AGENTFLOW_CONFIG.
+    Resolve the config file path, checking .env for AgentAutoFlow_CONFIG.
 
     Args:
         config_path: Optional explicit config path
@@ -44,7 +44,7 @@ def resolve_config_path(config_path: Optional[str] = None) -> str:
     # Try to load .env if available
     if DOTENV_AVAILABLE:
         load_dotenv()
-        env_config = os.getenv("AGENTFLOW_CONFIG")
+        env_config = os.getenv("AgentAutoFlow_CONFIG")
         if env_config:
             return env_config
 

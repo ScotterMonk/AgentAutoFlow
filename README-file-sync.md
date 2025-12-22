@@ -1,4 +1,4 @@
-# AgentFlow File Sync
+# AgentAutoFlow File Sync
 
 Sync the `.roo/` rules/docs folders across multiple project directories safely and reproducibly. The utility compares modification times and copies the newest version of each file to older peers, with dry-run, timestamped backups, atomic writes, and live progress.
 
@@ -81,7 +81,7 @@ By default, the app reads settings from `config.txt` in the project root. You ca
 
 1. Environment variable via `.env` file:
    ```
-   AGENTFLOW_CONFIG=/path/to/custom-config.txt
+   AgentAutoFlow_CONFIG=/path/to/custom-config.txt
    ```
 
 2. CLI flag:
@@ -116,7 +116,7 @@ dry_run=false
 root_allowlist=.roomodes
 
 # For use with "Load Favorites" button.
-folders_faves=D:\Dropbox\Projects\_MediaShare\app, D:\Dropbox\Projects\2ndFoundation\app, D:\Dropbox\Projects\AgentFlow
+folders_faves=D:\Dropbox\Projects\_MediaShare\app, D:\Dropbox\Projects\2ndFoundation\app, D:\Dropbox\Projects\AgentAutoFlow
 ```
 
 ## Behavior and guarantees
@@ -134,7 +134,7 @@ folders_faves=D:\Dropbox\Projects\_MediaShare\app, D:\Dropbox\Projects\2ndFounda
 
 - Start with `dry_run=true` to verify actions.
 - Add private, noisy, or large folders to `ignore_patterns`.
-- Keep one canonical project (AgentFlow) as your "source of truth" and run sync from it first.
+- Keep one canonical project (AgentAutoFlow) as your "source of truth" and run sync from it first.
 
 ## Troubleshooting
 

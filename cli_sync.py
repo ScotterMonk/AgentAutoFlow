@@ -99,7 +99,7 @@ def run_cli_sync(folders):
 
 def _parse_args():
     p = argparse.ArgumentParser(
-        description="Headless CLI wrapper for the AgentFlow sync engine."
+        description="Headless CLI wrapper for the AgentAutoFlow sync engine."
     )
     p.add_argument(
         "folders",
@@ -108,7 +108,7 @@ def _parse_args():
     )
     p.add_argument(
         "--config",
-        help="Path to config file (optional, defaults to config.txt or AGENTFLOW_CONFIG env var)"
+        help="Path to config file (optional, defaults to config.txt or AgentAutoFlow_CONFIG env var)"
     )
     return p.parse_args()
 

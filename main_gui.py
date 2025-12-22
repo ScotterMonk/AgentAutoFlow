@@ -1,6 +1,6 @@
 # [Modified] by Claude Sonnet 4.5 | 2025-11-13_03
 """
-Agentflow File Sync - Main GUI Application
+AgentAutoFlow File Sync - Main GUI Application
 Provides a Tkinter-based interface for managing file synchronization.
 """
 import tkinter as tk
@@ -27,7 +27,7 @@ BUTTON_BORDER = "#00ff5f"
 BUTTON_TEXT = FG_PRIMARY
 
 class MainApp:
-    """Main application window for Agentflow File Sync."""
+    """Main application window for AgentAutoFlow File Sync."""
     # [Created] by Claude Sonnet 4.5 | 2025-11-13_01
     
     def __init__(self, root: tk.Tk):
@@ -48,7 +48,7 @@ class MainApp:
         ]
         
         # Set up main window
-        self.root.title("Agentflow File Sync")
+        self.root.title("AgentAutoFlow File Sync")
         window_width = self.config["window_width"]
         window_height = self.config["window_height"]
         self.root.geometry(f"{window_width}x{window_height}")
@@ -218,7 +218,7 @@ class MainApp:
         # Title label
         title_label = ttk.Label(
             main_frame,
-            text="Agentflow File Sync",
+            text="AgentAutoFlow File Sync",
             font=("TkDefaultFont", 16, "bold")
         )
         title_label.grid(row=0, column=0, pady=(0, 2), sticky=tk.W)

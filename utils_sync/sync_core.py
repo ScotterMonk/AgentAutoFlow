@@ -1,4 +1,4 @@
-# [Modified] by anthropic/claude-sonnet-4.5 | 2025-11-13_01
+# [Modified] by anthropic/claude-sonnet-4.5 | 2025-12-25_01
 """
 Core sync engine for file synchronization operations.
 
@@ -67,14 +67,16 @@ class SyncEngine:
         file_index: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
         
         # Get ignore patterns from config and categorize them.
-        # We support three kinds of ignore rules:
+        # We support four kinds of ignore rules:
         # - Simple names (".git", "__pycache__"): skip any path component with that name.
         # - .roo-scoped folder paths (".roo/docs", ".roo/docs/"): skip everything under that folder.
         # - .roo-scoped file paths (".roo/commands/run-sync.md"): skip exactly that file.
+        # - Filename-only patterns ("agents.md"): match anywhere within .roo subfolders (case-insensitive).
         raw_ignore_patterns = self.config.get("ignore_patterns", [])
         name_ignores = set()
         folder_path_ignores = set()
         file_path_ignores = set()
+        filename_only_ignores = set()
         
         for pattern in raw_ignore_patterns:
             if not pattern:
@@ -89,18 +91,28 @@ class SyncEngine:
                 last_seg = rel.split("/")[-1]
                 # Heuristic: if the last segment contains a dot, treat as a file; otherwise a folder
                 if "." in last_seg:
-                    file_path_ignores.add(rel)
+                    # Store as lowercase for case-insensitive matching
+                    file_path_ignores.add(rel.lower())
                 else:
-                    folder_path_ignores.add(rel)
+                    # Store as lowercase for case-insensitive matching
+                    folder_path_ignores.add(rel.lower())
             else:
-                # Backwards-compatible behavior for simple names like ".git" or "__pycache__"
-                if "/" in norm:
+                # Check if pattern looks like a filename (has extension)
+                # If pattern contains a dot and no slashes, treat as filename-only pattern
+                if "." in norm and "/" not in norm:
+                    # Store as lowercase for case-insensitive matching
+                    # This will match anywhere within .roo subfolders
+                    filename_only_ignores.add(norm.lower())
+                elif "/" in norm:
                     # For non-.roo paths with slashes, fall back to matching on the last component
                     last_seg = norm.rstrip("/").split("/")[-1]
                     if last_seg:
-                        name_ignores.add(last_seg)
+                        # Store as lowercase for case-insensitive matching
+                        name_ignores.add(last_seg.lower())
                 else:
-                    name_ignores.add(norm)
+                    # Simple name pattern like ".git" or "__pycache__"
+                    # Store as lowercase for case-insensitive matching
+                    name_ignores.add(norm.lower())
         
         # Scan each folder
         for folder in folders:
@@ -121,18 +133,21 @@ class SyncEngine:
                 # Compute .roo-relative path once for all ignore checks
                 relative_path_roo = item_path.relative_to(scan_root)
                 relative_str = relative_path_roo.as_posix()
+                relative_str_lower = relative_str.lower()
                 relative_parts = relative_path_roo.parts
                 
                 # 1) Simple name ignores: match any component (e.g., ".git", "__pycache__")
-                if any(part in name_ignores for part in relative_parts):
+                # Case-insensitive comparison
+                if any(part.lower() in name_ignores for part in relative_parts):
                     continue
                 
                 # 2) .roo-scoped folder path ignores: match direct prefix under .roo
                 #    Example: ".roo/docs" ignores ".roo/docs" and everything beneath it,
                 #    but does not ignore unrelated ".../docs" directories elsewhere.
+                # Case-insensitive comparison
                 skip_for_folder = False
                 for folder_rel in folder_path_ignores:
-                    if relative_str == folder_rel or relative_str.startswith(folder_rel + "/"):
+                    if relative_str_lower == folder_rel or relative_str_lower.startswith(folder_rel + "/"):
                         skip_for_folder = True
                         break
                 if skip_for_folder:
@@ -140,7 +155,15 @@ class SyncEngine:
                 
                 # 3) .roo-scoped file path ignores: match exact relative path under .roo
                 #    Example: ".roo/commands/run-sync.md" ignores only that one file.
-                if relative_str in file_path_ignores:
+                # Case-insensitive comparison
+                if relative_str_lower in file_path_ignores:
+                    continue
+                
+                # 4) Filename-only ignores: match filename anywhere within .roo subfolders
+                #    Example: "agents.md" ignores any file named "agents.md" in any .roo subfolder
+                # Case-insensitive comparison
+                filename = item_path.name.lower()
+                if filename in filename_only_ignores:
                     continue
                 
                 # Process only files (skip directories)

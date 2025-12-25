@@ -259,4 +259,6 @@ Fallback: Other browser tools (Only if browser_action fails).
 2) **Transfer Control**:
     - Switch to `/orchestrator`.
     - **Payload**: Pass `plan file` path and any critical context not in the file.
-    - **Action**: Relinquish control immediately. Do not execute tasks.
+    - **Actions**: 
+        - Relinquish control immediately. Do not execute tasks.
+        - Instruct `/orchestrator` to execute the `plan`.

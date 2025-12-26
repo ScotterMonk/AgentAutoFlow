@@ -70,8 +70,8 @@ See `.roo/rules/02-database.md` for all database procedures.
 - `/architect`: All-in-one planning. Create phases and tasks -> QA -> User Approval -> Switch to `/orchestrator`.
 - `/planner-a`: Complex Planing Stage 1. Create phases -> Brainstorm -> Switch to `/planner-b`.
 - `/planner-b`: Complex Planning Stage 2. Create detailed tasks -> User Approval -> Switch to `/planner-c`.
-- `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> Switch to `/orchestrator`.
-- `/orchestrator`: Manage execution. Coordinate implementation modes to fulfill plan.
+- `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> User Approval -> Switch to `/orchestrator`.
+- `/orchestrator`: Manage execution. Coordinate implementation modes. Log. Fullfill the plan.
 
 **Implementation & Ops**
 - `/code`: Complex engineering, analysis, deep debugging.
@@ -119,10 +119,6 @@ Be brief; don't echo user requests.
 ### Simplification
 Triggers: Redundancy, special cases, complexity.
 Action: Consult `.roo/docs/simplification.md`. Refactor to unifying principles.
-
-### Flask HTML Templates
-Constraint: Use `jinja-html` language mode for Flask templates.
-Enforcement: Re-apply `jinja-html` mode immediately after every save to prevent reversion.
 
 ### Naming Conventions: Domain-First
 **Rationale**: Group related code by **Domain** (Subject) first, then **Specific** (Action/Qualifier).
@@ -208,41 +204,37 @@ Fallback: Other browser tools (Only if browser_action fails).
 - `testing type`
 **Validation**: If context is incomplete, alert user and **halt** immediately.
 
-### 2. Initialization
-**Context**: Planning mode only. Do not build yet.
-
-1) **Plan Status**: Check `log file` and `plan file`.
-    - If existing/non-empty: Move to `completed plans folder`.
-    - Create fresh `log file` and `plan file`.
-    - Log Format: `YYYY-MM-DD HH:MM; Action Summary`
-2) **Naming**: Derive `short plan name` from query.
-3) **Storage**: Save `user query` to `user query file`.
-4) **Configuration (Blocking)**: Ask user the following three questions *separately*:
-    - **Complexity**: One Phase (Tiny/Small), One Phase (Small/Med), Few Phases (Med), or Multi-Phase (Large).
-    - **Autonomy**: Low (frequent checks), Med, or High (rare checks).
-    - **Testing**: Terminal Scripts, Pytest, Browser, All, None, or Custom.
-    *Stop and wait for user response before proceeding.*
-5) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
-
-### 3. Pre-planning
-1) **Search**: Locate similar docs/architecture.
+### 2. Pre-planning
+1) **Search**: Search for similar planning documents and architectural decisions.
 2) **Recall**: Retrieve project history/memory.
 3) **Risk**: Identify potential challenges.
+4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
+5) **Consult `.roo/docs/useful.md`** for relevant prior solutions or patterns related to the task.
 
-### 4. Initialization
+### 3. Initialization
 **Context**: Planning mode only. Do not build yet.
 1) **Plan Status**: Check `log file` and `plan file`.
-    - If existing/non-empty: Move to `completed plans folder`.
-    - Create fresh `log file` and `plan file`.
-    - Log Format: `YYYY-MM-DD HH:MM; Action Summary`
+    - Determine if plan is new, incomplete, or finished.
+        - If plan is finished: Move to `completed plans folder`, inform user.
+        - If plan is new or incomplete:
+            - Create fresh (or modify existing) `log file` and `plan file`.
+            - Log Format: `YYYY-MM-DD HH:MM; Action Summary`
 2) **Naming**: Derive `short plan name` from query.
 3) **Storage**: Save `user query` to `user query file`.
 4) **Configuration (Blocking)**: Ask user the following three questions *separately*:
-    - **Complexity**: One Phase (Tiny/Small), One Phase (Small/Med), Few Phases (Med), or Multi-Phase (Large).
+    - **Complexity**: One Phase (Tiny/Small), One Phase (Small/Med), Few Phases (Med), or Multi-Phase (Large). Recommend best option for this `plan`.
     - **Autonomy**: Low (frequent checks), Med, or High (rare checks).
     - **Testing**: Terminal Scripts, Pytest, Browser, All, None, or Custom.
     *Stop and wait for user response before proceeding.*
-5) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
+5) **Analysis 2**: 
+    - Double-check problem, intent, scope, constraints, and dependencies.
+    - Find and inform user of redundancies.
+
+### 4. Requirements Gathering
+1) **Brainstorm**: Draft high-level pre-plan (no tasks yet).
+    - Resolve contradictions and ambiguity.
+    - Q&A with user until clarity is absolute.
+2) **Save**: Write succinct problem/solution summary to `plan file`.
 
 ### 5. Detailed Task Creation
 **Context**: Create actionable steps for builders. Do not build yet.
@@ -282,6 +274,6 @@ Fallback: Other browser tools (Only if browser_action fails).
     - `autonomy level`
     - `testing type`
 2) **Transfer Control**:
-    - Switch to `/planner-c`.
-    - **Payload**: Pass `plan file` path and any critical context not in the file.
-    - **Action**: Relinquish control immediately. Do not execute tasks.
+    - Switch to `/planner-c` and:
+        - **Payload**: Pass `plan file` path and any critical context not in the file.
+        - **Actions**: Instruct `/planner-c` to execute the `plan`.

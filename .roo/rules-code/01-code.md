@@ -60,7 +60,7 @@ See `.roo/rules/02-database.md` for all database procedures.
 - `/planner-a`: Complex Planing Stage 1. Create phases -> Brainstorm -> Switch to `/planner-b`.
 - `/planner-b`: Complex Planning Stage 2. Create detailed tasks -> User Approval -> Switch to `/planner-c`.
 - `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> Switch to `/orchestrator`.
-- `/orchestrator`: Manage execution. Coordinate implementation modes to fulfill plan.
+- `/orchestrator`: Manage execution. Coordinate implementation modes. Log. Fullfill the plan.
 
 **Implementation & Ops**
 - `/code`: Complex engineering, analysis, deep debugging.
@@ -108,10 +108,6 @@ Be brief; don't echo user requests.
 ### Simplification
 Triggers: Redundancy, special cases, complexity.
 Action: Consult `.roo/docs/simplification.md`. Refactor to unifying principles.
-
-### Flask HTML Templates
-Constraint: Use `jinja-html` language mode for Flask templates.
-Enforcement: Re-apply `jinja-html` mode immediately after every save to prevent reversion.
 
 ### Naming Conventions: Domain-First
 **Rationale**: Group related code by **Domain** (Subject) first, then **Specific** (Action/Qualifier).
@@ -189,7 +185,14 @@ Fallback: Other browser tools (Only if browser_action fails).
 ### 1 Get input from user or orchestrator
 - Seek a deep understanding of their issue and goals. Ask for guidance if necessary.
 
-### 2: Initialization
+### 2. Pre-planning
+1) **Search**: Search for similar planning documents and architectural decisions.
+2) **Recall**: Retrieve project history/memory.
+3) **Risk**: Identify potential challenges.
+4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
+5) **Consult `.roo/docs/useful.md`** for relevant prior solutions or patterns related to the task.
+
+### 3: Initialization
 Do not skip any of the following steps. Follow each one in order.
 1) Determine if this is a new `plan` or continuation. If unknown, examine files below to determine.
 - `log file` (create new if non-existent):
@@ -200,14 +203,6 @@ Do not skip any of the following steps. Follow each one in order.
 3) Save `user query` into `user query file`.
 4) FOLLOW THIS INSTRUCTION EXACTLY: SEPARATELY FROM size/complexity above and testing types below, Ask User: `autonomy level` for `plan`. Determine autonomy level separate from testing type below. Choices: "Low" (frequent direction), "Med", "High" (rare direction).
 5) FOLLOW THIS INSTRUCTION EXACTLY: SEPARATELY from choices above, Ask User `testing type` for `plan`, Choices: "Run py scripts in terminal", "Use pytest", "Use browser", "Use all", "No testing", "Custom". Important: provide these exact choices to the user.
-
-### 3: Pre-work
-<!-- CHANGE 2: Added step to consult useful.md before starting work -->
-1) **Consult `.roo/docs/useful.md`** for relevant prior solutions or patterns related to the task.
-2) Search for similar planning documents and architectural decisions.
-3) Retrieve project history and previous relevant planning outcomes from memory.
-4) Identify potential challenges based on past experiences.
-<!-- END CHANGE 2 -->
 
 ### 4: Do the task
 Notes:

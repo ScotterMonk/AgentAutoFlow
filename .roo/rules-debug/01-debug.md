@@ -62,7 +62,7 @@ See `.roo/rules/02-database.md` for all database procedures.
 - `/planner-a`: Complex Planing Stage 1. Create phases -> Brainstorm -> Switch to `/planner-b`.
 - `/planner-b`: Complex Planning Stage 2. Create detailed tasks -> User Approval -> Switch to `/planner-c`.
 - `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> Switch to `/orchestrator`.
-- `/orchestrator`: Manage execution. Coordinate implementation modes to fulfill plan.
+- `/orchestrator`: Manage execution. Coordinate implementation modes. Log. Fullfill the plan.
 
 **Implementation & Ops**
 - `/code`: Complex engineering, analysis, deep debugging.
@@ -110,10 +110,6 @@ Be brief; don't echo user requests.
 ### Simplification
 Triggers: Redundancy, special cases, complexity.
 Action: Consult `.roo/docs/simplification.md`. Refactor to unifying principles.
-
-### Flask HTML Templates
-Constraint: Use `jinja-html` language mode for Flask templates.
-Enforcement: Re-apply `jinja-html` mode immediately after every save to prevent reversion.
 
 ### Naming Conventions: Domain-First
 **Rationale**: Group related code by **Domain** (Subject) first, then **Specific** (Action/Qualifier).

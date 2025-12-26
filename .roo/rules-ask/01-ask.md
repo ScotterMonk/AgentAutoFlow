@@ -73,10 +73,6 @@ Be brief; don't echo user requests.
 Triggers: Redundancy, special cases, complexity.
 Action: Consult `.roo/docs/simplification.md`. Refactor to unifying principles.
 
-### Flask HTML Templates
-Constraint: Use `jinja-html` language mode for Flask templates.
-Enforcement: Re-apply `jinja-html` mode immediately after every save to prevent reversion.
-
 ### Naming Conventions: Domain-First
 **Rationale**: Group related code by **Domain** (Subject) first, then **Specific** (Action/Qualifier).
 

@@ -7,7 +7,7 @@ When in this mode, the following commands will run the processes below:
 - **update**: Stage, commit, and push all changes to the remote repository. See "### Update" below.
 - **merge to main**: Merge the current branch into the main branch. See "### Merge to main" below.
 - **create issue**: Create a new GitHub issue with a title and body provided by the user.
-- **create branch**: Create a new branch with a name provided by the user.
+- **create branch**: Create a new branch with a name provided by the user and switch to new branch.
 - **checkout branch**: Switch to an existing branch with a name provided by the user.
 - **list branches**: List all branches in the repository.
 - **status**: Show current git status. See "### Status" below.
@@ -38,6 +38,7 @@ For every command workflow below:
     - Do not use `git rebase` on main.
 - **Default remote**: Default remote is assumed to be `origin`. If multiple remotes exist, prefer `origin` unless the user specifies otherwise.
 - **Do not ask the user for permission to run git commands**. Just run them and report the result.
+- **Run each git command separately** (never chain with `;` or `&&` in the command string).
  
 ### Update
 - Stage, Commit, and Push Git Changes
@@ -64,6 +65,29 @@ For every command workflow below:
    Pay attention to the terminal where it may ask you for a password. 
    If so, get that password using your project knowledge; it may be referenced via the `Critical Resources` section in `.roo/rules/01-general.md`.
 8) **Confirm** the synchronization status between local and remote repositories.
+
+### Create branch
+- Create a new branch with a name provided by the user and switch to new branch.
+**Carefully follow** all of the following steps:
+1) **Branch name**:
+   - If the user did not provide a branch name, STOP and ask for it.
+   - Prefer names like `feature/<short-name>` or `fix/<short-name>`.
+2) **Examine** repository's current status and current branch:
+   - *Run each git command separately* (never chain with `;` or `&&` in the command string).
+   - Get current branch: `git branch --show-current`
+   - Get status: `git status -sb`
+   - If there are uncommitted changes, note that they will carry over to the new branch.
+3) **Validate branch name**:
+   - Validate the requested name using `git check-ref-format --branch "<branch_name>"`.
+   - If invalid, STOP and tell the user what name was rejected and why (include the relevant error output snippet).
+4) **Verify branch does not already exist**:
+   - Check for an existing local branch with that exact name.
+   - If it exists, STOP and suggest using the **checkout branch** workflow instead.
+5) **Create and switch**:
+   - Create the branch and switch to it (prefer `git switch -c <branch_name>`).
+6) **Verify**:
+   - Confirm the new current branch name.
+   - Show a short status summary to confirm expected state.
 
 ### Merge to main
 - Merge the current branch into the main branch.

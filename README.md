@@ -97,6 +97,14 @@ app
         └── 01-tester.md
 ```
 
+## Todo list tool
+
+In Roo Code settings, under "Providers", when you set up a Configuration Profile:
+Like let's say you are adding "GPT-5x-R-M" as the profile name, with API provider "OpenAI". The new configuration one will have "Enable todo list tool" (in "Advanced settings") turned on by default. 
+
+The todo list tool burns extra tokens and - especially if you are using AgentAutoFlow - you don't need the todo list tool. I recommend going to the bottom of all the models you have set up and turning "Enable todo list tool" off.
+
+
 ## AgentAutoFlow File Sync Utility
 
 **Helpful utility included**: A Python utility for synchronizing `.roo` directories across multiple project folders based on file modification times.

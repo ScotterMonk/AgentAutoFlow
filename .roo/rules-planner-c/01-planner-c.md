@@ -256,7 +256,8 @@ Fallback: Other browser tools (Only if browser_action fails).
     - `user query` & `user query file` name
     - `autonomy level`
     - `testing type`
-2) **Transfer Control**:
-    - Switch to `/orchestrator` and:
-        - **Payload**: Pass `plan file` path and any critical context not in the file.
-        - **Actions**: Instruct `/orchestrator` to execute the `plan`.
+2) **Pass control to user**:
+    Do in this order:
+    - Instruct user: 
+        "Switch to `/orchestrator`, and tell it 'Execute this plan: {plan file path}'"
+    - **Stop**.

@@ -217,7 +217,7 @@ Fallback: Other browser tools (Only if browser_action fails).
 4) **Configuration (Blocking)**: Ask user the following three questions *separately*:
     - **Complexity**: One Phase (Tiny/Small), One Phase (Small/Med), Few Phases (Med), or Multi-Phase (Large). Recommend best option for this `plan`.
     - **Autonomy**: Low (frequent checks), Med, or High (rare checks).
-    - **Testing**: Terminal Scripts, Pytest, Browser, All, None, or Custom.
+    - **Testing**: Terminal Scripts, Pytest, Browser, Use what is appropriate per task, All, None, or Custom.
     *Stop and wait for user response before proceeding.*
 5) **Analysis 2**: 
     - Double-check problem, intent, scope, constraints, and dependencies.

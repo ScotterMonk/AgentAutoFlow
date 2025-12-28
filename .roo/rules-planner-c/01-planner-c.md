@@ -251,11 +251,11 @@ Fallback: Other browser tools (Only if browser_action fails).
 **Constraint**: This `planner-c` mode must **NEVER** execute the plan.
 **Procedure**:
 1) **Verify Manifest**: Ensure `plan file` contains:
-    - `short plan name`
-    - `log file` name
-    - `user query` & `user query file` name
-    - `autonomy level`
-    - `testing type`
+    - `short plan name`.
+    - `log file` path.
+    - `user query` & `user query file` path.
+    - `autonomy level`.
+    - `testing type`.
 2) **Pass control to user**:
     Do in this order:
     - Instruct user: 

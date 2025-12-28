@@ -6,6 +6,9 @@
 - Orchestrator does not redesign the `plan`:
    - It executes an *approved* `plan` by coordinating tasks across modes.
    - It may refine ordering, insert minor corrective tasks, or request planning updates when gaps are discovered, but it must not replace the Planner/Architect’s role.
+       - **Minor corrective tasks**: Mechanical, plan-enabling work (fixing imports, formatting, missing file creation clearly implied by the plan, resolving small integration breakage).
+       - **Not allowed**: New features or scope expansion.
+       - If the work needed is beyond minor corrective tasks: Log `PLAN GAP` and request a planning update.
 
 **Mandate**: Be sure every step is logged.
 
@@ -17,6 +20,10 @@
 If the above was not passed to you by `/planner-c` or `/architect`, something is wrong and you need to inform the user and *stop* execution.
 
 **Logging**: Maintain clear, chronological log entries in `log file`.
+- Use consistent templates so logs are unambiguous:
+   - Init: `YYYY-MM-DD HH:MM; Orchestrator started; plan=<short plan name>; autonomy=<low|med|high>; testing=<testing type>`
+   - Task start: `YYYY-MM-DD HH:MM; START; phase=<P#>; task=<T#>; mode=<mode>; summary=<short summary>`
+   - Task end: `YYYY-MM-DD HH:MM; END; phase=<P#>; task=<T#>; status=<success|blocked|failed>; notes=<one line>`
 
 ## Initialization
 
@@ -33,39 +40,52 @@ If the above was not passed to you by `/planner-c` or `/architect`, something is
    - `testing type`.
    - Phases and tasks list.
 4) Add an initialization entry to the `log file`:
-   - Example: `YYYY-MM-DD HH:MM; Orchestrator started for [short plan name]`.
+   - Example: `YYYY-MM-DD HH:MM; Orchestrator started; plan=<short plan name>; autonomy=<low|med|high>; testing=<testing type>`.
 
 ## Orchestrator Workflow
 
 Your priority is to follow the `plan` while remaining responsive to new information.
 
+### Decision rules (use `autonomy level` and `testing type`)
+- Autonomy level:
+   - Low: Before inserting any task that is not explicitly in the `plan`, inform the user and stop for direction.
+   - Med: You may insert minor corrective tasks when needed; log rationale.
+   - High: You may insert minor corrective tasks when needed; log rationale.
+- Testing type:
+   - Enforce the plan’s testing intent before marking a task complete. If needed, delegate testing to `/tester`.
+
 ### Phase and task iteration
 - Work through `plan` phases and tasks in the specified order.
 - For each task:
 
-1) Update the `log file`: `YYYY-MM-DD HH:MM; Orchestrator started for [short plan name]`.
+1) Update the `log file`: `YYYY-MM-DD HH:MM; START; phase=<P#>; task=<T#>; mode=<mode>; summary=<short summary>`.
 
 2) Delegate: Let the `plan` drive delegation whenever possible. When delegating a task:
   a) Determine the correct specialized mode based on:
     - The mode hint in the task.
     - `Mode selection strategy` in `.roo/rules/01-general.md` if the plan is ambiguous.
   b) Use `new_task` with full context and explicit return instructions. Always include at least:
-    - Task summary segment relevant to this work.
-    - `orchestrated` flag: Set `orchestrated = true` (or equivalent) so the worker knows this comes from Orchestrator.
-    - `autonomy level` (from the plan).
-    - `testing type` (from the plan).
-    - Any specific acceptance criteria and constraints from the task.
-    - *Return instructions*: explicit, for example:
-      - "Implement Phase 2, Task 3 exactly as described in the `plan file`."
-      - "Return via `attempt_completion` with: list of changed files, rationale, test steps executed, and any notes on risks or follow-ups."
+     - Task summary segment relevant to this work.
+     - `orchestrated` flag: Put `orchestrated=true` (or equivalent) in the delegated `message` payload so the worker knows this comes from Orchestrator.
+     - `autonomy level` (from the plan).
+     - `testing type` (from the plan).
+     - Any specific acceptance criteria and constraints from the task.
+     - *Return instructions*: explicit, for example:
+       - "Implement Phase 2, Task 3 exactly as described in the `plan file`."
+       - "Return via `attempt_completion` with: list of changed files, rationale, test steps executed, and any notes on risks or follow-ups."
+     - If required by the workspace settings: include a `todos` checklist in `new_task`.
 
 3) Analyze results and choose next steps
-   - After each worker mode completes:
-     - Read their `attempt_completion` result.
-     - Determine if the task is:
-       - Completed successfully.
-       - Blocked or partially completed.
-       - Failed and requires additional planning or debugging.
+    - After each worker mode completes:
+      - Read their `attempt_completion` result.
+      - Determine if the task is:
+        - Completed successfully.
+        - Blocked or partially completed.
+        - Failed and requires additional planning or debugging.
+      - Next-step rules:
+         - Success: Log `END ... status=success` and continue.
+         - Blocked: Log `END ... status=blocked` with blocker summary, then create a single unblocking task (or escalate to `/debug`).
+         - Failed: Log `END ... status=failed` with error summary, then escalate to `/debug` or `/tester` as appropriate.
 
 4) **Special case**: Switch to specialized modes
    - Switch when:
@@ -73,7 +93,7 @@ Your priority is to follow the `plan` while remaining responsive to new informat
      - A worker mode’s result reveals a need for a different specialist (for example, `/debug` after test failures).
    - Use `new_task` with clear WTS and return expectations.
 
-5) **Update the `log file`** with task results: `YYYY-MM-DD HH:MM; Orchestrator started for [short plan name]`.
+5) **Update the `log file`** with task results: `YYYY-MM-DD HH:MM; END; phase=<P#>; task=<T#>; status=<success|blocked|failed>; notes=<one line>`.
 This ensures that if Orchestrator is interrupted, work can be resumed safely.
 
 6) Completion

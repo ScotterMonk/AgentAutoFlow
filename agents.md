@@ -12,12 +12,6 @@ Tests: `pytest tests/`
 
 ## Critical Non-Standard Patterns
 
-### LLM Attribution Comments
-All functions/classes MUST include: `# [Created-or-Modified] by [LLM model] | yyyy-mm-dd_[iteration]`
-
-### Naming Convention
-Follow `Naming Conventions` section in `.roo/rules/01-general.md`
-
 ### File Sync Behavior
 - Scans `.roo/` subdirectories ONLY (not entire project folders)
 - Uses mtime (modification time) to determine newest file as source
@@ -41,9 +35,6 @@ Settings in `config.txt` (NOT .ini, .json, or .yaml):
 - Integration tests use `test_integration/` with project_a and project_b folders
 - Tests verify .roo sync behavior, not general file sync
 - pytest fixtures in tests/ create temporary .roo structures
-
-## Documentation
-See `.roo/rules/01-general.md` for comprehensive coding standards, workflow, and mode selection guidance.
 
 ## Misc
 There is no database for this project. Ignore any references to a database.

@@ -1,6 +1,6 @@
 window_width=800
 window_height=600
-ignore_patterns=.roo\commands\run-sync.md, .roo\docs, .roo\rules\02-database.md, agents.md
+ignore_patterns=.roo\commands\run-sync.md, .roo\docs, .roo\rules\02-database.md, agents.md, .roo\reports
 backup_mode=timestamped
 preserve_mtime=true
 dry_run=false

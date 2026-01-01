@@ -16,6 +16,7 @@ class FolderItem:
     """A UI component representing a single folder in the folder list."""
     # [Modified] by openai/gpt-5.1 | 2025-11-14_02
     
+    # [Created-or-Modified] by gpt-5.2 | 2026-01-01_01
     def __init__(self, parent, folder_path: str, remove_callback, overwrite_remove_callback=None,
                 toggle_favorite_callback=None, is_favorite: bool = False):
         """Initialize a folder item widget.
@@ -97,6 +98,9 @@ class FolderItem:
         # Container for planned overwrite rows (shown under the main row)
         self.preview_frame = ttk.Frame(self.frame)
         self.preview_frame.pack(fill=tk.X, padx=(20, 5), pady=(0, 2))
+        # Header label is created only when we have preview items; keep a stable attribute
+        # so later completion updates can safely no-op if the header isn't present.
+        self._preview_header_label = None
         # Map relative file paths to the label widgets for their preview rows
         self._preview_rows = {}
         # Track row frames for .bak backup file display so we can clear only those
@@ -131,6 +135,7 @@ class FolderItem:
         else:
             self.progress_bar["value"] = 0
     
+    # [Created-or-Modified] by gpt-5.2 | 2026-01-01_01
     def update_preview(self, items):
         """Update the planned overwrite preview UI for this folder item.
         
@@ -147,6 +152,11 @@ class FolderItem:
         
         # Reset preview mapping so executed rows can be marked later
         self._preview_rows = {}
+        # The header label, if it existed, was destroyed above; clear the cached reference
+        # to avoid later TclError when completion tries to reconfigure a stale widget.
+        self._preview_header_label = None
+        # Backup row frames may also have been destroyed above; clear tracking for consistency.
+        self._backup_rows = []
         
         if not items:
             return
@@ -212,6 +222,7 @@ class FolderItem:
                 )
                 remove_button.pack(side=tk.RIGHT, padx=(5, 0))
     
+    # [Created-or-Modified] by gpt-5.2 | 2026-01-01_01
     def reset_status(self):
         """Reset the status label, progress bar, and preview area to initial states."""
         # [Created-or-Modified] by openai/gpt-5.1 | 2025-12-04_02
@@ -221,15 +232,31 @@ class FolderItem:
             child.destroy()
         # Reset preview label mapping as well
         self._preview_rows = {}
+        # Clear header label reference (the widget was destroyed above)
+        self._preview_header_label = None
         # Reset backup rows tracking
         self._backup_rows = []
     
+    # [Created-or-Modified] by gpt-5.2 | 2026-01-01_01
     def update_preview_header_to_completed(self) -> None:
         """Update the preview header from 'will be' to 'were' after execution completes."""
         # [Created] by Sonnet 4.5 | 2025-12-04_03
-        if hasattr(self, "_preview_header_label") and self._preview_header_label:
-            self._preview_header_label.config(text="These files were updated:")
+        label = getattr(self, "_preview_header_label", None)
+        if not label:
+            return
+        # The python object can outlive the underlying Tk widget if it was destroyed.
+        # In that case any tk call (including .config) can raise TclError.
+        try:
+            if not bool(label.winfo_exists()):
+                self._preview_header_label = None
+                return
+            label.config(text="These files were updated:")
+        except tk.TclError:
+            # Fail soft; this can happen if the UI was refreshed or folders changed
+            # while the background worker is still emitting events.
+            self._preview_header_label = None
     
+    # [Created-or-Modified] by gpt-5.2 | 2026-01-01_01
     def mark_preview_replaced(self, relative_path: str) -> None:
         """Mark a single preview row as replaced for the given relative path."""
         # [Created-or-Modified] by Sonnet 4.5 | 2025-12-04_03
@@ -240,9 +267,15 @@ class FolderItem:
         if label is None:
             return
         # Prefix with a checkmark once and change color to green to indicate replacement
-        current_text = label.cget("text")
-        if not current_text.startswith("✓ "):
-            label.config(text=f"✓ {current_text}", foreground="green")
+        try:
+            if not bool(label.winfo_exists()):
+                return
+            current_text = label.cget("text")
+            if not current_text.startswith("✓ "):
+                label.config(text=f"✓ {current_text}", foreground="green")
+        except tk.TclError:
+            # Fail soft if the row was destroyed by a rescan/reset while events are processing.
+            return
     
     def show_backup_files(self, relative_paths: list[str]) -> None:
         """Append rows for .bak backup files under this folder."""

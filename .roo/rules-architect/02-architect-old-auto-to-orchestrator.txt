@@ -23,166 +23,6 @@ Strictly adhere to the following rules. Conceptually load and obey:
 - Git diff, recent commits.
 - **Credentials**: `.env`.
 - **Web automation** & **browsing**: `browser_action`
-- **Useful Discoveries**: Make use of and contribute to `.roo/docs/useful.md`.
-
-<!-- Useful Discoveries subsection -->
-#### Useful Discoveries System
-**Purpose**: `.roo/docs/useful.md` is a knowledge base for solutions, patterns, and workarounds discovered during development.
-
-**When to READ from useful.md**:
-- Before starting complex or unfamiliar tasks
-- When encountering errors or unexpected behavior
-- When stuck after trying initial approaches
-- Before implementing workarounds or non-obvious solutions
-
-**When to WRITE to useful.md**:
-- After solving a non-obvious bug or error
-- When discovering a workaround for a limitation
-- After finding an effective pattern or approach worth reusing
-- When learning something about the environment, tools, or dependencies
-- After resolving a problem that took significant investigation
-
-**Entry Format** (use exactly this format):
-```
-YYYY-MM-DD HH:MM | [Category] | [Brief description of discovery]
-- Context: [What task/situation led to this]
-- Solution: [What worked and why]
-- Related files: [Affected or relevant files]
-```
-
-**Category Examples**:
-- `Testing`, `Database`, `Flask`, `Python`, `Config`, `Dependencies`, `Performance`, `UI/UX`, `Debugging`, `Workflow`
-
-**Example Entry**:
-```
-2025-12-18 14:23 | Python | Multi-line scripts must be run from .py files, not pasted into terminal
-- Context: Terminal would fail when pasting complex database queries
-- Solution: Always create temporary .py files in utils_db/ for multi-line operations
-- Related files: utils_db/*.py
-```
-<!-- End Useful Discoveries subsection -->
-
-### Database
-See `.roo/rules/02-database.md` for all database procedures.
-
-### Modes
-**Planning & Orchestration**
-- `/architect`: All-in-one planning. Create phases and tasks -> QA -> User Approval -> Switch to `/orchestrator`.
-- `/planner-a`: Complex Planing Stage 1. Create phases -> Brainstorm -> Switch to `/planner-b`.
-- `/planner-b`: Complex Planning Stage 2. Create detailed tasks -> User Approval -> Switch to `/planner-c`.
-- `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> User Approval -> Switch to `/orchestrator`.
-- `/orchestrator`: Manage execution. Coordinate implementation modes. Log. Fullfill the plan.
-**Implementation & Ops**
-- `/code`: Complex engineering, analysis, deep debugging.
-- `/code-monkey`: Routine coding, strict instruction adherence.
-- `/front-end`: UI implementation.
-- `/tester`: Test creation and execution.
-- `/debug`: Error investigation and diagnosis.
-- `/githubber`: GitHub CLI operations.
-- `/task-simple`: Small, isolated operations.
-- `/ask`: General inquiries.
-
-### Mode selection strategy
-**Evaluate** the current `task`. If another mode is more appropriate, **pass** the `task` and parameters (concise WTS) to that mode.
-**Prioritize** budget-friendly modes in this order (Low to High):
-1.  **Low Budget** (Renaming, moving files, simple text replacement, DB column copying)
-    - Use `/task-simple`
-2.  **Medium Budget** (Refactoring, simple function creation, writing)
-    - Use `/code-monkey`
-3.  **High Budget** (Complex modification, test creation and use, or if Medium fails)
-    - Use `/code` or `/tester`
-4.  **Highest Budget** (Debugging, or if High fails)
-    - Use `/debug`
-**Special Exception**:
-- **Front-End Tasks** (Medium or High complexity): **Always use** `/front-end`
-
-## Standards
-
-### Communication
-Be brief; don't echo user requests.
-
-### Modularization
-**Scope**: Critical for Python, JS, and logic files.
-- **Exception**: Do NOT apply this to CSS.
-
-**Hard Limit**:
-- **Enforce** a maximum of **450 lines of code** per file.
-- **Split** larger files: Create more files with fewer functions rather than exceeding this limit.
-
-**Utility Strategy**:
-- **Extract** logic liberally into utility folders.
-- **Naming Convention**: Use `utils/` or `utils_db/`.
-
-### Simplification
-Triggers: Redundancy, special cases, complexity.
-Action: Consult `.roo/docs/simplification.md`. Refactor to unifying principles.
-
-### Naming Conventions: Domain-First
-**Rationale**: Group related code by **Domain** (Subject) first, then **Specific** (Action/Qualifier).
-
-#### 1. The Core Pattern
-**Invert the standard naming order**:
-- **Bad**: `{specific}_{domain}` (e.g., `edit_user`)
-- **Good**: `{domain}_{specific}` (e.g., `user_edit`)
-
-**Casing Rules**:
-- **snake_case**: Files, functions, variables, DB tables/columns.
-- **PascalCase**: Classes.
-
-#### 2. Transformation Examples
-| Type | Old Pattern | **New Pattern (Target)** | Note |
-| :--- | :--- | :--- | :--- |
-| **Files** | `admin_dashboard_utils.py` | `dashboard_utils_admin.py` | Domain is `dashboard` |
-| **Functions** | `edit_user` | `user_edit` | Domain is `user` |
-| **Classes** | `AdminPerson` | `PersonAdmin` | Better: Use `Person` w/ type param |
-
-#### 3. Scope & Restrictions
-**When to Apply**:
-- **New Code**: **Always** apply this pattern.
-- **Existing Code**: Apply **only** if you are already actively editing the file.
-
-**Do NOT rename without explicit approval**:
-- **Public APIs**: HTTP routes, library exports, CLI flags.
-- **Database**: Tables and columns (requires migration).
-- **Standards**: `__init__.py`, `setUp()`, `settings.py` (Django).
-
-#### 4. CRITICAL: Refactoring Checklist
-**If you rename a symbol, you MUST fix all references.**
-Before finishing, verify:
-1.  [ ] **Imports**: Updated in all other files?
-2.  [ ] **Calls**: Function/Class usage updated everywhere?
-3.  [ ] **Tests**: Do tests still pass?
-4.  [ ] **Docs**: Updated docstrings/comments?
-5.  [ ] **VS Code**: No errors in the Problems panel?
-
-### Code Standards
-
-#### 1. Mandatory Metadata
-**Every** function or class you touch MUST have this comment header:
-```python
-# [Created-or-Modified] by [Model_Name] | YYYY-MM-DD_[Iteration]
-# Example: # Modified by Claude-3.5-Sonnet | 2024-10-27_01
-```
-#### 2. Syntax & Style
-Quotes: Enforce Double Quotes (") over Single Quotes (').
-Good: x += "."
-Bad: x += '.'
-SQL: Always use Multi-line strings (""") for complex queries.
-Templates: Set language mode to jinja-html.
-Spacing: Keep vertical spacing compact (no excessive blank lines).
-Readability: Prioritize Readable Code over "clever" one-liners.
-
-#### 3. Comments
-**Preserve comments**: Do NOT delete existing, still relevant comments.
-**Comment liberally**: Explain why, not just what.
-
-#### 4. Logic & Operations
-**File Collisions**: If a file exists, append _[timestamp] to the new filename.
-**Simplicity**: Choose the simplest working solution.
-
-#### 5. Tooling Preference (Web)
-Primary: browser_action (ALWAYS try this first).
-Fallback: Other browser tools (Only if browser_action fails).
 
 ## Workflow
 **Constraint**: Execute sequentially. Skip nothing.
@@ -207,10 +47,10 @@ Fallback: Other browser tools (Only if browser_action fails).
             - Log Format: `YYYY-MM-DD HH:MM; Action Summary`
 2) **Naming**: Derive `short plan name` from query.
 3) **Storage**: Save `user query` to `user query file`.
-4) **Configuration (Blocking)**: Ask user the following three questions *separately*:
+4) **Configuration**: Ask user the following three questions *separately*:
     - **Complexity**: One Phase (Tiny/Small), One Phase (Small/Med), Few Phases (Med), or Multi-Phase (Large). Recommend best option for this `plan`.
     - **Autonomy**: Low (frequent checks), Med, or High (rare checks).
-    - **Testing**: Terminal Scripts, Pytest, Browser, Use what is appropriate per task, All, None, or Custom.
+    - **Testing**: Terminal Scripts, Python Tests, Browser, Use what is appropriate per task, All, None, or Custom.
     *Stop and wait for user response before proceeding.*
 5) **Analysis 2**: 
     - Double-check problem, intent, scope, constraints, and dependencies.
@@ -234,7 +74,7 @@ Fallback: Other browser tools (Only if browser_action fails).
     - Review against `Critical Resources`.
     - Q&A with user to resolve ambiguity.
     - Update `plan file` with draft.
-3) **Collaborate (Blocking)**:
+3) **Collaborate**:
     - Open `plan file` in editor.
     - Brainstorm and edit with user.
     - *Wait for user input.*
@@ -257,7 +97,7 @@ Fallback: Other browser tools (Only if browser_action fails).
 **Task Structure Rules (Strict Enforcement)**:
 1) **Atomicity**: One task = One action. Use "Action:" label. No sub-steps.
 2) **Independence**: No complex dependencies. Tasks must be self-contained.
-3) **Redundancy Check**: Before creating new logic, search `codebase`, `agents.md`, `utils/`, and `utils_db/`. Modify existing code over creating new code.
+3) **Redundancy Check**: Before creating new logic, search `app-knowledge`. Modify existing code over creating new code.
 
 **Steps**:
 1) **Draft Tasks**:
@@ -269,11 +109,11 @@ Fallback: Other browser tools (Only if browser_action fails).
         Mode hint: [/mode-name]
         Actions: Notes/Code/Pseudocode/Test Instructions.
             - When giving instructions on what to change, use both (a) function names and (b) line numbers.
-        **Log progress** to `log file`.
+        **Log progress** to [log file].
     ```
 2) **Review**: Open `plan file` in editor.
 3) **Refine Loop**:
-    - Validate against `Critical Resources`.
+    - Validate against app standards.
     - Q&A with user until clarity is absolute.
     - Sync `plan file` and `log file` immediately upon changes.
 
@@ -283,7 +123,7 @@ Fallback: Other browser tools (Only if browser_action fails).
 1) **Simulation Walkthrough**:
     - Simulate execution of *every* task.
     - Predict impacts on DB, routes, utils, templates, APIs, and tests.
-    - **Mandatory**: Ensure every task ends with: "**Log progress** to `log file`."
+    - **Mandatory**: Ensure every task ends with: "**Log progress** to [log file]."
     - Refine tasks to remove ambiguity or risk.
 2) **Validation**:
     - Ignore `autonomy level` for this step. Be exhaustive.

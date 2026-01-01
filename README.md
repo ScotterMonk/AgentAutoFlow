@@ -141,15 +141,23 @@ python cli_sync.py /path/to/project1 /path/to/project2 /path/to/project3
 ### Configuration
 Settings are stored in `config.txt` See `README-file-sync.MD` for details.
 
-
 ## Fit to you
 Be sure to modify the content of files to fit your project. Especially:
-- "agents.md" (In root, "above" .roo folder)
-- ".roo/docs/database_schema.md"
-- ".roo/rules/01-general.md"
-- ".roo/rules/02-database.md"
-- ".roo/rules-front-end/02-design-patterns.md"
+- "agents.md" (In root, "above" .roo folder). Important file. See `/init` in this document.
+- ".roo/docs/database_schema.md".
+- ".roo/rules/01-general.md" <-- no longer necessary because skills!
+- ".roo/rules/02-database.md" <-- no longer necessary because skills!
+- ".roo/rules-front-end/02-design-patterns.md".
 Really, I'd look through all the rules files to modify to YOUR preferences.
+
+## Skills
+*All modes should now consume far less tokens, use up less of context memory, and follow instructions better!*
+
+I've added quite a few skills in the `.roo/skills` folder.
+I'll go into more detail later. For now:
+- Roo Code has added skills to Roo! https://docs.roocode.com/features/skills
+- They use the Agent Skills open format. https://agentskills.io/home
+- Here is a skill marketplace with over 38,000 skills! https://skillsmp.com/
 
 ### Misc
 - I've added "Orchestrator" to .roomodes local mode file so that I can give it read, edit, and command permissions. Without those permissions, it can sometimes have issues, depending on what LLM model you have it using. Example: I've seen it find an issue with The Plan and spend extra tokens to delegate minor textual changes to The Plan when it could have more quickly done the changes itself.

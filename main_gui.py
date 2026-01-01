@@ -658,6 +658,7 @@ class MainApp:
         worker = SyncWorker(self.sync_engine, folder_paths, self.planned_actions)
         worker.start()
     
+    # [Created-or-Modified] by gpt-5.2 | 2026-01-01_01
     def _process_events(self):
         """Process events from the event queue periodically."""
         # [Modified] by openai/gpt-5.1 | 2025-11-16_01
@@ -711,15 +712,22 @@ class MainApp:
                     # For real executions, update preview header and mark files as replaced
                     if not self.config.get("dry_run", False):
                         for widget in self.folder_widgets.values():
-                            # Update header from "will be" to "are now"
-                            if hasattr(widget, "update_preview_header_to_completed"):
-                                widget.update_preview_header_to_completed()
-                            
-                            # Mark each file row with checkmark
-                            preview_rows = getattr(widget, "_preview_rows", {})
-                            for rel_key in list(preview_rows.keys()):
-                                if hasattr(widget, "mark_preview_replaced"):
-                                    widget.mark_preview_replaced(rel_key)
+                            # The UI can be refreshed (folders removed, rescans) while a background
+                            # worker is still running. Make these post-completion updates fail-soft
+                            # so a single stale/destroyed widget doesn't crash the whole callback.
+                            try:
+                                # Update header from "will be" to "were"
+                                if hasattr(widget, "update_preview_header_to_completed"):
+                                    widget.update_preview_header_to_completed()
+
+                                # Mark each file row with checkmark
+                                preview_rows = getattr(widget, "_preview_rows", {})
+                                for rel_key in list(preview_rows.keys()):
+                                    if hasattr(widget, "mark_preview_replaced"):
+                                        widget.mark_preview_replaced(rel_key)
+                            except tk.TclError:
+                                # Fail soft; destroyed widgets can raise TclError.
+                                pass
     
                         # Also show any .bak backup files that now exist on disk
                         self._update_bak_previews()

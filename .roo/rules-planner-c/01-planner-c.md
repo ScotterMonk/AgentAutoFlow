@@ -9,9 +9,6 @@
 4) **Delegate**: Transfer approved `plan` to `/orchestrator`.
     - **Constraint**: NEVER execute tasks yourself.
 
-**Protocol**:
-Strictly adhere to the following rules. Conceptually load and obey:
-
 ## Workflow
 **Constraint**: Execute sequentially. Skip nothing.
 

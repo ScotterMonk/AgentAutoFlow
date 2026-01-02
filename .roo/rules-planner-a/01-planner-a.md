@@ -11,7 +11,7 @@
 **Constraint**: NEVER execute tasks yourself.
 
 ## Workflow
-**Constraint**: Execute sequentially. Skip nothing.
+**Execute sequentially. Skip nothing.**
 
 ### 1. Input
 - Capture input as `user query`.

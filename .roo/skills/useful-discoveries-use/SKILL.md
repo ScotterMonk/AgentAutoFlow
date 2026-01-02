@@ -8,25 +8,26 @@ description: For (1) finding solutions, patterns, and workarounds to issues when
 **Purpose**: `.roo/docs/useful.md` is a knowledge base for solutions, patterns, and workarounds discovered during development.
 **Definitions**: At bottom.
 
-## Finding solutions; when to READ from useful.md:
+## Finding solutions; when to READ from useful.md
 - Before starting complex or unfamiliar tasks
 - When encountering errors or unexpected behavior
 - When stuck after trying initial approaches
 - Before implementing workarounds or non-obvious solutions
 
-## Saving solutions; When to WRITE to useful.md:
+## Saving solutions; When to WRITE to useful.md
 - After solving a non-obvious bug or error
 - When discovering a workaround for a limitation
 - After finding an effective pattern or approach worth reusing
 - When learning something about the environment, tools, or dependencies
 - After resolving a problem that took significant investigation
 
-## When to PARE useful.md:
+## PARING useful.md
+This involves reading through all 
 **THIS SECTION IS A WORK IN PROGRESS**
 **Execute sequentially. Skip nothing.**
 
 ### 1. Find redundant or similar items
-Read through all discoveries.
+**Loop**: Read through all `Items` one at a time.
 Conditions:
 - **You found redundant `Items` (exactly same except for date/time)**:
     **Action**: Delete the older one(s) from `Discoveries`.

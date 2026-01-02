@@ -5,7 +5,7 @@ description: When any part of the application needs to be found or understood.
 
 # App knowledge instructions
 
-## Sources of knowledge to use
+## Sources of knowledge and tools
 - **Primary**: `agents.md`.
 - **Codebase**: `codebase_search`, `read_file`, `search_files`.
     - Include `utils/` and `utils_db/` folders for similar or same functionality.
@@ -14,3 +14,4 @@ description: When any part of the application needs to be found or understood.
 - **Backups**: `.roo/docs/old_versions/`.
 - **Completed plans**: `.roo/docs/plans_completed/`.
 - **Web automation** & **browsing**: `browser_action`
+- **Useful discoveries**: Last resort.

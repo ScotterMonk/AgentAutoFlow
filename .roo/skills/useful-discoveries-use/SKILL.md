@@ -33,6 +33,7 @@ Conditions:
     **Action**: Delete the older one(s) from `Discoveries`.
 - **You found similar items**:
     **Action**: Combine into one cohesive `Item` and give a new date.
+    
 ---
 
 ## Definitions

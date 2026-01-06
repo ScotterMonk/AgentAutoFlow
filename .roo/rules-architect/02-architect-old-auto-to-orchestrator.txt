@@ -136,6 +136,8 @@ Strictly adhere to the following rules. Conceptually load and obey:
     - Update `log file` and `plan file`.
     - Archive plan to `.roo/docs/plans_completed/` (append `_[iteration]` if needed).
 
+
+
 ### 8. Hand-off
 **Constraint**: Architect Mode must **NEVER** execute the plan.
 **Procedure**:
@@ -149,3 +151,19 @@ Strictly adhere to the following rules. Conceptually load and obey:
     - Switch to `/orchestrator` and:
         - **Payload**: Pass `plan file` path and any critical context not in the file.
         - **Actions**: Instruct `/orchestrator` to execute the `plan`.
+
+### 8. Hand-off
+**Constraint**: Architect Mode must **NEVER** execute the plan.
+**Procedure**:
+1) **Verify Manifest**: Ensure `plan file` contains:
+    - `short plan name`.
+    - `log file` path.
+    - `user query` & `user query file` path.
+    - `autonomy level`.
+    - `testing type`.
+2) **Pass control to user**:
+    Do in this order:
+    - Instruct user: 
+        "Switch to `/orchestrator`, and tell it 'Execute this plan: {plan file path}'"
+    - **Stop**.
+    

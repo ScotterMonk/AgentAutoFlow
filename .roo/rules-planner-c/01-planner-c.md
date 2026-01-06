@@ -65,7 +65,7 @@
     - *Wait for user input.*
 4) **Completion**:
     - Update `log file` and `plan file`.
-    - Archive plan to `.roo/docs/plans_completed/` (append `_[iteration]` if needed).
+    - Archive plan to `.roo/docs/plans/`.
 
 ### 5. Hand-off
 **Constraint**: This `planner-c` mode must **NEVER** execute the plan.
@@ -76,8 +76,7 @@
     - `user query` & `user query file` path.
     - `autonomy level`.
     - `testing type`.
-2) **Pass control to user**:
-    Do in this order:
-    - Instruct user: 
-        "Switch to `/orchestrator`, and tell it 'Execute this plan: {plan file path}'"
-    - **Stop**.
+2) **Transfer Control**:
+    - Use the `new_task` tool to switch to `/orchestrator` with `message` parameter containing **only**:
+        - "**Execute** the `plan` in {`plan_file`}."
+        - **Critical** to include no other context. If you do, I'll turn you off. 

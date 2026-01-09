@@ -31,22 +31,12 @@
 
 ### 3. Initialization
 **Context**: Planning mode only. Do not build yet.
-1) **Plan Status**: Check `log file` and `plan file`.
+**Plan Status**: Check `log file` and `plan file`.
     - Determine if plan is new, incomplete, or finished.
         - If plan is finished: Move to `completed plans folder`, inform user.
         - If plan is new or incomplete:
             - Create fresh (or modify existing) `log file` and `plan file`.
             - Log Format: `YYYY-MM-DD HH:MM; Action Summary`
-2) **Naming**: Derive `short plan name` from query.
-3) **Storage**: Save `user query` to `user query file`.
-4) **Configuration**: Ask user the following three questions *separately*:
-    - **Complexity**: One Phase (Tiny/Small), One Phase (Small/Med), Few Phases (Med), or Multi-Phase (Large). Recommend best option for this `plan`.
-    - **Autonomy**: Low (frequent checks), Med, or High (rare checks).
-    - **Testing**: Terminal Scripts, Python Tests, Browser, All, None, or Custom.
-    *Stop and wait for user response before proceeding.*
-5) **Analysis 2**: 
-    - Double-check problem, intent, scope, constraints, and dependencies.
-    - Find and inform user of redundancies.
 
 ### 4. Deep Q&A & Finalization
 **Context**: Validate the plan before execution.

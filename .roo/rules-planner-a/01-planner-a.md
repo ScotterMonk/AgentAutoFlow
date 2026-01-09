@@ -31,9 +31,11 @@
 2) **Naming**: Derive `short plan name` from query.
 3) **Storage**: Save `user query` to `user query file`.
 4) **Configuration**: Ask user the following three questions *separately*:
-    - **Complexity**: One Phase (Tiny/Small), One Phase (Small/Med), Few Phases (Med), or Multi-Phase (Large). Recommend best option for this `plan`.
-    - **Autonomy**: Low (frequent checks), Med, or High (rare checks).
-    - **Testing**: Terminal Scripts, Python Tests, Browser, Use what is appropriate per task, All, None, or Custom.
+    - **Question 1: Complexity**: [] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), or [] Multi-Phase (Large). Recommend best option for this `plan`.
+    *Stop and wait for user response before proceeding.*
+    - **Question 2: Autonomy**: [] Low (frequent checks), [] Med, or [] High (rare checks).
+    *Stop and wait for user response before proceeding.*
+    - **Question 3: Testing**: [] Terminal commands or short scripts, [] Python tests, [] Browser, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
     *Stop and wait for user response before proceeding.*
 5) **Analysis 2**: 
     - Double-check problem, intent, scope, constraints, and dependencies.
@@ -46,7 +48,7 @@
 2) **Save**: Write succinct problem/solution summary to `plan file`.
 
 ### 5. Phase Creation
-**Context**: Adhere to app standards. Implement real functionality (no mocks).
+**Context**: Adhere to `app-standards`. Implement real functionality (no mocks).
 
 **Steps**:
 1) **Draft Phases**:
@@ -54,7 +56,7 @@
     - Identify reusable/modifiable existing code.
     - **Mandatory**: Add instruction to every phase: "Backup target files to `.roo/docs/old_versions/[filename]_[timestamp]`".
 2) **Refine**:
-    - Review against app standards.
+    - Review against `app-standards`.
     - Q&A with user to resolve ambiguity.
     - Update `plan file` with draft.
 3) **Collaborate**:
@@ -80,6 +82,6 @@
     - `autonomy level`
     - `testing type`
 2) **Transfer Control**:
-    - Switch to `/planner-b` and:
-        - **Payload**: Pass `plan file` path and any critical context not in the file.
-        - **Actions**: Instruct `/planner-b` to continue refining the `plan`.
+    - Use the `new_task` tool to switch to `/planner-b` with `message` parameter containing **only**:
+        - "**Work on stage 2 of creating** the `plan` in {`plan_file`}."
+        - **Critical** to not include any other context.

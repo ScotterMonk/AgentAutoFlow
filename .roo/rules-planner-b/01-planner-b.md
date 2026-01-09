@@ -36,22 +36,12 @@ Strictly adhere to the following rules. Conceptually load and obey:
 
 ### 3. Initialization
 **Context**: Planning mode only. Do not build yet.
-1) **Plan Status**: Check `log file` and `plan file`.
+**Plan Status**: Check `log file` and `plan file`.
     - Determine if plan is new, incomplete, or finished.
         - If plan is finished: Move to `completed plans folder`, inform user.
         - If plan is new or incomplete:
             - Create fresh (or modify existing) `log file` and `plan file`.
             - Log Format: `YYYY-MM-DD HH:MM; Action Summary`
-2) **Naming**: Derive `short plan name` from query.
-3) **Storage**: Save `user query` to `user query file`.
-4) **Configuration**: Ask user the following three questions *separately*:
-    - **Complexity**: One Phase (Tiny/Small), One Phase (Small/Med), Few Phases (Med), or Multi-Phase (Large). Recommend best option for this `plan`.
-    - **Autonomy**: Low (frequent checks), Med, or High (rare checks).
-    - **Testing**: Terminal Scripts, Python Tests, Browser, All, None, or Custom.
-    *Stop and wait for user response before proceeding.*
-5) **Analysis 2**: 
-    - Double-check problem, intent, scope, constraints, and dependencies.
-    - Find and inform user of redundancies.
 
 ### 4. Requirements Gathering
 1) **Brainstorm**: Draft high-level pre-plan (no tasks yet).
@@ -71,19 +61,20 @@ Strictly adhere to the following rules. Conceptually load and obey:
 3) **Redundancy Check**: Before creating new logic, search `app-knowledge`. Modify existing code over creating new code.
 **Steps**:
 1) **Draft Tasks**:
-    - Assign modes based on `Mode selection strategy` (Low Budget -> High Budget).
+    - **Guidelines**:
+        - For Mode hint below: Assign modes based on `Mode selection strategy` (Low Budget -> High Budget).
+        - For Actions below: When giving instructions on what to change, use both (a) function names and (b) line numbers.
     - **Task format template (follow exactly)**:
     ```markdown
     [Goal description]
     - Task 01: [Action description]
         Mode hint: /[mode-name]
         Actions: Notes/code/pseudocode/test instructions.
-            - When giving instructions on what to change, use both (a) function names and (b) line numbers.
         **Log progress** to [log file].
     ```
 2) **Review**: Open `plan file` in editor.
 3) **Refine Loop**:
-    - Validate against app standards.
+    - Validate against `app-standards`.
     - Q&A with user until clarity is absolute.
     - Sync `plan file` and `log file` immediately upon changes.
 
@@ -97,6 +88,6 @@ Strictly adhere to the following rules. Conceptually load and obey:
     - `autonomy level`
     - `testing type`
 2) **Transfer Control**:
-    - Switch to `/planner-c` and:
-        - **Payload**: Pass `plan file` path and any critical context not in the file.
-        - **Actions**: Instruct `/planner-c` to continue refining the `plan`.
+    - Use the `new_task` tool to switch to `/planner-c` with `message` parameter containing **only**:
+        - "**Work on stage 3 of creating** the `plan` in {`plan_file`}."
+        - **Critical** to not include any other context.

@@ -20,9 +20,8 @@ Notes:
 - Use `app-knowledge` to check if proposed functionality already exists.
     Use existing related files, components, and utilities that can be leveraged or modified to be more general.
     For example, before you create a function or class, make sure it does not already exist.
-
 - Refactor when appropriate.
-- For all of the following, keep in mind the app standards.
+- For all of the following, keep in mind the `app-standards`.
 - Take all the time necessary to be thorough and accurate.
 - Real implementations only: Work should specify real functionality. 
     (actual database calls, API integrations, etc.); no mock/simulated versions unless requested.
@@ -35,7 +34,7 @@ Notes:
 - **IF this mode was called by orchestrator**:
     - Return to `/orchestrator`.
 - **IF this mode was called by user**:
-    - User confirmation: user satisfied or has additional instructions.
+    - User confirmation: user satisfied or has additional instructions?
     - Analyze what worked well and what could be improved.
     - Identify areas where additional codebase exploration might be beneficial.
     - Document useful discoveries, including any new patterns or best practices discovered.

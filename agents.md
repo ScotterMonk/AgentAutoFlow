@@ -6,7 +6,7 @@ This file provides guidance to agents when working with code in this repository.
 Python file synchronization utility for `.roo` directories across multiple project folders.
 
 ## Run Commands
-GUI: `python main_gui.py`
+GUI: `py main_gui.py`
 CLI: `python cli_sync.py <folder1> <folder2> ...`
 Tests: `pytest tests/`
 

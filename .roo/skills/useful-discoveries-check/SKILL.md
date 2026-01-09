@@ -4,7 +4,7 @@ description: For finding solutions, patterns, and workarounds to issues when enc
 ---
 
 # Useful Discoveries System
-**Purpose**: `.roo/docs/useful.md` is a knowledge base for solutions, patterns, and workarounds discovered during development.
+**Purpose**: `.roo/docs/useful.md` is a knowledge base for solutions, patterns, and workarounds discovered during development. If missing, create it.
 
 **When to READ from useful.md**:
 - Before starting complex or unfamiliar tasks

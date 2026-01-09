@@ -17,6 +17,7 @@ Strictly enforce the following formatting for all file paths and references to r
 - No Line Numbers: Strip all line number suffixes (e.g., :22).
 - No Redundancy: Do not repeat the filename in brackets and parentheses.
 - Contextual Pointers: When referencing specific sections, name the section instead of using line numbers.
+**Exception**: When `/architect` or `/planner-(a/b/c)` are creating/modifying a plan.
 Examples:
 Bad: [app/models/user.py](app/models/user.py)
 Good: `app/models/user.py`

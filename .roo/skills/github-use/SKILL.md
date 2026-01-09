@@ -34,11 +34,13 @@ The following commands will run the processes below:
 ## All workflows
 For every command workflow below:
 - **Error handling**: if any step encounters an error, stop, capture the error output, and provide troubleshooting ideas and choices to user, instead of continuing.
+- **You have full authority**: Do not ask the user for permission to run git commands**. Just run them and report the result.
+   - Example: You have full authority to run commands like 'git commit -m "Fix..."' without asking for permission.
+   - You have permission to run *all* git commands with only exceptions being listed below in *Prohibited operations*.
 - **Prohibited operations**:
     - Never use `git push --force` or `--force-with-lease` on main.
     - Do not use `git rebase` on main.
 - **Default remote**: Default remote is assumed to be `origin`. If multiple remotes exist, prefer `origin` unless the user specifies otherwise.
-- **Do not ask the user for permission to run git commands**. Just run them and report the result.
 - **Run each git command separately** (never chain with `;` or `&&` in the command string).
  
 ## Update
@@ -57,7 +59,7 @@ For every command workflow below:
    - Make sure the entire message is passed as a single argument to -m by enclosing it in quotes.
    - Include file paths for all changed files.
    - Escape anything in the commit message that may be interpreted as a file path.
-5) **Commit**: Do not ask the user for permission to commit. Just do the commit.
+5) **Commit**: Do not ask the user for permission to commit. Just execute the commit.
    **Commit permission**: You have full permission to run all commit commands, including ones using the "-m" flag with accompanying message.
    **You have permission** to run any variation of `git commit`, including, but not limited to `git commit -m "[commit message here]"`.
    **Do not ask the user for permission to run git commands**. Just run them.

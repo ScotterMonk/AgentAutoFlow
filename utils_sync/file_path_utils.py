@@ -104,6 +104,38 @@ def has_roo_dir(folder_path: Union[str, Path]) -> bool:
     return candidate.exists() and candidate.is_dir() and not candidate.is_symlink()
 
 
+def ensure_roo_dir(folder_path: Union[str, Path]) -> Path:
+    # [Created-or-Modified] by gpt-5.2 | 2026-01-07_01
+    """Ensure `<folder_path>/.roo` exists as a real directory (not a symlink).
+
+    If the `.roo` directory is missing, it is created.
+
+    Raises:
+        ValueError: if folder_path is invalid, not a directory, or `.roo` exists but is not
+            a real directory (e.g., is a file or a symlink).
+        OSError: if the directory cannot be created.
+    """
+    if folder_path is None:
+        raise ValueError("folder_path must not be None")
+
+    base = normalize_path(folder_path)
+    if not base.exists() or not base.is_dir():
+        raise ValueError(f"Folder does not exist or is not a directory: {base}")
+
+    roo_dir = base / ".roo"
+
+    if roo_dir.exists():
+        # Keep safety rail: never operate on symlinked .roo
+        if roo_dir.is_symlink():
+            raise ValueError(f".roo is a symlink (not allowed): {roo_dir}")
+        if not roo_dir.is_dir():
+            raise ValueError(f".roo exists but is not a directory: {roo_dir}")
+        return roo_dir
+
+    roo_dir.mkdir(parents=True, exist_ok=True)
+    return roo_dir
+
+
 # [Created-or-Modified] by [LLM model] | 2025-11-13_01
 def get_roo_relative_path(full_path: Union[str, Path], base_folder: Union[str, Path]) -> Optional[str]:
     """

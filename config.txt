@@ -1,8 +1,8 @@
 window_width=800
 window_height=600
-ignore_patterns=.roo\commands\run-sync.md, .roo\docs, .roo\rules\02-database.md, agents.md, .roo\reports
+ignore_patterns=.roo\commands\run-sync.md, .roo\docs, .roo\rules\02-database.md, agents.md, .roo\reports, *.txt
 backup_mode=timestamped
 preserve_mtime=true
 dry_run=false
 root_allowlist=.roomodes
-folders_faves=D:\Dropbox\Projects\_MediaShare\app, D:\Dropbox\Projects\2ndFoundation\app, D:\Dropbox\Projects\AgentFlow, D:\Dropbox\Projects\EmpathyBot2025\app
+folders_faves=D:\Dropbox\Projects\_MediaShare\app, D:\Dropbox\Projects\2ndFoundation\app, D:\Dropbox\Projects\AgentFlow, D:\Dropbox\Projects\EmpathyBot2025\app, D:\Dropbox\Projects\AV-cleaner\app

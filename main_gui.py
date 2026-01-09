@@ -26,6 +26,15 @@ BUTTON_BG_HOVER = "#111111"
 BUTTON_BORDER = "#00ff5f"
 BUTTON_TEXT = FG_PRIMARY
 
+# Font sizes
+FONT_SIZE_TITLE = 16
+FONT_SIZE_SECTION_TITLE = 12
+FONT_SIZE_HINT = 10
+FONT_SIZE_DRY_RUN = 11
+FONT_SIZE_FOLDER_PREVIEW_HEADER = 10
+FONT_SIZE_FOLDER_PREVIEW_ROW = 10
+
+
 class MainApp:
     """Main application window for AgentAutoFlow File Sync."""
     # [Created] by Claude Sonnet 4.5 | 2025-11-13_01
@@ -219,7 +228,7 @@ class MainApp:
         title_label = ttk.Label(
             main_frame,
             text="AgentAutoFlow File Sync",
-            font=("TkDefaultFont", 16, "bold")
+            font=("TkDefaultFont", FONT_SIZE_TITLE, "bold")
         )
         title_label.grid(row=0, column=0, pady=(0, 2), sticky=tk.W)
         
@@ -419,6 +428,9 @@ class MainApp:
                 self._remove_planned_action,
                 toggle_favorite_callback=lambda p, fav, fp=folder_path: self._set_folder_favorite(fp, fav),
                 is_favorite=is_fav,
+                preview_header_font=("TkDefaultFont", FONT_SIZE_FOLDER_PREVIEW_HEADER, "bold"),
+                preview_row_font=("TkDefaultFont", FONT_SIZE_FOLDER_PREVIEW_ROW),
+                preview_bak_font=("TkDefaultFont", FONT_SIZE_FOLDER_PREVIEW_ROW),
             )
             folder_item.frame.pack(fill=tk.X, padx=2, pady=2)
             
@@ -592,7 +604,7 @@ class MainApp:
             # Run scan and plan synchronously to compute actions
             folder_paths = [Path(p) for p in self.selected_folders]
             file_index = self.sync_engine.scan_folders(folder_paths)
-            actions = self.sync_engine.plan_actions(file_index)
+            actions = self.sync_engine.plan_actions(file_index, scanned_folders=folder_paths)
         except Exception as e:
             messagebox.showerror(
                 "Preview Failed",
@@ -760,7 +772,7 @@ class MainApp:
         title_label = ttk.Label(
             main_frame,
             text="Sync Configuration",
-            font=("TkDefaultFont", 12, "bold")
+            font=("TkDefaultFont", FONT_SIZE_SECTION_TITLE, "bold")
         )
         title_label.pack(pady=(0, 10))
 
@@ -803,7 +815,7 @@ class MainApp:
         ttk.Label(
             ignore_frame,
             text="(comma-separated; wraps automatically)",
-            font=("TkDefaultFont", 8)
+            font=("TkDefaultFont", FONT_SIZE_HINT)
         ).pack(anchor=tk.W)
 
         current_patterns = self.config.get("ignore_patterns", [])
@@ -826,7 +838,7 @@ class MainApp:
         ttk.Label(
             faves_frame,
             text="(comma-separated folder paths; wraps automatically)",
-            font=("TkDefaultFont", 8)
+            font=("TkDefaultFont", FONT_SIZE_HINT)
         ).pack(anchor=tk.W)
 
         current_faves = self.config.get("folders_faves", [])
@@ -977,6 +989,7 @@ class MainApp:
             )
             return
 
+        # Keep this list strictly str for safe display/joining (favorites can be Path objects).
         skipped: list[str] = []
         added_any = False
 
@@ -988,9 +1001,17 @@ class MainApp:
                 skipped.append(str(fav))
                 continue
 
+            # If the project doesn't have a .roo yet, create it (user-friendly behavior for new projects).
+            try:
+                file_path_utils.ensure_roo_dir(normalized)
+            except Exception as exc:
+                print(f"Error ensuring .roo directory under {normalized!s}: {exc}")
+                skipped.append(str(normalized))
+                continue
+
             # Validate folder has a .roo directory
             if not file_path_utils.has_roo_dir(normalized):
-                skipped.append(normalized)
+                skipped.append(str(normalized))
                 continue
 
             if normalized not in self.selected_folders:
@@ -1080,7 +1101,7 @@ class MainApp:
         try:
             folder_paths = [Path(p) for p in self.selected_folders]
             file_index = self.sync_engine.scan_folders(folder_paths)
-            actions = self.sync_engine.plan_actions(file_index)
+            actions = self.sync_engine.plan_actions(file_index, scanned_folders=folder_paths)
         except Exception as exc:
             # Fail soft; log error but keep GUI responsive
             print(f"Rescan after .bak delete failed: {exc}")
@@ -1106,7 +1127,7 @@ class MainApp:
                 self.dry_run_label.config(
                     text="⚠ DRY RUN MODE: No files will be modified",
                     foreground="red",
-                    font=("TkDefaultFont", 9, "bold")
+                    font=("TkDefaultFont", FONT_SIZE_DRY_RUN, "bold")
                 )
             else:
                 self.dry_run_label.config(text="")

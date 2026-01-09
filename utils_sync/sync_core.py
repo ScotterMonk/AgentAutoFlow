@@ -7,6 +7,7 @@ process through three main phases: scanning folders, planning actions, and
 executing those actions. Progress events are emitted throughout for monitoring.
 """
 import datetime
+import fnmatch
 import os
 import queue
 import shutil
@@ -67,52 +68,72 @@ class SyncEngine:
         file_index: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
         
         # Get ignore patterns from config and categorize them.
-        # We support four kinds of ignore rules:
+        # We support these kinds of ignore rules:
         # - Simple names (".git", "__pycache__"): skip any path component with that name.
         # - .roo-scoped folder paths (".roo/docs", ".roo/docs/"): skip everything under that folder.
         # - .roo-scoped file paths (".roo/commands/run-sync.md"): skip exactly that file.
-        # - Filename-only patterns ("agents.md"): match anywhere within .roo subfolders (case-insensitive).
+        # - Filename-only exact matches ("agents.md"): match anywhere within .roo subfolders (case-insensitive).
+        # - Glob patterns ("*.txt", "*.pyc", "rules/*.md", ".roo/docs/*.md"): matched case-insensitively.
         raw_ignore_patterns = self.config.get("ignore_patterns", [])
         name_ignores = set()
         folder_path_ignores = set()
         file_path_ignores = set()
         filename_only_ignores = set()
+        filename_glob_ignores: List[str] = []
+        path_glob_ignores: List[str] = []
+
+        def _has_glob_chars(s: str) -> bool:
+            return any(ch in s for ch in ("*", "?", "["))
         
         for pattern in raw_ignore_patterns:
             if not pattern:
                 continue
             norm = str(pattern).replace("\\", "/").strip()
+            norm_lower = norm.lower()
             
             # Treat .roo-prefixed patterns as paths relative to the .roo/ directory
-            if norm.startswith(".roo/"):
-                rel = norm[len(".roo/"):].rstrip("/")
+            if norm_lower.startswith(".roo/"):
+                rel = norm_lower[len(".roo/"):].rstrip("/")
                 if not rel:
                     continue
+
+                # If the .roo-scoped pattern contains globs, treat as a .roo-relative path glob.
+                if _has_glob_chars(rel):
+                    path_glob_ignores.append(rel)
+                    continue
+
                 last_seg = rel.split("/")[-1]
                 # Heuristic: if the last segment contains a dot, treat as a file; otherwise a folder
                 if "." in last_seg:
                     # Store as lowercase for case-insensitive matching
-                    file_path_ignores.add(rel.lower())
+                    file_path_ignores.add(rel)
                 else:
                     # Store as lowercase for case-insensitive matching
-                    folder_path_ignores.add(rel.lower())
+                    folder_path_ignores.add(rel)
             else:
-                # Check if pattern looks like a filename (has extension)
-                # If pattern contains a dot and no slashes, treat as filename-only pattern
-                if "." in norm and "/" not in norm:
+                # Non-.roo patterns:
+                # - If contains glob chars, treat as filename glob (no slashes) or path glob (has slashes).
+                # - Otherwise, keep current behavior (filename-only exact match for things like "agents.md",
+                #   or simple name ignores for things like ".git" and "__pycache__").
+                if _has_glob_chars(norm_lower):
+                    if "/" in norm_lower:
+                        path_glob_ignores.append(norm_lower.rstrip("/"))
+                    else:
+                        filename_glob_ignores.append(norm_lower)
+                elif "." in norm_lower and "/" not in norm_lower:
                     # Store as lowercase for case-insensitive matching
                     # This will match anywhere within .roo subfolders
-                    filename_only_ignores.add(norm.lower())
-                elif "/" in norm:
+                    filename_only_ignores.add(norm_lower)
+                elif "/" in norm_lower:
                     # For non-.roo paths with slashes, fall back to matching on the last component
-                    last_seg = norm.rstrip("/").split("/")[-1]
+                    last_seg = norm_lower.rstrip("/").split("/")[-1]
                     if last_seg:
                         # Store as lowercase for case-insensitive matching
-                        name_ignores.add(last_seg.lower())
+                        name_ignores.add(last_seg)
                 else:
                     # Simple name pattern like ".git" or "__pycache__"
                     # Store as lowercase for case-insensitive matching
-                    name_ignores.add(norm.lower())
+                    name_ignores.add(norm_lower)
         
         # Scan each folder
         for folder in folders:
@@ -164,6 +185,14 @@ class SyncEngine:
                 # Case-insensitive comparison
                 filename = item_path.name.lower()
                 if filename in filename_only_ignores:
+                    continue
+
+                # 5) Glob ignores
+                # - filename globs: match against the filename only
+                # - path globs: match against the .roo-relative path (POSIX style)
+                if filename_glob_ignores and any(fnmatch.fnmatchcase(filename, pat) for pat in filename_glob_ignores):
+                    continue
+                if path_glob_ignores and any(fnmatch.fnmatchcase(relative_str_lower, pat) for pat in path_glob_ignores):
                     continue
                 
                 # Process only files (skip directories)
@@ -218,8 +247,8 @@ class SyncEngine:
         
         return file_index
     
-    def plan_actions(self, file_index: Dict[str, List[Dict[str, Any]]]) -> List[Dict[str, Any]]:
-        # [Modified] by openai/gpt-5.1 | 2025-11-16_01
+    def plan_actions(self, file_index: Dict[str, List[Dict[str, Any]]], scanned_folders: List[Path] = None) -> List[Dict[str, Any]]:
+        # [Modified] by gpt-5.2 | 2026-01-07_02
         """
         Plan copy actions based on file index.
         
@@ -235,6 +264,9 @@ class SyncEngine:
         Args:
             file_index: File index from scan_folders(), mapping relative paths to
                         lists of file metadata dictionaries.
+            scanned_folders: Optional list of all folders that were scanned, including
+                           those with empty .roo directories. If not provided, will be
+                           derived from file_index (which may miss empty folders).
         
         Returns:
             List of action dictionaries. Each action contains:
@@ -250,12 +282,16 @@ class SyncEngine:
         
         # Collect all base folders that participated in the scan. This lets us
         # create actions for folders that are missing a given file entirely.
-        all_base_folders = set()
-        for group in file_index.values():
-            for meta in group:
-                base_folder = meta.get("base_folder")
-                if base_folder is not None:
-                    all_base_folders.add(base_folder)
+        # If scanned_folders is provided, use that to ensure we include empty folders.
+        if scanned_folders is not None:
+            all_base_folders = set(scanned_folders)
+        else:
+            all_base_folders = set()
+            for group in file_index.values():
+                for meta in group:
+                    base_folder = meta.get("base_folder")
+                    if base_folder is not None:
+                        all_base_folders.add(base_folder)
         
         # Iterate through each file group in the index
         for relative_path, file_group in file_index.items():

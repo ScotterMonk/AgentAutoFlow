@@ -61,12 +61,20 @@ def run_cli_sync(folders):
         print("Error: At least two folders must be provided for sync.", file=sys.stderr)
         sys.exit(1)
 
-    # Validate each folder contains a .roo directory
-    invalid = [str(f) for f in folders if not has_roo_dir(f)]
-    if invalid:
-        for bad in invalid:
-            print(f"Error: Folder does not contain a .roo subdirectory: {bad}", file=sys.stderr)
-        sys.exit(1)
+    # Ensure each folder has a .roo directory (create if missing)
+    created = []
+    for f in folders:
+        try:
+            if not has_roo_dir(f):
+                # create .roo directory for new projects
+                from utils_sync import file_path_utils
+                file_path_utils.ensure_roo_dir(f)
+                created.append(str(f))
+        except Exception as exc:
+            print(f"Error: Could not ensure .roo subdirectory in {f}: {exc}", file=sys.stderr)
+            sys.exit(1)
+    if created:
+        print("Created missing .roo directories in:\n" + "\n".join(created))
 
     # Create event queue and engine
     event_queue = queue.Queue()
@@ -79,7 +87,7 @@ def run_cli_sync(folders):
         # In case SyncEngine exposes only scan/plan/execute, try the sequence
         try:
             file_index = engine.scan_folders(folders)
-            actions = engine.plan_actions(file_index)
+            actions = engine.plan_actions(file_index, scanned_folders=folders)
             engine.execute_actions(actions)
         except Exception as e:
             print(f"Sync failed: {e}", file=sys.stderr)

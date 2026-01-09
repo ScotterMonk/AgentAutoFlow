@@ -17,8 +17,18 @@ class FolderItem:
     # [Modified] by openai/gpt-5.1 | 2025-11-14_02
     
     # [Created-or-Modified] by gpt-5.2 | 2026-01-01_01
-    def __init__(self, parent, folder_path: str, remove_callback, overwrite_remove_callback=None,
-                toggle_favorite_callback=None, is_favorite: bool = False):
+    def __init__(
+        self,
+        parent,
+        folder_path: str,
+        remove_callback,
+        overwrite_remove_callback=None,
+        toggle_favorite_callback=None,
+        is_favorite: bool = False,
+        preview_header_font=None,
+        preview_row_font=None,
+        preview_bak_font=None,
+    ):
         """Initialize a folder item widget.
         
         Args:
@@ -28,8 +38,11 @@ class FolderItem:
             overwrite_remove_callback: Callback when an individual planned overwrite is removed
             toggle_favorite_callback: Callback when favorite star is toggled (receives folder_path, is_favorite)
             is_favorite: Whether this folder is currently marked as favorite
+            preview_header_font: Optional font tuple for the preview header label.
+            preview_row_font: Optional font tuple for preview row labels.
+            preview_bak_font: Optional font tuple for .bak row labels.
         """
-        # [Created-or-Modified] by openai/gpt-5.1 | 2025-12-04_01
+        # [Created-or-Modified] by gpt-5.2 | 2026-01-07_01
         # Create main frame for this folder item
         self.frame = ttk.Frame(parent, relief=tk.FLAT, borderwidth=0)
         
@@ -42,6 +55,12 @@ class FolderItem:
         self.overwrite_remove_callback = overwrite_remove_callback
         self._toggle_favorite_callback = toggle_favorite_callback
         self.is_favorite = is_favorite
+
+        # Fonts are configurable from the main GUI. We store full font tuples here so
+        # callers can adjust sizes in one place without creating an import cycle.
+        self._preview_header_font = preview_header_font or ("TkDefaultFont", 8, "bold")
+        self._preview_row_font = preview_row_font or ("TkDefaultFont", 8)
+        self._preview_bak_font = preview_bak_font or ("TkDefaultFont", 8)
         
         # Create favorite toggle button
         # [Created] by openai/gpt-5-mini | 2025-11-15_01
@@ -144,7 +163,7 @@ class FolderItem:
             - timestamp: Human-readable last modified timestamp string
             - action: The underlying planned action object
         """
-        # [Created-or-Modified] by Sonnet 4.5 | 2025-12-04_03
+        # [Created-or-Modified] by gpt-5.2 | 2026-01-07_01
         
         # Clear any existing rows and label mapping
         for child in self.preview_frame.winfo_children():
@@ -169,7 +188,7 @@ class FolderItem:
             text="These files will be updated:",
             anchor=tk.W,
             justify=tk.LEFT,
-            font=("TkDefaultFont", 8, "bold"),
+            font=self._preview_header_font,
         )
         self._preview_header_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
         
@@ -202,7 +221,7 @@ class FolderItem:
                 text=text,
                 anchor=tk.W,
                 justify=tk.LEFT,
-                font=("TkDefaultFont", 8),
+                font=self._preview_row_font,
                 foreground=GRAY_PREVIEW,
             )
             label.pack(side=tk.LEFT, fill=tk.X, expand=True)
@@ -279,7 +298,7 @@ class FolderItem:
     
     def show_backup_files(self, relative_paths: list[str]) -> None:
         """Append rows for .bak backup files under this folder."""
-        # [Created-or-Modified] by openai/gpt-5.1 | 2025-12-04_01
+        # [Created-or-Modified] by gpt-5.2 | 2026-01-07_01
         # First remove any existing backup rows so this call fully refreshes the .bak display
         for row in getattr(self, "_backup_rows", []):
             try:
@@ -303,7 +322,7 @@ class FolderItem:
                 text=text,
                 anchor=tk.W,
                 justify=tk.LEFT,
-                font=("TkDefaultFont", 8),
+                font=self._preview_bak_font,
                 foreground=GRAY_BAK,
             )
             label.pack(side=tk.LEFT, fill=tk.X, expand=True)

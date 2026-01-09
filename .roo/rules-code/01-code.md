@@ -14,14 +14,8 @@
 3) **Risk**: Identify potential challenges.
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
 
-### 3: Initialization
-Do not skip any of the following steps. Follow each one in order.
-1) **Follow this instruction exactly, separately from** size/complexity above and testing types below, Ask User: `autonomy level` to use. Determine autonomy level separate from testing type below. Choices: "Low" (frequent direction), "Med", "High" (rare direction).
-2) **Follow this instruction exactly, separately from** choices above, Ask User `testing type`, Choices: "Run py scripts in terminal", "Use pytest", "Use browser", "Use all", "No testing", "Custom". Important: provide these exact choices to the user.
-
-### 4: Do the task
+### 3: Do the task
 Notes:
-- Incorporate testing into the plan based on user's `testing type` choice.
 - If creating tests: First be sure test does not already exist.
 - Use `app-knowledge` to check if proposed functionality already exists.
     Use existing related files, components, and utilities that can be leveraged or modified to be more general.
@@ -33,11 +27,10 @@ Notes:
 - Real implementations only: Work should specify real functionality. 
     (actual database calls, API integrations, etc.); no mock/simulated versions unless requested.
 
-### 5: Finish
+### 4: Finish
 1) **QA**
 - Resolve VS Code Problems.
 - Use `app-knowledge` for impact analysis.
-- If `testing type` not "No testing": Call `/tester` mode if/when needed.
 2) **Completion**
 - **IF this mode was called by orchestrator**:
     - Return to `/orchestrator`.
@@ -48,8 +41,6 @@ Notes:
     - Document useful discoveries, including any new patterns or best practices discovered.
 
 ## Troubleshooting
-
-Use `testing type`.
 
 ### If stuck in a loop
 1) Try one completely different approach (algorithm, architecture, or module choice).

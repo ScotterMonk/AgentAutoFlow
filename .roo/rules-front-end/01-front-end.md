@@ -68,8 +68,6 @@ Action: Consult `.roo/docs/simplification.md`. Refactor to unifying principles.
 - **Public APIs**: URL routes, data attributes used by backend.
 - **CSS classes**: Used across many templates (requires impact analysis).
 
----
-
 #### 4. CRITICAL: Refactoring Checklist
 **If you rename a symbol, you MUST fix all references.**
 Before finishing, verify:
@@ -123,28 +121,14 @@ Fallback: Other browser tools (Only if browser_action fails).
 ### 1 Get input from user or orchestrator
 - Seek a deep understanding of their issue and goals. Ask for guidance if necessary.
 
-### 2: Initialization
-Do not skip any of the following steps. Follow each one in order.
-1) Determine if this is a new `plan` or continuation. If unknown, examine files below to determine.
-- `log file` (create new if non-existent):
-    - Log entries: `date + time; action summary`.
-        - Ex: `"2025-08-14 07:23; Approved to begin"`.
-        - Ex: `"2025-08-14 07:24; Task completed: Updated navigation template, refactored main.css"`.
-2) Determine `short plan name` based on user query.
-3) Save `user query` into `user query file`.
-4) FOLLOW THIS INSTRUCTION EXACTLY: SEPARATELY FROM size/complexity above and testing types below, Ask User: `autonomy level` for `plan`. Determine autonomy level separate from testing type below. Choices: "Low" (frequent direction), "Med", "High" (rare direction).
-5) FOLLOW THIS INSTRUCTION EXACTLY: SEPARATELY from choices above, Ask User `testing type` for `plan`, Choices: "Run py scripts in terminal", "Use pytest", "Use browser", "Use all", "No testing", "Custom". Important: provide these exact choices to the user.
-
-### 3: Pre-work
+### 2: Pre-work
 1) Search for similar planning documents and architectural decisions.
 2) Retrieve project history and previous relevant planning outcomes from memory.
 3) Identify potential challenges based on past experiences.
 4) **Front-end specific**: Use `app-knowledge` to find relevant templates, CSS rules, and JS modules.
 
-### 4: Do the task
+### 3: Do the task
 Notes:
-    - Incorporate testing into the plan based on user's `testing type` choice.
-    - If creating tests: First be sure test does not already exist.
     - Use `app-knowledge` to check if proposed functionality already exists.
     - Refactor when appropriate.
     - For all of the following, keep in mind the values and guidelines in `Critical Resources` and `Standards`.
@@ -160,8 +144,7 @@ Notes:
         - Inspect `static/css/main.css` for similar utilities.
         - Inspect `templates/` for repeated patterns.
         - Look in `static/js/` for similar functionality.
-    - **CRITICAL**: modify the `log file` after every change.
-
+ 
 **Front-end specific workflow**:
 1) Discover and align:
    - Use `app-knowledge` skill first to find relevant templates, CSS rules, and JS modules.
@@ -182,7 +165,7 @@ Notes:
    - Verify browser console (no new errors/warnings).
    - Validate that affected pages render correctly.
 
-### 5: Finish
+### 4: Finish
 1) QA
 - Resolve VS Code Problems.
 - Use `app-knowledge` for impact analysis.

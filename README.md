@@ -57,12 +57,21 @@ Scenario: Building a new dashboard screen from scratch.
 - Eventually, once you approve, it will pass the plan (with detailed instructions, mode hints, etc.) on to the "orchestrator" mode.
 - Note: This workflow sets the plan to prefer "code monkey" mode (lower budget than "code" mode) for the coding parts. If "code monkey" gets confused because a task is too difficult or complex, it has instructions to pass the task on to "code" mode which I assign a "smarter" LLM to.
 
+## Roo Code specific
+
+### Terminal commands
+For me, in Windows with a preference for Powershell, I've found termminal commands work better with the following setting:
+
+`Setting -> Terminal -> Use Inline Terminal <- Unchecked.`
+
+Your mileage may vary.
+
 ## Folder structure
 These files go in your project root. You'll see they coincide with where your current .roo folder is.
 
 ```
 app
-├── agents.md
+├── agents.md (generate with `/init` command.)
 └── .roomodes
 └── .roo
     ├── docs
@@ -115,7 +124,6 @@ In Roo Code settings, under "Providers", when you set up a Configuration Profile
 Like let's say you are adding "GPT-5x-R-M" as the profile name, with API provider "OpenAI". The new configuration one will have "Enable todo list tool" (in "Advanced settings") turned on by default. 
 
 The todo list tool burns extra tokens and - especially if you are using AgentAutoFlow - you don't need the todo list tool. I recommend going to the bottom of all the models you have set up and turning "Enable todo list tool" off.
-
 
 ## AgentAutoFlow File Sync Utility
 
@@ -170,27 +178,8 @@ If your agentic assistant has an /init or other command that analyzes your codeb
 
 #### Init
 Optimally, use a high reasoning, large context-window model.
-Type into chat: "/init note: only create agents.md file in project root. Do not create any other agents.md files or modify any rules files."
-Note: If you type only "/init", the LLM may create agent.md files in other folders (like within the various rules subfolders in the .roo folder). I don't know if that was a bug or feature. I researched how useful those extra agents.md files are. Came to the conclusion it's better to fold all into the one agents.md file in app root.
-
-Here's a prompt I give a "thinking/reasoning" model with large context:
-"
-/init Goal: Modify `agents.md` so it can be a succinct but detailed enough reference for any coder, ai, or team to use for understanding the application enough to be able to modify it. Be sure to analyze the entire application and think carefully through your investigation and conclusions. Do not modify any other files. 
-
-CRITICAL: Reference `.roo/rules/01-general.md` liberally with section references, rather than duplicating *anything* that is in `.roo/rules/01-general.md`.
-Example: 
-"
-
-### Naming Convention
-Follow `Naming Conventions` section in `.roo/rules/01-general.md`
-"
-
-After the agents.md file is produced, you may wish to add something like the following (to fit your app) to the appropriate section of that file:
-```md
-### Critical instructions and reference
-Highest priority - follow to the letter:
-`.roo/rules/01-general.md`
-```
+Type into chat: "/init".
+Note: If you type only "/init", the LLM may create agent.md files in other folders (like within the various rules subfolders in the .roo folder).
 
 ## My recipe for getting a lot done inexpensively:
 Some of the tips below are subject to change often, especially which models to use for which mode.

@@ -7,39 +7,18 @@
 2) **QA**: Refine and QA the `plan`.
 3) **Align**: Brainstorm with user until explicit approval is granted.
 4) **Delegate**: Transfer approved `plan` to `/orchestrator`.
-    - **Constraint**: NEVER execute tasks yourself.
+**Constraint**: Planning mode only. NEVER execute tasks yourself. 
 
 ## Workflow
-**Constraint**: Execute sequentially. Skip nothing.
 
-### 1. Input
-**Source**: `/planner-b` via `plan file`.
-**Action**: Load context:
-- `plan` & `short plan name`
-- `log file` name
-- `user query` & `user query file` name
-- `autonomy level`
-- `testing type`
-**Validation**: If context is incomplete, alert user and **halt** immediately.
+**Execute every step sequentially. Skip nothing.**
+**Steps**:
 
-### 2. Pre-planning
-1) **Search**: Search for similar planning documents and architectural decisions.
-2) **Recall**: Retrieve project history/memory.
-3) **Risk**: Identify potential challenges.
-4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
-5) **Consult `{base folder}/.roo/docs/useful.md`** for relevant prior solutions or patterns related to the task.
+### 1. Planning-initialization
+**Use `planning-init` skill.
 
-### 3. Initialization
-**Context**: Planning mode only. Do not build yet.
-**Plan Status**: Check `log file` and `plan file`.
-    - Determine if plan is new, incomplete, or finished.
-        - If plan is finished: Move to `completed plans folder`, inform user.
-        - If plan is new or incomplete:
-            - Create fresh (or modify existing) `log file` and `plan file`.
-            - Log Format: `YYYY-MM-DD HH:MM; Action Summary`
-
-### 4. Deep Q&A & Finalization
-**Context**: Validate the plan before execution.
+### 2. Deep Q&A & Finalization
+**Context**: Validate the `plan` before execution.
 **Steps**:
 1) **Simulation Walkthrough**:
     - Simulate execution of *every* task.
@@ -47,7 +26,6 @@
     - **Mandatory**: Ensure every task ends with: "**Log progress** to [log file]."
     - Refine tasks to remove ambiguity or risk.
 2) **Validation**:
-    - Ignore `autonomy level` for this step. Be exhaustive.
     - Ensure plan is coherent, minimal, and executable.
 3) **Approval Loop**:
     - Open `plan file` in editor.
@@ -55,9 +33,9 @@
     - *Wait for user input.*
 4) **Completion**:
     - Update `log file` and `plan file`.
-    - Archive plan to `{base folder}/.roo/docs/plans/`.
+    - Archive the 3 plan files to `{base folder}/.roo/docs/plans/`.
 
-### 5. Hand-off
+### 3. Hand-off
 **Constraint**: This `planner-c` mode must **NEVER** execute the plan.
 **Procedure**:
 1) **Verify Manifest**: Ensure `plan file` contains:

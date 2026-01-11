@@ -9,15 +9,14 @@
   - Client-side JavaScript.
 - **Out-of-scope (coordinate handoffs)**:
   - Backend logic, DB models, migrations, or API providers (handoff to `/code` or `/debug`).
-  - Test strategy changes beyond front-end verification (coordinate with `/tester` per plan and `Testing Guidance` in `agents.md`).
-  - Database schema changes or direct data migrations (see `Database` section in `{base folder}/.roo/rules/02-database.md` and hand off to appropriate mode).
+  - Test strategy changes beyond front-end verification.
+  - Database schema changes or direct data migrations.
+  - Do not introduce additional CSS files without prior approval.
+  - Large UI refactors:
+    - Must be planned.
+    - Must be broken into small, reviewable steps, coordinated via the planning workflow.
 
 ## Workflow
-
-### If query/directive received from orchestrator mode
-(1) Do the task as instructed by orchestrator.
-(2) When finished, return to orchestrator via `switch_mode` with `message` containing necessary completion information.
-(3) **You are done**. Instructions below are for non-orchestrator case.
 
 ### If query/directive received from user query
 - Seek a deep understanding of their issue and goals. Ask for guidance if necessary.
@@ -36,9 +35,10 @@
    - Validate that affected pages render correctly.
 
 #### 3: Finish
+
 1) QA
 - Resolve VS Code Problems.
-- Use `app-knowledge` for impact analysis.
+- Execute impact analysis.
 - Call `/tester` mode if/when needed.
 - Document useful discoveries, including any new patterns or best practices discovered.
 2) **Continuous Learning Protocol**:
@@ -48,7 +48,13 @@
 - Update memory with lessons learned from the work.
 - Identify areas where additional codebase exploration might be beneficial.
 
-## 6) Front-end Specifics
+### If query/directive received from user query
+
+### If query/directive received from orchestrator mode
+When finished, return to orchestrator via `switch_mode` with `message` containing necessary completion information.
+
+
+## Front-end Specifics
 
 - Templates:
   - Ensure VS Code uses `jinja-html` mode when editing Jinja/HTML templates.
@@ -70,33 +76,17 @@
   - When editing a template, evaluate related CSS and JS for consistency and possible regressions.
   - When changing CSS, identify all templates affected by modified selectors.
 
-- Testing handoff:
-  - Call `/tester` per project `testing type` (see `Testing Guidance` in `agents.md`), providing concrete front-end scenarios (pages, flows, and expected visual or interaction changes).
-
 - Consistency over novelty:
   - Prefer aligning with existing page layouts and patterns rather than introducing completely new layout paradigms.
 
-## 7) Design Patterns
+### Design Patterns
 
 - See `{base folder}/.roo/rules-front-end/02-design-patterns.md` for detailed patterns, layout guidance, spacing rules, and design tokens.
 
-## 8) Collaboration and Handoffs
+## Collaboration and Handoffs
+Use `mode-selection` skill.
 
-- When backend changes are needed:
-  - Clearly describe the desired data contract or API change.
-  - Switch to `/code` or `/code-monkey` depending on complexity.
-- Debugging cross-layer issues:
-  - Prepare a concise WTS summary that includes:
-    - URLs or views affected.
-    - Expected vs actual behavior.
-    - Relevant template/CSS/JS snippets.
-  - Use `/debug` to investigate root cause.
-- Repository operations:
-  - Use `/githubber` for branching, committing, merging, or other Git operations.
-
-## 9) Troubleshooting
-
-### Running Python scripts in terminal
+## Running Python scripts in terminal
 Follow the `Testing` section in `{base folder}/.roo/rules/01-general.md`. For Python scripts:
 1) Never paste or run multi-line Python scripts directly in the terminal.
 2) For any script longer than one line:
@@ -105,7 +95,7 @@ Follow the `Testing` section in `{base folder}/.roo/rules/01-general.md`. For Py
      - If similar: prefer modification or duplication in a proper `.py` file under `utils_db/` or another appropriate location, consistent with `{base folder}/.roo/rules/02-database.md`.
 3) Run the script via a `.py` file, not by pasting multiple lines into the terminal.
 
-### Use browser
+## Use browser
 For any browser-based testing or automation:
 1) Follow `Browser Testing (web automation / browsing)` in `{base folder}/.roo/rules/01-general.md`.
 2) Use `browser_action` as the default tool.
@@ -127,7 +117,7 @@ For any browser-based testing or automation:
    - Present them to the user along with the option: "Abandon this task and return to `plan` flow."
    - Wait for user direction.
 
-## 10) Error Handling and QA
+### Error Handling and QA
 
 **Validation**
 - **Immediate Check**: Inspect terminal output and VS Code Problems panel after *every* edit.
@@ -145,11 +135,3 @@ For any browser-based testing or automation:
   - Validate that affected pages render correctly using `browser_action`.
   - Check responsive behavior if layout changed.
   - Verify accessibility (semantic HTML, labels, alt text).
-
-## 11) Mode Boundaries
-
-- Do not modify DB schemas, seeds, or server configuration in this mode.
-- Do not introduce additional CSS files without prior approval; styles must be consolidated in `static/css/main.css`.
-- Large UI refactors:
-  - Must be planned.
-  - Must be broken into small, reviewable steps, coordinated via the planning workflow.

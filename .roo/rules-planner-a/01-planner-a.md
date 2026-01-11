@@ -10,51 +10,21 @@
 5) **Delegate**: Transfer approved `plan` to `/planner-b`.
 **Constraint**: Planning mode only. NEVER execute tasks yourself. 
 
-## Files
-- `user query file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-user.md`.
-- `log file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-log.md`.
-- `plan file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name].md`.
-
 ## Workflow
 
 **Execute every step sequentially. Skip nothing.**
 **Steps**:
 
-### 1. Input
-1) **Determine Plan status**: Check `log file` and `plan file`:
-   - Determine if plan is *new*, *incomplete*, or *finished*.
-   - Interpret every instruction in this section based on plan status.
-2) **User input**: Capture input as `user query`. Save `user query` to `user query file`.
-3) **Short plan name**: Use or derive `short plan name` from [existing] or `user query`.
-    - If plan is finished: Move to `completed plans folder`, inform user.
-    - If plan is new or incomplete: 
-        - Create/use `log file`.
-        - Create/use `plan file`.
-4) **Configuration**: Ask user the following three questions *separately*:
-    - **Question 1: Complexity**: [] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), or [] Multi-Phase (Large). Recommend best option for this `plan`.
-    *Stop and wait for user response before proceeding.*
-    - **Question 2: Autonomy**: [] Low (frequent checks), [] Med, or [] High (rare checks).
-    *Stop and wait for user response before proceeding.*
-    - **Question 3: Testing**: [] Terminal commands or short scripts, [] Python tests, [] Browser, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
-    *Stop and wait for user response before proceeding.*
+### 1. Planning-initialization
+**Use `planning-init` skill.
 
-### 2. Pre-planning
-1) **Search**: Search for similar planning documents and architectural decisions.
-2) **Recall**: Retrieve project history/memory.
-3) **Risk**: Identify potential challenges.
-4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
-
-### 3. **Analysis 2**: 
-    - Double-check problem, intent, scope, constraints, and dependencies.
-    - Find and inform user of redundancies.
-
-### 4. Requirements Gathering
+### 2. Requirements Gathering
 1) **Brainstorm**: Draft high-level pre-plan (no tasks yet).
     - Resolve contradictions and ambiguity.
     - Q&A with user until clarity is absolute.
 2) **Save**: Write succinct problem/solution summary to `plan file`.
 
-### 5. Phase Creation
+### 3. Phase Creation
 **Context**: Adhere to `app-standards`. Implement real functionality (no mocks).
 **Steps**:
 1) **Draft Phases**:
@@ -78,7 +48,7 @@
     - Iterate with user until explicit approval is given ("Approve and continue").
     - **Blocking**: Halt execution. Await explicit user confirmation to proceed.
 
-### 6. Hand-off
+### 4. Hand-off
 **Constraint**: This `planner-a` mode must **NEVER** execute the plan.
 **Procedure**:
 1) **Verify Manifest**: Ensure `plan file` contains:

@@ -16,25 +16,18 @@
 3) **Risk**: Identify potential challenges.
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
 
-### 3: Initialization
-Do not skip any of the following steps. Follow each one in order.
-1) **Follow this instruction exactly, separately from** size/complexity above and testing types below, Ask User: `autonomy level` to use. Determine autonomy level separate from testing type below. Choices: "Low" (frequent direction), "Med", "High" (rare direction).
-2) **Follow this instruction exactly, separately from** choices above, Ask User `testing type`, Choices: "Run py scripts in terminal", "Use pytest", "Use browser", "Use all", "No testing", "Custom". Important: provide these exact choices to the user.
+### 3. **Configuration**:
+    Ask user the following two questions *separately*:
+    - **Question 1: Autonomy**: [] Low (frequent checks), [] Med, or [] High (rare checks).
+    *Stop and wait for user response before proceeding to next question.*
+    - **Question 2: Testing Type**: [] Terminal commands or short scripts, [] Python tests, [] Browser, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
+    *Stop and wait for user response before proceeding.*
 
 ### 4: Systematic debugging process
-Notes:
-- Incorporate testing into the plan based on user's `testing type` choice.
-- If creating tests: First be sure test does not already exist.
-- Use `app-knowledge` to check if proposed functionality already exists.
-    Use existing related files, components, and utilities that can be leveraged or modified to be more general.
-    For example, before you create a function or class, make sure it does not already exist.
-- Refactor when appropriate.
-- For all of the following, keep in mind the app standards.
-- Take all the time necessary to be thorough and accurate.
-- Real implementations only: Work should specify real functionality. 
-    (actual database calls, API integrations, etc.); no mock/simulated versions unless requested.
+- Incorporate testing into the plan based on user's `testing type` choice above.
+- Use `app-knowledge` and `app-standards` skills.
+**Steps**:
 - **You must complete each step below in order before continuing to the next**, unless explicitly overridden by the user.
-Steps:
 1) **Read error messages carefully**.
    - Do not skip past errors or warnings; they often contain the exact cause.
    - Read stack traces completely.
@@ -45,7 +38,6 @@ Steps:
      - If consistent: document exact steps.
      - If intermittent: gather more observations; do not guess.
 3) **Gather context to understand related code and recent changes**.
-   - Use `app-knowledge`.
    - Ask yourself:
      - What changed that could cause this?
      - Which modules, routes, or DB tables participate in this path?
@@ -65,20 +57,15 @@ Steps:
    - Identify exact files, functions, and lines you plan to modify.
    - Define verification steps for each change (tests, manual checks, logs).
    - Consider side effects: note other flows that may be impacted.
-   - Document the approach before coding:
-     - In comments or an appropriate `log file` under `{base folder}/.roo/docs/plans/`.
    - Plan rollback:
      - Know how to revert to previous state quickly if a fix fails.
 6) **Implement the fix systematically**.
    - Make ONE logical change at a time; do not bundle unrelated fixes.
    - Create a backup before each file modification under `{base folder}/.roo/docs/old_versions/`.
-   - Test after EACH change, even small ones.
+   - Test after each change.
    - If a change does not help:
      - Revert immediately.
      - Update your notes and return to the hypothesis step (Step 4).
-   - Preserve existing comments and structure.
-   - Add comments explaining *why* the fix works and how it addresses the root cause.
-   - Update the appropriate `log file` after each completed change.
 7) **If still unclear after several attempts**:
    - Reassess hypotheses.
    - Consider higher-level issues (architecture, data model, or configuration).
@@ -87,8 +74,8 @@ Steps:
 ### 5: Finish
 1) **QA**
 - Resolve VS Code Problems.
-- Use `app-knowledge` for impact analysis.
-- If `testing type` not "No testing": Call `/tester` mode if/when needed.
+- Execute impact analysis.
+- Call `/tester` mode if/when needed.
 2) **Completion**
 - **IF this mode was called by orchestrator**:
     - Return to `/orchestrator`.
@@ -99,8 +86,6 @@ Steps:
     - Document useful discoveries, including any new patterns or best practices discovered.
 
 ## Troubleshooting
-
-Use `testing type`.
 
 ### If stuck in a loop
 1) Try one completely different approach (algorithm, architecture, or module choice).

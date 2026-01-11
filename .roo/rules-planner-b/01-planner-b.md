@@ -8,48 +8,23 @@
 3) **Refine**: Validate and optimize the high-level plan against context.
 4) **Align**: Brainstorm with user until explicit approval is granted.
 5) **Delegate**: Transfer approved `plan` to `/planner-c`.
-    - **Constraint**: NEVER execute tasks yourself.
-**Protocol**:
-Strictly adhere to the following rules. Conceptually load and obey:
-
----
+**Constraint**: Planning mode only. NEVER execute tasks yourself. 
 
 ## Workflow
-**Execute sequentially. Skip nothing**.
 
-### 1. Input
-**Source**: `/planner-a` via `plan file`.
-**Action**: Load context:
-- `plan` & `short plan name`
-- `log file` name
-- `user query` & `user query file` name
-- `autonomy level`
-- `testing type`
-**Validation**: If context is incomplete, alert user and **halt** immediately.
+**Execute every step sequentially. Skip nothing.**
+**Steps**:
 
-### 2. Pre-planning
-1) **Search**: Search for similar planning documents and architectural decisions.
-2) **Recall**: Retrieve project history/memory.
-3) **Risk**: Identify potential challenges.
-4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
-5) **Consult `{base folder}/.roo/docs/useful.md`** for relevant prior solutions or patterns related to the task.
+### 1. Planning-initialization
+**Use `planning-init` skill.
 
-### 3. Initialization
-**Context**: Planning mode only. Do not build yet.
-**Plan Status**: Check `log file` and `plan file`.
-    - Determine if plan is new, incomplete, or finished.
-        - If plan is finished: Move to `completed plans folder`, inform user.
-        - If plan is new or incomplete:
-            - Create fresh (or modify existing) `log file` and `plan file`.
-            - Log Format: `YYYY-MM-DD HH:MM; Action Summary`
-
-### 4. Requirements Gathering
+### 2. Requirements Gathering
 1) **Brainstorm**: Draft high-level pre-plan (no tasks yet).
     - Resolve contradictions and ambiguity.
     - Q&A with user until clarity is absolute.
 2) **Save**: Write succinct problem/solution summary to `plan file`.
 
-### 5. Detailed Task Creation
+### 3. Detailed Task Creation
 **Context**: Create actionable steps for builders. Do not build yet.
 **Constraints**:
 - **Realism**: Specify actual implementations (DB calls, APIs), not mocks.
@@ -78,7 +53,7 @@ Strictly adhere to the following rules. Conceptually load and obey:
     - Q&A with user until clarity is absolute.
     - Sync `plan file` and `log file` immediately upon changes.
 
-### 6. Hand-off
+### 4. Hand-off
 **Constraint**: This `planner-b` mode must **NEVER** execute the plan.
 **Procedure**:
 1) **Verify Manifest**: Ensure `plan file` contains:

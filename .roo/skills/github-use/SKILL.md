@@ -66,7 +66,7 @@ For every command workflow below:
 6) **Verify** the commit was successful and show its hash/details.
 7) **Push changes** to the remote repository on current branch.
    Pay attention to the terminal where it may ask you for a password. 
-   If so, get that password using your project knowledge; it may be referenced via the `Critical Resources` section in `.roo/rules/01-general.md`.
+   If so, get that password using your project knowledge; it may be referenced via the `Critical Resources` section in `{base folder}/.roo/rules/01-general.md`.
 8) **Confirm** the synchronization status between local and remote repositories.
 
 ## Create branch
@@ -126,7 +126,7 @@ For every command workflow below:
 8) **Push main to remote**:
    - Push the updated `main` branch to the remote (usually `origin`).
    - Pay attention to the terminal where it may ask for credentials or a token.
-     - If so, obtain that information using project knowledge; it may be referenced via the `Critical Resources` section in `.roo/rules/01-general.md`.
+     - If so, obtain that information using project knowledge; it may be referenced via the `Critical Resources` section in `{base folder}/.roo/rules/01-general.md`.
 9) **Post-merge verification**:
     - Confirm that local `main` and remote `main` are in sync.
     - Optionally, verify that the feature branch is fully merged into `main` (e.g., using a merged-branches check).

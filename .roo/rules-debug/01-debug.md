@@ -58,7 +58,7 @@ Steps:
      - Use logging plus reproduction to prove or disprove each hypothesis.
      - Summarize findings for the user before implementing permanent fixes when appropriate.
    - Create backup:
-     - Save the current state of files you will modify under `.roo/docs/old_versions/` with a timestamp.
+     - Save the current state of files you will modify under `{base folder}/.roo/docs/old_versions/` with a timestamp.
 5) **Form a fix plan based on confirmed or most likely hypotheses**.
    - Prioritize by risk/impact: address high-impact, low-risk changes first.
    - Break complex fixes into small, independent steps.
@@ -66,12 +66,12 @@ Steps:
    - Define verification steps for each change (tests, manual checks, logs).
    - Consider side effects: note other flows that may be impacted.
    - Document the approach before coding:
-     - In comments or an appropriate `log file` under `.roo/docs/plans/`.
+     - In comments or an appropriate `log file` under `{base folder}/.roo/docs/plans/`.
    - Plan rollback:
      - Know how to revert to previous state quickly if a fix fails.
 6) **Implement the fix systematically**.
    - Make ONE logical change at a time; do not bundle unrelated fixes.
-   - Create a backup before each file modification under `.roo/docs/old_versions/`.
+   - Create a backup before each file modification under `{base folder}/.roo/docs/old_versions/`.
    - Test after EACH change, even small ones.
    - If a change does not help:
      - Revert immediately.

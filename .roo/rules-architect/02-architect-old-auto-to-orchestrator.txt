@@ -35,7 +35,7 @@ Strictly adhere to the following rules. Conceptually load and obey:
 2) **Recall**: Retrieve project history/memory.
 3) **Risk**: Identify potential challenges.
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
-5) **Consult `.roo/docs/useful.md`** for relevant prior solutions or patterns related to the task.
+5) **Consult `{base folder}/.roo/docs/useful.md`** for relevant prior solutions or patterns related to the task.
 
 ### 3. Initialization
 **Context**: Planning mode only. Do not build yet.
@@ -69,7 +69,7 @@ Strictly adhere to the following rules. Conceptually load and obey:
 1) **Draft Phases**:
     - Structure `phase(s)` based on user complexity choice.
     - Identify reusable/modifiable existing code.
-    - **Mandatory**: Add instruction to every phase: "Backup target files to `.roo/docs/old_versions/[filename]_[timestamp]`".
+    - **Mandatory**: Add instruction to every phase: "Backup target files to `{base folder}/.roo/docs/old_versions/[filename]_[timestamp]`".
 2) **Refine**:
     - Review against `Critical Resources`.
     - Q&A with user to resolve ambiguity.
@@ -134,7 +134,7 @@ Strictly adhere to the following rules. Conceptually load and obey:
     - *Wait for user input.*
 4) **Completion**:
     - Update `log file` and `plan file`.
-    - Archive plan to `.roo/docs/plans_completed/` (append `_[iteration]` if needed).
+    - Archive plan to `{base folder}/.roo/docs/plans_completed/` (append `_[iteration]` if needed).
 
 
 

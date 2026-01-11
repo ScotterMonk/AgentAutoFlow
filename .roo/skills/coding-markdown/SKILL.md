@@ -23,8 +23,8 @@ Bad: [app/models/user.py](app/models/user.py)
 Good: `app/models/user.py`
 Bad: [user.py](app/models/user.py:50)
 Good: `app/models/user.py`
-Bad: See `.roo/rules/01-general.md`
-Good: See `Critical Resources` in `.roo/rules/01-general.md`
+Bad: See `{base folder}/.roo/rules/01-general.md`
+Good: See `Critical Resources` in `{base folder}/.roo/rules/01-general.md`
 
 ## Formatting Standards
 **Strictly enforce** the following minimalist formatting rules.

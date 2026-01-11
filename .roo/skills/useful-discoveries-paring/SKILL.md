@@ -1,33 +1,32 @@
 ---
-name: useful-discoveries-save
-description: For saving solutions, patterns, and workarounds discovered during development
+name: useful-discoveries-paring
+description: For paring down useful-discoveries, removing redundancies, keeping only the most valuable useful-discoveries.
 ---
 
 # Useful Discoveries System
+
 **Purpose**: `{base folder}/.roo/docs/useful.md` is a knowledge base for solutions, patterns, and workarounds discovered during development. If missing, create it.
+**Definitions**: At bottom of this file.
 
-## When to WRITE to useful.md**
-- After solving a non-obvious bug or error
-- When discovering a workaround for a limitation
-- After finding an effective pattern or approach worth reusing
-- When learning something about the environment, tools, or dependencies
-- After resolving a problem that took significant investigation
+## Workflow for paring
+This involves reading through all 
+**DO NOT USE THIS PARING SKILL YET**
+**PARING SECTION IS A WORK IN PROGRESS**
 
-## Before writing to useful.md**
-**Find redundant or similar items**:
-1) **Loop**: Read through all `Items` one at a time.
+**FOR LATER:**
+**Execute sequentially. Skip nothing.**
+
+### 1. Find redundant or similar items
+**Loop**: Read through all `Items` one at a time.
 Conditions:
 - **You found redundant `Items` (exactly same except for date/time)**:
     **Action**: Delete the older one(s) from `Discoveries`.
 - **You found similar items**:
     **Action**: Combine into one cohesive `Item` and give a new date.
-- **Your useful discovery is unique**:
-    **Action**: Add it to the top.
-
+    
 ## Definitions
 **Item**: One discovery.
 **Discoveries**: All useful discovery items in the file.
-**Order**: Most recent at top.
 **Entry Format** (use exactly this format):
 ```
 YYYY-MM-DD HH:MM | [Category] | [Brief description of discovery]
@@ -36,7 +35,7 @@ YYYY-MM-DD HH:MM | [Category] | [Brief description of discovery]
 - Related files: [Affected or relevant files]
 ```
 **Category Examples**:
-- `Config`, `CSS`, `Database`, `Debugging`, `Dependencies`, `Design`, `Flask`, `JS`, `Performance`, `Python`, `Structure`, `Testing`, `UI/UX`, `Workflow`
+- `Testing`, `Database`, `Flask`, `Python`, `Config`, `Dependencies`, `Performance`, `UI/UX`, `Debugging`, `Workflow`
 **Example Entry**:
 ```
 2025-02-18 14:23 | Python | Multi-line scripts must be run from .py files, not pasted into terminal

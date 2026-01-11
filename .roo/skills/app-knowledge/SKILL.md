@@ -11,7 +11,7 @@ description: When any part of the application needs to be found or understood.
     - Include `utils/` and `utils_db/` folders for similar or same functionality.
 - **Git diff**: recent commits.
 - **Credentials**: `.env`.
-- **Backups**: `.roo/docs/old_versions/`.
-- **Completed plans**: `.roo/docs/plans_completed/`.
+- **Backups**: `{base folder}/.roo/docs/old_versions/`.
+- **Completed plans**: `{base folder}/.roo/docs/plans_completed/`.
 - **Web automation** & **browsing**: `browser_action`
 - **Useful discoveries**: Last resort.

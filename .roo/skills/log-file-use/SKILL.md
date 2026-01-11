@@ -10,7 +10,7 @@ description: When a mode needs to read, create, or write (log progress) to a log
 - `date + time; action summary` (semicolon separated).
     - Ex: `"2026-02-14 07:23; Approved to begin"`.
     - Ex: `"2026-02-14 07:25; Task completed: Added update_query() to utils_sql.py, refactored utils_sql.py, junk.py"`.
-**Plans folder**: `.roo/docs/plans/`
+**Plans folder**: `{base folder}/.roo/docs/plans/`
 
 ## Initialization tasks
 

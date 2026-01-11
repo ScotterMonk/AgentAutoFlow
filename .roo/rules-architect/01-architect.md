@@ -8,13 +8,35 @@
 3) **Plan**: Gather context and draft a detailed execution `plan`.
 4) **Align**: Brainstorm with user until explicit approval is granted.
 5) **Delegate**: Once approved, **Pass control to /orchestrator**.
-**Constraint**: NEVER execute tasks yourself.
+**Constraint**: Planning mode only. NEVER execute tasks yourself. 
+
+## Files
+- `user query file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-user.md`.
+- `log file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-log.md`.
+- `plan file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name].md`.
 
 ## Workflow
-**Execute sequentially. Skip nothing**.
+
+**Execute every step sequentially. Skip nothing.**
+**Steps**:
 
 ### 1. Input
-- Capture input as `user query`.
+1) **Determine Plan status**: Check `log file` and `plan file`:
+   - Determine if plan is *new*, *incomplete*, or *finished*.
+   - Interpret every instruction in this section based on plan status.
+2) **User input**: Capture input as `user query`. Save `user query` to `user query file`.
+3) **Short plan name**: Use or derive `short plan name` from [existing] or `user query`.
+    - If plan is finished: Move to `completed plans folder`, inform user.
+    - If plan is new or incomplete: 
+        - Create/use `log file`.
+        - Create/use `plan file`.
+4) **Configuration**: Ask user the following three questions *separately*:
+    - **Question 1: Complexity**: [] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), or [] Multi-Phase (Large). Recommend best option for this `plan`.
+    *Stop and wait for user response before proceeding.*
+    - **Question 2: Autonomy**: [] Low (frequent checks), [] Med, or [] High (rare checks).
+    *Stop and wait for user response before proceeding.*
+    - **Question 3: Testing**: [] Terminal commands or short scripts, [] Python tests, [] Browser, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
+    *Stop and wait for user response before proceeding.*
 
 ### 2. Pre-planning
 1) **Search**: Search for similar planning documents and architectural decisions.
@@ -22,22 +44,7 @@
 3) **Risk**: Identify potential challenges.
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
 
-### 3. Initialization
-**Context**: Planning mode only. Do not build yet.
-1) **Plan Status**: Check `log file` and `plan file`.
-    - Determine if plan is new, incomplete, or finished.
-        - If plan is finished: Move to `completed plans folder`, inform user.
-        - If plan is new or incomplete: Create fresh (or modify existing) `log file` and `plan file`.
-2) **Naming**: Derive `short plan name` from query.
-3) **Storage**: Save `user query` to `user query file`.
-4) **Configuration**: Ask user the following 3 questions *separately*:
-    - **Question 1: Complexity**: [] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), or [] Multi-Phase (Large). Recommend best option for this `plan`.
-    *Stop and wait for user response before proceeding.*
-    - **Question 2: Autonomy**: [] Low (frequent checks), [] Med, or [] High (rare checks).
-    *Stop and wait for user response before proceeding.*
-    - **Question 3: Testing**: [] Terminal commands or short scripts, [] Python tests, [] Browser, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
-    *Stop and wait for user response before proceeding.*
-5) **Analysis 2**: 
+### 3. **Analysis 2**: 
     - Double-check problem, intent, scope, constraints, and dependencies.
     - Find and inform user of redundancies.
 
@@ -52,7 +59,7 @@
 1) **Draft Phases**:
     - Structure `phase(s)` based on user complexity choice.
     - Identify reusable/modifiable existing code.
-    - **Mandatory**: Add instruction to every phase: "Backup target files to `.roo/docs/old_versions/[filename]_[timestamp]`".
+    - **Mandatory**: Add instruction to every phase: "Backup target files to `{base folder}/.roo/docs/old_versions/[filename]_[timestamp]`".
 2) **Refine**:
     - Review against `app-standards`.
     - Q&A with user to resolve ambiguity.
@@ -118,7 +125,7 @@
     - *Wait for user input.*
 4) **Completion**:
     - Update `log file` and `plan file`.
-    - Archive plan to `.roo/docs/plans/`.
+    - Archive plan to `{base folder}/.roo/docs/plans/`.
 
 ### 8. Hand-off
 **Constraint**: Architect Mode must **NEVER** execute the plan.

@@ -32,7 +32,7 @@ Strictly adhere to the following rules. Conceptually load and obey:
 2) **Recall**: Retrieve project history/memory.
 3) **Risk**: Identify potential challenges.
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
-5) **Consult `.roo/docs/useful.md`** for relevant prior solutions or patterns related to the task.
+5) **Consult `{base folder}/.roo/docs/useful.md`** for relevant prior solutions or patterns related to the task.
 
 ### 3. Initialization
 **Context**: Planning mode only. Do not build yet.

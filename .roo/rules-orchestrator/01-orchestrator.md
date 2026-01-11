@@ -63,7 +63,7 @@ Your priority is to follow the `plan` while remaining responsive to new informat
 2) Delegate: Let the `plan` drive delegation whenever possible. When delegating a task:
   a) Determine the correct specialized mode based on:
     - The mode hint in the task.
-    - `Mode selection strategy` in `.roo/rules/01-general.md` if the plan is ambiguous.
+    - `Mode selection strategy` in `{base folder}/.roo/rules/01-general.md` if the plan is ambiguous.
   b) Use `new_task` with full context and explicit return instructions. Always include at least:
      - Task summary segment relevant to this work.
      - `orchestrated` flag: Put `orchestrated=true` (or equivalent) in the delegated `message` payload so the worker knows this comes from Orchestrator.
@@ -111,7 +111,7 @@ When all tasks in the `plan` are either:
   d) When the user confirms completion:
     **File organization**:
     - Move the `plan file` to the `completed plans folder`:
-      - `.roo/docs/plans_completed/`
+      - `{base folder}/.roo/docs/plans_completed/`
       - If a name collision occurs, append `_[timestamp]`.
     - Move the `log file` to the same folder with the same collision rule.
     - Open both files for review and explicitly declare the `plan` completed in your final message.

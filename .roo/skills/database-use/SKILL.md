@@ -26,7 +26,7 @@ description: Any time database-related activity is required.
     User passwords in DB are hashed. Hash is stored in the pw_hashed column.
 
 ## Structure
-- Schema documentation: `.roo/docs/database_schema.md`
+- Schema documentation: `{base folder}/.roo/docs/database_schema.md`
 - SQLAlchemy model files: `models/models_*.py` (eg, `models/models_user.py`)
 - SQLAlchemy database instance: `utils_db/database.py`
 - Schema tools:
@@ -43,7 +43,7 @@ Reuse existing tools in `utils_db/` before writing new ones:
 The formal Source of Truth (SoT) hierarchy for database schema information:
 1) PGDB (live PostgreSQL)
 2) models_*.py (SQLAlchemy) (eg, `models/models_user.py`)
-3) `.roo/docs/database_schema.md` (generated)
+3) `{base folder}/.roo/docs/database_schema.md` (generated)
 
 When there is any doubt about a column, see PGDB. If a column is needed or a column name needs to change, always ask user for permission to make the add/change.
 
@@ -59,22 +59,22 @@ When making schema or data changes, follow this workflow in order:
 2) Update models
     - Update the appropriate SQLAlchemy model file(s) under `models/models_*.py`.
 3) Regenerate documentation
-    - Run: `python utils_db/schema_inspector.py generate-docs` to update `.roo/docs/database_schema.md`.
+    - Run: `python utils_db/schema_inspector.py generate-docs` to update `{base folder}/.roo/docs/database_schema.md`.
 4) Log changes
-    - Record the date and change in `.roo/docs/pgdb_changes.md`.
+    - Record the date and change in `{base folder}/.roo/docs/pgdb_changes.md`.
 
 ## Schema Inspector Utility
 The `utils_db/schema_inspector.py` tool provides commands for schema management:
 - `introspect` - Inspect live database schema and display structure
 - `compare-db-models` - Compare live database against SQLAlchemy models to identify discrepancies
-- `compare-models-doc` - Compare SQLAlchemy models against `.roo/docs/database_schema.md`
-- `generate-docs` - Generate/update `.roo/docs/database_schema.md` from current database state
-- `report` - Generate discrepancy reports under `.roo/reports/` (JSON and Markdown)
+- `compare-models-doc` - Compare SQLAlchemy models against `{base folder}/.roo/docs/database_schema.md`
+- `generate-docs` - Generate/update `{base folder}/.roo/docs/database_schema.md` from current database state
+- `report` - Generate discrepancy reports under `{base folder}/.roo/reports/` (JSON and Markdown)
 - `validate` - Verify schema documentation is up-to-date with the database
 
 Usage notes:
 - This utility uses the configured database URL (from `.env`) and initializes `db` from `utils_db/database.py`.
-- Some schema comparison utilities may emit reports under `.roo/reports/` when run.
+- Some schema comparison utilities may emit reports under `{base folder}/.roo/reports/` when run.
 
 Usage examples:
 - Introspect schema: `python utils_db/schema_inspector.py introspect`

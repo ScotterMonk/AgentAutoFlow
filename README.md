@@ -22,7 +22,7 @@ Notes:
 **use up less of models' oh-so-precioius context memory,**
 **and follow instructions better!**
 
-I've added quite a few skills in the `.roo/skills` folder.
+I've added quite a few skills in the `{base folder}/.roo/skills` folder.
 I'll go into more detail later. For now:
 - Roo Code has added skills to Roo! https://docs.roocode.com/features/skills
 - They use the Agent Skills open format. https://agentskills.io/home
@@ -201,7 +201,7 @@ When creating a plan based on user input, for larger projects, I divided "archit
 For LLM instruction following, which should you choose?
 
 ### If Roo Code, your choice is clear
-Roo Code's native architecture employs Markdown files (.md or .txt) stored in `.roo/rules/` directories for all custom instructions. After reviewing 171+ community-created custom modes, zero use XML formatting. Roo Coderoocode The platform concatenates these Markdown files directly into Claude's system prompt in alphabetical order. YAML or JSON handle mode configuration, while instruction content remains plain Markdown.
+Roo Code's native architecture employs Markdown files (.md or .txt) stored in `{base folder}/.roo/rules/` directories for all custom instructions. After reviewing 171+ community-created custom modes, zero use XML formatting. Roo Coderoocode The platform concatenates these Markdown files directly into Claude's system prompt in alphabetical order. YAML or JSON handle mode configuration, while instruction content remains plain Markdown.
 
 This universal adoption of Markdown isn't documented as a deliberate choice over XML—the official Roo Code documentation simply doesn't address XML at all. The format appears to be selected for developer experience and ecosystem compatibility rather than AI performance optimization. Markdown files integrate seamlessly with version control, text editors, and documentation workflows that developers already use.
 

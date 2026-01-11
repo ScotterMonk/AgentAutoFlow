@@ -139,7 +139,7 @@ def ensure_roo_dir(folder_path: Union[str, Path]) -> Path:
 # [Created-or-Modified] by [LLM model] | 2025-11-13_01
 def get_roo_relative_path(full_path: Union[str, Path], base_folder: Union[str, Path]) -> Optional[str]:
     """
-    If `full_path` is inside `<base_folder>/.roo/`, return the path relative to that `.roo/` directory
+    If `full_path` is inside `<base_folder>/.roo/`, return the path relative to that `{base folder}/.roo/` directory
     as a POSIX-style string (no leading slash), e.g. "rules/01.md".
     If not under `<base_folder>/.roo/`, return None.
 

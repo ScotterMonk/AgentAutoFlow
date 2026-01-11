@@ -1,17 +1,17 @@
 # AgentAutoFlow File Sync
 
-Sync the `.roo/` rules/docs folders across multiple project directories safely and reproducibly. The utility compares modification times and copies the newest version of each file to older peers, with dry-run, timestamped backups, atomic writes, and live progress.
+Sync the `{base folder}/.roo/` rules/docs folders across multiple project directories safely and reproducibly. The utility compares modification times and copies the newest version of each file to older peers, with dry-run, timestamped backups, atomic writes, and live progress.
 
 ## What this is
 
-A small, focused app inside this repo to keep your `.roo/` directory consistent across projects. Use the desktop GUI or the CLI:
+A small, focused app inside this repo to keep your `{base folder}/.roo/` directory consistent across projects. Use the desktop GUI or the CLI:
 - GUI: `python main_gui.py`
 - CLI: `python cli_sync.py`
 - Core engine: `utils_sync/sync_core.py`
 
 ## Key features
 
-- Multi-folder sync for `.roo/` subdirectories
+- Multi-folder sync for `{base folder}/.roo/` subdirectories
 - mtime-based conflict resolution (copy newest to older)
 - Dry-run mode to preview changes
 - Timestamped backups before overwriting (optional)
@@ -24,7 +24,7 @@ A small, focused app inside this repo to keep your `.roo/` directory consistent 
 ## How it works
 
 The engine orchestrates a scan → plan → execute workflow:
-- Scan: `SyncEngine.scan_folders()` in `utils_sync/sync_core.py` builds an index of files under each folder's `.roo/`
+- Scan: `SyncEngine.scan_folders()` in `utils_sync/sync_core.py` builds an index of files under each folder's `{base folder}/.roo/`
 - Plan: `SyncEngine.plan_actions()` in `utils_sync/sync_core.py` decides copy operations using newest mtime as source
 - Execute: `SyncEngine.execute_actions()` in `utils_sync/sync_core.py` performs safe, atomic copies with optional backups
 
@@ -33,7 +33,7 @@ The engine orchestrates a scan → plan → execute workflow:
 - Engine: `SyncEngine.__init__()` in `utils_sync/sync_core.py` holds config and an event queue and emits progress
 - Worker: `SyncWorker.run()` in `utils_sync/sync_worker.py` coordinates scan/plan/execute on a background thread for the GUI
 - Events: `EventType`, `ProgressEvent`, and `make_event()` in `utils_sync/progress_events.py` standardize messages shown in the UI and CLI
-- Paths: `file_path_utils.has_roo_dir()` and `file_path_utils.get_roo_relative_path()` in `utils_sync/file_path_utils.py` ensure only real `.roo/` directories are synced and compute relative paths
+- Paths: `file_path_utils.has_roo_dir()` and `file_path_utils.get_roo_relative_path()` in `utils_sync/file_path_utils.py` ensure only real `{base folder}/.roo/` directories are synced and compute relative paths
 - Config I/O: `config_sync.save_config()` in `utils_sync/config_sync.py` persists settings atomically; defaults are loaded automatically
 - Logging: `logger.init_logger()` and `logger.log_event()` in `utils_sync/logger.py` write a rolling JSONL log and a human-readable plan log
 
@@ -56,7 +56,7 @@ GUI
   ```
   python main_gui.py
   ```
-- In the window, click Add Folder and select two or more project roots that each contain a `.roo/` directory
+- In the window, click Add Folder and select two or more project roots that each contain a `{base folder}/.roo/` directory
 - Open Settings to adjust dry-run, backup mode, and ignore patterns
 - Click Start Sync to preview or apply changes
 
@@ -67,7 +67,7 @@ CLI
   python cli_sync.py <folder1> <folder2> [<folder3> ...]
   ```
 - Requirements:
-  - At least two folders; each must contain a `.roo/` directory or the tool exits with code 1
+  - At least two folders; each must contain a `{base folder}/.roo/` directory or the tool exits with code 1
 - Exit codes:
   - 0: success
   - 1: argument/validation error
@@ -121,13 +121,13 @@ folders_faves=D:\Dropbox\Projects\_MediaShare\app, D:\Dropbox\Projects\2ndFounda
 
 ## Behavior and guarantees
 
-- Scope: By default, only the `.roo/` subtree of each folder is scanned and synced, but `.roomodes` will be included if `.roomodes` is present in `root_allowlist` in `config.txt`.
+- Scope: By default, only the `{base folder}/.roo/` subtree of each folder is scanned and synced, but `.roomodes` will be included if `.roomodes` is present in `root_allowlist` in `config.txt`.
 - Default (root-level files): No root-level scanning occurs unless opted-in via `root_allowlist`.
 - Conflict resolution: The newest mtime wins; the latest copy becomes the source for all older peers.
 - Backups: If `backup_mode=timestamped` and a destination exists, it is renamed with an ISO timestamp suffix before copy.
 - Atomicity: Copies write to a temp file in the destination directory then rename into place to avoid partial writes.
-- Safety rails: only includes regular files (no symlinks), requires a real `.roo/` folder, and always respect `ignore_patterns`.
-- Symlinks: A symlinked `.roo/` is treated as absent by `utils_sync/file_path_utils.has_roo_dir()`.
+- Safety rails: only includes regular files (no symlinks), requires a real `{base folder}/.roo/` folder, and always respect `ignore_patterns`.
+- Symlinks: A symlinked `{base folder}/.roo/` is treated as absent by `utils_sync/file_path_utils.has_roo_dir()`.
 - Non-destructive: The current implementation copies newer files to older ones and does not delete files.
 
 ## Tips
@@ -138,7 +138,7 @@ folders_faves=D:\Dropbox\Projects\_MediaShare\app, D:\Dropbox\Projects\2ndFounda
 
 ## Troubleshooting
 
-- Error: Folder does not contain `.roo/` directory: Ensure each selected path has a `.roo/` folder at its top level
+- Error: Folder does not contain `{base folder}/.roo/` directory: Ensure each selected path has a `{base folder}/.roo/` folder at its top level
 - Permission denied: On Windows, run the terminal as Administrator or move the projects to a writable location
 - Paths with spaces: Quotes are not required in the GUI; for CLI, wrap paths in quotes if your shell needs it
 - Nothing happens in non-dry runs: Check antivirus or file locks; the app uses atomic replace operations that can be blocked
@@ -152,25 +152,25 @@ folders_faves=D:\Dropbox\Projects\_MediaShare\app, D:\Dropbox\Projects\2ndFounda
 
 ## Root-Level File Allowlist
 
-A short opt-in mechanism to allow syncing a small set of files from a project root in addition to the default `.roo/` subtree.
+A short opt-in mechanism to allow syncing a small set of files from a project root in addition to the default `{base folder}/.roo/` subtree.
 
-- Summary: preserve the default behavior of scanning only `.roo/` (the safe, opt-in default). When enabled, an optional root-level allowlist can include specific filenames (for example, `.roomodes`) which will be appended to the index after the `.roo/` scan and indexed under a synthetic relative key equal to the filename (example: `.roomodes`) so they do not collide with `.roo/` keys.
+- Summary: preserve the default behavior of scanning only `{base folder}/.roo/` (the safe, opt-in default). When enabled, an optional root-level allowlist can include specific filenames (for example, `.roomodes`) which will be appended to the index after the `{base folder}/.roo/` scan and indexed under a synthetic relative key equal to the filename (example: `.roomodes`) so they do not collide with `{base folder}/.roo/` keys.
 
 - Config key and example (see `config.txt`):
   - root_allowlist=.roomodes
 
 - Default behavior:
-  - No scanning outside `.roo/` occurs unless files are explicitly allowlisted.
+  - No scanning outside `{base folder}/.roo/` occurs unless files are explicitly allowlisted.
 
 - Safety rails:
-  - Require a real, non-symlink `.roo/` folder for a project to be eligible for syncing.
+  - Require a real, non-symlink `{base folder}/.roo/` folder for a project to be eligible for syncing.
   - Only include files that exist, are regular files (not directories), and are not symlinks.
   - Optional size cap recommended (e.g., 256 KB) to avoid very large files being pulled in.
   - Respect existing ignore patterns by name (files matching `ignore_patterns` are skipped).
 
 - Scan behavior summary:
-  - The engine first scans the `.roo/` subtree as before.
-  - After `.roo/` is scanned, any root files present in `root_allowlist` are appended to the index and assigned a synthetic relative key equal to the filename (for example: `.roomodes`) so they are indexed alongside `.roo/` entries without colliding with `.roo/` keys.
+  - The engine first scans the `{base folder}/.roo/` subtree as before.
+  - After `{base folder}/.roo/` is scanned, any root files present in `root_allowlist` are appended to the index and assigned a synthetic relative key equal to the filename (for example: `.roomodes`) so they are indexed alongside `{base folder}/.roo/` entries without colliding with `{base folder}/.roo/` keys.
   - These allowlisted root entries participate in the normal plan → execute workflow.
 
 - Code references:

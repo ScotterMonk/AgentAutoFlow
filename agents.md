@@ -12,6 +12,7 @@ Tests: `pytest tests/`
 
 ## Environment & Shell
 Windows 11, VS Code, PowerShell.
+**Base folder**: "d:\Dropbox\Projects\AgentFlow\app\". Convert between "\" and "/" as necessary.
 **Prefer PowerShell**: This project is developed on Windows. Agents should assume a PowerShell environment (`pwsh`) for terminal commands.
 **Avoid cmd.exe pitfalls**: Be aware that `cmd.exe` does not treat `;` as a command separator (use `&` or `&&` instead). If a command fails with "shell is treating ; as an argument", it likely ran in `cmd.exe`.
 **VS Code Settings**: The workspace is configured to default to PowerShell (`.vscode/settings.json`).
@@ -19,7 +20,7 @@ Windows 11, VS Code, PowerShell.
 ## Critical Non-Standard Patterns
 
 ### File Sync Behavior
-- Scans `.roo/` subdirectories ONLY (not entire project folders)
+- Scans `{base folder}/.roo/` subdirectories ONLY (not entire project folders)
 - Uses mtime (modification time) to determine newest file as source
 - Root-level files require explicit `root_allowlist` in config.txt
 - Atomic copy: temp file + rename (not direct copy)
@@ -32,6 +33,9 @@ Settings in `config.txt` (NOT .ini, .json, or .yaml):
 - `backup_mode`: "timestamped" or "none"
 - `preserve_mtime`: Must be true to maintain file timestamps
 
+### Database
+There is no database for this project. Ignore any references to a database.
+
 ### Progress Events
 - Thread-safe event queue system for GUI/CLI coordination
 - EventType enum in utils_sync/progress_events.py
@@ -42,5 +46,6 @@ Settings in `config.txt` (NOT .ini, .json, or .yaml):
 - Tests verify .roo sync behavior, not general file sync
 - pytest fixtures in tests/ create temporary .roo structures
 
-## Misc
-There is no database for this project. Ignore any references to a database.
+## Tooling Preference (Web)
+Primary: browser_action (ALWAYS try this first).
+Fallback: Other browser tools (Only if browser_action fails).

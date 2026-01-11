@@ -8,7 +8,7 @@ description: For understanding what each mode does, which mode is best (most app
 ## Mode descriptions
 
 **Location**
-- Mode-specific rules live under `.roo/rules-*/0*-*.md`.
+- Mode-specific rules live under `{base folder}/.roo/rules-*/0*-*.md`.
 
 **For Planning & Orchestration**
 - `/architect`: All-in-one planning. Create phases and tasks -> QA -> User Approval -> Switch to `/orchestrator`.

@@ -9,13 +9,14 @@
 - Seek a deep understanding of their issue and goals. Ask for guidance if necessary.
 
 ### 2. Pre-planning
+- Use `app-knowledge` skill.
 1) **Search**: Search for similar planning documents and architectural decisions.
 2) **Recall**: Retrieve project history/memory.
 3) **Risk**: Identify potential challenges.
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
 
 ### 3: Do the task
-- Use `app-knowledge` and `app-standards` skills.
+- Use `app-standards` skill.
 
 ### 4: Finish
 1) **QA**

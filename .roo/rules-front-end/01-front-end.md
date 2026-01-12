@@ -19,7 +19,7 @@
 ## Workflow
 
 ### If query/directive received from user query
-- Seek a deep understanding of their issue and goals. Ask for guidance if necessary.
+- Seek a deep understanding of user issue and goals. Ask for guidance if necessary.
 
 #### 1: Pre-work
 1) Search for similar planning documents and architectural decisions.
@@ -52,7 +52,6 @@
 
 ### If query/directive received from orchestrator mode
 When finished, return to orchestrator via `switch_mode` with `message` containing necessary completion information.
-
 
 ## Front-end Specifics
 

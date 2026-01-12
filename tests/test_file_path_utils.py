@@ -75,3 +75,21 @@ def test_get_roo_relative_path_returns_relative_when_inside_roo(tmp_path):
     outside = tmp_path / "other.txt"
     outside.write_text("x")
     assert file_path_utils.get_roo_relative_path(outside, base) is None
+
+
+def test_get_project_folder_name_prefers_parent_of_app(tmp_path):
+    # Path with /app/ should return the folder name above app
+    root = tmp_path / "SomeProject"
+    app_dir = root / "app"
+    app_dir.mkdir(parents=True)
+
+    assert file_path_utils.get_project_folder_name(app_dir) == "SomeProject"
+
+
+def test_get_project_folder_name_falls_back_to_selected_folder_name(tmp_path):
+    # No /app/ segment -> return the selected folder name (houses .roo)
+    project = tmp_path / "project_x"
+    project.mkdir(parents=True)
+    (project / ".roo").mkdir()
+
+    assert file_path_utils.get_project_folder_name(project) == "project_x"

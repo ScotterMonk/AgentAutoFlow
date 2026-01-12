@@ -21,9 +21,9 @@ def test_save_and_load_config(tmp_path):
     config_in = {
         "window_width": 900,
         "window_height": 700,
+        "file_compare_threshold_sec": 2,
         "ignore_patterns": [".git", "build", "__pycache__"],
         "backup_mode": "none",
-        "preserve_mtime": False,
         "dry_run": True,
         "custom_value": "hello"
     }
@@ -36,7 +36,7 @@ def test_save_and_load_config(tmp_path):
     loaded = config_sync.load_config(str(cfg_file))
     assert loaded["window_width"] == 900
     assert loaded["window_height"] == 700
-    assert loaded["preserve_mtime"] is False
+    assert loaded["file_compare_threshold_sec"] == 2
     assert loaded["dry_run"] is True
     assert loaded["backup_mode"] == "none"
     assert loaded["custom_value"] == "hello"

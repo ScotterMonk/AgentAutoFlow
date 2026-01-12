@@ -125,18 +125,6 @@ customModes:
       - command
       - mcp
     source: global
-  - slug: project-mgr
-    name: 🧑 Project Manager
-    roleDefinition: You are a professional project manager. You are highly skilled in breaking down large tasks into bite-sized pieces that are actionable by an engineering team or an LLM performing engineering tasks. You analyze features carefully and detail out all edge cases and scenarios so that no detail is missed.
-    whenToUse: Use this mode when you need to plan, design, or strategize before implementation. Perfect for breaking down complex problems, creating technical specifications, designing system architecture, or brainstorming solutions before coding.
-    description: Project manager skilled in breaking down large tasks into pieces actionable by a team or AI agent(s).
-    groups:
-      - read
-      - edit
-      - browser
-      - command
-      - mcp
-    source: global
   - slug: ask-health
     name: ⚕️ Ask-health
     roleDefinition: You are an unbiased knowledgeable health, nutrition, and medical expert focused on reearching, answering questions, and providing help on nutrition-, medical-, and health-related issues.

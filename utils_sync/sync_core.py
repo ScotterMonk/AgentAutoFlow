@@ -19,6 +19,11 @@ from . import file_path_utils
 from .progress_events import EventType, ProgressEvent
 
 
+# Preserve mtimes is a core invariant of this sync tool.
+# (Formerly configurable; now intentionally always enabled.)
+PRESERVE_MTIME = True
+
+
 class SyncEngine:
     # Created by anthropic/claude-sonnet-4.5 | 2025-11-13_01
     """
@@ -47,7 +52,7 @@ class SyncEngine:
         self.event_queue = event_queue
     
     def scan_folders(self, folders: List[Path]) -> Dict[str, List[Dict[str, Any]]]:
-        # [Modified] by google/gemini-2.5-pro | 2025-11-13_02
+        # [Modified] by gpt-5.2 | 2026-01-11_01
         """
         Scan folders to build a file index.
         
@@ -194,12 +199,21 @@ class SyncEngine:
                     continue
                 if path_glob_ignores and any(fnmatch.fnmatchcase(relative_str_lower, pat) for pat in path_glob_ignores):
                     continue
+
+                # Always ignore timestamped backup files created by this tool.
+                # Backups are informational only and should never participate in sync planning.
+                if filename.endswith(".bak"):
+                    continue
                 
                 # Process only files (skip directories)
                 if item_path.is_file():
                     # Get file stats
                     stats = item_path.stat()
                     mtime = stats.st_mtime
+                    # Prefer nanosecond precision for source selection in plan_actions.
+                    # NOTE: We keep the legacy float-seconds mtime for display/UI, but also
+                    # store a high-resolution mtime_ns for stable comparisons.
+                    mtime_ns = getattr(stats, "st_mtime_ns", int(mtime * 1_000_000_000))
                     size = stats.st_size
                     
                     # Get relative path within .roo scope
@@ -217,6 +231,7 @@ class SyncEngine:
                     file_index[relative_path].append({
                         "path": item_path,
                         "mtime": mtime,
+                        "mtime_ns": mtime_ns,
                         "size": size,
                         "base_folder": folder
                     })
@@ -230,6 +245,7 @@ class SyncEngine:
                     candidate_path.is_file() and
                     not candidate_path.is_symlink()):
                     stats = candidate_path.stat()
+                    mtime_ns = getattr(stats, "st_mtime_ns", int(stats.st_mtime * 1_000_000_000))
                     # Use synthetic relative key = filename only
                     synthetic_key = allowlist_entry
                     self._emit_event(
@@ -241,6 +257,7 @@ class SyncEngine:
                     file_index[synthetic_key].append({
                         "path": candidate_path,
                         "mtime": stats.st_mtime,
+                        "mtime_ns": mtime_ns,
                         "size": stats.st_size,
                         "base_folder": folder
                     })
@@ -248,13 +265,17 @@ class SyncEngine:
         return file_index
     
     def plan_actions(self, file_index: Dict[str, List[Dict[str, Any]]], scanned_folders: List[Path] = None) -> List[Dict[str, Any]]:
-        # [Modified] by gpt-5.2 | 2026-01-07_02
+        # [Modified] by gpt-5.2 | 2026-01-11_01
         """
         Plan copy actions based on file index.
         
         Compares files across folders and creates copy actions for files that need
-        to be synchronized. Uses modification time (mtime) to determine the source
-        file (most recently modified) and identifies destinations that need updating.
+        to be synchronized.
+
+        Sensitivity note:
+        - mtimes are compared at *second* granularity (milliseconds are ignored)
+        - a copy is only planned when the source is newer than the destination by
+          more than config["file_compare_threshold_sec"] seconds.
         
         In addition to updating existing peers, this method will also plan copy
         actions for folders that are missing a given file (including root-level
@@ -279,6 +300,27 @@ class SyncEngine:
               when the destination did not previously exist)
         """
         actions: List[Dict[str, Any]] = []
+
+        # Compare mtimes with second granularity and a tolerance window.
+        # This makes sync less sensitive to filesystem timestamp noise.
+        raw_threshold = self.config.get("file_compare_threshold_sec", 2)
+        try:
+            threshold_sec = int(raw_threshold)
+        except Exception:
+            threshold_sec = 2
+        if threshold_sec < 0:
+            threshold_sec = 0
+
+        def _mtime_sec(meta: Dict[str, Any]) -> int:
+            """Return mtime truncated to whole seconds (milliseconds ignored)."""
+            try:
+                return int(float(meta.get("mtime", 0.0)))
+            except Exception:
+                return 0
+
+        def _is_significantly_newer(src: Dict[str, Any], dst: Dict[str, Any]) -> bool:
+            """True when src is newer than dst by more than threshold_sec seconds."""
+            return (_mtime_sec(src) - _mtime_sec(dst)) > threshold_sec
         
         # Collect all base folders that participated in the scan. This lets us
         # create actions for folders that are missing a given file entirely.
@@ -299,8 +341,16 @@ class SyncEngine:
             if len(file_group) <= 1 and len(all_base_folders) <= 1:
                 continue
             
-            # Find the file with the maximum mtime (most recently modified)
-            source_file = max(file_group, key=lambda f: f["mtime"])
+            # Find the file with the maximum mtime (most recently modified), using
+            # whole-second precision. Use stable tie-breakers to avoid scan-order bias.
+            source_file = max(
+                file_group,
+                key=lambda m: (
+                    _mtime_sec(m),
+                    int(m.get("size") or 0),
+                    str(m.get("path") or ""),
+                ),
+            )
             
             # Get all other files as potential destinations (existing peers)
             destination_files = [f for f in file_group if f is not source_file]
@@ -314,8 +364,9 @@ class SyncEngine:
             
             # Create copy actions for existing destinations that need updating
             for dest_file in destination_files:
-                # Only create action if source is newer than destination
-                if source_file["mtime"] > dest_file["mtime"]:
+                # Only create action if source is newer than destination by more than
+                # threshold_sec seconds (milliseconds ignored).
+                if _is_significantly_newer(source_file, dest_file):
                     action = {
                         "action": "copy",
                         "source_path": source_file["path"],
@@ -400,7 +451,13 @@ class SyncEngine:
                     
                     # Atomic copy: copy to temp file, then rename
                     temp_path = destination_path.parent / f".tmp_{destination_path.name}"
-                    shutil.copy2(source_path, temp_path)
+                    # copy2 preserves metadata including mtime.
+                    # Guarded by PRESERVE_MTIME for readability, but this is
+                    # intentionally always enabled.
+                    if PRESERVE_MTIME:
+                        shutil.copy2(source_path, temp_path)
+                    else:
+                        shutil.copy(source_path, temp_path)
                     os.replace(temp_path, destination_path)
                     
                     # Emit success event

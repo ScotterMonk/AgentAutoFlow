@@ -15,26 +15,6 @@ from utils_sync.sync_worker import SyncWorker
 from utils_sync.progress_events import ProgressEvent, EventType
 from utils_sync.ui_utils import FolderItem
 
-# Global UI colors for dark mode
-DARK_BG = "#000000"
-DARK_BG_ALT = "#111111"
-FG_PRIMARY = "#e0e0e0"
-
-# Button colors for dark mode
-BUTTON_BG = "#000000"
-BUTTON_BG_HOVER = "#111111"
-BUTTON_BORDER = "#00ff5f"
-BUTTON_TEXT = FG_PRIMARY
-
-# Font sizes
-FONT_SIZE_TITLE = 16
-FONT_SIZE_SECTION_TITLE = 12
-FONT_SIZE_HINT = 10
-FONT_SIZE_DRY_RUN = 11
-FONT_SIZE_FOLDER_PREVIEW_HEADER = 10
-FONT_SIZE_FOLDER_PREVIEW_ROW = 10
-
-
 class MainApp:
     """Main application window for AgentAutoFlow File Sync."""
     # [Created] by Claude Sonnet 4.5 | 2025-11-13_01
@@ -60,9 +40,17 @@ class MainApp:
         self.root.title("AgentAutoFlow File Sync")
         window_width = self.config["window_width"]
         window_height = self.config["window_height"]
-        self.root.geometry(f"{window_width}x{window_height}")
+        
+        # Calculate centered position on screen
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        center_x = (screen_width - window_width) // 2
+        center_y = (screen_height - window_height) // 2
+        
+        # Set geometry with centered position
+        self.root.geometry(f"{window_width}x{window_height}+{center_x}+{center_y}")
         # Apply base dark background to root window
-        self.root.configure(bg=DARK_BG)
+        self.root.configure(bg=self.config["ui_dark_bg"])
         
         # Create event queue for progress updates
         self.event_queue = queue.Queue()
@@ -115,31 +103,31 @@ class MainApp:
             pass
 
         # Dark background for frames and labels
-        style.configure("TFrame", background=DARK_BG)
-        style.configure("TLabel", background=DARK_BG, foreground=FG_PRIMARY)
+        style.configure("TFrame", background=self.config["ui_dark_bg"])
+        style.configure("TLabel", background=self.config["ui_dark_bg"], foreground=self.config["ui_fg_primary"])
 
         # Base button style (fallback)
         style.configure(
             "TButton",
-            background=BUTTON_BG,
-            foreground=BUTTON_TEXT,
+            background=self.config["ui_button_bg"],
+            foreground=self.config["ui_button_text"],
         )
 
         # Primary app button style: black background, green outline, hover highlight
         style.configure(
             "AF.TButton",
-            background=BUTTON_BG,
-            foreground=BUTTON_TEXT,
-            bordercolor=BUTTON_BORDER,
+            background=self.config["ui_button_bg"],
+            foreground=self.config["ui_button_text"],
+            bordercolor=self.config["ui_button_border"],
             focusthickness=1,
-            focuscolor=BUTTON_BORDER,
+            focuscolor=self.config["ui_button_border"],
         )
         style.map(
             "AF.TButton",
-            background=[("active", BUTTON_BG_HOVER)],
-            bordercolor=[("active", BUTTON_BORDER)],
+            background=[("active", self.config["ui_button_bg_hover"])],
+            bordercolor=[("active", self.config["ui_button_border"])],
             foreground=[
-                ("active", BUTTON_BORDER),
+                ("active", self.config["ui_button_border"]),
                 ("disabled", "#555555"),
             ],
         )
@@ -147,7 +135,7 @@ class MainApp:
         # Danger style (for destructive actions like Delete .bak)
         style.configure(
             "AFDanger.TButton",
-            background=BUTTON_BG,
+            background=self.config["ui_button_bg"],
             foreground="#ff6666",
             bordercolor="#ff6666",
             focusthickness=1,
@@ -155,10 +143,10 @@ class MainApp:
         )
         style.map(
             "AFDanger.TButton",
-            background=[("active", BUTTON_BG_HOVER)],
+            background=[("active", self.config["ui_button_bg_hover"])],
             bordercolor=[("active", "#ff6666")],
             foreground=[
-                ("active", BUTTON_BORDER),
+                ("active", self.config["ui_button_border"]),
                 ("disabled", "#555555"),
             ],
         )
@@ -166,21 +154,21 @@ class MainApp:
         # Compact button style for small icon buttons (used in folder rows)
         style.configure(
             "AFMini.TButton",
-            background=BUTTON_BG,
-            foreground=BUTTON_TEXT,
-            bordercolor=BUTTON_BORDER,
+            background=self.config["ui_button_bg"],
+            foreground=self.config["ui_button_text"],
+            bordercolor=self.config["ui_button_border"],
             focusthickness=1,
-            focuscolor=BUTTON_BORDER,
+            focuscolor=self.config["ui_button_border"],
             padding=0,
         )
         style.map(
             "AFMini.TButton",
-            background=[("active", BUTTON_BG_HOVER)],
-            bordercolor=[("active", BUTTON_BORDER)],
+            background=[("active", self.config["ui_button_bg_hover"])],
+            bordercolor=[("active", self.config["ui_button_border"])],
         )
 
         # Progress bar style: dark, invisible trough with a glowing green bar
-        # The trough matches the DARK_BG so idle (0%) bars visually disappear,
+        # The trough matches the dark bg so idle (0%) bars visually disappear,
         # while the active portion uses the same neon green as primary actions.
         #
         # Progressbar internally prefixes the style with "Horizontal." for horizontal
@@ -190,18 +178,18 @@ class MainApp:
         style.layout("Horizontal.AF.Progressbar", style.layout("Horizontal.TProgressbar"))
         style.configure(
             "Horizontal.AF.Progressbar",
-            troughcolor=DARK_BG,
-            background=BUTTON_BORDER,
-            bordercolor=BUTTON_BORDER,
+            troughcolor=self.config["ui_dark_bg"],
+            background=self.config["ui_button_border"],
+            bordercolor=self.config["ui_button_border"],
             lightcolor="#66ff99",
-            darkcolor=BUTTON_BORDER,
+            darkcolor=self.config["ui_button_border"],
             thickness=8,
         )
 
         # Scrollbar style: subtle dark theme: very dark grey trough, deep muted green thumb
         style.configure(
             "Vertical.TScrollbar",
-            troughcolor="#151515",        # darker than DARK_BG_ALT but not pure black
+            troughcolor="#151515",        # darker than ui_dark_bg_alt but not pure black
             background="#0f3b24",        # deep, low-saturation green thumb
             bordercolor="#0f3b24",
             arrowcolor="#666666",        # neutral arrows so the thumb doesn't pop
@@ -212,7 +200,7 @@ class MainApp:
         )
  
         # Ensure the root window background matches the dark theme
-        self.root.configure(bg=DARK_BG)
+        self.root.configure(bg=self.config["ui_dark_bg"])
         
         # Main frame with padding
         main_frame = ttk.Frame(self.root, padding="3")
@@ -228,7 +216,7 @@ class MainApp:
         title_label = ttk.Label(
             main_frame,
             text="AgentAutoFlow File Sync",
-            font=("TkDefaultFont", FONT_SIZE_TITLE, "bold")
+            font=("TkDefaultFont", self.config["ui_font_size_title"], "bold")
         )
         title_label.grid(row=0, column=0, pady=(0, 2), sticky=tk.W)
         
@@ -252,7 +240,7 @@ class MainApp:
             main_frame,
             relief=tk.SOLID,
             borderwidth=1,
-            bg=DARK_BG,
+            bg=self.config["ui_dark_bg"],
         )
         folder_frame.grid(row=4, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(1, 7))
         folder_frame.columnconfigure(0, weight=1)
@@ -263,7 +251,7 @@ class MainApp:
             folder_frame,
             borderwidth=1,
             highlightthickness=0,
-            bg=DARK_BG,
+            bg=self.config["ui_dark_bg"],
         )
         self.folder_canvas.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
@@ -428,9 +416,10 @@ class MainApp:
                 self._remove_planned_action,
                 toggle_favorite_callback=lambda p, fav, fp=folder_path: self._set_folder_favorite(fp, fav),
                 is_favorite=is_fav,
-                preview_header_font=("TkDefaultFont", FONT_SIZE_FOLDER_PREVIEW_HEADER, "bold"),
-                preview_row_font=("TkDefaultFont", FONT_SIZE_FOLDER_PREVIEW_ROW),
-                preview_bak_font=("TkDefaultFont", FONT_SIZE_FOLDER_PREVIEW_ROW),
+                project_name_font=("TkDefaultFont", self.config["ui_font_size_project"]),
+                preview_header_font=("TkDefaultFont", self.config["ui_font_size_folder_preview_header"], "bold"),
+                preview_row_font=("TkDefaultFont", self.config["ui_font_size_folder_preview_row"]),
+                preview_bak_font=("TkDefaultFont", self.config["ui_font_size_folder_preview_row"]),
             )
             folder_item.frame.pack(fill=tk.X, padx=2, pady=2)
             
@@ -460,6 +449,7 @@ class MainApp:
         overwrites_by_folder = {folder: [] for folder in self.selected_folders}
         for action in self.planned_actions:
             dest_path = action.get("destination_path")
+            source_path = action.get("source_path")
             relative = str(action.get("relative_path", ""))
             dest_mtime = action.get("destination_mtime")
     
@@ -468,6 +458,24 @@ class MainApp:
     
             if dest_path is None:
                 continue
+
+            # Compute a human-friendly source project/folder name so the GUI can show
+            # which project will act as the overwrite source.
+            source_project = ""
+            try:
+                if source_path is not None:
+                    sp = Path(source_path)
+                    for base in self.selected_folders:
+                        base_path = Path(base)
+                        try:
+                            sp.relative_to(base_path)
+                            source_project = file_path_utils.get_project_folder_name(base_path)
+                            break
+                        except ValueError:
+                            continue
+            except Exception:
+                # Fail soft: source label is optional UI sugar; never break preview.
+                source_project = ""
     
             for base in self.selected_folders:
                 base_path = Path(base)
@@ -477,6 +485,7 @@ class MainApp:
                         {
                             "relative": relative,
                             "timestamp": timestamp,
+                            "source_project": source_project,
                             "action": action,
                         }
                     )
@@ -554,6 +563,15 @@ class MainApp:
                 self.delete_bak_button.config(state=tk.NORMAL)
             else:
                 self.delete_bak_button.config(state=tk.DISABLED)
+
+        # Force geometry + scrollregion recalculation so the canvas collapses whitespace
+        # after backup rows are removed (e.g., via "Delete .bak files").
+        try:
+            self.folder_list_frame.update_idletasks()
+            self.folder_canvas.configure(scrollregion=self.folder_canvas.bbox("all"))
+        except Exception:
+            # Fail soft; UI refresh should never crash the app.
+            pass
     
     def _remove_planned_action(self, action_to_remove: dict) -> None:
         """Remove a single planned action from the queue and refresh previews."""
@@ -626,7 +644,11 @@ class MainApp:
         # Build per-folder preview list of files that will be overwritten
         # including last-modified timestamps and per-file removal "X" controls.
         self._update_overwrite_previews()
-        
+
+        # Also refresh .bak previews and enable/disable the Delete .bak files button
+        # based on whether any backups are present, even if there are zero planned actions.
+        self._update_bak_previews()
+         
         # Clear any queued scan events so they don't overwrite the preview status
         while not self.event_queue.empty():
             try:
@@ -759,10 +781,29 @@ class MainApp:
         # Create modal window
         settings_window = tk.Toplevel(self.root)
         settings_window.title("Settings")
-        settings_window.geometry("600x520")
         settings_window.transient(self.root)
+        settings_window.configure(bg=self.config["ui_dark_bg"])
+        
+        # Calculate centered position on main window
+        self.root.update_idletasks()
+        
+        # Settings window dimensions
+        settings_width = 600
+        settings_height = 560
+        
+        # Get main window position and size
+        main_x = self.root.winfo_x()
+        main_y = self.root.winfo_y()
+        main_width = self.root.winfo_width()
+        main_height = self.root.winfo_height()
+        
+        # Calculate center position
+        center_x = main_x + (main_width - settings_width) // 2
+        center_y = main_y + (main_height - settings_height) // 2
+        
+        # Set geometry with centered position
+        settings_window.geometry(f"{settings_width}x{settings_height}+{center_x}+{center_y}")
         settings_window.grab_set()
-        settings_window.configure(bg=DARK_BG)
 
         # Main frame with padding
         main_frame = ttk.Frame(settings_window, padding="15")
@@ -772,7 +813,7 @@ class MainApp:
         title_label = ttk.Label(
             main_frame,
             text="Sync Configuration",
-            font=("TkDefaultFont", FONT_SIZE_SECTION_TITLE, "bold")
+            font=("TkDefaultFont", self.config["ui_font_size_section_title"], "bold")
         )
         title_label.pack(pady=(0, 10))
 
@@ -790,15 +831,6 @@ class MainApp:
         )
         backup_combo.pack(side=tk.LEFT, padx=(10, 0))
 
-        # Preserve mtime
-        preserve_var = tk.BooleanVar(value=self.config.get("preserve_mtime", True))
-        preserve_check = ttk.Checkbutton(
-            main_frame,
-            text="Preserve modification times",
-            variable=preserve_var
-        )
-        preserve_check.pack(fill=tk.X, pady=5)
-
         # Dry run
         dryrun_var = tk.BooleanVar(value=self.config.get("dry_run", False))
         dryrun_check = ttk.Checkbutton(
@@ -808,6 +840,19 @@ class MainApp:
         )
         dryrun_check.pack(fill=tk.X, pady=5)
 
+        # File compare threshold (seconds)
+        threshold_frame = ttk.Frame(main_frame)
+        threshold_frame.pack(fill=tk.X, pady=5)
+        ttk.Label(threshold_frame, text="File compare threshold (seconds):").pack(side=tk.LEFT)
+        threshold_var = tk.StringVar(value=str(self.config.get("file_compare_threshold_sec", 2)))
+        threshold_entry = ttk.Entry(threshold_frame, textvariable=threshold_var, width=8)
+        threshold_entry.pack(side=tk.LEFT, padx=(10, 0))
+        ttk.Label(
+            main_frame,
+            text="Files with timestamps within this many seconds are treated as equal (milliseconds ignored).",
+            font=("TkDefaultFont", self.config["ui_font_size_hint"]),
+        ).pack(anchor=tk.W)
+
         # Ignore patterns
         ignore_frame = ttk.Frame(main_frame)
         ignore_frame.pack(fill=tk.X, pady=5)
@@ -815,7 +860,7 @@ class MainApp:
         ttk.Label(
             ignore_frame,
             text="(comma-separated; wraps automatically)",
-            font=("TkDefaultFont", FONT_SIZE_HINT)
+            font=("TkDefaultFont", self.config["ui_font_size_hint"])
         ).pack(anchor=tk.W)
 
         current_patterns = self.config.get("ignore_patterns", [])
@@ -824,9 +869,9 @@ class MainApp:
             ignore_frame,
             height=5,
             wrap="word",
-            bg=DARK_BG_ALT,
-            fg=FG_PRIMARY,
-            insertbackground=FG_PRIMARY,
+            bg=self.config["ui_dark_bg_alt"],
+            fg=self.config["ui_fg_primary"],
+            insertbackground=self.config["ui_fg_primary"],
         )
         ignore_text.insert("1.0", patterns_str)
         ignore_text.pack(fill=tk.X, pady=(5, 0))
@@ -838,7 +883,7 @@ class MainApp:
         ttk.Label(
             faves_frame,
             text="(comma-separated folder paths; wraps automatically)",
-            font=("TkDefaultFont", FONT_SIZE_HINT)
+            font=("TkDefaultFont", self.config["ui_font_size_hint"])
         ).pack(anchor=tk.W)
 
         current_faves = self.config.get("folders_faves", [])
@@ -847,9 +892,9 @@ class MainApp:
             faves_frame,
             height=8,
             wrap="word",
-            bg=DARK_BG_ALT,
-            fg=FG_PRIMARY,
-            insertbackground=FG_PRIMARY,
+            bg=self.config["ui_dark_bg_alt"],
+            fg=self.config["ui_fg_primary"],
+            insertbackground=self.config["ui_fg_primary"],
         )
         faves_text.insert("1.0", faves_str)
         faves_text.pack(fill=tk.X, pady=(5, 0))
@@ -875,8 +920,8 @@ class MainApp:
             command=lambda: self._save_settings(
                 settings_window,
                 backup_var.get(),
-                preserve_var.get(),
                 dryrun_var.get(),
+                threshold_var.get(),
                 ignore_text.get("1.0", "end"),
                 faves_text.get("1.0", "end")
             )
@@ -887,8 +932,8 @@ class MainApp:
         self,
         window,
         backup_mode,
-        preserve_mtime,
         dry_run,
+        file_compare_threshold_sec,
         ignore_patterns_str,
         folders_faves_str,
     ):
@@ -897,8 +942,8 @@ class MainApp:
         Args:
             window: The settings window to close
             backup_mode: The backup mode setting
-            preserve_mtime: Whether to preserve modification times
             dry_run: Whether to run in dry-run mode
+            file_compare_threshold_sec: Threshold (seconds) for file mtime comparisons
             ignore_patterns_str: Comma-separated ignore patterns
             folders_faves_str: Comma-separated favorite folder paths
         """
@@ -920,8 +965,17 @@ class MainApp:
 
         # Update config
         self.config["backup_mode"] = backup_mode
-        self.config["preserve_mtime"] = preserve_mtime
         self.config["dry_run"] = dry_run
+
+        # Parse compare threshold
+        try:
+            thr = int(str(file_compare_threshold_sec).strip())
+            if thr < 0:
+                thr = 0
+        except Exception:
+            thr = int(self.config.get("file_compare_threshold_sec", 2) or 2)
+        self.config["file_compare_threshold_sec"] = thr
+
         self.config["ignore_patterns"] = patterns
         self.config["folders_faves"] = normalized_faves
 
@@ -1127,7 +1181,7 @@ class MainApp:
                 self.dry_run_label.config(
                     text="⚠ DRY RUN MODE: No files will be modified",
                     foreground="red",
-                    font=("TkDefaultFont", FONT_SIZE_DRY_RUN, "bold")
+                    font=("TkDefaultFont", self.config["ui_font_size_dry_run"], "bold")
                 )
             else:
                 self.dry_run_label.config(text="")

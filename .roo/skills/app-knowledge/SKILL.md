@@ -1,6 +1,6 @@
 ---
 name: app-knowledge
-description: When any part of the application needs to be found or understood.
+description: When any part of the application needs to be found or understood, including assessment and impact analysis.
 ---
 
 # App knowledge instructions

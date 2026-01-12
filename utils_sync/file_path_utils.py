@@ -177,3 +177,36 @@ def get_roo_relative_path(full_path: Union[str, Path], base_folder: Union[str, P
 
     # Return as POSIX-style string with no leading slash.
     return rel.as_posix()
+
+
+def get_project_folder_name(folder_path: Union[str, Path]) -> str:
+    """Return a user-friendly "project folder" name for a selected sync folder.
+
+    Definition (per GUI requirement):
+    - If the path contains an "app" segment (case-insensitive), return the folder name
+      immediately above that segment (the parent of "/app/").
+      Example: "C:/work/MyProject/app" -> "MyProject".
+    - Otherwise, fall back to the name of the folder that houses the `.roo/` directory.
+
+    Notes:
+    - The GUI typically selects the folder that *contains* `.roo/` directly.
+    - This function is purely for display; it does not touch the filesystem.
+    """
+    p = normalize_path(folder_path)
+
+    parts = list(p.parts)
+    if not parts:
+        return str(p)
+
+    parts_lower = [seg.lower() for seg in parts]
+
+    # Prefer the last "app" segment, in case the path contains multiple occurrences.
+    for i in range(len(parts_lower) - 1, -1, -1):
+        if parts_lower[i] == "app":
+            # Use the segment immediately above "app" if it exists.
+            if i > 0 and parts[i - 1]:
+                return parts[i - 1]
+            break
+
+    # Fallback: folder that houses `.roo/`.
+    return p.name or str(p)

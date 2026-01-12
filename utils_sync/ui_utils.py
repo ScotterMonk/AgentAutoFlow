@@ -6,11 +6,7 @@ Provides reusable tkinter widgets and UI helpers.
 import tkinter as tk
 from tkinter import ttk
 
-# Global UI colors tuned for the main dark-mode GUI
-GREEN_BRIGHT = "#00ff5f"
-GRAY_PREVIEW = "#b0b0b0"  # lighter gray for after-scan file list
-GRAY_BAK = "#9a9a9a"      # slightly darker gray for .bak rows
-FG_PRIMARY = "#e0e0e0"    # default light text on dark background
+from .time_utils import format_duration_hms
 
 class FolderItem:
     """A UI component representing a single folder in the folder list."""
@@ -25,9 +21,14 @@ class FolderItem:
         overwrite_remove_callback=None,
         toggle_favorite_callback=None,
         is_favorite: bool = False,
+        project_name_font=None,
         preview_header_font=None,
         preview_row_font=None,
         preview_bak_font=None,
+        green_bright="#00ff5f",
+        gray_preview="#b0b0b0",
+        gray_bak="#9a9a9a",
+        fg_primary="#e0e0e0",
     ):
         """Initialize a folder item widget.
         
@@ -38,11 +39,22 @@ class FolderItem:
             overwrite_remove_callback: Callback when an individual planned overwrite is removed
             toggle_favorite_callback: Callback when favorite star is toggled (receives folder_path, is_favorite)
             is_favorite: Whether this folder is currently marked as favorite
+            project_name_font: Optional font tuple for the primary folder name label.
             preview_header_font: Optional font tuple for the preview header label.
             preview_row_font: Optional font tuple for preview row labels.
             preview_bak_font: Optional font tuple for .bak row labels.
+            green_bright: Color for green status indicators
+            gray_preview: Color for preview file list text
+            gray_bak: Color for .bak file rows
+            fg_primary: Primary foreground color
         """
         # [Created-or-Modified] by gpt-5.2 | 2026-01-07_01
+        # Store theme colors locally (avoid relying on module-level constants)
+        self._green_bright = green_bright
+        self._gray_preview = gray_preview
+        self._gray_bak = gray_bak
+        self._fg_primary = fg_primary
+
         # Create main frame for this folder item
         self.frame = ttk.Frame(parent, relief=tk.FLAT, borderwidth=0)
         
@@ -58,6 +70,7 @@ class FolderItem:
 
         # Fonts are configurable from the main GUI. We store full font tuples here so
         # callers can adjust sizes in one place without creating an import cycle.
+        self._project_name_font = project_name_font or ("TkDefaultFont", 10)
         self._preview_header_font = preview_header_font or ("TkDefaultFont", 8, "bold")
         self._preview_row_font = preview_row_font or ("TkDefaultFont", 8)
         self._preview_bak_font = preview_bak_font or ("TkDefaultFont", 8)
@@ -77,7 +90,8 @@ class FolderItem:
         self.label = ttk.Label(
             top_frame,
             text=folder_path,
-            anchor=tk.W
+            anchor=tk.W,
+            font=self._project_name_font,
         )
         self.label.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(2, 5), pady=2)
         
@@ -135,7 +149,7 @@ class FolderItem:
         # [Created-or-Modified] by openai/gpt-5.1 | 2025-12-04_02
         # Brighten specific colors for dark background while keeping API simple.
         if color == "green":
-            fg = GREEN_BRIGHT
+            fg = self._green_bright
         else:
             fg = color
         self.status_label.config(text=text, foreground=fg)
@@ -215,14 +229,31 @@ class FolderItem:
             row_frame = ttk.Frame(self.preview_frame)
             row_frame.pack(fill=tk.X, pady=(0, 1))
             
-            text = f"- {item.get('relative', '')}  {item.get('timestamp', '')}"
+            source_project = (item.get("source_project") or "").strip()
+            # Use a small Unicode left-arrow glyph instead of ASCII "<--".
+            # This keeps the UI compact and consistent with other glyph markers (e.g., "✓").
+            newer_suffix = ""
+            try:
+                action = item.get("action") or {}
+                src_mtime = action.get("source_mtime")
+                dst_mtime = action.get("destination_mtime")
+                if src_mtime is not None and dst_mtime is not None:
+                    delta_sec = int(float(src_mtime)) - int(float(dst_mtime))
+                    if delta_sec > 0:
+                        newer_suffix = f" {format_duration_hms(delta_sec)} newer"
+            except Exception:
+                newer_suffix = ""
+
+            suffix = f"  ← {source_project}{newer_suffix}" if source_project else ""
+
+            text = f"- {item.get('relative', '')}  {item.get('timestamp', '')}{suffix}"
             label = ttk.Label(
                 row_frame,
                 text=text,
                 anchor=tk.W,
                 justify=tk.LEFT,
                 font=self._preview_row_font,
-                foreground=GRAY_PREVIEW,
+                foreground=self._gray_preview,
             )
             label.pack(side=tk.LEFT, fill=tk.X, expand=True)
             
@@ -245,7 +276,7 @@ class FolderItem:
     def reset_status(self):
         """Reset the status label, progress bar, and preview area to initial states."""
         # [Created-or-Modified] by openai/gpt-5.1 | 2025-12-04_02
-        self.status_label.config(text="", foreground=FG_PRIMARY)
+        self.status_label.config(text="", foreground=self._fg_primary)
         self.progress_bar["value"] = 0
         for child in self.preview_frame.winfo_children():
             child.destroy()
@@ -291,7 +322,14 @@ class FolderItem:
                 return
             current_text = label.cget("text")
             if not current_text.startswith("✓ "):
-                label.config(text=f"✓ {current_text}", foreground="green")
+                # After execution, the "source project" suffix is no longer useful.
+                # Strip any trailing "← <project> ..." info before adding the checkmark.
+                trimmed = current_text
+                try:
+                    trimmed = trimmed.split("  ← ", 1)[0]
+                except Exception:
+                    trimmed = current_text
+                label.config(text=f"✓ {trimmed}", foreground=self._green_bright)
         except tk.TclError:
             # Fail soft if the row was destroyed by a rescan/reset while events are processing.
             return
@@ -316,14 +354,15 @@ class FolderItem:
             row_frame = ttk.Frame(self.preview_frame)
             row_frame.pack(fill=tk.X, pady=(0, 1))
 
-            text = f"  .bak: {rel}"
+            # Display the relative path only; it already includes the `.bak` extension.
+            text = f"  {rel}"
             label = ttk.Label(
                 row_frame,
                 text=text,
                 anchor=tk.W,
                 justify=tk.LEFT,
                 font=self._preview_bak_font,
-                foreground=GRAY_BAK,
+                foreground=self._gray_bak,
             )
             label.pack(side=tk.LEFT, fill=tk.X, expand=True)
             # Track backup rows so they can be cleared independently of main preview rows

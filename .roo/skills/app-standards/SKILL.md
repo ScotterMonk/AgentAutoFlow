@@ -28,6 +28,7 @@ For JS:
 **Avoid redundancy/replication**:
 - *Take all the time necessary to be thorough and accurate*.
 - *Extend or generalize existing utilities instead of duplicating*.
+- *If creating tests: First be sure test does not already exist.*
 - **Simplicity**: Choose the simplest working solution.
 - **Before coding**: Search codebase and memory to determine if exact *or similar* component already exists.
     Re-use existing related components, templates, layout patterns, CSS patterns, and JS utilities that can be leveraged or modified.

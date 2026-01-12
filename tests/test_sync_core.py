@@ -51,6 +51,27 @@ def test_scan_folders_indexes_only_roo_files_respects_ignore_patterns(tmp_path):
     assert any(e.event_type == EventType.SCAN_FILE for e in events)
 
 
+# [Created-or-Modified] by gpt-5.2 | 2026-01-11_01
+def test_scan_folders_ignores_bak_files(tmp_path):
+    """Backup files should be informational-only and never indexed for planning."""
+    q = queue.Queue()
+    config = {"ignore_patterns": []}
+    engine = SyncEngine(config, q)
+
+    base = tmp_path / "proj"; base.mkdir()
+    roo = base / ".roo"; roo.mkdir()
+    (roo / "rules").mkdir()
+    (roo / "rules" / "01.md").write_text("content")
+    (roo / "rules" / "01.md_20260101T000000Z.bak").write_text("backup")
+
+    index = engine.scan_folders([base])
+
+    # The real file should be present
+    assert any(str(k).endswith("rules/01.md") for k in index.keys())
+    # The .bak file should never be indexed
+    assert not any(str(k).endswith(".bak") for k in index.keys())
+
+
 # [Created-or-Modified] by openai/gpt-5.1 | 2025-11-16_01
 def test_scan_folders_ignores_roo_docs_when_config_uses_roo_prefix(tmp_path):
     """
@@ -119,6 +140,43 @@ def test_plan_actions_picks_newest_source(tmp_path):
     # source_path should be file2 (newer), destination file1
     assert str(act["source_path"]) == str(file2)
     assert str(act["destination_path"]) == str(file1)
+
+
+# [Created-or-Modified] by gpt-5.2 | 2026-01-11_01
+def test_plan_actions_respects_file_compare_threshold_seconds(tmp_path):
+    """plan_actions should treat mtimes within threshold seconds as equal.
+
+    The new behavior compares mtimes at whole-second granularity and only plans a
+    copy when src is newer than dst by > file_compare_threshold_sec.
+    """
+    q = queue.Queue()
+    config = {"ignore_patterns": [], "file_compare_threshold_sec": 2}
+    engine = SyncEngine(config, q)
+
+    base1 = tmp_path / "p1"; base1.mkdir()
+    (base1 / ".roo").mkdir()
+    file1 = base1 / ".roo" / "rules" / "01.md"; file1.parent.mkdir(parents=True)
+    file1.write_text("older")
+
+    base2 = tmp_path / "p2"; base2.mkdir()
+    (base2 / ".roo").mkdir()
+    file2 = base2 / ".roo" / "rules" / "01.md"; file2.parent.mkdir(parents=True)
+    file2.write_text("newer")
+
+    # Make file2 only 2 seconds newer (== threshold) => no action
+    now = time.time()
+    os.utime(file1, (now, now))
+    os.utime(file2, (now + 2, now + 2))
+
+    index = engine.scan_folders([base1, base2])
+    actions = engine.plan_actions(index)
+    assert actions == []
+
+    # Make file2 3 seconds newer (> threshold) => action expected
+    os.utime(file2, (now + 3, now + 3))
+    index2 = engine.scan_folders([base1, base2])
+    actions2 = engine.plan_actions(index2)
+    assert len(actions2) == 1
 
 def test_execute_actions_performs_copy_backup_and_respects_dry_run(tmp_path):
     q = queue.Queue()

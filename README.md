@@ -38,11 +38,11 @@ Until then, use "Ask" mode or query your favorite LLM chat to help you sculpt yo
 
 ### Use cases for modifying your existing app
 
-#### Example of small modification
+#### Example of small workflow
 Scenario: Fixing a bug, modifying front-end, or adding a function.
 - Use "code", "code monkey", "front-end", "debug", "tester", etc., as appropriate.
 
-#### Example of large/medium modification
+#### Example of a medium or large workflow
 Scenario: Building a new dashboard screen from scratch.
 **Planning**
 - Start with "planner-a" or "architect" mode. For this mode, I choose a model with high reasoning and large-as-possible context window.

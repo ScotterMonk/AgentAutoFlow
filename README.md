@@ -44,7 +44,8 @@ Scenario: Fixing a bug, modifying front-end, or adding a function.
 
 #### Example of large/medium modification
 Scenario: Building a new dashboard screen from scratch.
-- Start with "planner-a" mode. For this mode, I choose a model with high reasoning and large-as-possible context window.
+**Planning**
+- Start with "planner-a" or "architect" mode. For this mode, I choose a model with high reasoning and large-as-possible context window.
 - Tell it what you want.
 - It will brainstorm with you, asking questions, including:
     - How do you want the work plan to be structured in terms of size, phase(s), and task(s)?
@@ -53,9 +54,12 @@ Scenario: Building a new dashboard screen from scratch.
     - What type of testing (browser, unit tests, custom, none) do you want it to do as it completes tasks?
 - It will create a high level plan and ask you if you want to modify it or approve.
 - It will also create plan and log files to help itself and you keep track of goals, progress, and lessons learned.
-- Once you approve the plan, it will pass on to the other planner modes to flesh out and add detail to the plan.
-- Eventually, once you approve, it will pass the plan (with detailed instructions, mode hints, etc.) on to the "orchestrator" mode.
-- Note: This workflow sets the plan to prefer "code monkey" mode (lower budget than "code" mode) for the coding parts. If "code monkey" gets confused because a task is too difficult or complex, it has instructions to pass the task on to "code" mode which I assign a "smarter" LLM to.
+- Once you approve the plan, if using planner-a, it will pass on to the other planner modes to flesh out and add detail to the plan. If using architect mode, that mode will do what planners a/b/c all do but with a bit less "care" and cost in time.
+- Eventually, once you approve, it will pass the plan (with detailed instructions, mode hints, etc.) on to the "orchestrator" mode. 
+**Orchestration**
+- As you probably gathered, I've moved much more of the detail (like making atomic tasks) into the planning phase so that orchestrator can be relatively dumb and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
+**Mode budgeting**
+- Note: This workflow will sets the plan to prefer "code," "code monkey," and "task-simple" modes, depending on complexity. If "task-simple" or "code monkey" get confused because a task is too difficult or complex, they has instructions to pass the task on to "code" mode which I assign a "smarter" LLM to.
 
 ## Roo Code specific
 

@@ -1,3 +1,15 @@
-Expected font: Courier 20 bold
-Actual label font: 'Courier 20 bold'
-PASS: Font was assigned correctly.
+On branch feat/next-stage
+Your branch is up to date with 'origin/feat/next-stage'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .roo/rules-architect/01-architect.md
+	deleted:    .roo/rules-architect/02-architect-old-auto-to-orchestrator.txt
+	modified:   .roo/rules-code/01-code.md
+	modified:   .roo/rules-planner-a/01-planner-a.md
+	modified:   .roo/skills/app-knowledge/SKILL.md
+	modified:   .roo/skills/planning-init/SKILL.md
+	modified:   output.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")

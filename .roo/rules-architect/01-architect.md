@@ -29,7 +29,7 @@
 1) **Draft Phases**:
     - Structure `phase(s)` based on user complexity choice.
     - Identify reusable/modifiable existing code.
-    - **Mandatory**: Add instruction to every phase: "Backup target files to `{base folder}/.roo/docs/old_versions/[filename]_[timestamp]`".
+    - **Mandatory**: Add instruction to every phase: "Backup target files to `backups folder`".
 2) **Refine**:
     - Review against `app-standards`.
     - Q&A with user to resolve ambiguity.
@@ -95,7 +95,7 @@
     - *Wait for user input.*
 4) **Completion**:
     - Update `log file` and `plan file`.
-    - Archive the 3 plan files to `{base folder}/.roo/docs/plans/`.
+    - Archive the 3 plan files to `plans folder`.
 
 ### 6. Hand-off
 **Constraint**: Architect Mode must **NEVER** execute the plan.

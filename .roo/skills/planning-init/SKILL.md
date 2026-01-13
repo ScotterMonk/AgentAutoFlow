@@ -5,7 +5,10 @@ description: When a mode needs to initiate or continue plan creation for continu
 
 # Planning instructions
 
-## Files
+## Folders and files
+- `plans folder`: `{base folder}/.roo/docs/plans/`.
+- `backups folder`: `{base folder}/.roo/docs/old_versions/[filename]_[timestamp]`
+- `completed plans folder`: `{base folder}/.roo/docs/plans_completed/`
 - `user query file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-user.md`.
 - `log file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-log.md`.
 - `plan file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name].md`.

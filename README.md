@@ -76,7 +76,7 @@ These files go in your project root. You'll see they coincide with where your cu
 ```
 app
 ├── agents.md (generate with `/init` command.)
-└── .roomodes
+├── .roomodes
 └── .roo
     ├── docs
     │   ├── database_schema.md
@@ -118,8 +118,51 @@ app
     │   └── 01-project-mgr.md
     ├── rules-task-simple
     │   └── 01-task-simple.md
-    └── rules-tester
-        └── 01-tester.md
+    ├── rules-tester
+    │   └── 01-tester.md
+    └── skills
+        ├── api-use-external
+        │   └── SKILL.md
+        ├── app-knowledge
+        │   └── SKILL.md
+        ├── app-standards
+        │   └── SKILL.md
+        ├── coding-css
+        │   └── SKILL.md
+        ├── coding-html
+        │   └── SKILL.md
+        ├── coding-javascript
+        │   └── SKILL.md
+        ├── coding-markdown
+        │   └── SKILL.md
+        ├── coding-python
+        │   └── SKILL.md
+        ├── database-use
+        │   └── SKILL.md
+        ├── error-handling
+        │   └── SKILL.md
+        ├── frontend-design
+        │   └── SKILL.md
+        ├── github-use
+        │   └── SKILL.md
+        ├── log-file-use
+        │   └── SKILL.md
+        ├── mode-selection
+        │   └── SKILL.md
+        ├── planning-init
+        │   └── SKILL.md
+        ├── research-health
+        │   └── SKILL.md
+        ├── simplification
+        │   └── SKILL.md
+        ├── testing
+        │   └── SKILL.md
+        ├── useful-discoveries-check
+        │   └── SKILL.md
+        ├── useful-discoveries-paring
+        │   └── SKILL.md
+        └── useful-discoveries-save
+            └── SKILL.md
 ```
 
 ## Todo list tool

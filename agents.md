@@ -10,6 +10,15 @@ GUI: `py main_gui.py`
 CLI: `python cli_sync.py <folder1> <folder2> ...`
 Tests: `pytest tests/`
 
+--- do not remove this ---
+## Environment & Shell
+Windows 11, VS Code, PowerShell.
+**Base folder**: `d:\Dropbox\Projects\AgentFlow\app\`. Convert between "\" and "/" as necessary.
+**Prefer PowerShell**: This project is developed on Windows. Agents should assume a PowerShell environment (`pwsh`) for terminal commands.
+**Avoid cmd.exe pitfalls**: Be aware that `cmd.exe` does not treat `;` as a command separator (use `&` or `&&` instead). If a command fails with "shell is treating ; as an argument", it likely ran in `cmd.exe`.
+**VS Code Settings**: The workspace is configured to default to PowerShell (`.vscode/settings.json`).
+--- do not remove this ---
+
 ## Common paths through app
 
 ### GUI: app startup
@@ -57,13 +66,6 @@ Tests: `pytest tests/`
    - tries `SyncEngine.run_sync(folders)` if present; otherwise falls back to:
    - `SyncEngine.scan_folders(folders)` → `SyncEngine.plan_actions(file_index, scanned_folders=folders)` → `SyncEngine.execute_actions(actions)`.
 6) Drains the queue and prints events via `_print_event()`.
-
-## Environment & Shell
-Windows 11, VS Code, PowerShell.
-**Base folder**: "d:\Dropbox\Projects\AgentFlow\app\". Convert between "\" and "/" as necessary.
-**Prefer PowerShell**: This project is developed on Windows. Agents should assume a PowerShell environment (`pwsh`) for terminal commands.
-**Avoid cmd.exe pitfalls**: Be aware that `cmd.exe` does not treat `;` as a command separator (use `&` or `&&` instead). If a command fails with "shell is treating ; as an argument", it likely ran in `cmd.exe`.
-**VS Code Settings**: The workspace is configured to default to PowerShell (`.vscode/settings.json`).
 
 ## Critical Non-Standard Patterns
 

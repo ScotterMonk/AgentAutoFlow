@@ -1,6 +1,6 @@
 ---
 name: planning-init
-description: When a mode needs to initiate or continue plan creation for continuation or execution by user or other modes. All planner modes (architect, planner-a, planner-b, and planner-c) start work.
+description: When a mode needs to initiate or continue plan creation for continuation or execution by user or other modes. All planner modes (architect, planner-a, planner-b, and planner-c) *start* work.
 ---
 
 # Planning instructions

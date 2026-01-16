@@ -13,7 +13,7 @@ Tests: `pytest tests/`
 --- do not remove this ---
 ## Environment & Shell
 Windows 11, VS Code, PowerShell.
-**Base folder**: `d:\Dropbox\Projects\AgentFlow\app\`. Convert between "\" and "/" as necessary.
+**Base folder**: `d:/Dropbox/Projects/AgentFlow/app/`. Convert between "\" and "/" as necessary.
 **Prefer PowerShell**: This project is developed on Windows. Agents should assume a PowerShell environment (`pwsh`) for terminal commands.
 **Avoid cmd.exe pitfalls**: Be aware that `cmd.exe` does not treat `;` as a command separator (use `&` or `&&` instead). If a command fails with "shell is treating ; as an argument", it likely ran in `cmd.exe`.
 **VS Code Settings**: The workspace is configured to default to PowerShell (`.vscode/settings.json`).

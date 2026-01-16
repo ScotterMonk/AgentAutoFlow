@@ -8,6 +8,129 @@ from tkinter import ttk
 
 from .time_utils import format_duration_hms
 
+
+class ToolTip:
+    """Tiny tooltip helper for Tk widgets.
+
+    Shows a small hover popup near the cursor.
+    """
+
+    def __init__(
+        self,
+        widget: tk.Widget,
+        text: str,
+        *,
+        delay_ms: int = 350,
+        pad: tuple[int, int] = (10, 6),
+        bg: str = "#1b1b1b",
+        fg: str = "#e0e0e0",
+        border: str = "#2a2a2a",
+    ):
+        self.widget = widget
+        self.text = text
+        self.delay_ms = delay_ms
+        self.pad = pad
+        self.bg = bg
+        self.fg = fg
+        self.border = border
+
+        self._after_id: str | None = None
+        self._tip: tk.Toplevel | None = None
+        self._last_xy: tuple[int, int] | None = None
+
+        widget.bind("<Enter>", self._on_enter, add=True)
+        widget.bind("<Leave>", self._on_leave, add=True)
+        widget.bind("<Motion>", self._on_motion, add=True)
+        widget.bind("<ButtonPress>", self._on_leave, add=True)
+        widget.bind("<Destroy>", self._on_destroy, add=True)
+
+    def _on_motion(self, event):
+        # Track cursor position so the tooltip can follow/appear near it.
+        self._last_xy = (event.x_root, event.y_root)
+        if self._tip is not None:
+            self._reposition()
+
+    def _on_enter(self, event=None):
+        self._schedule()
+
+    def _on_leave(self, event=None):
+        self._unschedule()
+        self._hide()
+
+    def _on_destroy(self, event=None):
+        self._unschedule()
+        self._hide()
+
+    def _schedule(self):
+        self._unschedule()
+        try:
+            self._after_id = self.widget.after(self.delay_ms, self._show)
+        except Exception:
+            self._after_id = None
+
+    def _unschedule(self):
+        if not self._after_id:
+            return
+        try:
+            self.widget.after_cancel(self._after_id)
+        except Exception:
+            pass
+        self._after_id = None
+
+    def _show(self):
+        self._after_id = None
+        if self._tip is not None:
+            return
+
+        # Fail-soft if the widget is gone.
+        try:
+            if not bool(self.widget.winfo_exists()):
+                return
+        except Exception:
+            return
+
+        self._tip = tk.Toplevel(self.widget)
+        self._tip.wm_overrideredirect(True)
+        self._tip.wm_attributes("-topmost", True)
+
+        outer = tk.Frame(self._tip, bg=self.border, padx=1, pady=1)
+        outer.pack(fill=tk.BOTH, expand=True)
+        label = tk.Label(
+            outer,
+            text=self.text,
+            bg=self.bg,
+            fg=self.fg,
+            justify=tk.LEFT,
+            relief=tk.FLAT,
+            padx=self.pad[0],
+            pady=self.pad[1],
+            font=("TkDefaultFont", 9),
+        )
+        label.pack()
+
+        self._reposition()
+
+    def _reposition(self):
+        if self._tip is None:
+            return
+        x, y = self._last_xy or (self.widget.winfo_pointerx(), self.widget.winfo_pointery())
+        # Slight offset so we don't sit directly under the cursor.
+        x += 12
+        y += 16
+        try:
+            self._tip.geometry(f"+{x}+{y}")
+        except Exception:
+            pass
+
+    def _hide(self):
+        if self._tip is None:
+            return
+        try:
+            self._tip.destroy()
+        except Exception:
+            pass
+        self._tip = None
+
 class FolderItem:
     """A UI component representing a single folder in the folder list."""
     # [Modified] by openai/gpt-5.1 | 2025-11-14_02
@@ -19,6 +142,7 @@ class FolderItem:
         folder_path: str,
         remove_callback,
         overwrite_remove_callback=None,
+        file_delete_callback=None,
         toggle_favorite_callback=None,
         is_favorite: bool = False,
         project_name_font=None,
@@ -37,6 +161,7 @@ class FolderItem:
             folder_path: The full path to the folder
             remove_callback: Callback function to call when remove button is clicked
             overwrite_remove_callback: Callback when an individual planned overwrite is removed
+            file_delete_callback: Callback when file delete button is clicked (receives folder_path, relative_path)
             toggle_favorite_callback: Callback when favorite star is toggled (receives folder_path, is_favorite)
             is_favorite: Whether this folder is currently marked as favorite
             project_name_font: Optional font tuple for the primary folder name label.
@@ -65,6 +190,7 @@ class FolderItem:
         # Store folder path, callbacks, and favorite state
         self.folder_path = folder_path
         self.overwrite_remove_callback = overwrite_remove_callback
+        self.file_delete_callback = file_delete_callback
         self._toggle_favorite_callback = toggle_favorite_callback
         self.is_favorite = is_favorite
 
@@ -127,6 +253,7 @@ class FolderItem:
             style="AFMini.TButton",
         )
         self.remove_button.pack(side=tk.RIGHT, padx=(0, 5), pady=2)
+        ToolTip(self.remove_button, "Do not update this item")
         
         # Container for planned overwrite rows (shown under the main row)
         self.preview_frame = ttk.Frame(self.frame)
@@ -260,17 +387,36 @@ class FolderItem:
             # Track label widget by relative path for later updates (e.g., marking as replaced)
             rel_key = str(item.get("relative", "") or "")
             self._preview_rows[rel_key] = label
-            
-            # Per-file "X" button to remove this planned overwrite from the queue
-            if self.overwrite_remove_callback is not None and "action" in item:
-                remove_button = ttk.Button(
-                    row_frame,
-                    text="X",
-                    width=2,
-                    command=lambda action=item["action"]: self.overwrite_remove_callback(action),
-                    style="AFMini.TButton",
-                )
-                remove_button.pack(side=tk.RIGHT, padx=(5, 0))
+
+            # Per-file controls live ONLY on file rows (never on the folder header row):
+            # - Skip update: existing black "X" (removes planned overwrite action)
+            # - Delete file: new red "X" (deletes only this file in this folder)
+            if "action" in item:
+                # IMPORTANT (pack order): with pack(side=RIGHT), the first packed widget becomes
+                # the right-most. We want the red delete X to appear to the RIGHT of the black
+                # skip-update X, with 5px between them.
+                if self.file_delete_callback is not None:
+                    delete_button = ttk.Button(
+                        row_frame,
+                        text="X",
+                        width=2,
+                        command=lambda action=item["action"], fp=self.folder_path: self.file_delete_callback(fp, action),
+                        style="AFDangerMini.TButton",
+                    )
+                    delete_button.pack(side=tk.RIGHT, padx=(5, 0))
+                    ToolTip(delete_button, "Delete this file")
+
+                # Per-file black "X" button to remove this planned overwrite from the queue
+                if self.overwrite_remove_callback is not None:
+                    remove_button = ttk.Button(
+                        row_frame,
+                        text="X",
+                        width=2,
+                        command=lambda action=item["action"]: self.overwrite_remove_callback(action),
+                        style="AFMini.TButton",
+                    )
+                    remove_button.pack(side=tk.RIGHT, padx=(5, 0))
+                    ToolTip(remove_button, "Do not update this item")
     
     # [Created-or-Modified] by gpt-5.2 | 2026-01-01_01
     def reset_status(self):

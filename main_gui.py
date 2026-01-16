@@ -167,6 +167,23 @@ class MainApp:
             bordercolor=[("active", self.config["ui_button_border"])],
         )
 
+        # Compact danger button style for file delete buttons (red X)
+        style.configure(
+            "AFDangerMini.TButton",
+            background=self.config["ui_button_bg"],
+            foreground="#ff6666",
+            bordercolor="#ff6666",
+            focusthickness=1,
+            focuscolor="#ff6666",
+            padding=0,
+        )
+        style.map(
+            "AFDangerMini.TButton",
+            background=[("active", self.config["ui_button_bg_hover"])],
+            bordercolor=[("active", "#ff6666")],
+            foreground=[("active", "#ff8888")],
+        )
+
         # Progress bar style: dark, invisible trough with a glowing green bar
         # The trough matches the dark bg so idle (0%) bars visually disappear,
         # while the active portion uses the same neon green as primary actions.
@@ -387,6 +404,7 @@ class MainApp:
     def _update_folder_list_ui(self):
         """Update the folder list UI to reflect current selected folders."""
         # [Modified] by openai/gpt-5.1 | 2025-11-15_01
+        # [Created-or-Modified] by gpt-5.2 | 2026-01-16_01
         
         # Destroy all existing widgets in the folder list frame
         for widget in self.folder_list_frame.winfo_children():
@@ -414,6 +432,7 @@ class MainApp:
                 folder_path,
                 self._remove_folder,
                 self._remove_planned_action,
+                file_delete_callback=self._delete_file_from_preview_row,
                 toggle_favorite_callback=lambda p, fav, fp=folder_path: self._set_folder_favorite(fp, fav),
                 is_favorite=is_fav,
                 project_name_font=("TkDefaultFont", self.config["ui_font_size_project"]),
@@ -425,12 +444,138 @@ class MainApp:
             
             # Store widget reference in dictionary
             self.folder_widgets[folder_path] = folder_item
+
+    # [Created-or-Modified] by gpt-5.2 | 2026-01-16_01
+    # [Modified] by Claude Sonnet 4.5 | 2026-01-16_06
+    def _delete_file_from_preview_row(self, folder_path: str, action: dict) -> None:
+        """Delete this file in ALL favorite folders plus source and destination.
+
+        Critical behavior:
+        - Deletes the file (by relative path) in EVERY folder in favorite_folders
+        - Also deletes source and destination from the action
+        - Checks for existence before deleting each
+        - Never deletes folders
+        - Fail-safe: continues even if files don't exist
+
+        After deletion, triggers a rescan to refresh the UI.
+        """
+        if not folder_path:
+            print("DEBUG: No folder_path provided")
+            return
+        if not isinstance(action, dict):
+            print("DEBUG: Action is not a dict")
+            return
+
+        source_path = action.get("source_path")
+        dest_path = action.get("destination_path")
+        relative_path = action.get("relative_path", "")
         
-        # Always disable Delete .bak button when no folders are selected; enabling
-        # is controlled by _update_bak_previews() based on visible .bak rows.
-        if getattr(self, "delete_bak_button", None) is not None:
-            if not self.selected_folders:
-                self.delete_bak_button.config(state=tk.DISABLED)
+        if not relative_path:
+            print("DEBUG: No relative_path provided")
+            return
+        
+        print(f"DEBUG: Delete file in ALL favorite folders:")
+        print(f"  Relative path: {relative_path}")
+        print(f"  Source: {source_path}")
+        print(f"  Destination: {dest_path}")
+        print(f"  Favorite folders count: {len(self.favorite_folders)}")
+        
+        deleted_count = 0
+        errors = []
+        
+        # Delete in ALL favorite folders (files are in .roo/ subdirectory)
+        for fav_folder in self.favorite_folders:
+            try:
+                fav_base = Path(fav_folder) / ".roo"
+                target = fav_base / relative_path
+                
+                print(f"DEBUG: Checking favorite folder: {fav_folder}")
+                print(f"DEBUG:   Target file: {target}")
+                
+                if target.exists():
+                    if target.is_dir():
+                        print(f"DEBUG:   Target is a directory, skipping")
+                        errors.append(f"Refusing to delete folder:\n{target}")
+                    else:
+                        target.unlink()
+                        print(f"DEBUG:   Deleted from favorite: {target}")
+                        deleted_count += 1
+                else:
+                    print(f"DEBUG:   File does not exist in this favorite folder")
+            except Exception as exc:
+                print(f"DEBUG:   Delete failed in favorite {fav_folder}: {exc}")
+                errors.append(f"Delete failed:\n{fav_folder}/{relative_path}\n{exc}")
+        
+        # Also delete SOURCE file (if different from favorites)
+        if source_path:
+            try:
+                source = Path(source_path)
+                if source.exists() and not source.is_dir():
+                    source.unlink()
+                    print(f"DEBUG: Deleted SOURCE: {source}")
+                    deleted_count += 1
+            except Exception as exc:
+                print(f"DEBUG: Source delete failed: {exc}")
+                errors.append(f"Source delete failed:\n{source}\n{exc}")
+        
+        # Also delete DESTINATION file (if different from favorites)
+        if dest_path:
+            try:
+                dest = Path(dest_path)
+                if dest.exists() and not dest.is_dir():
+                    dest.unlink()
+                    print(f"DEBUG: Deleted DESTINATION: {dest}")
+                    deleted_count += 1
+            except Exception as exc:
+                print(f"DEBUG: Destination delete failed: {exc}")
+                errors.append(f"Destination delete failed:\n{dest}\n{exc}")
+        
+        # Show results
+        if errors:
+            messagebox.showerror(
+                "Delete Files - Partial Failure",
+                f"Deleted {deleted_count} file(s) with errors:\n\n" + "\n\n".join(errors[:3])  # Limit error display
+            )
+        elif deleted_count == 0:
+            messagebox.showinfo(
+                "No Files Deleted",
+                "No files were found to delete."
+            )
+        else:
+            print(f"DEBUG: Successfully deleted {deleted_count} file(s) total")
+        
+        # Always rescan to refresh the UI
+        print("DEBUG: Triggering rescan")
+        self._rescan_after_delete()
+    
+    # [Created] by Claude Sonnet 4.5 | 2026-01-16_02
+    def _rescan_after_delete(self) -> None:
+        """Re-scan folders to refresh preview after deleting a file via red X button."""
+        if self.is_syncing:
+            return
+        if len(self.selected_folders) < 2:
+            return
+        
+        try:
+            folder_paths = [Path(p) for p in self.selected_folders]
+            file_index = self.sync_engine.scan_folders(folder_paths)
+            actions = self.sync_engine.plan_actions(file_index, scanned_folders=folder_paths)
+        except Exception as exc:
+            # Fail soft; log error but keep GUI responsive
+            print(f"Rescan after file delete failed: {exc}")
+            return
+
+        # Replace existing planned actions and previews with fresh scan results
+        self.planned_actions = actions
+        self._update_overwrite_previews()
+        self._update_bak_previews()
+
+        # Clear any queued scan events so they don't overwrite the preview status
+        while not self.event_queue.empty():
+            try:
+                self.event_queue.get_nowait()
+            except queue.Empty:
+                break
     
     def _format_mtime(self, mtime: float) -> str:
         """Format a POSIX mtime value for display in the preview."""

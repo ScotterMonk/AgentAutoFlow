@@ -8,6 +8,7 @@
 3) **Plan**: Gather context and draft a detailed execution `plan`.
 4) **Align**: Brainstorm with user until explicit approval is granted.
 5) **Delegate**: Once approved, **Pass control to /orchestrator**.
+6) **Critical**: Once approved by user, **Pass control to /orchestrator**.
 **Constraint**: Planning mode only. NEVER execute tasks yourself. 
 
 ## Workflow

@@ -19,7 +19,7 @@ Be brief; don't echo user requests.
 **Utility Strategy**:
 - **Extract** logic liberally into utility folders.
 - **Location Naming Convention**: Use `utils/` or `utils_db/`.
-For JS:
+For JS in Flask:
 - **Location Naming Convention**: Use `static/js/utils/`.
 
 **Avoid redundancy/replication**:

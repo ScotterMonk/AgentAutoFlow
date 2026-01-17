@@ -25,7 +25,7 @@ Focus on implementing and refactoring within existing patterns, not inventing ne
 ### 4: Finish
 1) **QA**
 - Resolve VS Code Problems.
-- Use `app-knowledge` for impact analysis.
+- Use `app-knowledge` skill for impact analysis.
 2) **Completion**
 - **IF this mode was called by orchestrator**:
     - Return to `/orchestrator`.

@@ -74,93 +74,98 @@ Your mileage may vary.
 These files go in your project root. You'll see they coincide with where your current .roo folder is.
 
 ```
-app
+app/
 ├── agents.md (generate with `/init` command.)
-├── .roomodes
-└── .roo
-    ├── docs
+├── .roomodes/
+└── .roo/
+    ├── docs/
     │   ├── database_schema.md
     │   ├── sharing.md
     │   ├── useful.md
     │   ├── old_versions
     │   ├── plans
     │   └── plans_completed
-    ├── rules
+    ├── rules/
     │   ├── 01-general.md
     │   └── 02-database.md
-    ├── rules-architect
+    ├── rules-architect/
     │   └── 01-architect.md
-    ├── rules-ask
+    ├── rules-ask/
     │   ├── 01-ask.md
     │   ├── 02-ask-health.md
     │   └── 03-ask-flora-growing.md
-    ├── rules-code
+    ├── rules-code/
     │   └── 01-code.md
-    ├── rules-code-monkey
+    ├── rules-code-monkey/
     │   └── 01-code-monkey.md
-    ├── rules-debug
+    ├── rules-debug/
     │   └── 01-debug.md
-    ├── rules-docs-writer
+    ├── rules-docs-writer/
     │   └── 01-docs-writer.md
-    ├── rules-front-end
+    ├── rules-front-end/
     │   └── 01-front-end.md
-    ├── rules-githubber
+    ├── rules-githubber/
     │   └── 01-githubber.md
-    ├── rules-orchestrator
+    ├── rules-orchestrator/
     │   └── 01-orchestrator.md
-    ├── rules-planner-a
+    ├── rules-planner-a/
     │   └── 01-planner-a.md
-    ├── rules-planner-b
+    ├── rules-planner-b/
     │   └── 01-planner-b.md
-    ├── rules-planner-c
+    ├── rules-planner-c/
     │   └── 01-planner-c.md
-    ├── rules-project-mgr
+    ├── rules-project-mgr/
     │   └── 01-project-mgr.md
-    ├── rules-task-simple
+    ├── rules-task-simple/
     │   └── 01-task-simple.md
-    ├── rules-tester
+    ├── rules-tester/
     │   └── 01-tester.md
-    └── skills
-        ├── api-use-external
+    └── skills/
+        ├── api-use-external/
         │   └── SKILL.md
-        ├── app-knowledge
+        ├── app-knowledge/
         │   └── SKILL.md
-        ├── coding-css
+        ├── coding-css/
         │   └── SKILL.md
-        ├── coding-html
+        ├── coding-html/
         │   └── SKILL.md
-        ├── coding-javascript
+        ├── coding-javascript/
         │   └── SKILL.md
-        ├── coding-markdown
+        ├── coding-markdown/
         │   └── SKILL.md
-        ├── coding-python
+        ├── coding-python/
         │   └── SKILL.md
-        ├── database-use
+        ├── database-use/
         │   └── SKILL.md
-        ├── error-handling
+        ├── error-handling/
         │   └── SKILL.md
-        ├── frontend-design
+        ├── frontend-design/
         │   └── SKILL.md
-        ├── github-use
+        ├── github-use/
         │   └── SKILL.md
-        ├── log-file-use
+        ├── log-file-use/
         │   └── SKILL.md
-        ├── mode-selection
+        ├── mode-selection/
         │   └── SKILL.md
-        ├── planning-init
+        ├── planning-init/
         │   └── SKILL.md
-        ├── research-health
+        ├── research-health/
         │   └── SKILL.md
-        ├── simplification
+        ├── simplification/
         │   └── SKILL.md
-        ├── testing
+        ├── testing/
         │   └── SKILL.md
-        ├── useful-discoveries-check
+        ├── useful-discoveries-check/
         │   └── SKILL.md
-        ├── useful-discoveries-paring
+        ├── useful-discoveries-paring/
         │   └── SKILL.md
-        └── useful-discoveries-save
+        ├── useful-discoveries-save/
+        │   └── SKILL.md
+        └── web-browser/
+            ├── scripts/
             └── SKILL.md
+
+
 ```
 
 ## Todo list tool

@@ -19,12 +19,18 @@
 - Use `app-standards`.
 
 ### 4: Finish
-1) **QA**
+#### 1. **QA**
 - Resolve VS Code Problems.
-- Use `app-knowledge` for impact analysis.
-2) **Completion**
+- Use `app-knowledge` skill for impact analysis.
+
+#### 2. **Lessons learned**
+- **Share with user up to 3 lessons learned** from working through this task.
+- **For each lesson**: Present user with choices for "Save to 'Useful discoveries'" for each lesson.
+- **Save their picks** via `useful-discoveries-save` skill.
+
+#### 3. **Completion**
 - **IF this mode was called by orchestrator**:
-    - Return to `/orchestrator`.
+    - Return to `/orchestrator`. *Do not go further in this mode.*
 - **IF this mode was called by user**:
     - User confirmation: user satisfied or has additional instructions?
     - Analyze what worked well and what could be improved.

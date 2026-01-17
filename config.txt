@@ -1,7 +1,7 @@
 window_width=800
 window_height=600
 file_compare_threshold_sec=3
-ignore_patterns=.roo\commands\run-sync.md, .roo\docs, .roo\rules\01-general.md, .roo\rules\02-database.md, agents.md, .roo\reports, *.txt, *.png, *.jpg
+ignore_patterns=.roo\commands\run-sync.md, .roo\docs, .roo\rules\02-database.md, agents.md, .roo\reports, *.txt, *.png, *.jpg
 backup_mode=timestamped
 dry_run=false
 root_allowlist=.roomodes

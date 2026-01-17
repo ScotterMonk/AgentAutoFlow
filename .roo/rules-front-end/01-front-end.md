@@ -28,7 +28,7 @@
 4) Use `app-knowledge` to find relevant templates, CSS rules, and JS modules.
 
 #### 2: Do the task
-1) Use `app-standards` skill for guiding the work.
+1) Use `app-standards` for guiding the work.
 2) Test and iterate:
    - Use `browser_action` for visual and interaction checks.
    - Verify browser console (no new errors/warnings).

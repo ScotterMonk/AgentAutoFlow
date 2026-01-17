@@ -16,7 +16,7 @@
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
 
 ### 3: Do the task
-- Use `app-standards` skill.
+- Use `app-standards`.
 
 ### 4: Finish
 1) **QA**

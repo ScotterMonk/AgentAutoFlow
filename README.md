@@ -125,8 +125,6 @@ app
         │   └── SKILL.md
         ├── app-knowledge
         │   └── SKILL.md
-        ├── app-standards
-        │   └── SKILL.md
         ├── coding-css
         │   └── SKILL.md
         ├── coding-html

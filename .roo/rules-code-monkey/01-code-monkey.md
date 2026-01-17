@@ -20,7 +20,7 @@ Focus on implementing and refactoring within existing patterns, not inventing ne
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
 
 ### 3: Do the task
-- Use `app-knowledge` and `app-standards` skills.
+- Use `app-knowledge` skill and `app-standards`.
 
 ### 4: Finish
 1) **QA**

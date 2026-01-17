@@ -25,7 +25,7 @@
 
 ### 4: Systematic debugging process
 - Incorporate testing into the plan based on user's `testing type` choice above.
-- Use `app-knowledge` and `app-standards` skills.
+- Use `app-knowledge` skill and `app-standards`.
 **Steps**:
 - **You must complete each step below in order before continuing to the next**, unless explicitly overridden by the user.
 1) **Read error messages carefully**.

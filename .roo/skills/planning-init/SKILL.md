@@ -60,9 +60,8 @@ description: When a mode needs to initiate or continue plan creation for continu
     *Stop and wait for user response before proceeding to next question.*
     - **Question 2: `autonomy level`**: [] Low (frequent checks), [] Med, or [] High (rare checks).
     *Stop and wait for user response before proceeding to next question.*
-    - **Question 3: `testing type`**: [] Browser, [] Terminal commands or short scripts, [] Python tests, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
-    **For user choices, include exactly every testing type listed above**
-    *Stop and wait for user response before proceeding.*
+    - **Question 3: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: [] Browser, [] Terminal commands or short scripts, [] Python tests, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
+   *Stop and wait for user response before proceeding.*
 
 ### 2. Pre-planning
 1) **Search**: Search for similar planning documents and architectural decisions.

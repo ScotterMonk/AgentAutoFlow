@@ -29,7 +29,6 @@ Windows 11, VS Code, PowerShell.
 5) Tkinter event loop: `root.mainloop()`.
 
 ### GUI: "Load favorites"
-
 1) User clicks **Load Favorites** → `MainApp._load_favorite_folders()`.
 2) Loads the favorites list from in-memory `MainApp.favorite_folders` (initialized from config during `MainApp.__init__()`).
 3) For each favorite folder:
@@ -92,10 +91,11 @@ There is no database for this project. Ignore any references to a database.
 - Workers use SyncWorker.run() on background threads
 
 ### Testing
-- Integration tests use `test_integration/` with project_a and project_b folders
+- Primary testing folder: `tests/`.
+- Integration tests: `test_integration/` with project_a and project_b folders
 - Tests verify .roo sync behavior, not general file sync
 - pytest fixtures in tests/ create temporary .roo structures
 
-## Tooling Preference (Web)
-Primary: browser_action (ALWAYS try this first).
-Fallback: Other browser tools (Only if browser_action fails).
+## Tooling Preference (Web interfaces)
+Primary: Use `web-browser` skill.
+Fallback: browser_action

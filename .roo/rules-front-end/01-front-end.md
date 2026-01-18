@@ -30,7 +30,7 @@
 #### 2: Do the task
 1) Use `app-standards` for guiding the work.
 2) Test and iterate:
-   - Use `browser_action` for visual and interaction checks.
+   - Use web browser for visual and interaction checks.
    - Verify browser console (no new errors/warnings).
    - Validate that affected pages render correctly.
 
@@ -94,18 +94,6 @@ Follow the `Testing` section in `{base folder}/.roo/rules/01-general.md`. For Py
      - If similar: prefer modification or duplication in a proper `.py` file under `utils_db/` or another appropriate location, consistent with `{base folder}/.roo/rules/02-database.md`.
 3) Run the script via a `.py` file, not by pasting multiple lines into the terminal.
 
-## Use browser
-For any browser-based testing or automation:
-1) Follow `Browser Testing (web automation / browsing)` in `{base folder}/.roo/rules/01-general.md`.
-2) Use `browser_action` as the default tool.
-3) Only use alternative browser tooling if `browser_action` is unavailable or misconfigured, consistent with `Code standards`.
-4) **Front-end verification checklist**:
-   - Visual rendering matches design intent
-   - No console errors or warnings
-   - Responsive behavior across viewport sizes
-   - Interactive elements function correctly
-   - Accessibility features work as expected
-
 ### If stuck in a loop
 1) Try one completely different approach (different layout strategy, CSS technique, or component structure).
 2) Check `{base folder}/.roo/docs/useful.md` for prior solutions or patterns.
@@ -118,19 +106,19 @@ For any browser-based testing or automation:
 
 ### Error Handling and QA
 
-**Validation**
+1) **Validation**
 - **Immediate Check**: Inspect terminal output and VS Code Problems panel after *every* edit.
-- **Browser Check**: Use `browser_action` to verify visual rendering after template/CSS/JS changes.
-- **Console Check**: Verify no new JavaScript errors or warnings in browser console.
-- **Fix First**: Resolve regressions or new errors before proceeding.
-
-**Documentation**
-- **Log Findings**: Append significant bugs, non-obvious fixes, or front-end patterns to `{base folder}/.roo/docs/useful.md`.
-
-**Front-end specific QA**:
-- After front-end changes:
+- **Browser Check** (IF application has web interface):
+  Use `web-browser` to:
+  - Verify visual rendering after template/HTML/CSS/JS changes.
   - Verify browser console (no new errors/warnings).
-  - Verify VS Code Problems panel (templates, CSS, and JS).
-  - Validate that affected pages render correctly using `browser_action`.
-  - Check responsive behavior if layout changed.
+  - If layout changed, check responsive behavior.
   - Verify accessibility (semantic HTML, labels, alt text).
+- **Fix First**: Resolve regressions or new errors before proceeding.
+- Verify VS Code Problems panel.
+
+2) **Lessons learned**
+- **Share with user up to 3 lessons learned** from working through this task.
+- **For each lesson**: Present user with choices for "Save {lesson learned} to 'Useful discoveries'" for each lesson.
+- **Save their picks** via `useful-discoveries-save` skill.
+

@@ -13,7 +13,7 @@ Be brief; don't echo user requests.
 - **Exception**: Do NOT apply this to CSS.
 
 **Hard Limit**:
-- **Enforce** a maximum of **450 lines of code** per file (exception: main.css)
+- **Enforce** a maximum of **500 lines of code** per file (exception: main.css)
 - **Split** larger files: Create more files with fewer functions rather than exceeding this limit.
 
 **Utility Strategy**:

@@ -11,21 +11,22 @@
 - Seek a deep understanding of their issue and goals. Ask for guidance if necessary.
 
 ### 2. Pre-planning
+- Use `app-knowledge` skill.
 1) **Search**: Search for similar planning documents and architectural decisions.
 2) **Recall**: Retrieve project history/memory.
 3) **Risk**: Identify potential challenges.
-4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
+4) **Analysis**: Define problem, intent, scope, constraints, and dependencies (routes, models, utils, APIs).
+5) **Configuration**: If following 2 config items are empty:
+   Ask user the following three questions *separately*:
+   **Vital that you give user exactly the choices below for each question**.
+   - **Question 1: `autonomy level`**: [] Low (frequent checks), [] Med, or [] High (rare checks).
+   *Stop and wait for user response before proceeding to next question.*
+   - **Question 2: `testing type`**: [] Terminal commands or short scripts, [] Python tests, [] Browser, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
+   *Stop and wait for user response before proceeding.*
 
-### 3. **Configuration**:
-    Ask user the following two questions *separately*:
-    - **Question 1: Autonomy**: [] Low (frequent checks), [] Med, or [] High (rare checks).
-    *Stop and wait for user response before proceeding to next question.*
-    - **Question 2: Testing Type**: [] Terminal commands or short scripts, [] Python tests, [] Browser, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
-    *Stop and wait for user response before proceeding.*
-
-### 4: Systematic debugging process
-- Incorporate testing into the plan based on user's `testing type` choice above.
-- Use `app-knowledge` skill and `app-standards`.
+### 3: Systematic debugging process
+- Incorporate testing  into the plan if based on user's `testing type` choice.
+- Use `app-standards`.
 **Steps**:
 - **You must complete each step below in order before continuing to the next**, unless explicitly overridden by the user.
 1) **Read error messages carefully**.
@@ -60,23 +61,28 @@
    - Plan rollback:
      - Know how to revert to previous state quickly if a fix fails.
 6) **Implement the fix systematically**.
-   - Make ONE logical change at a time; do not bundle unrelated fixes.
    - Create a backup before each file modification under `{base folder}/.roo/docs/old_versions/`.
-   - Test after each change.
+   - Make ONE logical change at a time; do not bundle unrelated fixes.
+   - IF `testing type` calls for tests, test after each change.
    - If a change does not help:
      - Revert immediately.
-     - Update your notes and return to the hypothesis step (Step 4).
+     - Update your notes and return to the hypothesis step above.
 7) **If still unclear after several attempts**:
    - Reassess hypotheses.
    - Consider higher-level issues (architecture, data model, or configuration).
    - Escalate or involve whichever other mode is best if the required changes are clearly architectural or very large in scope.
 
-### 5: Finish
+### 4: Finish
 1) **QA**
 - Resolve VS Code Problems.
-- Execute impact analysis.
-- Call `/tester` mode if/when needed.
-2) **Completion**
+- Use `app-knowledge` skill for impact analysis.
+
+2) **Lessons learned**
+- **Share with user up to 3 lessons learned** from working through this task.
+- **For each lesson**: Present user with choices for "Save {lesson learned} to 'Useful discoveries'" for each lesson.
+- **Save their picks** via `useful-discoveries-save` skill.
+
+3) **Completion**
 - **IF this mode was called by orchestrator**:
     - Return to `/orchestrator`.
 - **IF this mode was called by user**:

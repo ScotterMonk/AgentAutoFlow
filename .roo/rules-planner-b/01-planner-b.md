@@ -44,7 +44,8 @@
     [Goal description]
     - Task 01: [Action description]
         Mode hint: /[mode-name]
-        Actions: Notes/code/pseudocode/test instructions.
+        Actions: Notes/code/pseudocode.
+        Testing: `testing type`
         **Log progress** to [log file].
     ```
 2) **Review**: Open `plan file` in editor.

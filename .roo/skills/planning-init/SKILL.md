@@ -13,6 +13,11 @@ description: When a mode needs to initiate or continue plan creation for continu
 - `log file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-log.md`.
 - `plan file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name].md`.
 
+## Variables
+- `complexity`.
+- `autonomy level`.
+- `testing type`.
+
 ## Workflow
 
 **Execute every step sequentially. Skip nothing.**
@@ -37,10 +42,11 @@ description: When a mode needs to initiate or continue plan creation for continu
             - `plan` & `short plan name`.
             - `log file` name.
             - `user query` & `user query file` name.
+            - `complexity`.
             - `autonomy level`.
             - `testing type`.
         - **Validation**: If context is incomplete, alert user and **halt** immediately.
-        - **Skip remaining `### 1. Input` steps down to `### 2. Pre-planning`.
+        - **Skip remaining instructions in this `### 1. Input` section down to continue at `### 2. Pre-planning`.
 
 3) **Short plan name**: If empty `short plan name`, derive from `user query`.
     - Create/use `user query file`.
@@ -50,11 +56,11 @@ description: When a mode needs to initiate or continue plan creation for continu
 4) **Configuration**: If following 3 config items are empty:
     Ask user the following three questions *separately*:
     **Vital that you give exactly the choices below for each question**.
-    - **Question 1: Complexity**: [] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), or [] Multi-Phase (Large). Recommend best option for this `plan`.
+    - **Question 1: `complexity`**: [] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), or [] Multi-Phase (Large). Recommend best option for this `plan`.
     *Stop and wait for user response before proceeding to next question.*
-    - **Question 2: Autonomy**: [] Low (frequent checks), [] Med, or [] High (rare checks).
+    - **Question 2: `autonomy level`**: [] Low (frequent checks), [] Med, or [] High (rare checks).
     *Stop and wait for user response before proceeding to next question.*
-    - **Question 3: Testing**: [] Terminal commands or short scripts, [] Python tests, [] Browser, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
+    - **Question 3: `testing type`**: [] Terminal commands or short scripts, [] Python tests, [] Browser, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
     *Stop and wait for user response before proceeding.*
 
 ### 2. Pre-planning
@@ -64,5 +70,5 @@ description: When a mode needs to initiate or continue plan creation for continu
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies.
 
 ### 3. **Analysis 2**: 
-- Double-check problem (`user_query`), intent, scope, constraints, and dependencies.
+- Double-check problem (`user query file`), intent, scope, constraints, and dependencies.
 - Find and inform user of redundancies or other issues before continuing.

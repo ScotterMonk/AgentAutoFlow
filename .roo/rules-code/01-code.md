@@ -19,7 +19,8 @@
    **Vital that you give user exactly the choices below for each question**.
    - **Question 1: `autonomy level`**: [] Low (frequent checks), [] Med, or [] High (rare checks).
    *Stop and wait for user response before proceeding to next question.*
-   - **Question 2: `testing type`**: [] Terminal commands or short scripts, [] Python tests, [] Browser, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
+   - **Question 2: `testing type`**: [] Browser, [] Terminal commands or short scripts, [] Python tests, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
+   **For user choices, include exactly every testing type listed above**
    *Stop and wait for user response before proceeding.*
 
 ### 3: Do the task

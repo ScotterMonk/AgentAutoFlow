@@ -45,7 +45,7 @@ For every command workflow below:
  
 ## Update
 - Stage, Commit, and Push Git Changes
-**Carefully follow** all of the following steps in order:
+**Carefully follow all of the following steps in order**:
 1) **Examine** repository's current status, showing all modified, untracked, and staged files
 2) **Research**: Determine what was changed. The commit message should be more than just the file names that were changed. Use:
     - `codebase_search`
@@ -61,7 +61,7 @@ For every command workflow below:
    - Escape anything in the commit message that may be interpreted as a file path.
 5) **Commit**: Do not ask the user for permission to commit. Just execute the commit.
    **Commit permission**: You have full permission to run all commit commands, including ones using the "-m" flag with accompanying message.
-   **You have permission** to run any variation of `git commit`, including, but not limited to `git commit -m "[commit message here]"`.
+   **You have full permission** to run any variation of `git commit`, including, but not limited to `git commit -m "[commit message here]"`.
    **Do not ask the user for permission to run git commands**. Just run them.
 6) **Verify** the commit was successful and show its hash/details.
 7) **Push changes** to the remote repository on current branch.

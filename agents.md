@@ -8,7 +8,6 @@ Python file synchronization utility for `.roo` directories across multiple proje
 ## Run Commands
 GUI: `py main_gui.py`
 CLI: `python cli_sync.py <folder1> <folder2> ...`
-Tests: `pytest tests/`
 
 --- do not remove this ---
 ## Environment & Shell
@@ -91,10 +90,10 @@ There is no database for this project. Ignore any references to a database.
 - Workers use SyncWorker.run() on background threads
 
 ### Testing
-- Primary testing folder: `tests/`.
-- Integration tests: `test_integration/` with project_a and project_b folders
+- Primary testing folder: `{base folder}/tests/`.
+- Integration tests: `{base folder}/test_integration/` with project_a and project_b folders
 - Tests verify .roo sync behavior, not general file sync
-- pytest fixtures in tests/ create temporary .roo structures
+- pytest fixtures in `{base folder}/tests/` create temporary .roo structures
 
 ## Tooling Preference (Web interfaces)
 Primary: Use `web-browser` skill.

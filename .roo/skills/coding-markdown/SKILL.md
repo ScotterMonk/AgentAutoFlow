@@ -1,6 +1,6 @@
 ---
 name: coding-markdown
-description: When markdown being written or edited
+description: When markdown being written or edited, including rules, skills, and documentation.
 ---
 
 # Markdown Instructions

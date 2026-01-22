@@ -25,7 +25,7 @@ description: When a mode needs to initiate or continue plan creation for continu
 
 ### 1. Input
 1) **Determine Plan status**: 
-    Check `log file` and `plan file` to determine:
+    Check for existence and content of `log file` and `plan file` to determine:
     - **Plan = new**: Continue past the next to possible status actions to "`2) **Determine previous mode**`".
     - **Plan = incomplete**: 
         - *Determine where progress was interrupted*,
@@ -35,9 +35,15 @@ description: When a mode needs to initiate or continue plan creation for continu
      - **Plan = finished**: Move `log file`, `plan file`, `user query file` to `completed plans folder`, inform user, **STOP**.
 
 2) **Determine previous mode**:
-    The following input instructions depend on which mode called current mode:
-    - **Previous mode = user query**: Capture input as `user query`. Save `user query` to `user query file`.
-    - **Previous mode = planner-a or planner-b**: 
+    The following input instructions depend on which mode called the current mode (user or a planning mode):
+    - IF **Previous mode = query from user**:
+        - **Action**:
+            - Capture input as `user query`. 
+            - Intuit the "why" in/for the `user query`.
+            - Confirm your "why" guess with the user.
+            - Modify `user query` to include the "why".
+            - Save `user query` to `user query file`.
+    - ELSE **Previous mode = architect, planner-a or planner-b**: 
         - **Action**: Load into context:
             - `plan` & `short plan name`.
             - `log file` name.

@@ -61,7 +61,7 @@ Scenario: Building a new dashboard screen from scratch.
 - Once you approve the plan, if using planner-a, it will pass on to the other planner modes to flesh out and add detail to the plan. If using architect mode, that mode will do what planners a/b/c all do but with a bit less "care" and cost in time.
 - Eventually, once you approve, it will pass the plan (with detailed instructions, mode hints, etc.) on to the "orchestrator" mode. 
 **Orchestration**
-- As you probably gathered, I've moved much more of the detail (like making atomic tasks) into the planning phase so that orchestrator can be relatively dumb and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
+- As you probably gathered, I've moved much more of the detail (like making atomic tasks) into the planning phase so that orchestrator can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
 **Mode budgeting**
 - Note: This workflow will sets the plan to prefer "code monkey" and "task-simple" modes, depending on complexity. If "task-simple" or "code monkey" get confused because a task is too difficult or complex, it has instructions to pass the task on to "code" mode which I assign a "smarter" LLM to. Finally, "debug" mode is for more complex issues, so be sure to assign it a reasoning model, as well.
 

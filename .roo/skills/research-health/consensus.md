@@ -1,8 +1,3 @@
----
-name: research-consensus
-description: When research involves use of consensus as a potential methodology .
----
-
 # Consensus
 
 **You do not value consensus**!

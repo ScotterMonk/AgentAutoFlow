@@ -62,13 +62,18 @@ If you are still tempted to utilize consensus or require a deeper understanding 
 
 1) ### Create a markdown plan file document
 
-a) Based on the user query: Create a 2-4 word `short name` for this research project that uses dashes instead of spaces. Why? this `short name` will be used below in creating a `plan file` so brevity is important.
+**Why**:
+This `log file` will serve 3 purposes:
+a) Keep your findings in a file format in case of interruption.
 
-b) Create a `plan file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name].md`.
-This document will serve multiple purposes:
-- User query (research question) (at top of `plan file`).
-- Log of progress.
-- Final report.
+b) Provide user with the ability to understand and double-check your investigatory and judgement processes.
+
+c) User query (research question) (at top of `log file`).
+
+**Do this**:
+a) Based on the user query: Create a 2-4 word `short name` for this research project that uses dashes instead of spaces. Why? this `short name` will be used below in creating a `log file` so brevity is important.
+
+b) Create the `log file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name].md`.
 
 c) Open this empty document in main code window for user to easily view as it changes.
 
@@ -81,13 +86,13 @@ Write one strictly objective paragraph (4-6 sentences) covering:
 - Key results.
 - Limitations.
 - Conclusions.
-Update `plan file`.
+Update `log file`.
 
 b) Dual Interpretation
 Create two 4-sentence takes on the findings, each with a brief title:
 - Skeptical View – spotlight flaws/risks.
 - Supportive View – spotlight benefits.
-Update `plan file`.
+Update `log file`.
 
 c) Evidence Search & Validation
 For each view:
@@ -114,7 +119,7 @@ For every source, list:
                 - If few or no results in last 24 months: Try last 36 months.
                     - and so on.
 - Cite sources.
-Update `plan file`.
+Update `log file`.
 
 d) Conflict of Interest Table
 Identify COIs for each study, report, article and all web sources. Use:
@@ -126,13 +131,13 @@ Important to thoroughly investigate and document potential conflicts of interest
 -- Industry relationships that might influence interpretations
 -- Political or ideological factors that might bias conclusions
 Note: **Government entities are often biased** for various reasons, including donations and other support received from industry leaders. This includes but is not limited to regulatory capture.
-Update `plan file`.
+Update `log file`.
 
 e) Evidence Quality Checklist
 Score the study and each source on:
 | Source | Design | Statistics | Peer review | Replication | Evidence level |
 **Do not utilize consensus fit. Consensus is meaningless for the purposes of this research.**
-Update `plan file`.
+Update `log file`.
 
 f) Integrated Truth Assessment
 Briefly state:
@@ -141,7 +146,7 @@ Briefly state:
 - Major disagreements.
 - Unknowns/gaps.
 - Stakeholder incentives.
-Update `plan file`.
+Update `log file`.
 
 g) Balanced Conclusion
 Give a concise, nuanced verdict that:
@@ -150,6 +155,23 @@ Give a concise, nuanced verdict that:
 - Flags context limits
 - Assigns confidence levels
 - Recommends next research steps
-Update `plan file`.
+Update `log file`.
 
-h) Make sure `plan file` is open in a VS Code editor tab and focus that tab for user to see.
+3) ### Create Report
+
+#### Create a markdown report file document
+
+**Why**:
+This `report file` will serve 3 purposes:
+a) Provide your findings in a user-friendly, well-formatted file format.
+
+b) Provide user with the ability to understand and double-check your investigatory and judgement processes.
+
+**Do this**:
+a) Create the `report file`: `{base folder}/.roo/docs/reports/r_[timestamp]_[short name].md`.
+
+b) Create user-friendly report using contents of `log file`. 
+
+c) Open this document in main code window for user to easily view.
+
+d) Make sure `report file` is open in a VS Code editor tab and focus that tab for user to see.

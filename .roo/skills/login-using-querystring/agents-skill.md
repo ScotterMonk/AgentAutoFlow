@@ -1,0 +1,13 @@
+# Login Using Querystring
+
+For debugging, testing, or any purpose a mode may have for browsing the app's web site.
+
+Information specific to this project:
+
+## Configuration
+
+For browser testing convenience, supports querystring authentication:
+Example: http://localhost:5000/auth/login?email=user@example.com&password=hashed_password
+
+## Credentials
+

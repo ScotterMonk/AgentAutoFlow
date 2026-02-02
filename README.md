@@ -25,8 +25,8 @@ Notes:
 I've added quite a few skills in the `{base folder}/.roo/skills` folder.
 I'll go into more detail later. For now:
 - Roo Code has added skills to Roo! https://docs.roocode.com/features/skills
-- They use the Agent Skills open format. https://agentskills.io/home
-- Here is a skill marketplace with over 38,000 skills! https://skillsmp.com/
+- They use the *Agent Skills Open Format*. https://agentskills.io/home
+- Here is a skill marketplace with over 126,000 skills! https://skillsmp.com/
 
 ## When/how to use?
 

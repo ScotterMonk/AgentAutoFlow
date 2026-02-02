@@ -28,14 +28,13 @@
 4) Use `app-knowledge` to find relevant templates, CSS rules, and JS modules.
 
 #### 2: Do the task
-1) Use `app-standards` for guiding the work.
+1) Use `app-standards` for guiding your work.
 2) Test and iterate:
    - Use web browser for visual and interaction checks.
    - Verify browser console (no new errors/warnings).
    - Validate that affected pages render correctly.
 
 #### 3: Finish
-
 1) QA
 - Resolve VS Code Problems.
 - Execute impact analysis.
@@ -96,7 +95,7 @@ Follow the `Testing` section in `{base folder}/.roo/rules/01-general.md`. For Py
 
 ### If stuck in a loop
 1) Try one completely different approach (different layout strategy, CSS technique, or component structure).
-2) Check `{base folder}/.roo/docs/useful.md` for prior solutions or patterns.
+2) Check useful discoveries for prior solutions or patterns.
 3) If `autonomy level` is "Med": Try one more novel solution.
 4) If `autonomy level` is "High": Try two more novel solutions.
 5) If still stuck:

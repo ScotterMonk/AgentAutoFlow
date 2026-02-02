@@ -20,8 +20,7 @@
 Use `coding-init` skill.
 
 ### 2. Execution
-Use `app-standards`.
-Defer to `{base folder}/agents.md` for project-specific testing procedures.
+Use `app-standards` to accomplish the task to the best of your abilities.
 - **Terminal scripts**:
     - Use preferences from `{base folder}/agents.md`.
 - **Pytest**:
@@ -44,7 +43,7 @@ Defer to `{base folder}/agents.md` for project-specific testing procedures.
 - **Context**: Input data (IDs, non-sensitive fields), OS, Start Command, Config flags.
 - **Storage**: Save to locations defined in `{base folder}/agents.md`.
 
-### 5. Analysis
+### 4. Analysis
 - **Synthesis**: Contrast Observed vs. Expected behavior.
 - **Reproduction**: Define minimal, deterministic steps.
 - **Suspects**: Identify components (routes, DB, etc.) without deep diagnosis.

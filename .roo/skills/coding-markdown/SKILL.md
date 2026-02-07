@@ -29,16 +29,17 @@ Good: See `Critical Resources` in `{base folder}/.roo/rules/01-general.md`
 ## Formatting Standards
 **Strictly enforce** the following minimalist formatting rules.
 **Style & Typography**
-- **References**: Use inline code backticks (e.g., `file.py`) for files and code. Never use brackets or links.
-- **Indentation**: Use exactly 4 spaces for nested items.
+- *References*: Use inline code backticks (e.g., `file.py`) for files and code. Never use brackets or links.
+- *Indentation*: Use exactly 4 spaces for nested items.
 **Lists & Spacing**
-- **Numbering**: Use `)` as the separator (e.g., `1)`, `2)`). Never use periods (`1.`).
-- **Density**: No empty lines between list items. Group related items tightly.
-- **Headers**: Content must start on the very next line after a header. Do not insert an empty line.
-**Examples**
-**Bad** (Wrong list style, extra spacing):
+- *Numbering*: Use `)` as the separator (e.g., `1)`, `2)`). Never use periods (`1.`).
+- *Density*: No empty lines between list items. Group related items tightly.
+- *Headers*: Content must start on the very next line after a header. Do not insert an empty line.
+- *Punctuation*: Period at the end of every line.
+**Examples of ordered lists**
+*Bad* (Wrong list style, extra spacing, no punctuation):
 ```markdown
-## Analysis
+## Ordered List
 
 **Points**:
 
@@ -47,11 +48,21 @@ Good: See `Critical Resources` in `{base folder}/.roo/rules/01-general.md`
 2. Second item
 ```
 
-**Good** (Compact, correct list style):
+*Good* (Correct list style, compact, punctuation):
 ```markdown
-## Analysis
+## Ordered list
 **Points**:
-1) First item
-    - Nested detail
-2) Second item
+1) First item.
+    - Nested detail.
+2) Second item.
+```
+
+**Examples of un-ordered lists**
+*Good* (Correct list style, compact, punctuation):
+```markdown
+## Un-ordered list
+**Points**:
+- First item.
+    - Nested detail.
+- Second item.
 ```

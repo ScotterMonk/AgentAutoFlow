@@ -18,23 +18,31 @@ Notes:
 
 ## NEW: Skills
 
-**All modes will now consume far less tokens,**
+**All modes now consume far less tokens,**
 **use up less of models' oh-so-precioius context memory,**
 **and follow instructions better!**
 
 I've added quite a few skills in the `{base folder}/.roo/skills` folder.
-I'll go into more detail later. For now:
 - Roo Code has added skills to Roo! https://docs.roocode.com/features/skills
-- They use the *Agent Skills Open Format*. https://agentskills.io/home
-- Here is a skill marketplace with over 126,000 skills! https://skillsmp.com/
+- They use the *Agent Skills Open Format*.
+
+Skills libraries:
+- A skill marketplace with over 128,000 skills! https://skillsmp.com
+- https://agentskills.io/home
+- https://skills.sh/jeffallan/claude-skills
 
 ## When/how to use?
 
 ### Building a new app
-If building a new app, it assumes you already know *specs* (what platform, language(s), database type, etc.) for the project. 
-That's just one layer "higher" than these instructions are built for.
+If building a new app, *Architect* and *Planner abc* assume you already know *specs* for the project (stack, guidelines, etc). That's just one layer "higher" than these instructions are built for.
+
+#### Pre-planning
 Possibly coming soon: a level above "Planner" where you brainstorm on a high level to get ideas for *specs* to feed planner.
-Until then, use "Ask" mode or query your favorite LLM chat to help you sculpt your *specs*.
+Until then, use "Ask" mode in Roo or query your favorite LLM chat to help you sculpt your *specs*.
+**Save money** by using the following in your browser for free until they reach their limits: 
+- https://claude.ai
+- https://chatgpt.com
+- https://aistudio.google.com/prompts/new_chat
 
 ### Use cases for modifying your existing app
 
@@ -45,14 +53,19 @@ Scenario: Fixing a bug, modifying front-end, or adding a function.
 #### Example of a medium or large workflow
 Scenario: Building a new dashboard screen from scratch.
 **Planning**
-- Start with "planner-a" (for med/high complexity work) or "architect" (for low complexity work) mode. For this mode, I choose a model with high reasoning and large-as-possible context window.
+- Start with "planner-a" (for med/high size work) or "architect" (for low/med size work) mode. 
+- For this mode, I choose a model with high reasoning and large-as-possible context window. Why? Because AgentAutoFlow's planning modes do the "heavy lifting," creating a plan file that has atomic detail so that orchestrator and the other modes in the chain can be relatively "dumb".
+- *mode choice examples* (note - I change these often, your mileage may vary):
+    - Architect: *Sonnet-4.5-Reasoning* for intelligence and context window. I choose the large context window here because this modified architect mode does what Planners a/b/c all do, combined.
+    - Planner-a: This mode seeks to understand your goal, investigates relevant project files/functions, and creates a big picture. Brainstorms with user to determine high level plan. Creates "Phase(s)". Right now I use *GPT-5x-Reasoning-High* for intelligence. If you use it through OpenAI as a provider, you can choose "flex" Tier for lower pricing. If you don't care about cost, use *Sonnet-4.5-Reasoning*.
+    - Planner-b: Populates Phase(s) with detailed atomic Task(s). *GPT-5x-Reasoning-High*. Don't worry about planner-b receiving a large context window from planner-a. It will only receive the in-progress plan file from planner-a.
+    - Planner-c: Detailed task simulation and refinement. *GPT-5x-Reasoning-High*. Don't worry about planner-c receiving a large context window from planner-b. It will only receive the in-progress plan file from planner-b.
 - Tell it what you want.
 - It will brainstorm with you, asking questions, including:
-    - *Complexity*: How do you want the work plan to be structured in terms of size, phase(s), and task(s)? It will recommend one.
-        - It will automatically create tasks so they are "bite-size" chunks less smart/lower-cost LLM models can more easily do the actual work.
+    - *Complexity*: How do you want the work plan to be structured in terms of size, phase(s), and task(s)? It will recommend one. It will automatically create tasks so they are "bite-size" chunks less smart/lower-cost LLM models can more easily do the actual work.
     - *Autonomy*: What level of autonomy do you want it to have when it does the work?
     - *Testing*: What type of testing (browser, unit tests, custom, none) do you want it to do as it completes tasks?
-- It will create a high level plan and ask you if you want to modify it or approve.
+- It will create a plan and ask you if you want to modify it or approve.
 - It will also create plan and log files.
   *Why are these files useful for the plan?*
   - Keep track of goals.
@@ -61,9 +74,9 @@ Scenario: Building a new dashboard screen from scratch.
 - Once you approve the plan, if using planner-a, it will pass on to the other planner modes to flesh out and add detail to the plan. If using architect mode, that mode will do what planners a/b/c all do but with a bit less "care" and cost in time.
 - Eventually, once you approve, it will pass the plan (with detailed instructions, mode hints, etc.) on to the "orchestrator" mode. 
 **Orchestration**
-- As you probably gathered, I've moved much more of the detail (like making atomic tasks) into the planning phase so that orchestrator can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
+- As you probably gathered, I've moved much more of the detail work (like making atomic tasks) into the planning phase so that orchestrator can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
 **Mode budgeting**
-- Note: This workflow will sets the plan to prefer "code monkey" and "task-simple" modes, depending on complexity. If "task-simple" or "code monkey" get confused because a task is too difficult or complex, it has instructions to pass the task on to "code" mode which I assign a "smarter" LLM to. Finally, "debug" mode is for more complex issues, so be sure to assign it a reasoning model, as well.
+- Note: This workflow will sets the plan to prefer "code monkey" and "task-simple" modes, depending on complexity. If "task-simple" or "code monkey" get confused because a task is too difficult or complex, they instructions to pass the task up to "code" mode which I assign a "smarter" LLM to. Finally, "debug" mode is for more complex issues, so be sure to assign it a reasoning model, as well.
 
 ## Roo Code specific
 

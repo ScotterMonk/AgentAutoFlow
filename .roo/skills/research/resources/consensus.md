@@ -28,3 +28,4 @@ Relying on consensusâ€”defined as widespread agreement among a group or societyâ
    - By contrast, consensus prioritizes social harmony over accuracy. If two experts disagree but one provides verifiable proof, truth sides with evidence, not votes. Reducing truth to consensus equates it with democracy, which is fine for governance but fallacious for ontology.
 
 In summary, while consensus can indicate useful heuristics (e.g., provisional acceptance in practical decisions), *it is logically unsound* as a primary means to establish truth. *Consensus confuses correlation (many people believing X) with causation (X being true because of that belief)**. Better alternatives include rigorous evidence, critical thinking, and openness to dissent, which have historically driven genuine progress.
+ 

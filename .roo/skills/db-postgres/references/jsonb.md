@@ -318,4 +318,4 @@ UPDATE users SET metadata = jsonb_build_object(
 
 -- Drop old columns after validation
 ALTER TABLE users DROP COLUMN preferences, DROP COLUMN settings, DROP COLUMN flags;
-```
+``` 

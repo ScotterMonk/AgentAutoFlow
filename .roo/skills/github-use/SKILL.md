@@ -144,3 +144,4 @@ Steps: Errors → run a concise log (git log --oneline -n 10 or similar) → avo
 ## Branch
 Purpose: Show current branch.
 Steps: Errors → run git branch --show-current → state the branch name plainly in the summary.
+ 

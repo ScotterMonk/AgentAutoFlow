@@ -39,7 +39,7 @@
 - Resolve VS Code Problems.
 - Execute impact analysis.
 - Call `/tester` mode if/when needed.
-- Document useful discoveries, including any new patterns or best practices discovered.
+- Document `learnings`, including any new patterns or best practices discovered.
 2) **Continuous Learning Protocol**:
 - Use `useful-discoveries` system.
 - Analyze what worked well and what could be improved.
@@ -95,7 +95,7 @@ Follow the `Testing` section in `{base folder}/.roo/rules/01-general.md`. For Py
 
 ### If stuck in a loop
 1) Try one completely different approach (different layout strategy, CSS technique, or component structure).
-2) Check useful discoveries for prior solutions or patterns.
+2) Check `learnings` for prior solutions or patterns.
 3) If `autonomy level` is "Med": Try one more novel solution.
 4) If `autonomy level` is "High": Try two more novel solutions.
 5) If still stuck:
@@ -118,6 +118,7 @@ Follow the `Testing` section in `{base folder}/.roo/rules/01-general.md`. For Py
 
 2) **Lessons learned**
 - **Share with user up to 3 lessons learned** from working through this task.
-- **For each lesson**: Present user with choices for "Save {lesson learned} to 'Useful discoveries'" for each lesson.
+- **For each lesson**: Present user with choices for "Save {lesson learned} to 'lessons learned'" for each lesson.
 - **Save their picks** via `useful-discoveries-save` skill.
 
+ 

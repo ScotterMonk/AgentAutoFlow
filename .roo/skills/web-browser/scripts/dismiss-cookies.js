@@ -43,7 +43,7 @@ const COOKIE_DISMISS_SCRIPT = `(acceptCookies) => {
 
   const findButtonByText = (patterns, container = document) => {
     const buttons = Array.from(container.querySelectorAll('button, [role="button"], a.button, input[type="submit"], input[type="button"]'));
-    // Sort patterns by length descending to match more specific patterns first
+    // Sort patterns by length descending to match more specific patterns first 
     const sortedPatterns = [...patterns].sort((a, b) => b.length - a.length);
     
     // Check patterns in order of specificity (longest first)

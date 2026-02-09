@@ -91,7 +91,7 @@ class CDP {
       try {
         handler(params, sessionId);
       } catch {
-        // Ignore handler errors to keep CDP session alive.
+        // Ignore handler errors to keep CDP session alive. 
       }
     }
   }

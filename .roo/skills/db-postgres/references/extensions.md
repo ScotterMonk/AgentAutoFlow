@@ -401,4 +401,4 @@ SELECT add_continuous_aggregate_policy('metrics_hourly',
 - `file_fdw` (query CSV files)
 
 **Table Maintenance:**
-- `pg_repack` (online bloat removal)
+- `pg_repack` (online bloat removal) 

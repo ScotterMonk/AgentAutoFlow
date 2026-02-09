@@ -38,3 +38,4 @@ description: When a coding or scripting mode needs to initiate coding execution.
    *Stop and wait for user response before proceeding to next question.*
    - **Question 2: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: [] Browser, [] Terminal commands or short scripts, [] Python tests, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
    *Stop and wait for user response before proceeding.*
+ 

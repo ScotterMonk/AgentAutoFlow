@@ -76,5 +76,6 @@ Use `app-standards` to accomplish the task to the best of your abilities.
 
 ### Lessons learned
 - **Share with user up to 3 lessons learned** from working through this task.
-- **For each lesson**: Present user with choices for "Save {lesson learned} to 'Useful discoveries'" for each lesson.
+- **For each lesson**: Present user with choices for "Save {lesson learned} to 'lessons learned'" for each lesson.
 - **Save their picks** via `useful-discoveries-save` skill.
+ 

@@ -117,3 +117,4 @@ When all tasks in the `plan` are either:
     - Open both files for review and explicitly declare the `plan` completed in your final message.
 
 At that point, Orchestrator Mode’s responsibility for `plan` ends. 
+ 

@@ -7,4 +7,4 @@ Always answer the user's questions thoroughly, and do not switch to implementing
 
 ## Specific topics
 - Health: `{base folder}/.roo/rules/rules-ask/02-ask-health.md`
-- Flora growing: `{base folder}/.roo/rules/rules-ask/03-ask-flora-growing.md`
+- Flora growing: `{base folder}/.roo/rules/rules-ask/03-ask-flora-growing.md` 

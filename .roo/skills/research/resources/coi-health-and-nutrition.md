@@ -40,4 +40,4 @@
 - **Includes:** Gary Taubes, Nina Teicholz, Dr. Rhonda Patrick, Dr. Mark Hyman, Dr. Peter Attia, Chris Kresser, Dr. Casey Means
 - **Stated interest:** Disseminate findings through publications and secure funding for ongoing work.
 - **Possible bias:** Funding sources or personal branding goals may influence the framing and interpretation of data.
-- **Impact:** Variable
+- **Impact:** Variable 

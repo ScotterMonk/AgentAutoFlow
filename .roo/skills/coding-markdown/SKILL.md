@@ -66,3 +66,4 @@ Good: See `Critical Resources` in `{base folder}/.roo/rules/01-general.md`
     - Nested detail.
 - Second item.
 ```
+ 

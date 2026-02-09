@@ -160,4 +160,4 @@ b) Create user-friendly report using contents of `log file`.
 
 c) Open this document in main code window for user to easily view.
 
-d) Make sure `report file` is open in a VS Code editor tab and focus that tab for user to see.
+d) Make sure `report file` is open in a VS Code editor tab and focus that tab for user to see. 

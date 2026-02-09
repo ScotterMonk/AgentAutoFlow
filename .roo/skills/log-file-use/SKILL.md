@@ -40,3 +40,4 @@ c) `short plan name`: `yymmdd_{short_2_word_description}`.
 
 ### Writing to a log file
 - Use the `apply_diff` tool to modify existing `log file` in the `{plans folder}`.
+ 

@@ -443,4 +443,4 @@ SELECT pg_create_physical_replication_slot('replica_1');
 -- Option 1: Increase wal_keep_size
 -- Option 2: Use replication slots
 -- Option 3: Re-run pg_basebackup
-```
+``` 

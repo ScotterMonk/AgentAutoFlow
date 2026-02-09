@@ -13,7 +13,7 @@ if (!message) {
   process.exit(1);
 }
 
-// Global timeout - 5 minutes for interactive picking
+// Global timeout - 5 minutes for interactive picking 
 const globalTimeout = setTimeout(() => {
   console.error("✗ Global timeout exceeded (5m)");
   process.exit(1);

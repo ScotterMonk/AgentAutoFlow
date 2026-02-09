@@ -38,4 +38,4 @@ Includes how to query and process the current existing external APIs:
 
 ## Docs and examples
 - **API 01 placeholder**: `placeholder_file.md` (IMDb236 API)
-- **API 02 placeholder**: `placeholder_file.md` (IMDb8 API)
+- **API 02 placeholder**: `placeholder_file.md` (IMDb8 API) 

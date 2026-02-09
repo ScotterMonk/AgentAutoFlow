@@ -61,3 +61,4 @@
     - Use the `new_task` tool to switch to `/planner-b` with `message` parameter containing **only**:
         - "**Work on stage 2 of creating** the `plan` in {`plan_file`}."
         - **Critical** to not include any other context.
+ 

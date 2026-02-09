@@ -71,3 +71,4 @@ Sometimes one insight eliminates 10 things. Look for the unifying principle that
 - One powerful abstraction > ten clever hacks
 - The pattern is usually already there, just needs recognition
 - Measure in "how many things can we delete?"
+ 

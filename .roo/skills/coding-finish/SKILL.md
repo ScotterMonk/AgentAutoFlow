@@ -11,7 +11,7 @@ description: When a coding or scripting mode ("code", "code-monkey", "debug", "f
 
 2) **Lessons learned**
     - **Share with user up to 3 lessons learned** from working through this task.
-    - **For each lesson**: Present user with choices for "Save {lesson learned} to 'Useful discoveries'" for each lesson. **The menu presented to user must allow the user to choose one or more of the presented lessons learned.**
+    - **For each lesson**: Present user with choices for "Save {lesson learned} to 'lessons learned'" for each lesson. **The menu presented to user must allow the user to choose one or more of the presented lessons learned.**
     - **Save their picks** via `useful-discoveries-save` skill.
 
 3) **Completion**
@@ -20,4 +20,4 @@ description: When a coding or scripting mode ("code", "code-monkey", "debug", "f
 - **ELSE IF this mode was called by user**:
     - User confirmation: user satisfied or has additional instructions?
     - Analyze what worked well and what could be improved.
-    - Identify areas where additional codebase exploration might be beneficial.
+    - Identify areas where additional codebase exploration might be beneficial. 

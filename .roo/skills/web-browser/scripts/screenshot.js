@@ -8,7 +8,7 @@ import { connect } from "./cdp.js";
 const DEBUG = process.env.DEBUG === "1";
 const log = DEBUG ? (...args) => console.error("[debug]", ...args) : () => {};
 
-// Global timeout
+// Global timeout 
 const globalTimeout = setTimeout(() => {
   console.error("✗ Global timeout exceeded (15s)");
   process.exit(1);

@@ -60,7 +60,7 @@ Use `coding-init` skill.
 
 **If stuck in a loop**:
 1) Try one completely different approach (algorithm, architecture, or module choice).
-2) Check useful discoveries for prior solutions or patterns.
+2) Check `learnings` for prior solutions or patterns.
 3) If `autonomy level` is "Med": Try one more novel solution.
 4) If `autonomy level` is "High": Try two more novel solutions.
 5) If still stuck:
@@ -70,3 +70,4 @@ Use `coding-init` skill.
 
 ### 3: Finish
 Use `coding-finish` skill.
+ 

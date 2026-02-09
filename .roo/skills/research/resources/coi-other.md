@@ -18,4 +18,4 @@
 - **Includes:** Seymour Hersh, Naomi Klein, Jeremy Scahill, Andrew Bacevich, Daniel Yergin, William Hartung, Glenn Greenwald
 - **Stated interest:** Disseminate findings through publications and secure funding.
 - **Possible bias:** Funding source or personal ideology may influence the framing and interpretation of events.
-- **Impact:** Variable
+- **Impact:** Variable 

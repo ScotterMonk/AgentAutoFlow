@@ -69,7 +69,7 @@ if (existsSync(PID_FILE)) {
       process.exit(0);
     }
   } catch {
-    // Ignore and overwrite stale pid.
+    // Ignore and overwrite stale pid. 
   }
 }
 

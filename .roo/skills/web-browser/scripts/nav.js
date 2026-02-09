@@ -16,7 +16,7 @@ if (!url) {
   process.exit(1);
 }
 
-// Global timeout
+// Global timeout 
 const globalTimeout = setTimeout(() => {
   console.error("✗ Global timeout exceeded (45s)");
   process.exit(1);

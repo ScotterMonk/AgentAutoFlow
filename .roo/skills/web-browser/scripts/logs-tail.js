@@ -67,3 +67,4 @@ try {
   console.error("✗ tail failed:", e.message);
   process.exit(1);
 }
+// 

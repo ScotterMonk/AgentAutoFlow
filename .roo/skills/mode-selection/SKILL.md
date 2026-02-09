@@ -46,3 +46,4 @@ description: For understanding what each mode does, which mode is best (most app
     - Use `/debug`
 **Special Exception**:
 - **Front-End Tasks** (Medium or High complexity): **Always use** `/front-end`
+ 

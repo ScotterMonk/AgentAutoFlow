@@ -31,3 +31,4 @@ Readability: Prioritize Readable Code over "clever"/compact [pythonic] one-liner
 ## Tooling Preference (Web)
 Primary: browser_action (ALWAYS try this first).
 Fallback: Other browser tools (Only if browser_action fails).
+ 

@@ -478,4 +478,4 @@ ORDER BY count DESC;
 -- Reset statistics (after performance testing)
 SELECT pg_stat_reset();
 SELECT pg_stat_statements_reset();
-```
+``` 

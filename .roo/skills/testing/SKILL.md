@@ -40,3 +40,4 @@ Note: Uses live PostgreSQL database, not a separate test DB.
 - Local querystring-based auth helper is available:
     - `http://localhost:5000/auth/login?email=[creds]&password=[hashed]`
 
+ 

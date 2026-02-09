@@ -78,3 +78,4 @@ Before finishing, verify:
 3.  [ ] **Tests**: Do tests still pass?
 4.  [ ] **Docs**: Updated agents.md, docstrings, and comments?
 5.  [ ] **VS Code**: No errors in the Problems panel?
+ 

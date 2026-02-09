@@ -18,7 +18,7 @@ if (process.argv[2] && process.argv[2] !== "--profile") {
   process.exit(1);
 }
 
-// Kill existing Chrome
+// Kill existing Chrome 
 try {
   execSync("killall 'Google Chrome'", { stdio: "ignore" });
 } catch {}

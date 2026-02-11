@@ -20,3 +20,6 @@ notes/
 temp/
 *.af
 *.afphoto
+
+# Reports
+.roo/docs/reports/

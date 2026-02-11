@@ -17,6 +17,7 @@ venv/
 
 # Misc
 notes/
+screenshots/
 temp/
 *.af
 *.afphoto

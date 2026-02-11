@@ -96,5 +96,5 @@ There is no database for this project. Ignore any references to a database.
 - pytest fixtures in `{base folder}/tests/` create temporary .roo structures
 
 ## Tooling Preference (Web interfaces)
-Primary: Use `web-browser` skill.
+Primary: Use `web browser`.
 Fallback: browser_action

@@ -69,6 +69,7 @@ Examples:
 - **Real implementations only**: Unless otherwise specified, work should specify real functionality.
 - **Avoid broad, global edits** unless explicitly planned and approved. Keep changes as small and reversible as reasonable.
 - **Logging**: For complex code, build in a logging call.
+- **Avoid complex CMD and PowerShell scripts**: Prefer writing python script files and then executing them, *not* trying to run python scripts in the terminal.
 
 ## Refactoring
 **If you rename a symbol, you MUST fix all references.**

@@ -12,6 +12,4 @@ Use `agents-skills.md`.
 Use `agents-skills.md`.
 
 **Browsing**:
-Use `web-browser` skill.
-
- 
+Use `web browser`.

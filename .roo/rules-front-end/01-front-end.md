@@ -108,7 +108,7 @@ Follow the `Testing` section in `{base folder}/.roo/rules/01-general.md`. For Py
 1) **Validation**
 - **Immediate Check**: Inspect terminal output and VS Code Problems panel after *every* edit.
 - **Browser Check** (IF application has web interface):
-  Use `web-browser` to:
+  Use `web browser` to:
   - Verify visual rendering after template/HTML/CSS/JS changes.
   - Verify browser console (no new errors/warnings).
   - If layout changed, check responsive behavior.

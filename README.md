@@ -174,11 +174,6 @@ app/
         │   └── SKILL.md
         ├── useful-discoveries-save/
         │   └── SKILL.md
-        └── web-browser/
-            ├── scripts/
-            └── SKILL.md
-
-
 ```
 
 ## Todo list tool

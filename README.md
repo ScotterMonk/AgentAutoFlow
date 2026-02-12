@@ -1,6 +1,6 @@
 # Custom Instructions
 
-Your customizable AI coding team!
+Your customizable AI coding team that learns!
 Use it to create apps or make changes/additions to existing ones. 
 
 This set of instructions (markdown files) enhances and extends the modes/agents that come with many coding agents/assistants. The instructions are tailored to work with Roo Code (free highly customizable VS Code extension) but will work with many others, including Cursor, CLine, Kilo,Github Copilot, etc.
@@ -27,7 +27,7 @@ I've added quite a few skills in the `{base folder}/.roo/skills` folder.
 - They use the *Agent Skills Open Format*.
 
 Skills libraries:
-- A skill marketplace with over 128,000 skills! https://skillsmp.com
+- A skill marketplace with over 197,000 skills! https://skillsmp.com
 - https://agentskills.io/home
 - https://skills.sh/jeffallan/claude-skills
 
@@ -95,11 +95,11 @@ app/
 └── .roo/
     ├── docs/
     │   ├── database_schema.md
-    │   ├── sharing.md
-    │   ├── useful.md
+    │   ├── learning/
     │   ├── old_versions/
     │   ├── plans/
-    │   └── plans_completed/
+    │   ├── plans_completed/
+    │   └── reports/
     ├── rules/
     │   ├── 01-general.md
     │   └── 02-database.md
@@ -156,24 +156,21 @@ app/
         │   └── SKILL.md
         ├── github-use/
         │   └── SKILL.md
+        ├── learning/
+        │   └── SKILL.md
         ├── log-file-use/
         │   └── SKILL.md
         ├── mode-selection/
         │   └── SKILL.md
         ├── planning-init/
         │   └── SKILL.md
-        ├── research-health/
-        │   └── SKILL.md
+        ├── research/
+        │   ├── SKILL.md
+        │   └── resources/
         ├── simplification/
         │   └── SKILL.md
-        ├── testing/
-        │   └── SKILL.md
-        ├── useful-discoveries-check/
-        │   └── SKILL.md
-        ├── useful-discoveries-paring/
-        │   └── SKILL.md
-        ├── useful-discoveries-save/
-        │   └── SKILL.md
+        └── testing/
+            └── SKILL.md
 ```
 
 ## Todo list tool

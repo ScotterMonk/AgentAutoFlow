@@ -5,15 +5,15 @@ description: Any time github activity is required.
 
 # Command index
 The following commands will run the processes below:
-- **update**: Stage, commit, and push all changes to the remote repository. See "### Update" below.
-- **merge to main**: Merge the current branch into the main branch. See "### Merge to main" below.
+- **update**: Stage, commit, and push all changes to the remote repository. See "## Update" below.
+- **merge to main**: Merge the current branch into the main branch. See "## Merge to main" below.
 - **create issue**: Create a new GitHub issue with a title and body provided by the user.
 - **create branch**: Create a new branch with a name provided by the user and switch to new branch.
 - **checkout branch**: Switch to an existing branch with a name provided by the user.
 - **list branches**: List all branches in the repository.
-- **status**: Show current git status. See "### Status" below.
-- **log**: Show recent git commit history. See "### Log" below.
-- **branch**: Show current branch name. See "### Branch" below.
+- **status**: Show current git status. See "## Status" below.
+- **log**: Show recent git commit history. See "## Log" below.
+- **branch**: Show current branch name. See "## Branch" below.
 - **revert**: Revert a specific commit by its hash, provided by the user.
 
 # Environment
@@ -102,9 +102,7 @@ For every command workflow below:
    - Show the status to confirm there are no unstaged or uncommitted changes.
    - If there are uncommitted changes, STOP:
      - Do **not** auto-commit, auto-stash, or discard changes.
-     - Inform the user that they must either:
-       - Run the **update** workflow to commit/push changes, or
-       - Manually commit/stash/reset before retrying **merge to main**.
+     - Run the **update** workflow to commit/push changes.
 3) **Fetch latest from remote**:
    - Fetch from the default remote (usually `origin`) to ensure `main` is up-to-date before merging.
 4) **Switch to main branch**:
@@ -114,6 +112,7 @@ For every command workflow below:
    - Pull the latest changes into `main` from `origin/main`.
    - Confirm that `main` is now synchronized with its remote counterpart.
 6) **Merge feature branch into main**:
+   - Create an appropriate merge commit message.
    - Merge the previously identified branch into `main` using a standard merge (no rebase).
    - Prefer `--no-ff` where appropriate so the merge is explicit in history.
    - If there are merge conflicts:

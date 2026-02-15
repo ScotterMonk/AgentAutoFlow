@@ -11,19 +11,21 @@ Using the built-in-to-Roo ability to use "rules" files, this archive is a set of
 - **Coder on Crack**: Juiced up "Code" mode to follow The Plan, whether created by the new superpowered Architect or hastily typed out by a user running 3 days on caffeine.
 - **Code Monkey** (Junior coder): Supplemented "Code" with a tightly controlled budget-friendly "Code Monkey" created to work with the short, detailed tasks created for it by Planner.
 - **Other new modes**: Added "Front-end", "Debugger", "Tester", "GitHubber", "Docs Writer", etc.
+
 Notes:
 - **Smart but cheap**: Designed both Architect and Planner modes  to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like "Coder", "Code Monkey", etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
 - **Look how fast they grow up**: This set of instructions is ever-evolving. 
-- **Virtuous circle**: The author, Scott Howard Swain, is always eager to hear ideas to improve this.
+- **Virtuous circle**: The author, Scott Howard Swain, uses this "Team" every day, is constantly tinkering with it, and is always eager to hear ideas to improve this.
 
-## NEW: Skills
+## Skills
 
-**All modes now consume far less tokens,**
-**use up less of models' oh-so-precioius context memory,**
-**and follow instructions better!**
+**Using skills, the Team will**:
+- Consume far less tokens,
+- Use up less of models' oh-so-precious context memory, and
+- Follow instructions better!
 
 I've added quite a few skills in the `{base folder}/.roo/skills` folder.
-- Roo Code has added skills to Roo! https://docs.roocode.com/features/skills
+- Roo Code's docs: https://docs.roocode.com/features/skills
 - They use the *Agent Skills Open Format*.
 
 Skills libraries:
@@ -51,16 +53,16 @@ Scenario: Fixing a bug, modifying front-end, or adding a function.
 - Use "code", "code monkey", "front-end", "debug", "tester", etc., as appropriate.
 
 #### Example of a medium or large workflow
-Scenario: Building a new dashboard screen from scratch.
+Scenario: Building a new dashboard screen.
 **Planning**
-- Start with "planner-a" (for med/high size work) or "architect" (for low/med size work) mode. 
+1) Start with "planner-a" (for med/high size work) or "architect" (for low/med size work) mode. 
 - For this mode, I choose a model with high reasoning and large-as-possible context window. Why? Because AgentAutoFlow's planning modes do the "heavy lifting," creating a plan file that has atomic detail so that orchestrator and the other modes in the chain can be relatively "dumb".
-- *mode choice examples* (note - I change these often, your mileage may vary):
+- *Mode choice examples* (note - I change these often, your mileage may vary):
     - Architect: *Sonnet-4.5-Reasoning* for intelligence and context window. I choose the large context window here because this modified architect mode does what Planners a/b/c all do, combined.
     - Planner-a: This mode seeks to understand your goal, investigates relevant project files/functions, and creates a big picture. Brainstorms with user to determine high level plan. Creates "Phase(s)". Right now I use *GPT-5x-Reasoning-High* for intelligence. If you use it through OpenAI as a provider, you can choose "flex" Tier for lower pricing. If you don't care about cost, use *Sonnet-4.5-Reasoning*.
     - Planner-b: Populates Phase(s) with detailed atomic Task(s). *GPT-5x-Reasoning-High*. Don't worry about planner-b receiving a large context window from planner-a. It will only receive the in-progress plan file from planner-a.
     - Planner-c: Detailed task simulation and refinement. *GPT-5x-Reasoning-High*. Don't worry about planner-c receiving a large context window from planner-b. It will only receive the in-progress plan file from planner-b.
-- Tell it what you want.
+2) Tell it what you want.
 - It will brainstorm with you, asking questions, including:
     - *Complexity*: How do you want the work plan to be structured in terms of size, phase(s), and task(s)? It will recommend one. It will automatically create tasks so they are "bite-size" chunks less smart/lower-cost LLM models can more easily do the actual work.
     - *Autonomy*: What level of autonomy do you want it to have when it does the work?
@@ -71,12 +73,14 @@ Scenario: Building a new dashboard screen from scratch.
   - Keep track of goals.
   - Keep track of progress - if planning or execution is interrupted, you can easily get back on track.
   - Catalog lessons learned during the process.
-- Once you approve the plan, if using planner-a, it will pass on to the other planner modes to flesh out and add detail to the plan. If using architect mode, that mode will do what planners a/b/c all do but with a bit less "care" and cost in time.
+3) Once you approve the plan, if using planner-a, it will pass on to the other planner modes to flesh out and add detail to the plan. If using architect mode, that mode will do what planners a/b/c all do but with a bit less "care" and cost in time.
 - Eventually, once you approve, it will pass the plan (with detailed instructions, mode hints, etc.) on to the "orchestrator" mode. 
+
 **Orchestration**
 - As you probably gathered, I've moved much more of the detail work (like making atomic tasks) into the planning phase so that orchestrator can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
+
 **Mode budgeting**
-- Note: This workflow will sets the plan to prefer "code monkey" and "task-simple" modes, depending on complexity. If "task-simple" or "code monkey" get confused because a task is too difficult or complex, they instructions to pass the task up to "code" mode which I assign a "smarter" LLM to. Finally, "debug" mode is for more complex issues, so be sure to assign it a reasoning model, as well.
+- Note: This workflow will sets the plan to choose between "code," "code monkey," and "task-simple" modes, depending on complexity. If "task-simple" or "code monkey" get confused because a task is too difficult or complex, they have instructions to pass the task up to "code" mode which I assign a "smarter" LLM to. Finally, "debug" mode is for more complex issues, so be sure to assign it a reasoning model, as well.
 
 ## Roo Code specific
 

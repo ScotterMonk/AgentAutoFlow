@@ -10,4 +10,4 @@ description: When VS Code problems or any terminal shows an error
 - **Fix First**: Resolve regressions or new errors before proceeding.
 
 **Documentation**
-- **Log Findings**: Append significant bugs, non-obvious fixes, or environment quirks to `learnings`. 
+- **Log Findings**: Submit significant bugs, non-obvious fixes, or environment quirks to `learnings`.

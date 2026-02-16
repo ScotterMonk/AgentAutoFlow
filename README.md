@@ -29,7 +29,7 @@ I've added quite a few skills in the `{base folder}/.roo/skills` folder.
 - They use the *Agent Skills Open Format*.
 
 Skills libraries:
-- A skill marketplace with over 197,000 skills! https://skillsmp.com
+- A skill marketplace with over 230,000 skills! https://skillsmp.com
 - https://agentskills.io/home
 - https://skills.sh/jeffallan/claude-skills
 

@@ -17,6 +17,17 @@ Notes:
 - **Look how fast they grow up**: This set of instructions is ever-evolving. 
 - **Virtuous circle**: The author, Scott Howard Swain, uses this "Team" every day, is constantly tinkering with it, and is always eager to hear ideas to improve this.
 
+## Setup
+
+```bash
+py -m pip install -r requirements.txt 
+```
+
+The browser-use skill requires a download of browser binaries:
+```bash
+playwright install chromium
+```
+
 ## Skills
 
 **Using skills, the Team will**:

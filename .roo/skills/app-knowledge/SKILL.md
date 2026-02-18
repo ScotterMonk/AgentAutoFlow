@@ -13,5 +13,5 @@ description: When any part of the application needs to be found or understood, i
 - **Credentials**: `.env`.
 - **Backups folder**: `{base folder}/.roo/docs/old_versions/`.
 - **Completed plans folder**: `{base folder}/.roo/docs/plans_completed/`.
-- **Web automation** & **browsing**: `browser_action`
-- **Learnings**: Last resort. 
+- **Web automation** & **browsing**: `browser-use` skill.
+- **Learnings**: Last resort. See `{base folder}/.roo/docs/learning/`

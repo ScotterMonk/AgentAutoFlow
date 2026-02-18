@@ -27,7 +27,7 @@ When a query involves...
 
 ## Resources and rules relevant to all research
 
-- **For examining any web sites or searching the web**, use `web browser`. 
+- **For examining any web sites or searching the web**, use `browser-use` skill. 
 - **Avoid complex CMD and PowerShell scripts**: Prefer writing python script files and then executing them, *not* trying to run python scripts in the terminal.
 - **Resource sites**: General `Resource sites`: `resources/sites-general.md`.
 - **Source of truth for conflicts of interest and impact**: Read the `resources/coi-` files relevant to the current type of research.

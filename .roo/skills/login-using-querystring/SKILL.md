@@ -6,10 +6,10 @@ description: For debugging, testing, or any purpose a mode may have for browsing
 # Login instructions
 
 **Configuration**:
-Use `agents-skills.md`.
+Reference `agents-skills.md`.
 
 **Credentials**:
-Use `agents-skills.md`.
+Reference `agents-skills.md`.
 
 **Browsing**:
-Use `web browser`.
+Use `browser-use` skill. 

@@ -26,7 +26,7 @@ Use `app-standards` to accomplish the task to the best of your abilities.
 - **Pytest**:
     - Use standard practice for Pytest use.
 - **Browser**:
-    - Use `web browser`.
+    - Use `browser-use` skill.
 - **All**:
     - Execute sequentially. Log coverage per method.
 - **No Testing**:

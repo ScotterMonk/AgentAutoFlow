@@ -17,4 +17,3 @@ Example: http://localhost:5000/auth/login?email=user@example.com&password=hashed
 
 ## Credentials
 
- 

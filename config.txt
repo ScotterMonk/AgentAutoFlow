@@ -1,7 +1,7 @@
 window_width=800
 window_height=700
 file_compare_threshold_sec=3
-ignore_patterns=.roo\commands\run-sync.md, .roo\docs, .roo\reports, .roo\temp, .roo\rules\02-database.md, agents.md, agents-skill.md, *.txt, *.png, *.jpg
+ignore_patterns=.roo\commands\run-sync.md, .roo\docs, .roo\reports, .roo\temp, .roo\rules\02-database.md, agents.md, agents-skill.md, *.txt, *.png, *.jpg, */__pycache__/*
 backup_mode=timestamped
 dry_run=false
 root_allowlist=.roomodes

@@ -42,6 +42,7 @@ For every command workflow below:
     - Do not use `git rebase` on main.
 - **Default remote**: Default remote is assumed to be `origin`. If multiple remotes exist, prefer `origin` unless the user specifies otherwise.
 - **Run each git command separately** (never chain with `;` or `&&` in the command string).
+- **No backticks in commit messages**: PowerShell uses the backtick (`` ` ``) as its escape character. Never use backticks inside any commit message string (e.g., do not wrap code like `` `function_name` ``). Use plain text instead (e.g., `function_name` without surrounding backticks).
  
 ## Update
 - Stage, Commit, and Push Git Changes
@@ -57,6 +58,7 @@ For every command workflow below:
    - Detailed body (keep it short as possible while not leaving out things that were done).
    - Using a Windows PowerShell terminal.
    - Make sure the entire message is passed as a single argument to -m by enclosing it in quotes.
+   - **No backticks**: Do not use backtick characters (`` ` ``) anywhere in the message text — PowerShell treats them as escape characters, which breaks the command. Write code identifiers as plain text (e.g., `_derive_source`, not `` `_derive_source` ``).
    - Include file paths for all changed files.
    - Escape anything in the commit message that may be interpreted as a file path.
 5) **Commit**: Do not ask the user for permission to commit. Just execute the commit.

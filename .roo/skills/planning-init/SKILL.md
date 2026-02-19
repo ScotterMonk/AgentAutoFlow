@@ -62,12 +62,12 @@ description: When a mode needs to initiate or continue plan creation for continu
 4) **Configuration**: If following 3 config items are empty:
     Ask user the following three questions *separately*:
     **Vital that you give exactly the choices below for each question**.
-    - **Question 1: `complexity`**: [] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), or [] Multi-Phase (Large). Recommend best option for this `plan`.
+    - **Question 1: `complexity`**: `[] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), [] Multi-Phase (Large)`. Recommend best option for this `plan`.
     *Stop and wait for user response before proceeding to next question.*
-    - **Question 2: `autonomy level`**: [] Low (frequent checks), [] Med, or [] High (rare checks).
+    - **Question 2: `autonomy level`**: `[] Low (frequent checks), [] Medium, [] High (rare checks)`. Default to High.
     *Stop and wait for user response before proceeding to next question.*
-    - **Question 3: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: [] Browser, [] Terminal commands or short scripts, [] Python tests, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
-   *Stop and wait for user response before proceeding.*
+    - **Question 3: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: `[] Use what is appropriate per task, [] Browser, [] Terminal commands or short scripts, [] Python tests, [] All, [] None, [] Custom`. Default to "Use what is appropriate per task".
+   **Stop and wait for user response before proceeding.**
 
 ### 2. Pre-planning
 1) **Search**: Search for similar planning documents and architectural decisions.

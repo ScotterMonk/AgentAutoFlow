@@ -11,11 +11,21 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
 
 --- do not remove this ---
 ## Environment & Shell
-Windows 11, VS Code, PowerShell.
-**Base folder**: `d:/Dropbox/Projects/AgentAutoFlow/app/`. Convert between "\" and "/" as necessary.
-**Prefer PowerShell**: This project is developed on Windows. Agents should assume a PowerShell environment (`pwsh`) for terminal commands.
-**Avoid cmd.exe pitfalls**: Be aware that `cmd.exe` does not treat `;` as a command separator (use `&` or `&&` instead). If a command fails with "shell is treating ; as an argument", it likely ran in `cmd.exe`.
-**VS Code Settings**: The workspace is configured to default to PowerShell (`.vscode/settings.json`).
+**Context**: Windows 11, VS Code, PowerShell Core (`pwsh`).
+- **Base folder**: `d:/Dropbox/Projects/AgentAutoFlow/app/`.
+   - **Rule**: Always use forward slashes `/` in paths to avoid escaping errors.
+- **Terminal**: **STRICTLY PowerShell**. Do not use `cmd.exe`, `bash`, or `wsl`.
+- **Syntax Rules**:
+  - **Chaining**: Use `;` (sequential) or `&&` (conditional).
+  - **Variables**: Use `$env:VAR = 'val'` (not `export` or `set`).
+  - **Replacements**: Use `Select-String` (not `grep`), `Get-Content` (not `cat`), `New-Item` (not `touch`), `Remove-Item` (not `rm`).
+- **Prohibited**: `tail`, `sed`, `awk`, `sudo`, and `cmd.exe` flags (like `/d`).
+
+## Run Commands
+- Never use Linux commands in terminal.
+- Start app: `py app.py` (not `flask run`). Do not test to see if it worked.
+- Activate venv: `.\activate.ps1`
+
 --- do not remove this ---
 
 ## Common paths through app

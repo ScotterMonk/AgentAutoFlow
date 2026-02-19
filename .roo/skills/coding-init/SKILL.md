@@ -33,9 +33,8 @@ description: When a coding or scripting mode needs to initiate coding execution.
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies (routes, models, utils, APIs).
 5) **Configuration**: If following 2 config items are empty:
    Ask user the following three questions *separately*:
-   **For each question below, vital that you show the user exactly the choices below**.
-   - **Question 1: `autonomy level`**: [] Low (frequent checks), [] Med, or [] High (rare checks).
+   **Vital that you give exactly the choices below for each question**.
+   - **Question 1: `autonomy level`**: `[] Low (frequent checks), [] Medium, [] High (rare checks)`. Default to High.
    *Stop and wait for user response before proceeding to next question.*
-   - **Question 2: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: [] Browser, [] Terminal commands or short scripts, [] Python tests, [] Use what is appropriate per task, [] All, [] None, or [] Custom.
-   *Stop and wait for user response before proceeding.*
- 
+   - **Question 2: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: `[] Use what is appropriate per task, [] Browser, [] Terminal commands or short scripts, [] Python tests, [] All, [] None, [] Custom`. Default to "Use what is appropriate per task".
+   **Stop and wait for user response before proceeding.**

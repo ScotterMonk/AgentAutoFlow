@@ -172,10 +172,8 @@ Present analysis before saving:
 **File**: [Category-subcategory.md]
 **Section**: [New | Existing section name]
 **Lines**: [N] (limit: 30)
-
 ```diff
 + [New content in compact format]
-```
 
 Do you approve this update?
 ```

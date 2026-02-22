@@ -101,9 +101,10 @@ There is no database for this project. Ignore any references to a database.
 
 ### Testing
 - Primary testing folder: `{base folder}/tests/`.
-- Integration tests: `{base folder}/test_integration/` with project_a and project_b folders
-- Tests verify .roo sync behavior, not general file sync
-- pytest fixtures in `{base folder}/tests/` create temporary .roo structures
+- Integration tests: `{base folder}/test_integration/` with project_a and project_b folders.
+- Tests verify .roo sync behavior, not general file sync.
+- Use `pytest` for this application.
+- Pytest fixtures in `{base folder}/tests/` create temporary .roo structures.
 
 ## Tooling Preference (Web interfaces)
 Primary: Use `web browser`.

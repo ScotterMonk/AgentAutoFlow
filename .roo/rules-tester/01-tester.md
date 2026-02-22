@@ -53,8 +53,8 @@ Use `app-standards` to accomplish the task to the best of your abilities.
 
 **Trigger**: Bug confirmation.
 **Action**: Create **WTS (What-To-Ship)** package and delegate.
-- **Find root cause**: Delegate to `/debug`.
-- **Implementation**: Delegate to `/code` or `/code-monkey`.
+- **Find root cause**: Delegate to `/debug` mode.
+- **Implementation**: Delegate to `/code` mode or `/code-monkey` mode, depending on complexity.
 
 **WTS Payload Requirements**:
 1) **Summary**: Concise issue and severity.

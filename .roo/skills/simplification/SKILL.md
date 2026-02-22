@@ -1,6 +1,6 @@
 ---
 name: simplification
-description: Finds insights that eliminate multiple components; "if this is true, we don't need X, Y, or Z". Used when implementing the same concept multiple ways, accumulating special cases, or complexity is spiraling. Otherwise known as "Simplification Cascades"
+description: Finds insights that eliminate multiple components; "if this is true, we don't need X, Y, or Z". Used when implementing the same concept multiple ways, accumulating special cases, or complexity is spiraling. Otherwise known as "Simplification Cascades" or principled way.
 ---
 
 # Simplification cascades

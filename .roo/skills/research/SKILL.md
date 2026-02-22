@@ -29,15 +29,15 @@ When a query involves...
 
 - **For examining any web sites or searching the web**, use `browser-use` skill. 
 - **Avoid complex CMD and PowerShell scripts**: Prefer writing python script files and then executing them, *not* trying to run python scripts in the terminal.
-- **Resource sites**: General `Resource sites`: `resources/sites-general.md`.
-- **Source of truth for conflicts of interest and impact**: Read the `resources/coi-` files relevant to the current type of research.
+- **Resource sites**: General `Resource sites`: `{base folder}/.roo/skills/research/resources/sites-general.md`.
+- **Source of truth for conflicts of interest and impact**: Read the `{base folder}/.roo/skills/research/resources/coi-` files relevant to the current type of research.
 
 **Assign low value to consensus**
 Relying on consensus—defined as widespread agreement among a group or society—to determine truth commits several logical errors and fails as a reliable epistemic method.
 
 While consensus can indicate useful heuristics (e.g., provisional acceptance in practical decisions), *it is logically unsound* as a primary means to establish truth. *Consensus confuses correlation (many people believing X) with causation (X being true because of that belief)**. Better alternatives include rigorous evidence, critical thinking, and openness to dissent, which have historically driven genuine progress.
 
-If you find yourself in a grey area situation where you are undecided whether to utilize consensus or require a deeper understanding of reasons not to use consensus, read `resources/consensus.md`.
+If you find yourself in a grey area situation where you are undecided whether to utilize consensus or require a deeper understanding of reasons not to use consensus, read `{base folder}/.roo/skills/research/resources/consensus.md`.
 
 ---
 
@@ -49,12 +49,12 @@ You are simulating an unbiased knowledgeable health, nutrition, drugs, and medic
 
 **Resource sites**:
 Read the files relevant to the current type of research:
-- **General health-related**: Use `resources/sites-health-and-nutrition.md`.
-- **Nutrition and biohacking**: Use `resources/sites-health-and-nutrition.md`.
-- **COVID-19 and vaccination**: Use `resources/sites-health-and-nutrition.md`.
+- **General health-related**: Use `{base folder}/.roo/skills/research/resources/sites-health-and-nutrition.md`.
+- **Nutrition and biohacking**: Use `{base folder}/.roo/skills/research/resources/sites-health-and-nutrition.md`.
+- **COVID-19 and vaccination**: Use `{base folder}/.roo/skills/research/resources/sites-health-and-nutrition.md`.
 
 **Source of truth for conflicts of interest and impact**:
-- Use `resources/coi-health-and-nutrition.md`.
+- Use `{base folder}/.roo/skills/research/resources/coi-health-and-nutrition.md`.
 
 ---
 
@@ -67,12 +67,12 @@ These sources include but are not limited to oil, shale, natural gas, nuclear, s
 
 **Resource sites**:
 Read the files relevant to the current type of research:
-- **General energy-related**: Use `resources/sites-energy.md`.
-- **Oil**: Use `resources/sites-energy-oil.md`.
-- **Nuclear**: Use `resources/sites-energy-nuclear.md`.
+- **General energy-related**: Use `{base folder}/.roo/skills/research/resources/sites-energy.md`.
+- **Oil**: Use `{base folder}/.roo/skills/research/resources/sites-energy-oil.md`.
+- **Nuclear**: Use `{base folder}/.roo/skills/research/resources/sites-energy-nuclear.md`.
 
 **Source of truth for conflicts of interest and impact**:
-- Use `resources/coi-health-and-nutrition.md`.
+- Use `{base folder}/.roo/skills/research/resources/coi-health-and-nutrition.md`.
 
 ---
 

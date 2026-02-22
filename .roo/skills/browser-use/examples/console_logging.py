@@ -1,8 +1,13 @@
+from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 # Example: Capturing console logs during browser automation
+# Output goes to outputs/ relative to current working directory (created automatically).
 
 url = 'http://localhost:5173'  # Replace with your URL
+
+# Ensure output directory exists (works on Windows and Linux)
+Path('outputs').mkdir(parents=True, exist_ok=True)
 
 console_logs = []
 
@@ -17,19 +22,21 @@ with sync_playwright() as p:
 
     page.on("console", handle_console_message)
 
-    # Navigate to page
-    page.goto(url)
-    page.wait_for_load_state('networkidle')
+    try:
+        # Navigate to page; wait for a real element rather than networkidle (which is flaky)
+        page.goto(url)
+        page.wait_for_selector('body', timeout=10000)
 
-    # Interact with the page (triggers console logs)
-    page.click('text=Dashboard')
-    page.wait_for_timeout(1000)
+        # Interact with the page (triggers console logs)
+        page.click('text=Dashboard')
+        page.wait_for_timeout(1000)
 
-    browser.close()
+    finally:
+        browser.close()
 
-# Save console logs to file
-with open('/mnt/user-data/outputs/console.log', 'w') as f:
-    f.write('\n'.join(console_logs))
+# Save console logs to file (relative path — works on Windows and Linux)
+log_path = Path('outputs') / 'console.log'
+log_path.write_text('\n'.join(console_logs), encoding='utf-8')
 
 print(f"\nCaptured {len(console_logs)} console messages")
-print(f"Logs saved to: /mnt/user-data/outputs/console.log")
+print(f"Logs saved to: {log_path}")

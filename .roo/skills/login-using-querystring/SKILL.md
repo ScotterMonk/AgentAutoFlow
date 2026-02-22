@@ -6,10 +6,10 @@ description: For debugging, testing, or any purpose a mode may have for browsing
 # Login instructions
 
 **Configuration**:
-Reference `agents-skills.md`.
+Reference `{base folder}/.roo/skills/login-using-querystring/agents-skills.md`.
 
 **Credentials**:
-Reference `agents-skills.md`.
+Reference `{base folder}/.roo/skills/login-using-querystring/agents-skills.md`.
 
 **Browsing**:
 Use `browser-use` skill. 

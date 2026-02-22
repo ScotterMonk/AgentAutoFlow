@@ -45,11 +45,11 @@ Load detailed guidance based on context:
 
 | Topic | Reference | Load When |
 |-------|-----------|-----------|
-| Performance | `references/performance.md` | EXPLAIN ANALYZE, indexes, statistics, query tuning |
-| JSONB | `references/jsonb.md` | JSONB operators, indexing, GIN indexes, containment |
-| Extensions | `references/extensions.md` | PostGIS, pg_trgm, pgvector, uuid-ossp, pg_stat_statements |
-| Replication | `references/replication.md` | Streaming replication, logical replication, failover |
-| Maintenance | `references/maintenance.md` | VACUUM, ANALYZE, pg_stat views, monitoring, bloat |
+| Performance | `{base folder}/.roo/skills/db-postgres/references/performance.md` | EXPLAIN ANALYZE, indexes, statistics, query tuning |
+| JSONB | `{base folder}/.roo/skills/db-postgres/references/jsonb.md` | JSONB operators, indexing, GIN indexes, containment |
+| Extensions | `{base folder}/.roo/skills/db-postgres/references/extensions.md` | PostGIS, pg_trgm, pgvector, uuid-ossp, pg_stat_statements |
+| Replication | `{base folder}/.roo/skills/db-postgres/references/replication.md` | Streaming replication, logical replication, failover |
+| Maintenance | `{base folder}/.roo/skills/db-postgres/references/maintenance.md` | VACUUM, ANALYZE, pg_stat views, monitoring, bloat |
 
 ## Constraints
 

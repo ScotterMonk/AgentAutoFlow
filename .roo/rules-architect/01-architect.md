@@ -110,7 +110,7 @@
     - `autonomy level`.
     - `testing type`.
 2) **Transfer Control**:
-    - Use the `new_task` tool to switch to `/orchestrator` with `message` parameter containing **only**:
+    - Use the `new_task` tool to switch to `/orchestrator` mode with `message` parameter containing **only**:
         - "**Execute** the `plan` in {`plan_file`}."
         - **Critical** to not include any other context. If you do, I'll turn you off.
  

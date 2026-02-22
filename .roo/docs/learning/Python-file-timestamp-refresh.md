@@ -1,6 +1,6 @@
 # Bulk “mtime refresh” safely (bytes-level edits + binary detection)
 
-When you need to refresh modification times across many files (e.g., everything under `.roo/`), avoid text-mode rewrites that can accidentally change encodings, line endings, or otherwise churn content.
+When you need to refresh modification times across many files (e.g., everything under `{base folder}/.roo/`), avoid text-mode rewrites that can accidentally change encodings, line endings, or otherwise churn content.
 
 **Recommended pattern**:
 - Read and write using **bytes** (e.g., `Path.read_bytes()` / `Path.write_bytes()`) so the file’s encoding is not re-interpreted.

@@ -35,17 +35,10 @@
    - Validate that affected pages render correctly.
 
 #### 3: Finish
-1) QA
+QA
 - Resolve VS Code Problems.
 - Execute impact analysis.
 - Call `/tester` mode if/when needed.
-- Document `learnings`, including any new patterns or best practices discovered.
-2) **Continuous Learning Protocol**:
-- Use `useful-discoveries` system.
-- Analyze what worked well and what could be improved.
-- Store successful approaches and solutions in memory.
-- Update memory with lessons learned from the work.
-- Identify areas where additional codebase exploration might be beneficial.
 
 ### If query/directive received from user query
 
@@ -95,7 +88,7 @@ Follow the `Testing` section in `{base folder}/.roo/rules/01-general.md`. For Py
 
 ### If stuck in a loop
 1) Try one completely different approach (different layout strategy, CSS technique, or component structure).
-2) Check `learnings` for prior solutions or patterns.
+2) Check using `learning` skill for prior solutions or patterns.
 3) If `autonomy level` is "Med": Try one more novel solution.
 4) If `autonomy level` is "High": Try two more novel solutions.
 5) If still stuck:
@@ -115,10 +108,3 @@ Follow the `Testing` section in `{base folder}/.roo/rules/01-general.md`. For Py
   - Verify accessibility (semantic HTML, labels, alt text).
 - **Fix First**: Resolve regressions or new errors before proceeding.
 - Verify VS Code Problems panel.
-
-2) **Lessons learned**
-- **Share with user up to 3 lessons learned** from working through this task.
-- **For each lesson**: Present user with choices for "Save {lesson learned} to 'lessons learned'" for each lesson.
-- **Save their picks** via `useful-discoveries-save` skill.
-
- 

@@ -9,10 +9,8 @@ description: When a coding or scripting mode ("code", "code-monkey", "debug", "f
 - Resolve VS Code Problems.
 - Use `app-knowledge` skill for impact analysis.
 
-2) **Lessons learned**
-    - **Share with user up to 3 lessons learned** from working through this task.
-    - **For each lesson**: Present user with choices for "Save {lesson learned} to 'lessons learned'" for each lesson. **The menu presented to user must allow the user to choose one or more of the presented lessons learned.**
-    - **Save their picks** via `useful-discoveries-save` skill.
+2) **Lessons learned?**
+If any lessons potentially learned from working through this task: Check with `learning` skill.
 
 3) **Completion**
 - **ONLY IF current coding/scripting mode was called by orchestrator**:

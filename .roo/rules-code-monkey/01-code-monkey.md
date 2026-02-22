@@ -19,7 +19,7 @@ Use `coding-init` skill.
 
 **If stuck in a loop**:
 1) Try one completely different approach (algorithm, architecture, or module choice).
-2) Check `learnings` for prior solutions or patterns.
+2) Check using `learning` skill for prior solutions or patterns.
 3) If still stuck OR if the problem reveals deeper architectural issues:
    - Switch to `/code` mode.
    - Send:

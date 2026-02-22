@@ -1,6 +1,6 @@
 # Standards-all-modes instructions
 
-**app-standards**: All modes that plan or write scripts or code follow these app standards for communication, modularization, creation, editing, naming conventions, refactoring.
+**app-standards**: "app-standards" are for all modes that plan or write scripts or code follow these app standards for communication, modularization, creation, editing, naming conventions, refactoring.
 
 ## Application knowledge
 Use `app-knowledge` skill when appropriate.
@@ -13,14 +13,14 @@ Be brief; don't echo user requests.
 - **Exception**: Do NOT apply this to CSS.
 
 **Hard Limit**:
-- **Enforce** a maximum of **500 lines of code** per file (exception: main.css)
+- **Enforce** a maximum of **550 lines of code** per file (exception: main.css)
 - **Split** larger files: Create more files with fewer functions rather than exceeding this limit.
 
 **Utility Strategy**:
 - **Extract** logic liberally into utility folders.
-- **Location Naming Convention**: Use `utils/` or `utils_db/`.
+- **Location Naming Convention**: Use `{base folder}/utils/` or `{base folder}/utils_db/`.
 For JS in Flask:
-- **Location Naming Convention**: Use `static/js/utils/`.
+- **Location Naming Convention**: Use `{base folder}/static/js/utils/`.
 
 **Avoid redundancy/replication**:
 - *Take all the time necessary to be thorough and accurate*.

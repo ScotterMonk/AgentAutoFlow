@@ -5,7 +5,7 @@ description: Any time database-related activity is required.
 
 # Database use instructions
 
-For the following uses, see `agents-skills.md`:
+For the following uses, see `{base folder}/.roo/skills/db-use/agents-skills.md`:
 - **Configuration & Standards**
 - **Credentials**
 - **Structure**

@@ -74,8 +74,5 @@ Use `app-standards` to accomplish the task to the best of your abilities.
 - **To Mode**: WTS package with plan type used, scope covered, results/evidence paths, risks, and clear "Ready for X" status.
 - **To User**: WTS structured report (Summary, Steps, Evidence, Impact).
 
-### Lessons learned
-- **Share with user up to 3 lessons learned** from working through this task.
-- **For each lesson**: Present user with choices for "Save {lesson learned} to 'lessons learned'" for each lesson.
-- **Save their picks** via `useful-discoveries-save` skill.
- 
+### Lessons learned?
+If any lessons potentially learned from working through this task: Check with `learning` skill.

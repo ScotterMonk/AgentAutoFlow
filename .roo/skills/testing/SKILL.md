@@ -37,7 +37,4 @@ Note: Uses live PostgreSQL database, not a separate test DB.
 
 ### browser
 - Use `browser_action` for E2E flows.
-- Local querystring-based auth helper is available:
-    - `http://localhost:5000/auth/login?email=[creds]&password=[hashed]`
-
- 
+- If logging in to this application's site, use `login-using-querystring` skill.

@@ -42,7 +42,7 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
 2) Loads the favorites list from in-memory `MainApp.favorite_folders` (initialized from config during `MainApp.__init__()`).
 3) For each favorite folder:
    - `file_path_utils.normalize_path(fav)`
-   - `file_path_utils.ensure_roo_dir(normalized)` (creates `.roo/` for new projects)
+   - `file_path_utils.ensure_roo_dir(normalized)` (creates `{base folder}/.roo/` for new projects)
    - `file_path_utils.has_roo_dir(normalized)` (validates folder has `.roo/`)
    - if valid and not already selected, appends to `MainApp.selected_folders`.
 4) If any folders were added, refreshes the folder list via `MainApp._update_folder_list_ui()`.

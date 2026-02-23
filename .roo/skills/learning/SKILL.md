@@ -12,6 +12,8 @@ description: Self-improvement system for managing (finding/using, saving/adding,
 
 ## Workflow
 
+For any file writes, be sure to follow `## Formatting Rules` section in the `coding-markdown` skill.
+
 ### Phase 1: Evaluate (Fast Fail)
 Analyze the conversation for reusable, non-obvious insights.
 Assign a Tier:

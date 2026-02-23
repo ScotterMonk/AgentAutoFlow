@@ -46,5 +46,5 @@
     - `testing type`.
 2) **Transfer Control**:
     - Use the `new_task` tool to switch to `/orchestrator` with `message` parameter containing **only**:
-        - "**Execute** the `plan` in {`plan_file`}."
-        - **Critical** to not include any other context. If you do, I'll turn you off. 
+        - "**Orchestrate execution** of the `plan` in {`plan_file`}."
+    - **Critical**: do not include any other context.

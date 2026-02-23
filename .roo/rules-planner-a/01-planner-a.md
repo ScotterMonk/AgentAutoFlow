@@ -52,13 +52,14 @@
 **Constraint**: This `planner-a` mode must **NEVER** execute the plan.
 **Procedure**:
 1) **Verify Manifest**: Ensure `plan file` contains:
-    - `short plan name`
-    - `log file` name
-    - `user query` & `user query file` name
-    - `autonomy level`
-    - `testing type`
+    - `short plan name`.
+    - `log file` name.
+    - `user query` & `user query file` name.
+    - `complexity`.
+    - `autonomy level`.
+    - `testing type`.
 2) **Transfer Control**:
     - Use the `new_task` tool to switch to `/planner-b` with `message` parameter containing **only**:
-        - "**Work on stage 2 of creating** the `plan` in {`plan_file`}."
+        - "**Work on your part of continuing creation** of the `plan` in {`plan_file`}."
         - **Critical** to not include any other context.
  

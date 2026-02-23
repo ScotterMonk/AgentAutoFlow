@@ -67,12 +67,12 @@
         - For Actions below: When giving instructions on what to change, use both (a) function names and (b) line numbers.
     - **Task format template (follow exactly)**:
     ```markdown
-    [Goal description]
-    - Task 01: [Action description]
-        Mode hint: /[mode-name]
+    {Goal description}
+    - Task 01: {Action description}
+        Mode hint: /{mode-name}
         Actions: Notes/code/pseudocode.
         Testing: `testing type`
-        **Log progress** to [log file].
+        **Log progress** to {`log file`}.
     ```
 2) **Review**: Open `plan file` in editor.
 3) **Refine Loop**:
@@ -111,6 +111,6 @@
     - `testing type`.
 2) **Transfer Control**:
     - Use the `new_task` tool to switch to `/orchestrator` mode with `message` parameter containing **only**:
-        - "**Execute** the `plan` in {`plan_file`}."
-        - **Critical** to not include any other context. If you do, I'll turn you off.
+        - "**Orchestrate execution** of the `plan` in {`plan_file`}."
+    - **Critical**: do not include any other context.
  

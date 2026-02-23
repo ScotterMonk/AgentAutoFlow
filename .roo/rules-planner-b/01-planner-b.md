@@ -61,7 +61,6 @@
     - `short plan name`.
     - `log file` name.
     - `user query` & `user query file` name.
-    - `complexity`.
     - `autonomy level`.
     - `testing type`.
 2) **Transfer Control**:

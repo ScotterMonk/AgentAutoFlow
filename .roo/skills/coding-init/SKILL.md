@@ -14,7 +14,6 @@ description: When a coding or scripting mode needs to initiate coding execution.
 - `plan file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name].md`.
 
 ## Variables
-- `autonomy level`.
 - `testing type`.
 
 ## Workflow
@@ -31,10 +30,7 @@ description: When a coding or scripting mode needs to initiate coding execution.
 2) **Recall**: Retrieve project history/memory.
 3) **Risk**: Identify potential challenges.
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies (routes, models, utils, APIs).
-5) **Configuration**: If following 2 config items are empty:
-   Ask user the following three questions *separately*:
+5) **Configuration**: If following config item is empty:
    **Vital that you give exactly the choices below for each question**.
-   - **Question 1: `autonomy level`**: `[] Low (frequent checks), [] Medium, [] High (rare checks)`. Default to High.
-   *Stop and wait for user response before proceeding to next question.*
-   - **Question 2: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: `[] Use what is appropriate per task, [] Browser, [] Terminal commands or short scripts, [] Python tests, [] All, [] None, [] Custom`. Default to "Use what is appropriate per task".
+   - **Question: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: `[] Use what is appropriate per task, [] Browser, [] Terminal commands or short scripts, [] Python tests, [] All, [] None, [] Custom`. Default to "Use what is appropriate per task".
    **Stop and wait for user response before proceeding.**

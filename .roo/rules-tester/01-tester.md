@@ -61,7 +61,7 @@ Use `app-standards` to accomplish the task to the best of your abilities.
 2) **Reproduction**: Exact steps and data.
 3) **Evidence**: Paths to logs/screenshots.
 4) **Suspects**: Affected files/areas.
-5) **Directives**: `autonomy level`, `testing type` + Return instructions (e.g., "Fix and return summary").
+5) **Directives**: `testing type` + Return instructions (e.g., "Fix and return summary").
 
 **Post-Fix Verification**:
 1) **Retest**: Re-run exact failing scope.

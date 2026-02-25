@@ -89,9 +89,8 @@ Follow the `Testing` section in `{base folder}/.roo/rules/01-general.md`. For Py
 ### If stuck in a loop
 1) Try one completely different approach (different layout strategy, CSS technique, or component structure).
 2) Check using `learning` skill for prior solutions or patterns.
-3) If `autonomy level` is "Med": Try one more novel solution.
-4) If `autonomy level` is "High": Try two more novel solutions.
-5) If still stuck:
+3) Try two more novel solutions.
+4) If still stuck:
    - Prepare two new, clearly different approach ideas.
    - Present them to the user along with the option: "Abandon this task and return to `plan` flow."
    - Wait for user direction.

@@ -61,9 +61,8 @@ Use `coding-init` skill.
 **If stuck in a loop**:
 1) Try one completely different approach (algorithm, architecture, or module choice).
 2) Check using `learning` skill for prior solutions or patterns.
-3) If `autonomy level` is "Med": Try one more novel solution.
-4) If `autonomy level` is "High": Try two more novel solutions.
-5) If still stuck:
+3) Try two more novel solutions.
+4) If still stuck:
    - Prepare two new, clearly different approach ideas.
    - Present them to the user along with the option: "Abandon this task and return to `plan` flow."
    - Wait for user direction.

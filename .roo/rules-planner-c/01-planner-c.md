@@ -45,6 +45,8 @@
     - `autonomy level`.
     - `testing type`.
 2) **Transfer Control**:
-    - Use the `new_task` tool to switch to `/orchestrator` with `message` parameter containing **only**:
+    - Use the `new_task` (NOT `switch_mode`) to switch to `/orchestrator` mode.
+    - `todos` parameter must remain empty or contain only a single pointer line.
+    - `message` parameter contains **only**:
         - "**Orchestrate execution** of the `plan` in {`plan_file`}."
-    - **Critical**: do not include any other context.
+    - **Critical** to not include any other context.

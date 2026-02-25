@@ -59,7 +59,8 @@
     - `autonomy level`.
     - `testing type`.
 2) **Transfer Control**:
-    - Use the `new_task` tool to switch to `/planner-b` with `message` parameter containing **only**:
+    - Use `new_task` (NOT `switch_mode`) to switch to `/planner-b`.
+    - `todos` parameter must remain empty or contain only a single pointer line.
+    - `message` parameter contains **only**:
         - "**Work on your part of continuing creation** of the `plan` in {`plan_file`}."
-        - **Critical** to not include any other context.
- 
+    - **Critical** to not include any other context.

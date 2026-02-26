@@ -56,9 +56,9 @@
 - **Refactoring**: Explicitly schedule refactoring tasks.
 
 **Task Structure Rules (Strict Enforcement)**:
-1) **Atomicity**: One task = One action. Use "Action:" label. No sub-steps.
-2) **Independence**: No complex dependencies. Tasks must be self-contained.
-3) **Redundancy Check**: Before creating new logic, search `app-knowledge` for redundancies or near-redundancies. Modify existing code over creating new code.
+- **Atomicity**: One task = One action. Use "Action:" label. No sub-steps.
+- **Independence**: No complex dependencies. Tasks must be self-contained.
+- **Redundancy Check**: Before creating new logic, search `app-knowledge` for redundancies or near-redundancies. Modify existing code over creating new code.
 
 **Steps**:
 1) **Draft Tasks**:
@@ -80,7 +80,12 @@
     - Q&A with user until clarity is absolute.
     - Sync `plan file` and `log file` immediately upon changes.
 
-### 5. Deep Q&A & Finalization
+### 5. Double-check
+Human life and flourishing depends on this step being done right.
+**Did you populate phases with detailed `task(s)` and mode hints?**
+If no, then do `### 4. Detailed Task Creation` now.
+
+### 6. Deep Q&A & Finalization
 **Context**: Validate the plan before execution.
 **Steps**:
 1) **Simulation Walkthrough**:
@@ -99,7 +104,7 @@
     - Update `log file` and `plan file`.
     - Archive the 3 plan files to `plans folder`.
 
-### 6. Hand-off
+### 7. Hand-off
 **Constraint**: Architect Mode must **NEVER** execute the plan.
 **Procedure**:
 1) **Verify Manifest**: Ensure `plan file` contains:
@@ -110,7 +115,8 @@
     - `autonomy level`.
     - `testing type`.
 2) **Transfer Control**:
-    - Use the `new_task` tool to switch to `/orchestrator` mode with `message` parameter containing **only**:
+    - Use `new_task` (NOT `switch_mode`) to switch to `/orchestrator` mode.
+    - `todos` parameter must remain empty or contain only a single pointer line.
+    - `message` parameter contains **only**:
         - "**Orchestrate execution** of the `plan` in {`plan_file`}."
-    - **Critical**: do not include any other context.
- 
+    - **Critical** to not include any other context.

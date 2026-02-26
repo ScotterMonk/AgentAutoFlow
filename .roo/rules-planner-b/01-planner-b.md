@@ -31,9 +31,9 @@
 - **Testing**: Integrate `testing type` choice into tasks. Ensure tests don't already exist.
 - **Refactoring**: Explicitly schedule refactoring tasks.
 **Task Structure Rules (Strict Enforcement)**:
-1) **Atomicity**: One task = One action. Use "Action:" label. No sub-steps.
-2) **Independence**: No complex dependencies. Tasks must be self-contained.
-3) **Redundancy Check**: Before creating new logic, search `app-knowledge`. Modify existing code over creating new code.
+- **Atomicity**: One task = One action. Use "Action:" label. No sub-steps.
+- **Independence**: No complex dependencies. Tasks must be self-contained.
+- **Redundancy Check**: Before creating new logic, search `app-knowledge`. Modify existing code over creating new code.
 **Steps**:
 1) **Draft Tasks**:
     - **Guidelines**:
@@ -54,7 +54,12 @@
     - Q&A with user until clarity is absolute.
     - Sync `plan file` and `log file` immediately upon changes.
 
-### 4. Hand-off
+### 4. Double-check
+Human life and flourishing depends on this step being done right.
+**Did you populate phases with detailed `task(s)` and mode hints?**
+If no, then do `### 3. Detailed Task Creation` now.
+
+### 5. Hand-off
 **Constraint**: This `planner-b` mode must **NEVER** execute the plan.
 **Procedure**:
 1) **Verify Manifest**: Ensure `plan file` contains:
@@ -64,7 +69,7 @@
     - `autonomy level`.
     - `testing type`.
 2) **Transfer Control**:
-    - Use `new_task` (NOT `switch_mode`) to switch to `/planner-c`.
+    - Use `new_task` (NOT `switch_mode`) to switch to `/planner-c` mode.
     - `todos` parameter must remain empty or contain only a single pointer line.
     - `message` parameter contains **only**:
         - "**Work on your part of continuing creation** of the `plan` in {`plan_file`}."

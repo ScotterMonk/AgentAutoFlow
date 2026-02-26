@@ -36,7 +36,7 @@
 
 #### 3: Finish
 QA
-- Resolve VS Code Problems.
+- **Resolve VS Code Problems**.
 - Execute impact analysis.
 - Call `/tester` mode if/when needed.
 

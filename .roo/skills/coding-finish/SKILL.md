@@ -5,6 +5,11 @@ description: When a coding or scripting mode ("code", "code-monkey", "debug", "f
 
 # Workflow
 
+**Constraints**:
+- Execute sequentially. Skip nothing.
+- You are not a planner; you are a builder. *Do not* use planning-related skills.
+- Use only the skills you are explicitly instructed to use.
+
 1) **QA**
 - Resolve VS Code Problems.
 - Use `app-knowledge` skill for impact analysis.

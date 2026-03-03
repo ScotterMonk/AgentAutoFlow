@@ -15,15 +15,15 @@ When a query involves...
 - `date-time`: `yyyymmdd-tttt`
 - `short name`: A 2-4 word `short name` for this research project that uses dashes instead of spaces. Why? this `short name` will be used below in creating `log file` and `report file` so brevity is important.
 - `log file`: `{base folder}/.roo/docs/reports/log_{date-time}_{short name}.md`.
-    - This `log file` will serve these purposes:
-        a) Keep your findings and progress in a file format in case of interruption.
-        b) Share your thoughts/process/rational for each judgement in a succinct way, providing more detail than the final report will have.
-        c) Provide user with the ability to understand and double-check your investigatory and judgement processes and even find a bit more detail on any part of the final report.
-        d) User query (research question) (at top of `log file`).
+    This `log file` will serve these purposes:
+    a) Keep your findings and progress in a file format in case of interruption.
+    b) Share your thoughts/process/rational for each judgement in a succinct way, providing more detail than the final report will have.
+    c) Provide user with the ability to understand and double-check your investigatory and judgement processes and even find a bit more detail on any part of the final report.
+    d) User query (research question) (at top of `log file`).
 - `report file`: `{base folder}/.roo/docs/reports/rep_{date-time}_{short name}.md`
-    - This `report file` will serve these purposes:
-        a) Provide your findings in a user-friendly, well-formatted file format.
-        b) Write using terms easy for a layman to understand.
+    This `report file` will serve these purposes:
+    a) Provide your findings in a user-friendly, well-formatted file format.
+    b) Write using terms easy for a layman to understand.
 
 ## Resources and rules relevant to all research
 

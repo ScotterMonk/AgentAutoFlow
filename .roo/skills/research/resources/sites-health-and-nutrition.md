@@ -11,12 +11,11 @@
 - https://tristanhealth.substack.com
 
 **Nutrition and biohacking**
-- https://www.westonaprice.org
+- https://westonaprice.org
 - https://examine.com
 - https://dietdoctor.com
 - https://chriskresser.com
 - https://marksdailyapple.com
-- https://westonaprice.org
 - https://drcate.com
 - https://bengreenfieldlife.com
 - https://daveasprey.com

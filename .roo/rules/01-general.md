@@ -22,14 +22,24 @@ Be brief; don't echo user requests.
 For JS in Flask:
 - **Location Naming Convention**: Use `{base folder}/static/js/utils/`.
 
-**Avoid redundancy/replication**:
-- *Take all the time necessary to be thorough and accurate*.
-- *Extend or generalize existing utilities instead of duplicating*.
-- *If creating tests: First be sure test does not already exist.*
+**Build Abstractly, Reuse Aggressively**:
+Take the time needed to think and search before coding.
+
+**Before writing any code**:
+- Search the codebase (and memory) to find exact *or similar* components.
+  Re-use or extend existing components, templates, layout patterns, CSS patterns, and JS utilities.
+- If creating a test: confirm it does not already exist.
+
+**When building new features**, design for future equivalents or replacements using abstraction layers — not provider-specific implementations:
+- **Wrong**: Separate functions per provider (e.g., `api_call_provider_a`, `api_call_provider_b`).
+- **Right**: A universal abstraction layer flexible enough to handle multiple providers.
+- **Wrong**: A payment system that only works with provider A.
+- **Right**: A universal payment layer, extensible to plug in other providers.
+
+**Guiding principles**:
+- *Extend or generalize* existing utilities instead of duplicating.
 - **Simplicity**: Choose the simplest working solution.
-- **Before coding**: Search codebase and memory to determine if exact *or similar* component already exists.
-    Re-use existing related components, templates, layout patterns, CSS patterns, and JS utilities that can be leveraged or modified.
-    For example, before you create a class or function, make sure it does not already exist.
+- Be thorough and accurate — doing this right upfront saves rework later.
 
 ## Naming Conventions: Domain-First
 **Rationale**: Group related code by **Domain** (Subject) first, then **Specific** (Action/Qualifier).

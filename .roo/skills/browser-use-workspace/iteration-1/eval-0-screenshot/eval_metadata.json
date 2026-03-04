@@ -1,0 +1,13 @@
+{
+  "eval_id": 0,
+  "eval_name": "screenshot-of-example-com",
+  "prompt": "I need to verify that https://example.com loads correctly. Take a full-page screenshot and confirm the main heading ('Example Domain') is visible on the page. Save the screenshot to the outputs folder.",
+  "assertions": [
+    "The script uses sync_playwright() (not async)",
+    "The script waits for a specific element to be visible before acting (not networkidle)",
+    "A screenshot is saved to an outputs/ directory",
+    "The script wraps browser usage in try/finally to ensure proper cleanup",
+    "The script confirms or prints whether the heading 'Example Domain' was found",
+    "The file outputs/example_screenshot.png exists on disk with a non-zero file size after execution"
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 name: coding-init
-description: When a coding or scripting mode needs to initiate coding execution. The modes include "code", "code-monkey", "debug", "front-end", "tester"
+description: When a coding or scripting mode needs to initiate coding execution. The modes include "code", "code-monkey", "debug", "front-end", "tester". Use this skill to set up context, understand the task, locate any existing plan, and establish the testing type before beginning work.
 ---
 
 # Coding instructions
@@ -34,3 +34,18 @@ description: When a coding or scripting mode needs to initiate coding execution.
    **Vital that you give exactly the choices below for each question**.
    - **Question: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: `[] Use what is appropriate per task, [] Browser, [] Terminal commands or short scripts, [] Python tests, [] All, [] None, [] Custom`. Default to "Use what is appropriate per task".
    **Stop and wait for user response before proceeding.**
+
+### 3. Locate existing plan
+- Check the `plans folder` for a plan file matching the current task (by name or recent timestamp).
+- If a relevant `plan file` exists, **read it fully** — use it as the primary guide for your work.
+- If no plan file exists, that is fine — proceed without one.
+
+### 4. Capture the request
+- Create the `user query file` containing:
+  - The original user request (verbatim or summarized accurately).
+  - The `testing type` selected.
+  - Timestamp.
+- This file serves as a reference anchor if the task runs long or context drifts.
+
+### 5. Begin
+- Return to the calling mode's next workflow step. You are now initialized.

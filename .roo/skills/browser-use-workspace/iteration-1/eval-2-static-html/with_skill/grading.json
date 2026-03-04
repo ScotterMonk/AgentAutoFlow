@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "text": "The decision tree for local HTML file (file://) is followed — attempts to read the HTML file directly first",
+      "passed": true,
+      "evidence": "Terminal: '[Step 1] HTML file read directly: 728 chars' with full HTML preview — file read before Playwright launched"
+    },
+    {
+      "text": "Uses a file:// URL in the Playwright script (not http://)",
+      "passed": true,
+      "evidence": "Terminal: 'Source: file:///C:/temp/form.html' in discovery report — uses Path.as_uri() to produce correct file:// URL"
+    },
+    {
+      "text": "The script uses page.locator() or similar to discover inputs and buttons",
+      "passed": true,
+      "evidence": "Source uses page.locator('input').all(), page.locator('textarea').all(), page.locator('button').all()"
+    },
+    {
+      "text": "Does NOT use with_server.py (not needed for static HTML)",
+      "passed": true,
+      "evidence": "No subprocess or server management code — script runs entirely within Playwright using file:// URL"
+    },
+    {
+      "text": "Output includes a list or print statement identifying the discovered elements",
+      "passed": true,
+      "evidence": "Terminal shows full discovery report: 4 inputs (text,email,number,checkbox), 1 textarea, 2 buttons — also saved to outputs/element_discovery.txt"
+    }
+  ]
+}

@@ -1,45 +1,46 @@
 ---
 name: coding-html
-description: When html or jinja are being written or edited.
+description: When html or jinja are being written or edited. Use this skill any time you are writing, editing, refactoring, or reviewing HTML (.html files or inline HTML) or Jinja2 templates. Trigger even for small HTML additions, new template blocks, editing existing template structure, or when a user says "update the layout", "fix the template", "add a section", or "edit the page".
 ---
 
-# HTML coding standards
+# HTML / Jinja2 Coding Standards
 
 ## Syntax & Style
-Spacing: Keep vertical spacing compact (no excessive blank lines).
-Readability: Prioritize readable code over "clever" one-liners.
+- **Quotes**: Enforce Double Quotes (`"`) over single quotes (`'`) for HTML attributes and Jinja expressions.
+  - Good: `<input type="text" name="email">`
+  - Bad: `<input type='text' name='email'>`
+- **Spacing**: Keep vertical spacing compact — no excessive blank lines between elements.
+- **Indentation**: 2 spaces per level for HTML and Jinja blocks.
+- **Readability**: Prioritize readable, explicit markup over terse or clever one-liners.
+- **Language mode**: Set VS Code language mode to `jinja-html` for template files.
 
 ## CSS
-**In-line css**: Prefer use of classes from .css files to in-line css, unless explicitely justified.
+**Inline CSS**: Prefer classes from `.css` files over inline `style=""` attributes, unless explicitly justified (e.g., dynamic values injected by Python).
 
-## JS
-**In-line js**: Prefer including and referencing from functions in .js files to in-line js, unless explicitly justified.
+## JavaScript
+**Inline JS**: Prefer referencing functions from `.js` files over inline `<script>` blocks or `onclick=""` attributes, unless explicitly justified.
 
-## Mandatory metadata
+## Jinja2 Templates
+- Use `{% block %}` / `{% endblock %}` for template inheritance — don't duplicate layout HTML.
+- Wrap long Jinja expressions in `{# comment #}` comments to document intent.
+- Use `{{ var | default('') }}` to guard against undefined variable errors.
+- Prefer `{% include %}` for reusable partials (e.g., nav, footer, modals).
+- Keep business logic out of templates — pass pre-computed values from Python routes.
 
-**Preserve comments**: Do NOT delete existing, still relevant comments.
+## Mandatory Metadata
 
-**Every** function or class you touch MUST have this comment header:
-For JavaScript:
-```javascript
-// [Created-or-Modified] by [Model_Name] | YYYY-MM-DD_[Iteration]
-```
-Example: `// Modified by Claude-4.5-Sonnet | 2025-11-27_01`
+**Preserve comments**: Do NOT delete existing, still-relevant comments.
 
-For Jinja/HTML comments:
+**Every HTML section or Jinja block you create or significantly modify** must have a comment header:
+
 ```html
 <!-- [Created-or-Modified] by [Model_Name] | YYYY-MM-DD_[Iteration] -->
 ```
 
-## Syntax & Style
-Quotes: Enforce Double Quotes (") over Single Quotes (').
-Good: `const msg = "Hello";`
-Bad: `const msg = 'Hello';`
-Templates: Set language mode to jinja-html.
-Spacing: Keep vertical spacing compact (no excessive blank lines).
-Readability: Prioritize Readable Code over "clever" one-liners.
+Example: `<!-- Modified by Claude-3-7-Sonnet | 2026-03-04_01 -->`
+
+Place the comment immediately above the relevant `<section>`, `<div>`, or `{% block %}`.
 
 ## Tooling Preference (Web)
-Primary: browser_action (ALWAYS try this first).
-Fallback: Other browser tools (Only if browser_action fails).
- 
+Primary: Use `web browser`.
+Fallback: `browser_action` (only if web browser is unavailable or fails).

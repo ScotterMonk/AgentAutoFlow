@@ -1,6 +1,6 @@
 ---
 name: learning
-description: Self-improvement system for managing (finding/using, saving/adding, and paring) solutions, patterns, lessons learned, and workarounds to issues when stuck or encountering unexpected behavior.
+description: Self-improvement system for managing (finding/using, saving/adding, and pruning) solutions, patterns, lessons learned, and workarounds to issues when stuck or encountering unexpected behavior.
 ---
 
 # Learning System
@@ -10,9 +10,25 @@ description: Self-improvement system for managing (finding/using, saving/adding,
 **Learnings folder**: `{base folder}/.roo/docs/learning/` (Create if missing).
 **File format**: `{Category}-{subcategory}.md`.
 
+**Category examples**: `python`, `flask`, `javascript`, `sql`, `css`, `testing`, `sync`, `config`, `git`, `patterns`.
+**Subcategory examples**: `imports`, `routing`, `async`, `errors`, `performance`, `edge-cases`.
+*(Example: `python-imports.md`, `flask-routing.md`, `testing-edge-cases.md`)*
+
 ## Workflow
 
 For any file writes, be sure to follow `## Formatting Rules` section in the `coding-markdown` skill.
+
+---
+
+### Phase 0: Find Learnings (when stuck or researching)
+*Use this phase when the calling mode asks you to "check learning skill for prior solutions."*
+
+1. **List** files in `{learnings folder}` to see what categories exist.
+2. **Read** the most relevant file(s) based on the current problem domain.
+3. **Apply** any matching Fix/Correct entries to the current task.
+4. If nothing relevant found, continue without learnings — do not block progress.
+
+---
 
 ### Phase 1: Evaluate (Fast Fail)
 Analyze the conversation for reusable, non-obvious insights.

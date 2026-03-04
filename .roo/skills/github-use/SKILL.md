@@ -1,148 +1,123 @@
 ---
 name: github-use
-description: Any time github activity is required.
+description: Any time github or git activity is required, including committing and pushing changes, creating or switching branches, merging, creating issues, checking status or logs, or reverting commits. Trigger whenever the user says "update", "commit", "push", "merge", "create branch", "checkout", "create issue", "git status", "revert", or any git/GitHub-related request — even if not framed explicitly as a "GitHub task."
 ---
 
 # Command index
-The following commands will run the processes below:
-- **update**: Stage, commit, and push all changes to the remote repository. See "## Update" below.
-- **merge to main**: Merge the current branch into the main branch. See "## Merge to main" below.
-- **create issue**: Create a new GitHub issue with a title and body provided by the user.
-- **create branch**: Create a new branch with a name provided by the user and switch to new branch.
-- **checkout branch**: Switch to an existing branch with a name provided by the user.
-- **list branches**: List all branches in the repository.
-- **status**: Show current git status. See "## Status" below.
-- **log**: Show recent git commit history. See "## Log" below.
-- **branch**: Show current branch name. See "## Branch" below.
-- **revert**: Revert a specific commit by its hash, provided by the user.
+- **update**: Stage, commit, and push all changes. See "## Update".
+- **merge to main**: Merge current branch into main. See "## Merge to main".
+- **create issue**: Create a new GitHub issue. See "## Create issue".
+- **create branch**: Create a new branch and switch to it. See "## Create branch".
+- **checkout branch**: Switch to an existing branch. See "## Checkout branch".
+- **list branches**: List all branches. See "## List branches".
+- **revert**: Revert a specific commit by hash. See "## Revert".
+- **status**: Show working tree state. See "## Status".
+- **log**: Show recent commit history. See "## Log".
+- **branch**: Show current branch name. See "## Branch".
 
 # Environment
-**Virtual environment**: If the Python virtual environment becomes deactivated during this process, reactivate it using `./activate` (or the project-specific activation script) in the terminal.
-**Use terminal window**: This is Windows PowerShell within `VS Code`; using `SSH`.
+- **Shell**: Windows PowerShell in VS Code.
+- **Virtual environment**: If deactivated, reactivate with `./activate`.
 
-# Keep responses concise
-- Do not share what your to-do list or plan is. Just do it.
-- No need for anything like, "Now I need to..." or "Now I will..."
-- Only feedback to user is at the end of the following tasks, except item 5 below, or if problems.
-- For successful runs, respond with one short summary line plus essential details (for example, branch name, commit hash, and remote synchronization status).
-- For failed runs, respond with one short summary line plus a key error message snippet and one or two concrete suggested next steps.
-- Example success summary:
-    - `Update complete: 3 files committed on branch feature/x, pushed to origin/feature/x; local and remote are in sync.`
+# Response style
+- Skip narration ("Now I will…"). Just act and report at the end.
+- **Success**: One summary line + key details (branch, commit hash, sync status).
+- **Failure**: One summary line + key error snippet + one or two concrete next steps.
+
+> Example success: `Update complete: 3 files committed on branch feature/x, pushed to origin/feature/x; local and remote are in sync.`
+
+# General rules (all workflows)
+
+**Error handling**: Stop at the first error, capture the output, and give the user troubleshooting options rather than continuing blindly.
+
+**Authority**: Run all git commands without asking permission. Just execute and report.
+
+**Prohibited**:
+- No `git push --force` or `--force-with-lease` on main.
+- No `git rebase` on main.
+
+**Remote**: Default to `origin` unless the user specifies otherwise.
+
+**Command chaining**: Run each git command separately — never chain with `;` or `&&`.
+
+**Backticks in commit messages**: PowerShell treats `` ` `` as an escape character, so never use backticks in commit message text. Write identifiers as plain text (e.g., `_derive_source`, not `` `_derive_source` ``).
 
 # Command workflows
 
-## All workflows
-For every command workflow below:
-- **Error handling**: if any step encounters an error, stop, capture the error output, and provide troubleshooting ideas and choices to user, instead of continuing.
-- **You have full authority**: Do not ask the user for permission to run git commands**. Just run them and report the result.
-   - Example: You have full authority to run commands like 'git commit -m "Fix..."' without asking for permission.
-   - You have permission to run *all* git commands with only exceptions being listed below in *Prohibited operations*.
-- **Prohibited operations**:
-    - Never use `git push --force` or `--force-with-lease` on main.
-    - Do not use `git rebase` on main.
-- **Default remote**: Default remote is assumed to be `origin`. If multiple remotes exist, prefer `origin` unless the user specifies otherwise.
-- **Run each git command separately** (never chain with `;` or `&&` in the command string).
-- **No backticks in commit messages**: PowerShell uses the backtick (`` ` ``) as its escape character. Never use backticks inside any commit message string (e.g., do not wrap code like `` `function_name` ``). Use plain text instead (e.g., `function_name` without surrounding backticks).
- 
 ## Update
-- Stage, Commit, and Push Git Changes
-**Carefully follow all of the following steps in order**:
-1) **Examine** repository's current status, showing all modified, untracked, and staged files
-2) **Research**: Determine what was changed. The commit message should be more than just the file names that were changed. Use:
-    - `codebase_search`
-    - `read_file`
-    - `search_files`
-3) **Stage all changes**: Handle special cases as needed.
-4) **Commit message**: Craft a meaningful commit message that follows best practices:
+Stage, commit, and push all changes to the remote.
+
+1. **Status check**: `git status` — see all modified, untracked, and staged files.
+2. **Research changes**: Understand *what* changed and *why*, not just which files changed. Use `codebase_search`, `read_file`, or `search_files` as needed. A meaningful commit message describes the work, not just the filenames.
+3. **Stage all changes**: `git add -A` (handle special cases as needed).
+4. **Craft commit message**:
    - Concise subject line.
-   - Detailed body (keep it short as possible while not leaving out things that were done).
-   - Using a Windows PowerShell terminal.
-   - Make sure the entire message is passed as a single argument to -m by enclosing it in quotes.
-   - **No backticks**: Do not use backtick characters (`` ` ``) anywhere in the message text — PowerShell treats them as escape characters, which breaks the command. Write code identifiers as plain text (e.g., `_derive_source`, not `` `_derive_source` ``).
-   - Include file paths for all changed files.
-   - Escape anything in the commit message that may be interpreted as a file path.
-5) **Commit**: Do not ask the user for permission to commit. Just execute the commit.
-   **Commit permission**: You have full permission to run all commit commands, including ones using the "-m" flag with accompanying message.
-   **You have full permission** to run any variation of `git commit`, including, but not limited to `git commit -m "[commit message here]"`.
-   **Do not ask the user for permission to run git commands**. Just run them.
-6) **Verify** the commit was successful and show its hash/details.
-7) **Push changes** to the remote repository on current branch.
-   Pay attention to the terminal where it may ask you for a password. 
-   If so, get that password using your project knowledge; it may be referenced via the `Critical Resources` section in `{base folder}/.roo/rules/01-general.md`.
-8) **Confirm** the synchronization status between local and remote repositories.
+   - Short but complete body: what was done and why.
+   - List affected file paths.
+   - No backticks. Enclose the full message in quotes as a single `-m` argument.
+5. **Commit**: `git commit -m "[message]"` — no permission needed, just run it.
+6. **Verify**: Confirm commit succeeded and note the hash.
+7. **Push**: `git push origin <branch>`. If credentials are requested, check the `Critical Resources` section in `{base folder}/.roo/rules/01-general.md`.
+8. **Confirm sync**: Verify local and remote are in sync.
 
 ## Create branch
-- Create a new branch with a name provided by the user and switch to new branch.
-**Carefully follow** all of the following steps in order:
-1) **Branch name**:
-   - If the user did not provide a branch name, STOP and ask for it.
-   - Prefer names like `feature/<short-name>` or `fix/<short-name>`.
-2) **Examine** repository's current status and current branch:
-   - *Run each git command separately* (never chain with `;` or `&&` in the command string).
-   - Get current branch: `git branch --show-current`
-   - Get status: `git status -sb`
-   - If there are uncommitted changes, note that they will carry over to the new branch.
-3) **Validate branch name**:
-   - Validate the requested name using `git check-ref-format --branch "<branch_name>"`.
-   - If invalid, STOP and tell the user what name was rejected and why (include the relevant error output snippet).
-4) **Verify branch does not already exist**:
-   - Check for an existing local branch with that exact name.
-   - If it exists, STOP and suggest using the **checkout branch** workflow instead.
-5) **Create and switch**:
-   - Create the branch and switch to it (prefer `git switch -c <branch_name>`).
-6) **Verify**:
-   - Confirm the new current branch name.
-   - Show a short status summary to confirm expected state.
+Create a new branch and switch to it.
+
+1. **Branch name**: If not provided, stop and ask. Prefer `feature/<short-name>` or `fix/<short-name>`.
+2. **Current state**: `git branch --show-current` then `git status -sb`. Note any uncommitted changes — they carry over to the new branch.
+3. **Validate name**: `git check-ref-format --branch "<branch_name>"`. If invalid, stop and tell the user why.
+4. **Existence check**: Confirm the branch doesn't already exist locally. If it does, suggest the **checkout branch** workflow.
+5. **Create and switch**: `git switch -c <branch_name>`.
+6. **Verify**: Confirm the active branch is now the new one.
+
+## Checkout branch
+Switch to an existing branch.
+
+1. **Branch name**: If not provided, stop and ask (or show available branches with `git branch -a` first).
+2. **Dirty check**: `git status -sb` — if uncommitted changes exist, warn the user they won't automatically carry over. Do not auto-stash; let the user decide.
+3. **Switch**: `git switch <branch_name>`.
+4. **Verify**: Confirm the active branch is the requested one.
+
+## List branches
+1. `git branch -a` — shows all local and remote-tracking branches.
+2. Clearly indicate which branch is currently active.
+
+## Create issue
+Create a GitHub issue using the `gh` CLI.
+
+1. **Collect info**: If title or body is missing, ask for them before proceeding.
+2. **Create**: `gh issue create --title "<title>" --body "<body>"`.
+   - If `gh` is not installed or not authenticated, stop and report that to the user.
+3. **Confirm**: Share the new issue URL.
+
+## Revert
+Revert a specific commit by creating a new undo commit — history is preserved, nothing is deleted.
+
+1. **Confirm hash**: If not provided, show `git log --oneline -n 10` to help the user identify the target commit, then ask.
+2. **Revert**: `git revert <hash>`.
+3. **Verify**: `git log --oneline -n 5` to confirm the revert commit was created.
+4. **Push**: Ask the user if they want to push the revert to the remote.
 
 ## Merge to main
-- Merge the current branch into the main branch.
-**Carefully follow** all of the following steps in order:
-1) **Identify current branch**:
-   - Show the current branch name.
-   - Store it for later use when merging into `main` and optionally switching back.
-2) **Verify clean working tree on current branch**:
-   - Show the status to confirm there are no unstaged or uncommitted changes.
-   - If there are uncommitted changes, STOP:
-     - Do **not** auto-commit, auto-stash, or discard changes.
-     - Run the **update** workflow to commit/push changes.
-3) **Fetch latest from remote**:
-   - Fetch from the default remote (usually `origin`) to ensure `main` is up-to-date before merging.
-4) **Switch to main branch**:
-   - Checkout the local `main` branch.
-   - If `main` does not exist locally, create it to track `origin/main` (fast-forward only).
-5) **Update local main from remote**:
-   - Pull the latest changes into `main` from `origin/main`.
-   - Confirm that `main` is now synchronized with its remote counterpart.
-6) **Merge feature branch into main**:
-   - Create an appropriate merge commit message.
-   - Merge the previously identified branch into `main` using a standard merge (no rebase).
-   - Prefer `--no-ff` where appropriate so the merge is explicit in history.
-   - If there are merge conflicts:
-     - Show the list of conflicting files.
-     - Do **not** attempt complex or destructive auto-resolution.
-     - Stop and summarize the conflicts so the user can resolve them manually or via another mode.
-7) **Verify merge on main**:
-   - Show the new commit graph or recent log entries on `main`, including the merged branch commits.
-   - Confirm that the merge commit (or equivalent fast-forward) is present.
-8) **Push main to remote**:
-   - Push the updated `main` branch to the remote (usually `origin`).
-   - Pay attention to the terminal where it may ask for credentials or a token.
-     - If so, obtain that information using project knowledge; it may be referenced via the `Critical Resources` section in `{base folder}/.roo/rules/01-general.md`.
-9) **Post-merge verification**:
-    - Confirm that local `main` and remote `main` are in sync.
-    - Optionally, verify that the feature branch is fully merged into `main` (e.g., using a merged-branches check).
-10) **Restore previous context**:
-    - Optionally switch back to the original working branch so the user can continue work where they left off.
+Merge the current branch into main.
+
+1. **Identify branch**: `git branch --show-current` — store the name for later.
+2. **Clean check**: `git status -sb` — if uncommitted changes exist, stop and run the **Update** workflow first. Do not auto-stash or discard anything.
+3. **Fetch**: `git fetch origin` to sync remote state before merging.
+4. **Switch to main**: `git checkout main`. If it doesn't exist locally, create it tracking `origin/main`.
+5. **Pull main**: `git pull origin main` — ensure main is current.
+6. **Merge**: `git merge --no-ff <branch_name> -m "<descriptive merge message>"`. Using `--no-ff` keeps an explicit merge commit in history, making it easier to trace what was introduced.
+   - On conflicts: list conflicting files, stop, and summarize so the user can resolve manually. Do not attempt destructive auto-resolution.
+7. **Verify**: `git log --oneline -n 5` — confirm the merge commit is present.
+8. **Push main**: `git push origin main`. Handle credentials via `Critical Resources` in `{base folder}/.roo/rules/01-general.md`.
+9. **Confirm sync**: Verify local and remote main are in sync.
+10. **Restore context**: Optionally switch back to the original branch so the user can continue working.
 
 ## Status
-Purpose: Show working tree and staging state.
-Steps: Errors → run git status -sb → briefly interpret high-level state.
+`git status -sb` → briefly state the working tree state (clean, changes pending, etc.).
 
 ## Log
-Purpose: Show recent history.
-Steps: Errors → run a concise log (git log --oneline -n 10 or similar) → avoid over-long output.
+`git log --oneline -n 10` → show recent history without excessive output.
 
 ## Branch
-Purpose: Show current branch.
-Steps: Errors → run git branch --show-current → state the branch name plainly in the summary.
- 
+`git branch --show-current` → state the branch name plainly.

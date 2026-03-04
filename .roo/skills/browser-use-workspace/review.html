@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "browser-use", "runs": [{"id": "eval-0-screenshot-with_skill", "prompt": "I need to verify that https://example.com loads correctly. Take a full-page screenshot and confirm the main heading ('Example Domain') is visible on the page. Save the screenshot to the outputs folder.", "eval_id": 0, "outputs": [{"name": "example_screenshot.png", "type": "image", "mime": "image/png", "data_uri": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQAAAALQCAIAAABAH0oBAAAQAElEQVR4nOzdb4hVh53w8dOyj6GPkaWaxM5DM0OeaVgSy9pQHBaStNywoEJ0oUaoA30m0OiLmbyodsnIUufFWBZHEs2LzLwwXYhb0IJaeDQQfeOlmwplpCSzrIaHdhqcBqY2cZYHK0H3zd5z/9+Zc+feO45G/X0+b/T+O+fcc849937nnHPvX83NzSUAAADwoPurBAAAAAIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACOHLCfCgmxzNVQycmE2ounJiaGM6W7b95L0rCQAADzp7gKGQh8P5ZjfmxvIjfQmNms2yFatXP96b2/jSlq19PQ8l97xr7x2euHwr/d/chYPHJzfvtaQBAB5s9gADy+bW3Nz0xVMTwy9vyg0duXQ9AQCAe4kABu6Ey8df3TE6eW838JrNu1/bsDr93+rcvp12/wIAPPAcAg11ugePHd3eldC+2iy7ef3K1PHxseMX58o33cgP79tw8s3Na5J7Vs/mg6c2JwAABGEPMLA8HlrV07fr4Kl3Bntr1029efRSAgAA9wZ7gKG12ROv9E9Mly+sf622U/PSoRdfPXOj+N+VubHjI32rCjtCr3xw7tzx0+em/zg3V/yCpRWre58d2L1767pVdQMc6J+YKf0//Zqtpy6dGNv/swtXC/df2btxeP/u57seSpJr77+1f/zMVHrtirXrt+3Zv6tvVbMh9Nbdd3Vv7pV9Q5t7VrXx1G5e++Dc+PjRC9OlaV3ZvX7T93cPtPfYbD3bD++7uHX/xdKlWxcu/G7Puidr45udPP32kV9MTs+VZlthYtdv3LZzx+Yn68ZY9x1b6Q7mrcn7h/eNnZu+kc6HZ1/ZN7w9nZXXL50+fPhIPr22MNNyQ/uGN9d/8dbNa7+bPH/q1LsXfz9THlX63F4Z3lmctdkjKu7JXmzOrl2/ZWjfq8/fw7u0AQBYjD3A0FrX9n07uysXpsYrOzWvnZ4o128hf0d2F+t09sSul/ccPn5xuly/SfrNUNP5w69ufeVEkx/a+f2Joa2vThTrt+DG9LmR/uH3Zq+ceOWlkVNT5WtvXZ06PrzjwOTNJkNouO/c9LmDL7dzAu618z/pf2nP4fx0dVpvzEydKjz2R7f1o0CrXtiSq16Yu/z7a+X/Xr90ZGhT//BEvlK/pYm9ePzgrq3fP/RB9uRe/fWB/v6RYv2md796YeLVHYcuXZ8c3fHq4Xz52sJMyx98eaj+F54mx17aNTJxbmqmNqr0uY30b+voxOTCsmlcCqdGBpotBQAA7nkCGOrMTPTnGoxOlm7o6f/JjrXlO9048/Z7haa7OTk+frl0zcqNI8N9rfaZTk8cPH0t4/r82xOX51839ebLu6q7nKtunDt2vskQFtw3uZHf9/YHyWIuHRrYf2Eu65YbUwdHbuv3gr/xVPXvBcl//qVUj7Mndr96/HKzR1w9s2d31ihnTk2cmz+NN87seWlf/sb8u07/7Hgbh1u3ni91spbNjXNHz11LAAC4HwlgaM+Tu/ZXEzjdCfy7o4fypbIr5O/uvuphtQ89vn7b7kPvnDx9Np86e/pIdefx5fOTWeW0Mjd6snDns+/srJ08e+vWre5tb50uDOD0W9tqMTk1NZ05cb07DqWDyJ89eWhHdSC3zpyZTJqq231de/g7r21YUbpqpq2abN/N8+O1Sl+7cfSd4uxpmN7pibezprd355H0vqdHcyur1926lWx47Vg6045Vp7hw7eXLtYR+uDc3OHrkWHkxFMa0L1e+461z+baf2spnXytO6em3atOZXP7wcgIAwP1IAEO7nty1b0u5wW6cGd596mrxvyu3jO2t5W/StfWnb766cfXc5fzRAwdGfzTQ//LeozOVGys7Qxts2DP8/JrCAB7q6d+1sXZ1bujV4knDq9btHNhQvfZW1oRteO3wrmfSQSQPrXlm19CWahFOX2m6G/fa5PlKxa3dsa/y8J7NAxsrmVhfk5269V/zr5mavJBUxze29/nS6brp9O4frAZ+/vyCAl69Y7j/yfS+q57fOVBr0O5Xdm9Oz+V9qGvzzm2rK9fWjbVvz89Gtj6d/PHi6bcOHHjtlW39uyp/ryhM3V8W7D1uYsNQ+cTiVet2DdQO657+0+3sHgcA4AvjS7CgToufQVo3NLLx/PC5NJ9u3Ch9wdWW/XvW1d/l+uRbrw6fmkna9/DD1Xx+vLfQgqXHdj/1eOXahx5+eNEBdG/4Vv3h1197/GuVgcx89MdCkmc+6E8ffVT579XjL+eOL7zHfyVLdu3yZG0OPNVTmILZK7+vXF7R92xP/Z27enor05vR9w9/9eHaHQtzp7wXubenq+Ee84+Svnnl9L49hy9mHuDdgYfX1OZs9ze6k3wnCxYAgHuOAIYO3JqfaLcu/342eaYaY7MnqvW7duPuoY3rn+5+eMXU+Nb9+eSLsPprX212042/3ErulNnzv5iqXni2b31yt92cHNt1+GLpa63X79jTn3uqd/WKuXN7dr19GwG74n8kAADc5wQwtO365OHR+d+9ND0x9t4LlZ9F+t2ZX5QLq3vn2N6tpR2dN5O/JHfUzNRHN7dXf9vn+ocXq5X3+OOrmz3o8aeq+zNb7Pbu0M0rx/ZNVKdgxZZtL6RT1tXzjcre21vT09eSdbVfErpSO6N2kWDvaBIunKwc7pwbfnPX86X/zv3lDi8HAADuec4BhjbV5++GfW9Vz1ydOjh2vvzDOv/5p8oxtzOTU7Ppj+XcvPLe/kMXkzvrwqH9710pju3aB0f2HqyO7ukX+pr+Ym3X0+srpwrPTOw+8P6V6+Xf9rl5/crkidHR052f5Zo+8shr/S+/Xf2yqxW5n+x8pvTf9X3PVq69fHj4yAfXiqNLJ3j/8auVuz+74clkGcxdu1od18Xiryul4xk7frsHRAMAcL+zBxjqpD+DNNF4VW4sP9LXmL9rdwy9sK7nq1t+tudMcUfjxbHD728YeX5V/W7VqcP9mw4nd8mNCwdf3nRw3pUrcgMb1zR/zLqBH60/c7B0qPLVcyMvn2u4tXtwZ9KejFlW1rvzyPDzlXNoH3ph5+CxC+Uvgp4+vuelhWcdbxiu1PJtqjur+OqZPVvPJAAAUGQPMLTh+vuHqz88uyK3ZyA9uPmZQkGWb76V/+nh9wt7Grte+P6CE157BwdzyZ3V3du74Lq1Ww7U/TZTljWb949tXJ3coUnaOHryZ/099RPQs/3woS1rmz3g6cF39r/Q6qeU29W3bcvKeVet3Di4ozsBACA2AQwtFfL3p9Xf0Hl6aKgclms2D1V/GfhWfmx88mbhqjdPjm7sLdfXyt40A7f3JHdY767xY3Vj7X52x6GTv9jzTMucXNW399TpI69tW9+9uvrLSStXd6/fuPvQoa1LOSl4xerVvRt2vHbk5Nmje59fuPd51TN7flEY344NvfXj680Njh07O76956Fk2azbc/ytwWfXlsayYu2zg28d3/vcspxfDADA/exLc3POi4P7z+yJgf7Kd02Vj9IGAAAW5RxgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIATfAg0AAEAI9gADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQvpwAmWZPDOQGTsw2uyk3OpkszeTobTy44zE1eQrNdP7U0pHkOh7P3XB7i6ns7i2te8MS1pn7x11bmIvNxQdqjarfSi7L6+2Ls6TJv59eLotM6yJvdnfCfb6mPNDbSIjCHmBCK7yTDecXXt09eOzo9oTWCp9khqcHj+W3dyUALLfiu1RuLD/SlwCwLAQwofWN5PMj6X8KIdf/7ouF7K2F3CJ/4O3afjR/PwRy+vSSznT41P740UzS23OP1u/9spjuiPRTc9LGh+b5a/4S1hkWqJ+LGduW5XYXRtGG+/z1tqTJv/Mvl9kT4/nu7u782cmRvtsr4HvnpX2/rSnzXl+2kfAAcAg0AMC9Z/bX787khg682J0fd9AtwHIRwLC48imuDWe5NpwxVTyfacFdmg0k48ynuhsbBlA6V7B6a/Gm2sgaRlU/iLoR1J1tWPpv3bQ2OQOr8WSwJsOt3ZgeQJ4frpuc+rnR8JD6Z7NgNqWPqr9zOzO4btraOLGt3ec/b8jtL63M577Y8+pg8TZ7ss2eVMOSqVyZMRvTq/onZpKZif7qlfPOUG32dMvPJOvVkbkc5k1h8arGF9Qi01kd32T1tuKda2OvTXF5wtpa0k1WoUVf0Y3zZ97JjIUbG+di1hxeMJLGCVxkc7DgNb/4KBpmSLMl1fRllLHUFtwwcOKPC8fUxkgbX2LNToputSgXe1HUNjSdrjkLB169T8aKMX/aF9+Yt7f9aZgHaf9u6uvaPpSbeffXsw1DWzirFkxlxia4/iGZi7Fx/Hd8y7zULUnWU+tsJV/4lpT1hDJeX8uy0Bd9bwXuOIdAwyIKb3pnx0pHSaeHlO498dz8owwnR/snesfy8y/GgAAAEABJREFUR9OD02ZPjP46YyDpI6vnyaYHU00kSa58W+li9STawl37cx/VHbiaHy6PPx1If24iyRUu9s2bmtkTZ586lh+pDGF44KnsgyHzw3sL98t3lUY7PLpp8QNkG87vnRwdnX97eiDYpoYDbSsnqxXnRnEkuYHBummpPpsOZM/g8gG++b7KXBtIWh8A2tbzX+rSanzuGbMre4raWLyLP9msJ7VwyRQe9/ZHQ+VBpHfsH+0p3Lb9aP655kfPtlo5W786kurRg7X5mRsdK4557KPc8NuT2wtDmz2xNx1NabiZ01kZ33hSfKrFZ5rLp+fqp6v9gqVZmLC9g6WZUpyyXNax4M3maotXdN+mXDJcORw1zZPC6CoXJ8/mk95N9bOgq8kcbrIqtprjWboWX4iLLqmma1aTpVaewt7aap4bnkm6Oxvpoi+xjIFkL8oWL4rahmY26WDNKcvc9LXc1LfemHe0/S0O4+2JmdxYeq/Cejdcfr3MWwmrd0tH22oTXD+p7S3G5tO2fFvmtrYkrd9d0pWjOJDilqMy4rbXlOxtT8bra95ffZaw0Fu9twJ3nD3AsJjcWOWdrG/nYHfd3+DLZq9MJ91PPV660LV9JCsAxvPdgwcqNxTeTsdqH/ZKH1xq7+F9I4Ub82cnF44/Hf28i9WpqR9v+tFo5qPsP+jXJiPdodAwniwN5/f2jbRxNmn6TI9V79e1/cC8WdY9uLPTs9gyZ3A6ptqSabJoFmrj+S91ac1/7m3MrlQ7i7fFk213odZNUddzL3Yn01daza+WK2fLV0dpIEn9/KxNYvqQ9LDOUv4e2N7VcjqrT7U4mHkX501Y3TnNY1lzpelcbfmKTl9h5Ykq7p7L1S4WHlrYW5e0IXuptZ7jS5W5pJqvWU2XWmkK61bzY4PdnY108ZdY1kCyFmXLF0Xjhqb9Nacka9PXcsVoufQ63P4mpb+oVNaodL2rPqThQu1urTfB9ZPa5mJsYjm3zG1sSdp5d6neWndjJ2tK59vIpS70Tt9bgWVnDzAsovoG30z6pjaR7rtr+iWdhbe67hefy/4LePET81DDw9JPNuOF992+ro4mp/h36JnKpSYfKDv8tqr0s0K6u6R7sL1v11n4TNNPERNpjXctaQKKg8iawenHh3y6I6dOGx/g2hj9UpfWYo9rW/bibfFkO5inDd953nJ+tV45W746SgOZyaf7tuuUV8/0U+q7/f396SfXhvWrzels/swbJ+zxp7qTd+e/pJrO1dav6MLw0o/Q27d3FQaS23R0U5IbTy8mxbM12/somzntnW4O2tfhmtV0qWVMYacjTTp7qTRZlLf3omj5msna9LVaMVovvY43f8WwHeurG1p1t29xCssXCncrTGh6betNcLNJ7dxybpnb2JJ0+O7S1dNb/kNwZ2tKZ9vIJS/0Tt9bgWUngOH2FL9Iung8Vi79Q/YX8FsVxffs7trxVLnhZHmUvquzeFDXRPKFvVVnz+BQnxxu/8mW/kBSPsC6dIBrcrc0f1Gkn1KTmfpr7uZ0NpurrV7RxQ/eaQH3nM3nNo0kfUluuFDAzyXt9+89I3sepPu9MpfavfQtTHd0C5C56bvLm/p032Xhn3nxNn5iZ186McW1sFjAaf++uPML2BbeL1vmNqform4j7433VojMIdCwDNK3s3zTwxUbj+hK/2hceVghAOY9pHgaYUd7Ckq7Ce7cG2j6MedYO0eylfeM1V2THiLaxh/3S+qPN0t3JDRonMELx7SMlrS0FpmiRZ9XG5bjyRYXRN3xg+1YlpUzYyB1gxtNz4M7NphM7K184cwSprOV4jAX7HJsNVcXe0Wn7VHYuzSZ9m/5jMzCxeLu4Nua8JZzvP7chroVc6mazoNFl1rjDUtZo5u/xFqoLco7ugWoytr0NV0xluX1Uqf8WsjXK4y3duJLYS1Mx1fs3/Lq3cEmuIPFeE9smTt8d6keFd72FC1p23ObC73t91Zg2QlguB2zJ0Zb/DhF8aSj6if84hf+zDTcmB+u/+rRdF9uZyfKpocFVj+ipANIlsnkaGdfTln8ptKJ/uqDik81N9ROmReTYuLtycqIh+t+RDVjBpfuvrf++zyX6Xs0l7q05j/38gQ1f17tW+KTbVgtagcELnhSDTc1WI6Vs3Sy4nD9d8+OVr8neDifrh2lWVd6fotMZyfqlkRxIBmH3Dadq61f0eX2GB7OV4K3MK/Ti00+jTefw/MtOseLc3K8+tW0DfOm/VHMfxrZa1azpVY6jXG4bjXvfI1e9CW2QJNFeee2AE2H1nLFWOLrJf024IwvPs78u828r34YyuXPjp7N17axbW6CO1iM98yWufVTq5v3xeksvTrbnqLFtj3LvpHMnIgmawJwRzgEGm7P9ET1XLnso+IKfyI/lgz0l+9V+BvzWK5/OPvG4iCOdrgXqXwqZWkIubGxXH65DoGuO3eqvYO0Cn/QHkty9Q/Kt7ljuvQkyo/MjR0bnK4ef5Y1g+fPtnTykmWx5KU177kXbmrxvJY4Se0+2eopeqW5NjKWq0xc9+DYYPdwdTIqp6MtXMbLsHIumC/pQLaXvkE2/fKYvtJd0okrfedq8+nsQOGRT43nyqcCNFl1m8/Vlq/o8vGnE72VHb6li0mzM1ubz+FWE9Uwx8uzqXjbvBWzg1EsNrraPMheagtuWNIavehLbL5mi/LObQFKFm76ZluuGMvyeilLv1ypezDz7zYTE3VfBp3+GWas7nv129wEt78Y75ktc8unlhsb+qh4NHbDBLU/RYttexpfX/WPWupC7/S9FVhmX5qbm0sA4AEw2+IXgbjnTM77xa4Ki5I2NVuFAJpwCDQA8MWo/60fALgLBDAAcHcUduzWn108sIQzywHgdjgHGAC4O7p6eut/mNUpkADcbc4BBgAAIAR7gAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBC+nEBsn+XfG3z9g88SAADgAWcPMAAAACEIYAAAAEIQwNDMH/5l+MPflv776BOj//jMIwuvTx4ZGvvOuuL/Lh375XjyraHkw/Gp5OubvvtP62b++Y0//d2P/+bjN8p3Tq/MrVk4mvoHVu6WnH/9Vyc/zXjUZ/n3Rs5+Xr6w/lsT/f+7/P//+LfBnydDP0jGf/5ZdWrTIU+Vbv7KSz/e/MJjCQAARCaAIVNauckPvjfxzfRCoSRHXk9KVflZ/pMnfvy9Hz5Wvn789Q9qbTz14W8KD+kv/v/PM0ny+ck3Phka+94Pk1KgTp5f16RCqw9M7/arwbPJt0ujbnxUMWgLyb25mNzXCpE8+Pr/ryvzz8b//VsTY98pXSh19cRYsZALw3njvUQDAwAQmy/Bggyf5f/fb9d/64ffLF9c9/dPfP3TP/37n9P/P5L7TjUj1/3tI8mn169WH/boE//wzYbhfPsH5f3DyTfXvfTo57+5dC17fNVxpXebd7HyqD9/8H+nCjtyKwNM1rzwf2pTVfSVl/6+skM4vfMjQ9X9w4uPHQAAYrAHGDJcnf28sFd2cOrDuuu+Uv1fw3HIySO1u/yvv36kYTBfeWJJe1y/3vXXGdf++fonj37tb+sH+Fj33z368ceFAC5fuXLtY3V3LuwQHv5lw2ATAAAITQBDtian7BZPAH70idGx4oHHxTNv71EN5y0DAAAOgYYsa7u+8slvZzJ+HPg/Pvlt8sjQFxKWj61qPOA5Pc34N5822cm88M4AABCeAIYMj6z72tc//fhIvnrS7B/+5dgf0n8LYZncuPrnypU//yy5ax575h/Wf37yjX+7VL587fy/fvzJ+r/J/l6r9Ojoz0/+6wfV6bt0rPpAAAAIyiHQkCSffjwy/HH10rd/8L0ffvOZf/px8s9vpF/IXJT+jFD672PP7Nr03sgbvzyZXnhk6AeP/PYuHgK9rv97Q8kvq2f2fn3TdyeyflepaM0L//jd5PVfVZ9XekR3AgAAoX1pbm4uAQAAgAedPcCENtj4PckPvP17N6356v9MAAAgJHuAAQAACMEeYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAxwAu0MAAAhASURBVAAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAESAAAiEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABCEMAAAACEIIABAAAIQQADAAAQggAGAAAgBAEMAABACAIYAACAEAQwAAAAIQhgAAAAQhDAAAAAhCCAAQAACEEAAwAAEIIABgAAIAQBDAAAQAgCGAAAgBAEMAAAACEIYAAAAEIQwAAAAIQggAEAAAhBAAMAABCCAAYAACAEAQwAAEAIAhgAAIAQBDAAAAAhCGAAAABC+G8AAAD//0Q/zWsAAAAGSURBVAMASLLKQoffLroAAAAASUVORK5CYII="}], "grading": {"expectations": [{"text": "The script uses sync_playwright() (not async)", "passed": true, "evidence": "Script uses 'with sync_playwright() as p:' \u00e2\u20ac\u201d confirmed in source and ran without async errors"}, {"text": "The script waits for a specific element to be visible before acting (not networkidle)", "passed": true, "evidence": "Script calls page.wait_for_selector('h1', timeout=10000) before taking screenshot"}, {"text": "A screenshot is saved to an outputs/ directory", "passed": true, "evidence": "Terminal output: 'Screenshot saved to: outputs\\example_screenshot.png' \u00e2\u20ac\u201d file exists in outputs/"}, {"text": "The script wraps browser usage in try/finally to ensure proper cleanup", "passed": true, "evidence": "Source shows try/finally block wrapping all page interactions; browser.close() is in finally"}, {"text": "The script confirms or prints whether the heading 'Example Domain' was found", "passed": true, "evidence": "Terminal output: '[PASS] Heading found: 'Example Domain'' \u00e2\u20ac\u201d explicit confirmation printed"}, {"text": "The file outputs/example_screenshot.png exists on disk with a non-zero file size after execution", "passed": true, "evidence": "Verified programmatically: outputs/example_screenshot.png exists at 10,403 bytes \u00e2\u20ac\u201d full-page screenshot confirmed"}]}}, {"id": "eval-0-screenshot-without_skill", "prompt": "I need to verify that https://example.com loads correctly. Take a full-page screenshot and confirm the main heading ('Example Domain') is visible on the page. Save the screenshot to the outputs folder.", "eval_id": 0, "outputs": [], "grading": {"expectations": [{"text": "The script uses sync_playwright() (not async)", "passed": false, "evidence": "Script uses 'async with async_playwright()' and asyncio.run() \u00e2\u20ac\u201d async pattern throughout"}, {"text": "The script waits for a specific element to be visible before acting (not networkidle)", "passed": false, "evidence": "Script uses wait_until='networkidle' in page.goto() \u00e2\u20ac\u201d explicitly the anti-pattern warned against in SKILL.md"}, {"text": "A screenshot is saved to an outputs/ directory", "passed": false, "evidence": "Terminal: 'Screenshot saved to screenshot.png' \u00e2\u20ac\u201d saved to cwd with no outputs/ subdirectory"}, {"text": "The script wraps browser usage in try/finally to ensure proper cleanup", "passed": false, "evidence": "No try/finally in source \u00e2\u20ac\u201d browser.close() called inline, will leak on exception"}, {"text": "The script confirms or prints whether the heading 'Example Domain' was found", "passed": false, "evidence": "Script only prints 'Screenshot saved to screenshot.png' \u00e2\u20ac\u201d no heading verification performed"}, {"text": "The file outputs/example_screenshot.png exists on disk with a non-zero file size after execution", "passed": false, "evidence": "File saved as 'screenshot.png' in cwd \u00e2\u20ac\u201d no outputs/ directory created, wrong filename. outputs/example_screenshot.png does not exist."}]}}, {"id": "eval-1-console-logs-with_skill", "prompt": "Our local Flask app at http://localhost:5000 is already running. I want to capture all browser console errors and warnings while navigating through it. Please write a Playwright script that captures console messages and saves a log to outputs/console_log.txt.", "eval_id": 1, "outputs": [{"name": "console_log.txt", "type": "text", "content": "[NAV-ERROR] Could not reach localhost:5000: Page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:5000/\nCall log:\n  - navigating to \"http://localhost:5000/\", waiting until \"load\"\n\n"}], "grading": {"expectations": [{"text": "The script attaches a page.on('console', ...) event listener BEFORE navigating", "passed": true, "evidence": "Source confirms: page.on('console', on_console) called BEFORE page.goto() \u00e2\u20ac\u201d correct ordering to capture all messages"}, {"text": "The script does NOT attempt to manage the server process (server is already running)", "passed": true, "evidence": "Script directly calls page.goto('http://localhost:5000') \u00e2\u20ac\u201d no subprocess, no with_server.py invocation"}, {"text": "Console messages are saved to a file in the outputs/ directory", "passed": true, "evidence": "Terminal: 'Console log saved to: outputs\\console_log.txt' \u00e2\u20ac\u201d even though server was down, NAV-ERROR was written to the file"}, {"text": "The script uses wait_for_selector or similar specific wait (not networkidle)", "passed": true, "evidence": "Script calls page.wait_for_selector('body', timeout=5000) \u00e2\u20ac\u201d specific element wait, not networkidle"}, {"text": "The script handles browser cleanup with try/finally", "passed": true, "evidence": "Source has explicit try/finally block; browser.close() is in finally to ensure cleanup even on error"}]}}, {"id": "eval-1-console-logs-without_skill", "prompt": "Our local Flask app at http://localhost:5000 is already running. I want to capture all browser console errors and warnings while navigating through it. Please write a Playwright script that captures console messages and saves a log to outputs/console_log.txt.", "eval_id": 1, "outputs": [], "grading": {"expectations": [{"text": "The script attaches a page.on('console', ...) event listener BEFORE navigating", "passed": false, "evidence": "Source shows page.goto() called first, then listener attached after \u00e2\u20ac\u201d will miss all console messages fired during page load"}, {"text": "The script does NOT attempt to manage the server process (server is already running)", "passed": true, "evidence": "Script does not start a server \u00e2\u20ac\u201d it goes directly to page.goto()"}, {"text": "Console messages are saved to a file in the outputs/ directory", "passed": false, "evidence": "Terminal: 'Console messages: []' printed to stdout only \u00e2\u20ac\u201d no file written, no outputs/ directory created"}, {"text": "The script uses wait_for_selector or similar specific wait (not networkidle)", "passed": false, "evidence": "Script uses wait_until='networkidle' in page.goto() \u00e2\u20ac\u201d the anti-pattern warned against in SKILL.md"}, {"text": "The script handles browser cleanup with try/finally", "passed": false, "evidence": "No try/finally \u00e2\u20ac\u201d browser.close() is in the main flow; navigation error causes early return, leaving no cleanup guarantee"}]}}, {"id": "eval-2-static-html-with_skill", "prompt": "I have a static HTML form I want to test: file:///C:/temp/form.html. Discover all the input fields and buttons on this page so I can write automation for it later. List what you find.", "eval_id": 2, "outputs": [{"name": "element_discovery.txt", "type": "text", "content": "=== Element Discovery Report ===\nSource: file:///C:/temp/form.html\n\nINPUTS (4):\n  <input type='text' id='name' name='name'>\n  <input type='email' id='email' name='email'>\n  <input type='number' id='age' name='age'>\n  <input type='checkbox' id='subscribe' name='subscribe'>\n\nTEXTAREAS (1):\n  <textarea id='message' name='message'>\n\nBUTTONS (2):\n  <button type='submit' id='submit-btn'>Send Message</button>\n  <button type='reset' id='reset-btn'>Clear Form</button>"}], "grading": {"expectations": [{"text": "The decision tree for local HTML file (file://) is followed \u00e2\u20ac\u201d attempts to read the HTML file directly first", "passed": true, "evidence": "Terminal: '[Step 1] HTML file read directly: 728 chars' with full HTML preview \u00e2\u20ac\u201d file read before Playwright launched"}, {"text": "Uses a file:// URL in the Playwright script (not http://)", "passed": true, "evidence": "Terminal: 'Source: file:///C:/temp/form.html' in discovery report \u00e2\u20ac\u201d uses Path.as_uri() to produce correct file:// URL"}, {"text": "The script uses page.locator() or similar to discover inputs and buttons", "passed": true, "evidence": "Source uses page.locator('input').all(), page.locator('textarea').all(), page.locator('button').all()"}, {"text": "Does NOT use with_server.py (not needed for static HTML)", "passed": true, "evidence": "No subprocess or server management code \u00e2\u20ac\u201d script runs entirely within Playwright using file:// URL"}, {"text": "Output includes a list or print statement identifying the discovered elements", "passed": true, "evidence": "Terminal shows full discovery report: 4 inputs (text,email,number,checkbox), 1 textarea, 2 buttons \u00e2\u20ac\u201d also saved to outputs/element_discovery.txt"}]}}, {"id": "eval-2-static-html-without_skill", "prompt": "I have a static HTML form I want to test: file:///C:/temp/form.html. Discover all the input fields and buttons on this page so I can write automation for it later. List what you find.", "eval_id": 2, "outputs": [], "grading": {"expectations": [{"text": "The decision tree for local HTML file (file://) is followed \u00e2\u20ac\u201d attempts to read the HTML file directly first", "passed": false, "evidence": "Script skips the 'read HTML file directly' step entirely \u00e2\u20ac\u201d jumps straight to launching Playwright with wrong URL"}, {"text": "Uses a file:// URL in the Playwright script (not http://)", "passed": false, "evidence": "Script hardcodes TARGET_URL = 'http://localhost/form.html' \u00e2\u20ac\u201d uses http:// which fails with ERR_CONNECTION_REFUSED"}, {"text": "The script uses page.locator() or similar to discover inputs and buttons", "passed": false, "evidence": "Navigation failed before any element discovery \u00e2\u20ac\u201d no locator calls were reached"}, {"text": "Does NOT use with_server.py (not needed for static HTML)", "passed": true, "evidence": "Script does not invoke with_server.py, though it picks the wrong URL scheme entirely"}, {"text": "Output includes a list or print statement identifying the discovered elements", "passed": false, "evidence": "Terminal: 'Navigation failed (expected \u00e2\u20ac\u201d wrong URL scheme): ERR_CONNECTION_REFUSED' \u00e2\u20ac\u201d no elements discovered or reported"}]}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"metadata": {"skill_name": "browser-use", "skill_path": "<path/to/skill>", "executor_model": "<model-name>", "analyzer_model": "<model-name>", "timestamp": "2026-03-04T19:44:17Z", "evals_run": [0, 1, 2], "runs_per_configuration": 3}, "runs": [{"eval_id": 0, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The script uses sync_playwright() (not async)", "passed": true, "evidence": "Script uses 'with sync_playwright() as p:' \u00e2\u20ac\u201d confirmed in source and ran without async errors"}, {"text": "The script waits for a specific element to be visible before acting (not networkidle)", "passed": true, "evidence": "Script calls page.wait_for_selector('h1', timeout=10000) before taking screenshot"}, {"text": "A screenshot is saved to an outputs/ directory", "passed": true, "evidence": "Terminal output: 'Screenshot saved to: outputs\\example_screenshot.png' \u00e2\u20ac\u201d file exists in outputs/"}, {"text": "The script wraps browser usage in try/finally to ensure proper cleanup", "passed": true, "evidence": "Source shows try/finally block wrapping all page interactions; browser.close() is in finally"}, {"text": "The script confirms or prints whether the heading 'Example Domain' was found", "passed": true, "evidence": "Terminal output: '[PASS] Heading found: 'Example Domain'' \u00e2\u20ac\u201d explicit confirmation printed"}, {"text": "The file outputs/example_screenshot.png exists on disk with a non-zero file size after execution", "passed": true, "evidence": "Verified programmatically: outputs/example_screenshot.png exists at 10,403 bytes \u00e2\u20ac\u201d full-page screenshot confirmed"}], "notes": []}, {"eval_id": 1, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The script attaches a page.on('console', ...) event listener BEFORE navigating", "passed": true, "evidence": "Source confirms: page.on('console', on_console) called BEFORE page.goto() \u00e2\u20ac\u201d correct ordering to capture all messages"}, {"text": "The script does NOT attempt to manage the server process (server is already running)", "passed": true, "evidence": "Script directly calls page.goto('http://localhost:5000') \u00e2\u20ac\u201d no subprocess, no with_server.py invocation"}, {"text": "Console messages are saved to a file in the outputs/ directory", "passed": true, "evidence": "Terminal: 'Console log saved to: outputs\\console_log.txt' \u00e2\u20ac\u201d even though server was down, NAV-ERROR was written to the file"}, {"text": "The script uses wait_for_selector or similar specific wait (not networkidle)", "passed": true, "evidence": "Script calls page.wait_for_selector('body', timeout=5000) \u00e2\u20ac\u201d specific element wait, not networkidle"}, {"text": "The script handles browser cleanup with try/finally", "passed": true, "evidence": "Source has explicit try/finally block; browser.close() is in finally to ensure cleanup even on error"}], "notes": []}, {"eval_id": 2, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The decision tree for local HTML file (file://) is followed \u00e2\u20ac\u201d attempts to read the HTML file directly first", "passed": true, "evidence": "Terminal: '[Step 1] HTML file read directly: 728 chars' with full HTML preview \u00e2\u20ac\u201d file read before Playwright launched"}, {"text": "Uses a file:// URL in the Playwright script (not http://)", "passed": true, "evidence": "Terminal: 'Source: file:///C:/temp/form.html' in discovery report \u00e2\u20ac\u201d uses Path.as_uri() to produce correct file:// URL"}, {"text": "The script uses page.locator() or similar to discover inputs and buttons", "passed": true, "evidence": "Source uses page.locator('input').all(), page.locator('textarea').all(), page.locator('button').all()"}, {"text": "Does NOT use with_server.py (not needed for static HTML)", "passed": true, "evidence": "No subprocess or server management code \u00e2\u20ac\u201d script runs entirely within Playwright using file:// URL"}, {"text": "Output includes a list or print statement identifying the discovered elements", "passed": true, "evidence": "Terminal shows full discovery report: 4 inputs (text,email,number,checkbox), 1 textarea, 2 buttons \u00e2\u20ac\u201d also saved to outputs/element_discovery.txt"}], "notes": []}, {"eval_id": 0, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.0, "passed": 0, "failed": 6, "total": 6, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The script uses sync_playwright() (not async)", "passed": false, "evidence": "Script uses 'async with async_playwright()' and asyncio.run() \u00e2\u20ac\u201d async pattern throughout"}, {"text": "The script waits for a specific element to be visible before acting (not networkidle)", "passed": false, "evidence": "Script uses wait_until='networkidle' in page.goto() \u00e2\u20ac\u201d explicitly the anti-pattern warned against in SKILL.md"}, {"text": "A screenshot is saved to an outputs/ directory", "passed": false, "evidence": "Terminal: 'Screenshot saved to screenshot.png' \u00e2\u20ac\u201d saved to cwd with no outputs/ subdirectory"}, {"text": "The script wraps browser usage in try/finally to ensure proper cleanup", "passed": false, "evidence": "No try/finally in source \u00e2\u20ac\u201d browser.close() called inline, will leak on exception"}, {"text": "The script confirms or prints whether the heading 'Example Domain' was found", "passed": false, "evidence": "Script only prints 'Screenshot saved to screenshot.png' \u00e2\u20ac\u201d no heading verification performed"}, {"text": "The file outputs/example_screenshot.png exists on disk with a non-zero file size after execution", "passed": false, "evidence": "File saved as 'screenshot.png' in cwd \u00e2\u20ac\u201d no outputs/ directory created, wrong filename. outputs/example_screenshot.png does not exist."}], "notes": []}, {"eval_id": 1, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.2, "passed": 1, "failed": 4, "total": 5, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The script attaches a page.on('console', ...) event listener BEFORE navigating", "passed": false, "evidence": "Source shows page.goto() called first, then listener attached after \u00e2\u20ac\u201d will miss all console messages fired during page load"}, {"text": "The script does NOT attempt to manage the server process (server is already running)", "passed": true, "evidence": "Script does not start a server \u00e2\u20ac\u201d it goes directly to page.goto()"}, {"text": "Console messages are saved to a file in the outputs/ directory", "passed": false, "evidence": "Terminal: 'Console messages: []' printed to stdout only \u00e2\u20ac\u201d no file written, no outputs/ directory created"}, {"text": "The script uses wait_for_selector or similar specific wait (not networkidle)", "passed": false, "evidence": "Script uses wait_until='networkidle' in page.goto() \u00e2\u20ac\u201d the anti-pattern warned against in SKILL.md"}, {"text": "The script handles browser cleanup with try/finally", "passed": false, "evidence": "No try/finally \u00e2\u20ac\u201d browser.close() is in the main flow; navigation error causes early return, leaving no cleanup guarantee"}], "notes": []}, {"eval_id": 2, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.2, "passed": 1, "failed": 4, "total": 5, "time_seconds": 0.0, "tokens": 0, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "The decision tree for local HTML file (file://) is followed \u00e2\u20ac\u201d attempts to read the HTML file directly first", "passed": false, "evidence": "Script skips the 'read HTML file directly' step entirely \u00e2\u20ac\u201d jumps straight to launching Playwright with wrong URL"}, {"text": "Uses a file:// URL in the Playwright script (not http://)", "passed": false, "evidence": "Script hardcodes TARGET_URL = 'http://localhost/form.html' \u00e2\u20ac\u201d uses http:// which fails with ERR_CONNECTION_REFUSED"}, {"text": "The script uses page.locator() or similar to discover inputs and buttons", "passed": false, "evidence": "Navigation failed before any element discovery \u00e2\u20ac\u201d no locator calls were reached"}, {"text": "Does NOT use with_server.py (not needed for static HTML)", "passed": true, "evidence": "Script does not invoke with_server.py, though it picks the wrong URL scheme entirely"}, {"text": "Output includes a list or print statement identifying the discovered elements", "passed": false, "evidence": "Terminal: 'Navigation failed (expected \u00e2\u20ac\u201d wrong URL scheme): ERR_CONNECTION_REFUSED' \u00e2\u20ac\u201d no elements discovered or reported"}], "notes": []}], "run_summary": {"with_skill": {"pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}, "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0}, "tokens": {"mean": 0.0, "stddev": 0.0, "min": 0, "max": 0}}, "without_skill": {"pass_rate": {"mean": 0.1333, "stddev": 0.1155, "min": 0.0, "max": 0.2}, "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0}, "tokens": {"mean": 0.0, "stddev": 0.0, "min": 0, "max": 0}}, "delta": {"pass_rate": "+0.87", "time_seconds": "+0.0", "tokens": "+0"}}, "notes": []}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

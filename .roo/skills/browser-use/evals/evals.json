@@ -1,0 +1,45 @@
+{
+  "skill_name": "browser-use",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "I need to verify that https://example.com loads correctly. Take a full-page screenshot and confirm the main heading ('Example Domain') is visible on the page. Save the screenshot to the outputs folder.",
+      "expected_output": "A Playwright script that navigates to https://example.com, waits for the main heading to be visible, takes a full-page screenshot saved to outputs/example_screenshot.png, and prints confirmation that the heading was found.",
+      "files": [],
+      "expectations": [
+      "The script uses sync_playwright() (not async)",
+      "The script waits for a specific element to be visible before acting (not networkidle)",
+      "A screenshot is saved to an outputs/ directory",
+      "The script wraps browser usage in try/finally to ensure proper cleanup",
+      "The script confirms or prints whether the heading 'Example Domain' was found",
+      "The file outputs/example_screenshot.png exists on disk with a non-zero file size after execution"
+    ]
+    },
+    {
+      "id": 1,
+      "prompt": "Our local Flask app at http://localhost:5000 is already running. I want to capture all browser console errors and warnings while navigating through it. Please write a Playwright script that captures console messages and saves a log to outputs/console_log.txt.",
+      "expected_output": "A Playwright script that attaches a console event listener, navigates to localhost:5000, waits for the page to load properly, collects console messages (especially errors/warnings), and writes them to outputs/console_log.txt. The script should NOT use with_server.py since the server is already running.",
+      "files": [],
+      "expectations": [
+        "The script attaches a page.on('console', ...) event listener BEFORE navigating",
+        "The script does NOT attempt to manage the server process (server is already running)",
+        "Console messages are saved to a file in the outputs/ directory",
+        "The script uses wait_for_selector or similar specific wait (not networkidle)",
+        "The script handles browser cleanup with try/finally"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I have a static HTML form I want to test: file:///C:/temp/form.html. Discover all the input fields and buttons on this page so I can write automation for it later. List what you find.",
+      "expected_output": "Following the decision tree for static HTML: reads the file directly to identify selectors, then writes a Playwright script using file:// URL that discovers and lists all input elements and buttons. Does NOT use with_server.py since it's a local file.",
+      "files": [],
+      "expectations": [
+        "The decision tree for local HTML file (file://) is followed — attempts to read the HTML file directly first",
+        "Uses a file:// URL in the Playwright script (not http://)",
+        "The script uses page.locator() or similar to discover inputs and buttons",
+        "Does NOT use with_server.py (not needed for static HTML)",
+        "Output includes a list or print statement identifying the discovered elements"
+      ]
+    }
+  ]
+}

@@ -24,6 +24,7 @@ playwright install chromium
 ```
 User task → What is the target?
     ├─ Local HTML file (file://) → Read HTML file directly to identify selectors.
+    │     💡 Use `Path(file).as_uri()` to get the correct `file:///` URL — never use `http://localhost/filename`.
     │     ├─ Success → Write Playwright script using selectors.
     │     └─ Fails/Incomplete → Treat as dynamic (below).
     └─ URL (http/https) → Do you control the server process?
@@ -71,6 +72,8 @@ See `{base folder}/.roo/skills/browser-use/examples/basic_automation.py` for a r
 ✅ **Do** wait for a specific element to be visible: `page.wait_for_selector('.main-content')` before inspection.
 ❌ **Don't** use Linux-only paths (`/tmp/`, `/mnt/`) in scripts — this project runs on Windows.
 ✅ **Do** use a relative `outputs/` directory (auto-created by examples).
+❌ **Don't** default to `async_playwright` — async adds complexity without benefit for one-off automation scripts.
+✅ **Do** use `sync_playwright()` (synchronous) unless you have an explicit reason to use async (e.g., integrating with an async framework).
 
 ## Best Practices
 - **Use bundled scripts as black boxes** - To accomplish a task, consider whether one of the scripts available in `{base folder}/.roo/skills/browser-use/scripts/` can help. These scripts handle common, complex workflows reliably without cluttering the context window. Use `--help` to see usage, then invoke directly.

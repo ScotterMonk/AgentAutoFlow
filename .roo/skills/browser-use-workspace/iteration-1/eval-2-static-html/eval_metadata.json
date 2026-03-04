@@ -1,0 +1,12 @@
+{
+  "eval_id": 2,
+  "eval_name": "static-html-element-discovery",
+  "prompt": "I have a static HTML form I want to test: file:///C:/temp/form.html. Discover all the input fields and buttons on this page so I can write automation for it later. List what you find.",
+  "assertions": [
+    "The decision tree for local HTML file (file://) is followed — attempts to read the HTML file directly first",
+    "Uses a file:// URL in the Playwright script (not http://)",
+    "The script uses page.locator() or similar to discover inputs and buttons",
+    "Does NOT use with_server.py (not needed for static HTML)",
+    "Output includes a list or print statement identifying the discovered elements"
+  ]
+}

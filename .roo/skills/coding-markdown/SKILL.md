@@ -1,69 +1,61 @@
 ---
 name: coding-markdown
-description: When markdown being written or edited, including rules, skills, and documentation.
+description: When markdown being written or edited, including rules, skills, and documentation. Trigger any time a .md file is being created or modified, a skill's SKILL.md is being updated, rules files (.roo/rules/) are being edited, or a user says "update the docs", "fix the readme", "edit this skill", "write documentation", or "format this markdown".
 ---
 
 # Markdown Instructions
 
-## Vertical Spacing
-- Minimal empty lines between sections
-- No empty lines between related list items
-- Headers immediately followed by content
-- Single empty line between major sections only
+These rules apply to the **content of project markdown files** (README, rules, skills, docs) — not to how the AI formats its own responses.
 
-## Formatting Rules
-Strictly enforce the following formatting for all file paths and references to reduce noise:
-- No Markdown Links: Never use [name](path) syntax. Use plain backticks only.
-- No Line Numbers: Strip all line number suffixes (e.g., :22).
-- No Redundancy: Do not repeat the filename in brackets and parentheses.
-- Contextual Pointers: When referencing specific sections, name the section instead of using line numbers.
-**Exception**: When `/architect` or `/planner-(a/b/c)` are creating/modifying a plan.
+## File Path References
+Strictly enforce minimalist path references to reduce noise:
+- **No links**: Never use `[name](path)` syntax. Use plain backticks only.
+- **No line numbers**: Strip all line number suffixes (e.g., `:22`).
+- **No redundancy**: Do not repeat the filename in both brackets and parentheses.
+- **Contextual pointers**: Reference section names instead of line numbers.
+
+**Exception**: Planner modes (`/architect`, `/planner-a`, `/planner-b`, `/planner-c`) may use links when creating or modifying a plan.
+
 Examples:
-Bad: [app/models/user.py](app/models/user.py)
-Good: `app/models/user.py`
-Bad: [user.py](app/models/user.py:50)
-Good: `app/models/user.py`
-Bad: See `{base folder}/.roo/rules/01-general.md`
-Good: See `Critical Resources` in `{base folder}/.roo/rules/01-general.md`
+- Bad: `[app/models/user.py](app/models/user.py)` → Good: `` `app/models/user.py` ``
+- Bad: `[user.py](app/models/user.py:50)` → Good: `` `app/models/user.py` ``
+- Bad: `See \`rules/01-general.md\`` → Good: `See 'Critical Resources' in \`rules/01-general.md\``
 
 ## Formatting Standards
-**Strictly enforce** the following minimalist formatting rules.
-**Style & Typography**
-- *References*: Use inline code backticks (e.g., `file.py`) for files and code. Never use brackets or links.
-- *Indentation*: Use exactly 4 spaces for nested items.
-**Lists & Spacing**
-- *Numbering*: Use `)` as the separator (e.g., `1)`, `2)`). Never use periods (`1.`).
-- *Density*: No empty lines between list items. Group related items tightly.
-- *Headers*: Content must start on the very next line after a header. Do not insert an empty line.
-- *Punctuation*: Period at the end of every line.
-**Examples of ordered lists**
-*Bad* (Wrong list style, extra spacing, no punctuation):
-```markdown
-## Ordered List
 
-**Points**:
+**Style & Typography**
+- *Files/code*: Always use inline backtick (`file.py`). Never use brackets or links.
+- *Indentation*: Use exactly 4 spaces for nested items.
+
+**Lists & Spacing**
+- *Numbering*: Use `)` as separator (e.g., `1)`, `2)`). Never use periods (`1.`).
+- *Density*: No empty lines between list items. Group related items tightly.
+- *Headers*: Start content on the very next line after a header — no blank line between them.
+- *Punctuation*: Period at the end of every list item line.
+- *Sections*: Single empty line between major sections only.
+
+**Ordered list example**
+*Bad* (wrong separator, extra spacing, missing punctuation):
+```markdown
+## Steps
 
 1. First item
 
 2. Second item
 ```
-
-*Good* (Correct list style, compact, punctuation):
+*Good* (correct separator, compact, punctuated):
 ```markdown
-## Ordered list
-**Points**:
+## Steps
 1) First item.
     - Nested detail.
 2) Second item.
 ```
 
-**Examples of un-ordered lists**
-*Good* (Correct list style, compact, punctuation):
+**Un-ordered list example**
+*Good*:
 ```markdown
-## Un-ordered list
-**Points**:
+## Points
 - First item.
     - Nested detail.
 - Second item.
 ```
- 

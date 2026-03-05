@@ -59,3 +59,21 @@ Examples:
     - Nested detail.
 - Second item.
 ```
+
+**Tables**: Assume markdown tables are hard for humans to read and avoid them. Instead use a more outline-type / ordered list-type format with dashes, indentation, and asterisks.
+
+- *Example of wrong*:
+```md
+| Heading 1 | Heading 2 |
+|-|-|
+| Value 1 | Value 2 |
+| Value 3 | Value 4 |
+```
+
+- *Example of right*:
+```md
+*Heading 1*: Value 1, *Heading 2*: Value 2
+*Heading 1*: Value 3, *Heading 2*: Value 4
+```
+
+**Mermaid diagrams**: Use only when requested by user.

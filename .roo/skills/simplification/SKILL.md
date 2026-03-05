@@ -1,74 +1,127 @@
 ---
 name: simplification
-description: Finds insights that eliminate multiple components; "if this is true, we don't need X, Y, or Z". Used when implementing the same concept multiple ways, accumulating special cases, or complexity is spiraling. Otherwise known as "Simplification Cascades" or principled way.
+description: Finds insights that eliminate multiple components at once — "if this is true, we don't need X, Y, or Z." Use this skill whenever you notice the same concept implemented multiple ways, a growing list of special cases, complexity that keeps spiraling, or when you hear "we just need to add one more case." Also trigger when refactoring feels like whack-a-mole, config files are growing, or someone says "don't touch that, it's complicated." Trigger immediately when asked to add yet another special case to an already long list. Otherwise known as "Simplification Cascades" — one insight that collapses 10 things at once.
 ---
 
-# Simplification cascades
+# Simplification Cascades
 
-Sometimes one insight eliminates 10 things. Look for the unifying principle that makes multiple components unnecessary.
+One insight can eliminate 10 components. Look for the unifying principle that makes multiple things unnecessary *simultaneously*.
 
-**Core principle**: "Everything is a special case of..." collapses complexity dramatically.
-**Restriction**: *Always* ask user permission to enact this simplification process.
+**Core principle**: "Everything is a special case of X" collapses complexity dramatically.
 
-## Quick Reference
+**Critical constraint**: Always present the cascade proposal and get user approval before making changes. Never restructure silently.
 
-| Symptom | Likely Cascade |
-|---------|----------------|
-| Same thing implemented 5+ ways | Abstract the common pattern |
-| Growing special case list | Find the general case |
-| Complex rules with exceptions | Find the rule that has no exceptions |
-| Excessive config options | Find defaults that work for 95% |
+---
 
-## The Pattern
+## Before You Start — Disqualifiers
 
-**Look for**:
-- Multiple implementations of similar concepts
-- Special case handling everywhere
-- "We need to handle A, B, C, D differently..."
-- Complex rules with many exceptions
+Check these first. If any apply, stop and explain why a cascade won't work here:
 
-**Ask**: "What if they're all the same thing underneath?"
+| Disqualifier | Why it blocks a cascade |
+|---|---|
+| Things are only superficially similar | Same name ≠ same concept |
+| The abstraction needs more config than what it replaces | Net complexity increase |
+| Unifying would lose type safety or meaningful errors | Cost exceeds benefit |
+| The result would be harder to understand | Cascade must be *obvious* |
 
-## Examples
+A valid cascade makes code **obviously simpler**, not just shorter.
 
-### Cascade 1: Stream Abstraction
-**Before**: Separate handlers for batch/real-time/file/network data
-**Insight**: "All inputs are streams - just different sources"
-**After**: One stream processor, multiple stream sources
-**Eliminated**: 4 separate implementations
+---
 
-### Cascade 2: Resource Governance
-**Before**: Session tracking, rate limiting, file validation, connection pooling (all separate)
-**Insight**: "All are per-entity resource limits"
-**After**: One ResourceGovernor with 4 resource types
-**Eliminated**: 4 custom enforcement systems
+## Triggers — When to Apply This Skill
 
-### Cascade 3: Immutability
-**Before**: Defensive copying, locking, cache invalidation, temporal coupling
-**Insight**: "Treat everything as immutable data + transformations"
-**After**: Functional programming patterns
-**Eliminated**: Entire classes of synchronization problems
+| Symptom | Signal |
+|---------|--------|
+| Same concept implemented 5+ ways | Abstract the common pattern |
+| Growing special-case list | Find the general case |
+| Complex rules with exceptions | Find the rule with no exceptions |
+| Excessive config options | Find defaults that cover 95% |
+| Refactoring breaks something else | Missing abstraction layer |
+| "Don't touch that, it's complicated" | Complexity hiding a cascade |
+| "Just one more case..." (repeating) | You need the general form |
+
+---
 
 ## Process
 
-1. **List the variations** - What's implemented multiple ways?
-2. **Find the essence** - What's the same underneath?
-3. **Extract abstraction** - What's the domain-independent pattern?
-4. **Test it** - Do all cases fit cleanly?
-5. **Measure cascade** - How many things become unnecessary?
+### 1. Gather all variations
+List every place the same concept appears differently. Don't analyze yet — just enumerate.
 
-## Red Flags You're Missing a Cascade
+### 2. Find the unifying essence
+Ask: *"What is the same underneath all of these?"*
 
-- "We just need to add one more case..." (repeating forever)
-- "These are all similar but different" (maybe they're the same?)
-- Refactoring feels like whack-a-mole (fix one, break another)
-- Growing configuration file
-- "Don't touch that, it's complicated" (complexity hiding pattern)
+Look for:
+- "We need to handle A, B, C, D differently..." — maybe they're the same thing with different parameters
+- Rules with many exceptions — find the rule that has no exceptions
+- Components that exist only to compensate for another component's rigidity
 
-## Remember
+Name it in one sentence:
+> "All of these are just `___` with different `___`."
 
-- Simplification cascades = 10x wins, not 10% improvements
-- One powerful abstraction > ten clever hacks
-- The pattern is usually already there, just needs recognition
-- Measure in "how many things can we delete?"
- 
+If you can't write that sentence cleanly, you haven't found the right abstraction yet.
+
+### 3. Measure the cascade depth
+Count how many files, functions, and systems become **unnecessary** — not just renamed.
+
+| Cascade depth | Interpretation |
+|---|---|
+| 1–2 things eliminated | Refactor, not a cascade |
+| 3–5 things eliminated | Solid cascade — worth pursuing |
+| 6+ things eliminated | Major cascade — high impact, verify carefully |
+
+### 4. Stress-test the abstraction
+Do all existing cases fit cleanly? If you need carve-outs or special-case parameters to make the edge cases work, the abstraction is probably wrong. Go back to step 2.
+
+### 5. Present the proposal (required)
+Use the template below. Get approval before touching any code.
+
+---
+
+## Proposal Template
+
+```
+## Simplification Cascade Found
+
+**Current complexity**: [X implementations / Y special cases / Z config flags]
+
+**Insight**: "Everything is a special case of [unified concept]"
+
+**Abstraction**: [One sentence describing the unified pattern]
+
+**What gets eliminated**:
+- [Component A] — replaced by [unified abstraction]
+- [Component B] — replaced by [unified abstraction]
+- [Component C] — no longer needed at all
+
+**What remains**: [Describe the leaner result]
+
+**Cascade depth**: [N files / functions / systems eliminated]
+
+**Risk**: [Edge cases that need verification]
+
+**Approach**: [How you'll implement — phased or all-at-once]
+```
+
+Wait for explicit approval before proceeding.
+
+---
+
+## Examples
+
+### Stream Abstraction
+**Before**: Separate handlers for batch / real-time / file / network data
+**Insight**: "All inputs are streams — just different sources"
+**After**: One stream processor, multiple pluggable sources
+**Eliminated**: 4 separate implementations
+
+### Resource Governance
+**Before**: Session tracking, rate limiting, file validation, connection pooling (all separate)
+**Insight**: "All are per-entity resource limits"
+**After**: One `ResourceGovernor` with 4 resource types
+**Eliminated**: 4 custom enforcement systems
+
+### Immutability
+**Before**: Defensive copying, locking, cache invalidation, temporal coupling (all separate)
+**Insight**: "Treat everything as immutable data + transformations"
+**After**: Functional programming patterns
+**Eliminated**: Entire categories of synchronization bugs

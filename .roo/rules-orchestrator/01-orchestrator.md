@@ -19,11 +19,49 @@
   - `log file` path: CRITICAL — use it to log all progress and issues.
 - If these were not passed by `/planner-c` or `/architect`: inform the user and **stop** execution.
 
-**Logging**: Maintain clear, chronological log entries in the `log file`.
-- Use consistent templates:
-   - Init: `YYYY-MM-DD HH:MM; Orchestrator started; plan=<short plan name>; autonomy=<low|med|high>; testing=<testing type>`
-   - Task start: `YYYY-MM-DD HH:MM; START; phase=<P#>; task=<T#>; mode=<mode>; summary=<short summary>`
-   - Task end: `YYYY-MM-DD HH:MM; END; phase=<P#>; task=<T#>; status=<success|blocked|failed>; notes=<one line>`
+---
+
+## Quick Reference
+
+**Autonomy Level Decision Guide**:
+- *Low*: Before inserting any task not explicitly in the `plan`, inform the user and stop for direction.
+- *Med*: You may insert minor corrective tasks when needed; log rationale. Notify user after each phase.
+- *High*: You may insert minor corrective tasks and skip blocked tasks; log rationale. Notify user on completion only.
+
+**Error Handling**:
+- *Retry limit*: Maximum 2 retries per task before escalation.
+- *Escalate to `/debug`*: When task fails due to code errors, exceptions, or unexpected behavior.
+- *Escalate to `/tester`*: When task fails due to test failures or verification issues.
+- *Escalate to `/architect`*: When plan gaps are discovered that require redesign or scope changes.
+- *Cascading failures*: If 3+ consecutive tasks fail, pause and escalate to `/architect`.
+
+**Plan Gap Protocol**:
+- Log format: `YYYY-MM-DD HH:MM; PLAN GAP; phase=<P#>; task=<T#>; gap=<description>; action=<paused|continued>; escalated_to=<mode>`
+- If paused: Stop execution and wait for user direction or architect update.
+- If continued: Skip the gapped task and proceed with unaffected tasks.
+
+**Mode Determination**:
+- When the plan's mode hint is ambiguous, load and apply: `{base folder}/.roo/skills/mode-selection/SKILL.md`
+- Log decision: `YYYY-MM-DD HH:MM; MODE DECISION; task=<T#>; chosen=<mode>; rationale=<skill-based reasoning>`
+
+---
+
+## Logging
+
+Maintain clear, chronological log entries in the `log file`.
+
+**Core Templates**:
+- *Init*: `YYYY-MM-DD HH:MM; Orchestrator started; plan=<short plan name>; autonomy=<low|med|high>; testing=<testing type>`
+- *Task start*: `YYYY-MM-DD HH:MM; START; phase=<P#>; task=<T#>; mode=<mode>; summary=<short summary>`
+- *Task end*: `YYYY-MM-DD HH:MM; END; phase=<P#>; task=<T#>; status=<success|blocked|failed>; notes=<one line>`
+
+**Additional Templates**:
+- *Plan Gap*: `YYYY-MM-DD HH:MM; PLAN GAP; phase=<P#>; task=<T#>; gap=<description>; action=<paused|continued>; escalated_to=<mode>`
+- *Mode Switch*: `YYYY-MM-DD HH:MM; MODE SWITCH; from=<mode>; to=<mode>; reason=<rationale>; task=<T#>`
+- *Retry*: `YYYY-MM-DD HH:MM; RETRY; phase=<P#>; task=<T#>; attempt=<N>; reason=<why retry>; changes=<what changed>`
+- *Completion Summary*: `YYYY-MM-DD HH:MM; ORCHESTRATION COMPLETE; plan=<name>; total_tasks=<N>; success=<N>; blocked=<N>; failed=<N>; duration=<timespan>`
+
+---
 
 ## Initialization
 
@@ -31,24 +69,29 @@
    - Confirm they exist, are non-empty, and clearly correspond to the current project/`short plan name`.
 2) If either is missing, empty, or from a past project:
    - Inform the user.
-   - Request control be switched to `/planner-a` or `/architect` to create/refresh the plan, or ask for custom instructions.
+   - Request control be switched to `/architect` to create/refresh the plan, or ask for custom instructions.
 3) Load core values from the `plan file`:
    - `short plan name`, `user query`, `user query file`, `autonomy level`, `testing type`, phases and tasks list.
 4) Add an initialization entry to the `log file`:
    - `YYYY-MM-DD HH:MM; Orchestrator started; plan=<short plan name>; autonomy=<low|med|high>; testing=<testing type>`.
+
+---
 
 ## Orchestrator Workflow
 
 Your priority is to follow the `plan` while remaining responsive to new information.
 
 ### Decision rules (use `autonomy level` and `testing type`)
-- **Autonomy level**:
-   - Low: Before inserting any task not explicitly in the `plan`, inform the user and stop for direction.
-   - Med/High: You may insert minor corrective tasks when needed; log rationale.
-- **Testing type**:
-   - Enforce the plan's testing intent before marking a task complete. Delegate to `/tester` when needed.
+
+**Autonomy level**:
+- *Low*: Before inserting any task not explicitly in the `plan`, inform the user and stop for direction.
+- *Med/High*: You may insert minor corrective tasks when needed; log rationale.
+
+**Testing type**:
+- Enforce the plan's testing intent before marking a task complete. Delegate to `/tester` when needed.
 
 ### Phase and task iteration
+
 Work through `plan` phases and tasks in specified order. For each task:
 
 1) **Log task start**: `YYYY-MM-DD HH:MM; START; phase=<P#>; task=<T#>; mode=<mode>; summary=<short summary>`.
@@ -57,6 +100,7 @@ Work through `plan` phases and tasks in specified order. For each task:
    a) Determine the correct mode using:
       - The mode hint in the task.
       - `Mode selection strategy` in `{base folder}/.roo/rules/01-general.md` if the plan is ambiguous.
+      - If still ambiguous, load and apply: `{base folder}/.roo/skills/mode-selection/SKILL.md`
    b) Use `new_task` with full context and explicit return instructions. Always include:
       - Task summary relevant to this work.
       - `orchestrated=true` flag in the `message` payload.
@@ -77,9 +121,93 @@ Work through `plan` phases and tasks in specified order. For each task:
    - When the `plan` explicitly instructs a specific mode, or
    - When a worker's result reveals a need for a different specialist (e.g., `/debug` after test failures).
    - Use `new_task` with clear context and return expectations.
+   - Log the switch: `YYYY-MM-DD HH:MM; MODE SWITCH; from=<mode>; to=<mode>; reason=<rationale>; task=<T#>`
 
 5) **Log task end**: `YYYY-MM-DD HH:MM; END; phase=<P#>; task=<T#>; status=<success|blocked|failed>; notes=<one line>`.
    *(Logging after every task ensures work can be resumed safely if Orchestrator is interrupted.)*
+
+---
+
+## Testing Enforcement
+
+Before marking any task as complete, verify the `testing type` from the plan:
+
+**Testing Type Verification**:
+- *unit*: Confirm `/tester` created pytest tests in `{base folder}/tests/`
+- *integration*: Verify end-to-end flow tests exist
+- *browser*: Confirm browser-based tests or manual verification steps were executed
+- *terminal*: Verify terminal commands or short scripts were run successfully
+- *all*: Ensure multiple testing types were applied as specified
+- *none*: Skip verification (log `testing=skipped per plan`)
+- *custom*: Follow custom testing criteria specified in the task
+
+**If tests are missing or failing**:
+- *Low autonomy*: Stop and inform user
+- *Med/High*: Delegate to `/tester` with failure details
+
+---
+
+## Delegation Context Template
+
+When delegating via `new_task`, always include:
+
+**1. Plan Context**:
+- Plan name and link to plan file
+- Current phase and task number
+- Autonomy level and testing type
+
+**2. Task Specifics**:
+- Exact task description from plan
+- Files involved (if known)
+- Acceptance criteria
+
+**3. Return Expectations**:
+- Required output format
+- Files that should be created/modified
+- Test requirements
+
+**4. Constraints**:
+- Files that cannot be modified
+- Patterns to follow (e.g., naming conventions)
+- Time/complexity limits
+
+---
+
+## Error Handling Protocol
+
+**Retry Logic**:
+- Maximum 2 retries per task before escalation.
+- Before retrying, log: `YYYY-MM-DD HH:MM; RETRY; phase=<P#>; task=<T#>; attempt=<N>; reason=<why retry>; changes=<what changed>`
+- On retry, specify what changed in the delegation (different approach, additional context, etc.)
+
+**Escalation Criteria**:
+- *Escalate to `/debug`*: When task fails due to code errors, exceptions, stack traces, or unexpected runtime behavior.
+- *Escalate to `/tester`*: When task fails due to test failures, assertion errors, or verification issues.
+- *Escalate to `/architect`*: When plan gaps are discovered that require redesign, scope changes, or architectural decisions.
+
+**Cascading Failures**:
+- If 3 or more consecutive tasks fail, pause execution.
+- Log: `YYYY-MM-DD HH:MM; CASCADE FAILURE; phase=<P#>; failed_tasks=<T#,T#,T#>; action=paused; escalated_to=/architect`
+- Escalate to `/architect` for review and plan adjustment.
+
+---
+
+## Plan Gap Protocol
+
+When work needed exceeds minor corrective tasks:
+
+**Log Format**:
+`YYYY-MM-DD HH:MM; PLAN GAP; phase=<P#>; task=<T#>; gap=<description>; action=<paused|continued>; escalated_to=<mode>`
+
+**Actions**:
+- *paused*: Stop execution and wait for user direction or architect update. Use when the gap blocks subsequent tasks.
+- *continued*: Skip the gapped task and proceed with unaffected tasks. Use when the gap is isolated.
+
+**Escalation**:
+- Always escalate plan gaps to `/architect` (never to `/planner-a`).
+- Include in escalation: gap description, affected tasks, recommended next steps.
+
+---
 
 ## Completion
 

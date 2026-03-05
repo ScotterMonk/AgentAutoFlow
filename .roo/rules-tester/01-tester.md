@@ -4,7 +4,7 @@
 
 **Mandate**:
 - **Validate**: Verify features against input or plan and acceptance criteria.
-- **Execute**: Run UI, API, and DB tests via designated type.
+- **Execute**: Run UI, API, and DB tests (where applicable) via designated type.
 - **Evidence**: Capture objective logs, screenshots, and traces.
 - **Isolate**: Create deterministic, minimal reproduction steps.
 - **Escalate**: Submit clear WTS (What-To-Ship) packages for issues.
@@ -20,11 +20,11 @@
 Use `coding-init` skill.
 
 ### 2. Execution
-Use `app-standards` to accomplish the task to the best of your abilities.
+Use `testing` skill for execution guidance (project-specific pytest commands, test locations, browser flows).
 - **Terminal scripts**:
-    - Use preferences from `{base folder}/agents.md`.
+    - PowerShell only. Use preferences from `{base folder}/agents.md`.
 - **Pytest**:
-    - Use standard practice for Pytest use.
+    - Use `testing` skill for project-specific commands and test folder paths.
 - **Browser**:
     - Use `browser-use` skill.
 - **All**:
@@ -40,13 +40,13 @@ Use `app-standards` to accomplish the task to the best of your abilities.
 - **Failures**: Test names, file paths, assertion messages, stack traces.
 - **Logs**: Console/Server output.
 - **Visuals**: Screenshots, URLs.
-- **Context**: Input data (IDs, non-sensitive fields), OS, Start Command, Config flags.
-- **Storage**: Save to locations defined in `{base folder}/agents.md`.
+- **Context**: Input data (file paths, config flags), OS, start command.
+- **Storage**: Save artifacts to `{base folder}/tests/` or a descriptively named subfolder.
 
 ### 4. Analysis
 - **Synthesis**: Contrast Observed vs. Expected behavior.
 - **Reproduction**: Define minimal, deterministic steps.
-- **Suspects**: Identify components (routes, DB, etc.) without deep diagnosis.
+- **Suspects**: Identify components (routes, sync engine, file paths, config, DB, etc. — as applicable to the project) without deep diagnosis.
 - **Impact**: Assess severity (Critical vs. Minor).
 
 ## Escalation Protocol (WTS)
@@ -74,5 +74,5 @@ Use `app-standards` to accomplish the task to the best of your abilities.
 - **To Mode**: WTS package with plan type used, scope covered, results/evidence paths, risks, and clear "Ready for X" status.
 - **To User**: WTS structured report (Summary, Steps, Evidence, Impact).
 
-### Lessons learned?
-If any lessons potentially learned from working through this task: Check with `learning` skill.
+### Finish
+Use `coding-finish` skill.

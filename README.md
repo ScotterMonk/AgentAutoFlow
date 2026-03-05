@@ -3,7 +3,7 @@
 Your customizable AI coding team that learns!
 Use it to create apps or make changes/additions to existing ones. 
 
-This set of instructions (markdown files) enhances and extends the modes/agents that come with many coding agents/assistants. The instructions are tailored to work with Roo Code (free highly customizable VS Code extension) but will work with many others, including Cursor, CLine, Kilo,Github Copilot, etc.
+This set of instructions (markdown files) enhances and extends the modes/agents that come with many coding agents/assistants. The instructions are tailored to work with Roo Code (free highly customizable VS Code extension) but - with small modifications - will work with many others, including Cursor, CLine, Kilo,Github Copilot, etc.
 
 Using the built-in-to-Roo ability to use "rules" files, this archive is a set of custom instructions for the built-in modes/agents and some new ones, including:
 - **Architect Super Team**: a 3-step "Planner" process (planner-a, planner-b, planner-c). Brainstorms with user. While planning and working, creates detailed files to keep track of its goals, progress, and lessons learned.
@@ -13,9 +13,9 @@ Using the built-in-to-Roo ability to use "rules" files, this archive is a set of
 - **Other new modes**: Added "Front-end", "Debugger", "Tester", "GitHubber", "Docs Writer", etc.
 
 Notes:
-- **Smart but cheap**: Designed both Architect and Planner modes  to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like "Coder", "Code Monkey", etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
+- **Smart but cheap**: Designed both Architect and Planner modes  to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like "Orchestrator," "Coder", "Code Monkey", etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
 - **Look how fast they grow up**: This set of instructions is ever-evolving. 
-- **Virtuous circle**: The author, Scott Howard Swain, uses this "Team" every day, is constantly tinkering with it, and is always eager to hear ideas to improve this.
+- **Virtuous circle**: The author, Scott Howard Swain, uses this "Team" every day, is constantly tinkering with it, and is always eager to hear ideas to improve it.
 
 ## Setup
 
@@ -30,21 +30,23 @@ playwright install chromium
 
 ## Skills
 
-**Using skills, the Team will**:
-- Consume far less tokens,
-- Use up less of models' oh-so-precious context memory, and
-- Follow instructions better!
+**Benefits**:
+- Consume far less tokens.
+- Use up less of models' oh-so-precious context memory.
+- Follow instructions better.
+- Reduced need for costly MCP.
 
+**Location/use**:
 I've added quite a few skills in the `{base folder}/.roo/skills` folder.
 - Roo Code's docs: https://docs.roocode.com/features/skills
 - They use the *Agent Skills Open Format*.
 
-Skills libraries:
+**Some Skills libraries**:
 - A skill marketplace with over 230,000 skills! https://skillsmp.com
 - https://agentskills.io/home
 - https://skills.sh/jeffallan/claude-skills
 
-## When/how to use?
+## When/how to use AgentAutoFlow?
 
 ### Building a new app
 If building a new app, *Architect* and *Planner abc* assume you already know *specs* for the project (stack, guidelines, etc). That's just one layer "higher" than these instructions are built for.
@@ -69,26 +71,25 @@ Scenario: Building a new dashboard screen.
 1) Start with "planner-a" (for med/high size work) or "architect" (for low/med size work) mode. 
 - For this mode, I choose a model with high reasoning and large-as-possible context window. Why? Because AgentAutoFlow's planning modes do the "heavy lifting," creating a plan file that has atomic detail so that orchestrator and the other modes in the chain can be relatively "dumb".
 - *Mode choice examples* (note - I change these often, your mileage may vary):
-    - Architect: *Sonnet-4.5-Reasoning* for intelligence and context window. I choose the large context window here because this modified architect mode does what Planners a/b/c all do, combined.
-    - Planner-a: This mode seeks to understand your goal, investigates relevant project files/functions, and creates a big picture. Brainstorms with user to determine high level plan. Creates "Phase(s)". Right now I use *GPT-5x-Reasoning-High* for intelligence. If you use it through OpenAI as a provider, you can choose "flex" Tier for lower pricing. If you don't care about cost, use *Sonnet-4.5-Reasoning*.
-    - Planner-b: Populates Phase(s) with detailed atomic Task(s). *GPT-5x-Reasoning-High*. Don't worry about planner-b receiving a large context window from planner-a. It will only receive the in-progress plan file from planner-a.
-    - Planner-c: Detailed task simulation and refinement. *GPT-5x-Reasoning-High*. Don't worry about planner-c receiving a large context window from planner-b. It will only receive the in-progress plan file from planner-b.
+    - Architect: *Use Reasoning model* for intelligence and context window. I choose the large context window here because this modified architect mode does what Planners a/b/c all do, combined.
+    - Planner-a: This mode seeks to understand your goal, investigates relevant project files/functions, and creates a big picture. Brainstorms with user to determine high level plan. Creates "Phase(s)". *Use reasoning model*.
+    - Planner-b: Populates Phase(s) with detailed atomic Task(s).  Don't worry about planner-b receiving a large context window from planner-a. It will only receive the in-progress plan file from planner-a. *Use reasoning model*
+    - Planner-c: Detailed task simulation and refinement. Don't worry about planner-c receiving a large context window from planner-b. It will only receive the in-progress plan file from planner-b. *Use reasoning model*.
 2) Tell it what you want.
 - It will brainstorm with you, asking questions, including:
     - *Complexity*: How do you want the work plan to be structured in terms of size, phase(s), and task(s)? It will recommend one. It will automatically create tasks so they are "bite-size" chunks less smart/lower-cost LLM models can more easily do the actual work.
     - *Autonomy*: What level of autonomy do you want it to have when it does the work?
     - *Testing*: What type of testing (browser, unit tests, custom, none) do you want it to do as it completes tasks?
 - It will create a plan and ask you if you want to modify it or approve.
-- It will also create plan and log files.
+- It will then create a plan file and log file.
   *Why are these files useful for the plan?*
   - Keep track of goals.
   - Keep track of progress - if planning or execution is interrupted, you can easily get back on track.
-  - Catalog lessons learned during the process.
-3) Once you approve the plan, if using planner-a, it will pass on to the other planner modes to flesh out and add detail to the plan. If using architect mode, that mode will do what planners a/b/c all do but with a bit less "care" and cost in time.
+3) Once you approve the plan, if using planner-a, it will pass on to the other planner modes to flesh out and add detail to the plan. If using architect mode, that mode will do what planners a/b/c all do but with a bit less "care" and cost in time/tokens.
 - Eventually, once you approve, it will pass the plan (with detailed instructions, mode hints, etc.) on to the "orchestrator" mode. 
 
 **Orchestration**
-- As you probably gathered, I've moved much more of the detail work (like making atomic tasks) into the planning phase so that orchestrator can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
+- As you probably gathered, I've moved much more of the detail work (like making atomic tasks) out of orchestrator and into the planning phase so that orchestrator can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
 
 **Mode budgeting**
 - Note: This workflow will sets the plan to choose between "code," "code monkey," and "task-simple" modes, depending on complexity. If "task-simple" or "code monkey" get confused because a task is too difficult or complex, they have instructions to pass the task up to "code" mode which I assign a "smarter" LLM to. Finally, "debug" mode is for more complex issues, so be sure to assign it a reasoning model, as well.
@@ -149,43 +150,7 @@ app/
     ├── rules-tester/
     │   └── 01-tester.md
     └── skills/
-        ├── api-use-external/
-        │   └── SKILL.md
-        ├── app-knowledge/
-        │   └── SKILL.md
-        ├── coding-css/
-        │   └── SKILL.md
-        ├── coding-html/
-        │   └── SKILL.md
-        ├── coding-javascript/
-        │   └── SKILL.md
-        ├── coding-markdown/
-        │   └── SKILL.md
-        ├── coding-python/
-        │   └── SKILL.md
-        ├── database-use/
-        │   └── SKILL.md
-        ├── error-handling/
-        │   └── SKILL.md
-        ├── frontend-design/
-        │   └── SKILL.md
-        ├── github-use/
-        │   └── SKILL.md
-        ├── learning/
-        │   └── SKILL.md
-        ├── log-file-use/
-        │   └── SKILL.md
-        ├── mode-selection/
-        │   └── SKILL.md
-        ├── planning-init/
-        │   └── SKILL.md
-        ├── research/
-        │   ├── SKILL.md
-        │   └── resources/
-        ├── simplification/
-        │   └── SKILL.md
-        └── testing/
-            └── SKILL.md
+        └── big list that changes often
 ```
 
 ## Todo list tool
@@ -235,9 +200,9 @@ Settings are stored in `config.txt` See `README-file-sync.MD` for details.
 Be sure to modify the content of files to fit your project. Especially:
 - "agents.md" (In root, "above" .roo folder). Important file. See `/init` in this document.
 - ".roo/docs/database_schema.md".
-- ".roo/rules/01-general.md" <-- no longer necessary because skills!
-- ".roo/rules/02-database.md" <-- no longer necessary because skills!
-- ".roo/rules-front-end/02-design-patterns.md".
+- ".roo/rules/01-general.md".
+- ".roo/skills/{skill name}/agents*.md" <-- within skill folders, name your project-specific information with this pattern and refer to it from the SKILL.md file.
+
 Really, I'd look through all the rules files to modify to YOUR preferences.
 
 ### Misc

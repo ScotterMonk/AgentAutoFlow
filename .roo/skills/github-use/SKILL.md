@@ -7,7 +7,7 @@ description: Any time github or git activity is required, including committing a
 - **update**: Stage, commit, and push all changes. See "## Update".
 - **merge to main**: Merge current branch into main. See "## Merge to main".
 - **create issue**: Create a new GitHub issue. See "## Create issue".
-- **create branch**: Create a new branch and switch to it. See "## Create branch".
+- **create branch**: Create a new branch from current branch and switch to it. See "## Create branch".
 - **checkout branch**: Switch to an existing branch. See "## Checkout branch".
 - **list branches**: List all branches. See "## List branches".
 - **revert**: Revert a specific commit by hash. See "## Revert".
@@ -17,7 +17,7 @@ description: Any time github or git activity is required, including committing a
 
 # Environment
 - **Shell**: Windows PowerShell in VS Code.
-- **Virtual environment**: If deactivated, reactivate with `./activate`.
+- **Virtual environment**: *If deactivated*, reactivate with `./activate` *before and separate from other commands*.
 
 # Response style
 - Skip narration ("Now I will…"). Just act and report at the end.
@@ -54,7 +54,7 @@ Stage, commit, and push all changes to the remote.
    - Concise subject line.
    - Short but complete body: what was done and why.
    - List affected file paths.
-   - No backticks. Enclose the full message in quotes as a single `-m` argument.
+   - No backticks. No carriage returns or line feeds within the message. Enclose the full message in quotes as a single `-m` argument.
 5. **Commit**: `git commit -m "[message]"` — no permission needed, just run it.
 6. **Verify**: Confirm commit succeeded and note the hash.
 7. **Push**: `git push origin <branch>`. If credentials are requested, check the `Critical Resources` section in `{base folder}/.roo/rules/01-general.md`.

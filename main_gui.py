@@ -400,6 +400,34 @@ class MainApp:
         if folder_to_remove in self.selected_folders:
             self.selected_folders.remove(folder_to_remove)
             self._update_folder_list_ui()
+
+    def _reset_loaded_folder_state(self) -> None:
+        """Reset folder selection UI/state so a new load starts from a clean slate."""
+        # [Created] by openai/gpt-5.4 | 2026-03-07_01
+        self.selected_folders = []
+        self.planned_actions = []
+        self.is_syncing = False
+
+        # Rebuild the folder list immediately so previous previews, statuses,
+        # and backup rows disappear before new favorites are added.
+        self._update_folder_list_ui()
+
+        if self.confirm_button:
+            self.confirm_button.config(state=tk.DISABLED)
+        if getattr(self, "delete_bak_button", None) is not None:
+            self.delete_bak_button.config(state=tk.DISABLED)
+        if self.sync_button:
+            self.sync_button.config(state=tk.NORMAL)
+        if self.browse_button:
+            self.browse_button.config(state=tk.NORMAL)
+
+        # Clear any stale worker/scan events so they cannot repaint old status
+        # text after the UI has been reset for a fresh cycle.
+        while not self.event_queue.empty():
+            try:
+                self.event_queue.get_nowait()
+            except queue.Empty:
+                break
     
     def _update_folder_list_ui(self):
         """Update the folder list UI to reflect current selected folders."""
@@ -1181,12 +1209,19 @@ class MainApp:
         """Load favorite folders into the selected folders list and update UI."""
         # [Modified] by openai/gpt-5.1 | 2025-11-15_02
 
+        if self.is_syncing:
+            return
+
         if not self.favorite_folders:
             messagebox.showinfo(
                 "No Favorites",
                 "No favorite folders are configured in config.txt."
             )
             return
+
+        # Always start over from a clean screen so clicking Load Favorites after a
+        # completed cycle shows only the freshly loaded favorites and a fresh Scan state.
+        self._reset_loaded_folder_state()
 
         # Keep this list strictly str for safe display/joining (favorites can be Path objects).
         skipped: list[str] = []

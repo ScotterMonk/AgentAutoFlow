@@ -34,7 +34,7 @@ Take the time needed to think and search before coding.
 - **Wrong**: Separate functions per provider (e.g., `api_call_provider_a`, `api_call_provider_b`).
 - **Right**: A universal abstraction layer flexible enough to handle multiple providers.
 - **Wrong**: A payment system that only works with provider A.
-- **Right**: A universal payment layer, extensible to plug in other providers.
+- **Right**: A universal payment layer, extensible to plug in one or many providers.
 
 **Guiding principles**:
 - *Extend or generalize* existing utilities instead of duplicating.

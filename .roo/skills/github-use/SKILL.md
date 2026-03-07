@@ -17,7 +17,7 @@ description: Any time github or git activity is required, including committing a
 
 # Environment
 - **Shell**: Windows PowerShell in VS Code.
-- **Virtual environment**: *If deactivated*, reactivate with `./activate` *before and separate from other commands*.
+- **Virtual environment**: *If deactivated*, reactivate with `./activate` *before and separate from other commands*. *Only do this once, at the start and only if needed.*
 
 # Response style
 - Skip narration ("Now I will…"). Just act and report at the end.
@@ -54,7 +54,22 @@ Stage, commit, and push all changes to the remote.
    - Concise subject line.
    - Short but complete body: what was done and why.
    - List affected file paths.
-   - No backticks. No carriage returns or line feeds within the message. Enclose the full message in quotes as a single `-m` argument.
+   - No backticks.
+   - No carriage returns or line feeds within the message. Enclose the full message in quotes as a single `-m` argument.
+      **Wrong** (has line feeds or carriage returns):
+      ```
+      git commit -m "Fix...
+
+      - An item that was changed...
+      - Another item that was changed...
+
+      Files: file.py, another_file.py"
+      ```
+
+      **Right** (no line feeds or carriage returns):
+      ```
+      git commit -m "Fix...: (1) An item that was changed... (2) Another item that was changed... Files: file.py, another_file.py"
+      ```
 5. **Commit**: `git commit -m "[message]"` — no permission needed, just run it.
 6. **Verify**: Confirm commit succeeded and note the hash.
 7. **Push**: `git push origin <branch>`. If credentials are requested, check the `Critical Resources` section in `{base folder}/.roo/rules/01-general.md`.

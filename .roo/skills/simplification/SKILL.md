@@ -15,14 +15,11 @@ One insight can eliminate 10 components. Look for the unifying principle that ma
 
 ## Before You Start — Disqualifiers
 
-Check these first. If any apply, stop and explain why a cascade won't work here:
-
-| Disqualifier | Why it blocks a cascade |
-|---|---|
-| Things are only superficially similar | Same name ≠ same concept |
-| The abstraction needs more config than what it replaces | Net complexity increase |
-| Unifying would lose type safety or meaningful errors | Cost exceeds benefit |
-| The result would be harder to understand | Cascade must be *obvious* |
+Check these *disqualifiers* first. If any apply, stop and explain why a cascade won't work here:
+- **Things are only superficially similar**. *Why?* Same name ≠ same concept.
+- **The abstraction needs more config than what it replaces**. *Why?* Net complexity increase.
+- **Unifying would lose type safety or meaningful errors**. *Why?* Cost exceeds benefit.
+- **The result would be harder to understand**. *Why?* Cascade must be *obvious*.
 
 A valid cascade makes code **obviously simpler**, not just shorter.
 

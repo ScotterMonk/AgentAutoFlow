@@ -31,8 +31,20 @@ description: When a coding or scripting mode needs to initiate coding execution.
 3) **Risk**: Identify potential challenges.
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies (routes, models, utils, APIs).
 5) **Configuration**: If following config item is empty:
-   **Vital that you give exactly the choices below for each question**.
-   - **Question: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: `[] Use what is appropriate per task, [] Browser, [] Terminal commands or short scripts, [] Python tests, [] All, [] None, [] Custom`. Default to "Use what is appropriate per task".
+   - *Question: `testing type`*.
+       - Display all 7 options verbatim in the question text, one per line, in exactly this order — **do not omit, merge, reorder, or summarize any of them**.
+       - Follow-up suggestion buttons are optional quick-picks; they are not a substitute for showing all 7 in the question text.
+       - Accept either the option number or the exact option text as a valid answer.
+       - Self-check before sending: confirm all 7 appear exactly once in the question text.
+       - Canonical list:
+          1) Use what is appropriate per task.
+          2) All
+          3) None
+          4) Browser.
+          5) Terminal commands or short scripts.
+          6) Python tests.
+          7) Custom.
+       - Default: option 1 ("Use what is appropriate per task").
    **Stop and wait for user response before proceeding.**
 
 ### 3. Locate existing plan

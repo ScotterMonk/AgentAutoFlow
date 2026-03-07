@@ -1,6 +1,6 @@
 ---
 name: planning-init
-description: When a mode needs to initiate or continue plan creation for continuation or execution by user or other modes. All planner modes (architect, planner-a, planner-b, and planner-c) *start* work.
+description: When a mode needs to initiate or continue plan creation for continuation or execution by user or other modes. All planner modes (architect, planner-a, planner-b, and planner-c) *start* their work.
 ---
 
 # Planning instructions
@@ -61,12 +61,25 @@ description: When a mode needs to initiate or continue plan creation for continu
 
 4) **Configuration**: If following 3 config items are empty:
     Ask user the following three questions *separately*:
-    **Vital that you give exactly the choices below for each question**.
-    - **Question 1: `complexity`**: `[] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), [] Multi-Phase (Large)`. Recommend best option for this `plan`.
+    **Vital that you give exactly the choices listed below for each question**.
+    - *Question 1: `complexity`*: `[] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), [] Multi-Phase (Large)`. Recommend best option for this `plan`.
     *Stop and wait for user response before proceeding to next question.*
-    - **Question 2: `autonomy level`**: `[] Low (frequent checks), [] Medium, [] High (rare checks)`. Default to High.
+    - *Question 2: `autonomy level`*: `[] Low (frequent checks), [] Medium, [] High (rare checks)`. Default to High.
     *Stop and wait for user response before proceeding to next question.*
-    - **Question 3: `testing type`** - **For user choices, use exactly all 7 of the following testing types listed as a choice here**: `[] Use what is appropriate per task, [] Browser, [] Terminal commands or short scripts, [] Python tests, [] All, [] None, [] Custom`. Default to "Use what is appropriate per task".
+    - *Question 3: `testing type`*.
+        - Display all 7 options verbatim in the question text, one per line, in exactly this order — **do not omit, merge, reorder, or summarize any of them**.
+        - Follow-up suggestion buttons are optional quick-picks; they are not a substitute for showing all 7 in the question text.
+        - Accept either the option number or the exact option text as a valid answer.
+        - Self-check before sending: confirm all 7 appear exactly once in the question text.
+        - Canonical list:
+            1) Use what is appropriate per task.
+            2) All
+            3) None
+            4) Browser.
+            5) Terminal commands or short scripts.
+            6) Python tests.
+            7) Custom.
+        - Default: option 1 ("Use what is appropriate per task").
    **Stop and wait for user response before proceeding.**
 
 ### 2. Pre-planning

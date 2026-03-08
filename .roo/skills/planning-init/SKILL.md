@@ -68,7 +68,6 @@ description: When a mode needs to initiate or continue plan creation for continu
     *Stop and wait for user response before proceeding to next question.*
     - *Question 3: `testing type`*.
         - Display all 7 options verbatim in the question text, one per line, in exactly this order — **do not omit, merge, reorder, or summarize any of them**.
-        - Follow-up suggestion buttons are optional quick-picks; they are not a substitute for showing all 7 in the question text.
         - Accept either the option number or the exact option text as a valid answer.
         - Self-check before sending: confirm all 7 appear exactly once in the question text.
         - Canonical list:
@@ -80,6 +79,11 @@ description: When a mode needs to initiate or continue plan creation for continu
             6) Python tests.
             7) Custom.
         - Default: option 1 ("Use what is appropriate per task").
+        - **Buttons** — tool allows max 4; use exactly these follow-up suggestions in this order:
+            1. `1) Use what is appropriate per task ← DEFAULT`
+            2. `2) All`
+            3. `3) None`
+            4. `Enter 4, 5, 6, or 7 → Browser / Terminal / Python tests / Custom`
    **Stop and wait for user response before proceeding.**
 
 ### 2. Pre-planning

@@ -1,4 +1,4 @@
-# Standards-all-modes instructions
+# app-standards — Standards-all-modes instructions
 
 **app-standards**: "app-standards" are for all modes that plan or write scripts or code follow these app standards for communication, modularization, creation, editing, naming conventions, refactoring.
 

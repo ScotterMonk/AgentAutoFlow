@@ -1,6 +1,6 @@
 ---
 name: coding-finish
-description: When a coding or scripting mode ("code", "code-monkey", "debug", "front-end", "tester") has finished its primary task(s) and it is time for cleanup.
+description: When a coding or scripting mode ("code", "code-monkey", "front-ender") has finished its primary task(s) and it is time for cleanup.
 ---
 
 # Workflow

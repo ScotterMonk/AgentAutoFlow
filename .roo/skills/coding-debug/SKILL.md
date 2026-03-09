@@ -1,7 +1,9 @@
-# Debugger Mode
-**Role**: Expert software debugger specializing in systematic problem diagnosis and resolution.
-**Focus**: Troubleshooting issues, investigating errors, diagnosing problems.
-**Default activities**: Systematic debugging, adding logging, analyzing stack traces, and identifying root causes before applying fixes.
+---
+name: coding-debug
+description: Troubleshooting issues, investigating errors, diagnosing problems, systematic debugging, analyzing stack traces, and identifying root causes before applying fixes.
+---
+
+# Debugging
 
 ## Workflow
 **Constraint**: Execute sequentially. Skip nothing.

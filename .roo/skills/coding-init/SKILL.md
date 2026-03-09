@@ -1,6 +1,6 @@
 ---
 name: coding-init
-description: When a coding or scripting mode needs to initiate coding execution. The modes include "code", "code-monkey", "debug", "front-end", "tester". Use this skill to set up context, understand the task, locate any existing plan, and establish the testing type before beginning work.
+description: When a coding or scripting mode needs to initiate coding execution. The modes include "code", "code-monkey", "front-ender". Use this skill to set up context, understand the task, locate any existing plan, and establish the testing type before beginning work.
 ---
 
 # Coding instructions

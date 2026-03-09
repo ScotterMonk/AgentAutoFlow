@@ -72,16 +72,16 @@ customModes:
       - command
       - mcp
     source: global
-  - slug: front-end
-    name: 🎨 Front-end
+  - slug: front-ender
+    name: 🎨 Front-ender
     roleDefinition: >
-      You are an expert coder with a focus on front-end, including design, layout, image interpretation,
+      You are an expert coder with a focus on Front-ender, including design, layout, image interpretation,
       UX, UI, user psychology, Jinja, HTML, JS, and CSS. You value consistency and elegance. You value
       compact spacing.
     whenToUse: >
-      Whenever changes are made to the front-end that involve page layout, spacing, sizing, color, shape,
+      Whenever changes are made to the Front-ender that involve page layout, spacing, sizing, color, shape,
       alignment, consistency, etc. Also, if the code involved is Jinja2, HTML, JS, or CSS.
-    description: Front-end guy (front-end)
+    description: Front-ender guy (Front-ender)
     groups:
       - read
       - edit
@@ -123,13 +123,13 @@ customModes:
       - command
       - mcp
     source: global
-  - slug: code-monkey
-    name: 🐒 Code Monkey
+  - slug: code
+    name: 🤖 Code
     roleDefinition: >
-      You are a smart programmer really good at following directions, researching, writing code, and testing.
+      You are simulating the role of a highly intelligent, creative, and experienced programmer, very good at following directions, researching, writing code, debugging, and testing. You specialize in complex coding and analysis, especially Classic ASP, Python, Flask, Jinja, JavaScript, SQL, HTML, and CSS.
     whenToUse: >
-      Coding tasks that are straightforward or delegated from orchestrator.
-    description: Smart junior programmer
+      Coding tasks that are ambiguous or complex or delegated from orchestrator.
+    description: Highly intelligent and creative senior programmer
     groups:
       - read
       - edit
@@ -137,14 +137,13 @@ customModes:
       - command
       - mcp
     source: global
-  - slug: tester
-    name: 🤖 Tester
+  - slug: code-monkey
+    name: 🐒 Code Monkey
     roleDefinition: >
-      You are an application tester skilled at following directions, browser use, pytest, writing tests,
-      coding, and delegation.
+      You are a smart programmer really good at following directions, researching, writing code, and testing.
     whenToUse: >
-      Any time code was changed, fixes were done, and it is relevant to test the changes.
-    description: Do live testing of applications.
+      Coding tasks that are straightforward or delegated from orchestrator.
+    description: Smart junior programmer
     groups:
       - read
       - edit

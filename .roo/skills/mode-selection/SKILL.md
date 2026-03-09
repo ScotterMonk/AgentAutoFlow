@@ -17,11 +17,9 @@ description: For understanding what each mode does, which mode is best (most app
 - `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> User Approval -> Switch to `/orchestrator`.
 - `/orchestrator`: Manage execution. Coordinate implementation modes. Log. Fullfill the plan.
 **For Implementation & Ops**
-- `/code`: Complex engineering, analysis, debugging.
+- `/code`: Complex engineering, analysis, debugging, test creation, test execution, deep error investigation and diagnosis.
 - `/code-monkey`: Routine coding, strict instruction adherence.
-- `/front-end`: UI implementation.
-- `/tester`: Test creation and execution.
-- `/debug`: Deep error investigation and diagnosis.
+- `/Front-ender`: UI implementation.
 - `/githubber`: GitHub CLI operations.
 - `/task-simple`: Small, isolated operations.
 - `/ask`: General inquiries.
@@ -40,10 +38,8 @@ description: For understanding what each mode does, which mode is best (most app
     - Use `/task-simple`
 2.  **Medium Budget** (Refactoring, simple function creation, writing)
     - Use `/code-monkey`
-3.  **High Budget** (Complex modification, test creation and use, or if Medium fails)
-    - Use `/code` or `/tester`
-4.  **Highest Budget** (Debugging, or if High fails)
-    - Use `/debug`
+3.  **High Budget** (Complex modification, test creation and use, debugging, or if Medium fails)
+    - Use `/code`.
 **Special Exception**:
-- **Front-End Tasks** (Medium or High complexity): **Always use** `/front-end`
+- **Front-ender Tasks** (Medium or High complexity): **Always use** `/Front-ender`
  

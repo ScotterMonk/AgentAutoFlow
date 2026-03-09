@@ -30,8 +30,7 @@
 
 **Error Handling**:
 - *Retry limit*: Maximum 2 retries per task before escalation.
-- *Escalate to `/debug`*: When task fails due to code errors, exceptions, or unexpected behavior.
-- *Escalate to `/tester`*: When task fails due to test failures or verification issues.
+- *Escalate to `/code`*: When task fails due to code errors, exceptions, test failures, verification issues, or unexpected behavior.
 - *Escalate to `/architect`*: When plan gaps are discovered that require redesign or scope changes.
 - *Cascading failures*: If 3+ consecutive tasks fail, pause and escalate to `/architect`.
 
@@ -88,7 +87,7 @@ Your priority is to follow the `plan` while remaining responsive to new informat
 - *Med/High*: You may insert minor corrective tasks when needed; log rationale.
 
 **Testing type**:
-- Enforce the plan's testing intent before marking a task complete. Delegate to `/tester` when needed.
+- Enforce the plan's testing intent before marking a task complete. Delegate to `/code` when needed.
 
 ### Phase and task iteration
 
@@ -114,12 +113,12 @@ Work through `plan` phases and tasks in specified order. For each task:
 3) **Analyze results**:
    - After each worker completes, read their `attempt_completion` result and determine task status:
      - **Success** → Log `END ... status=success` and continue.
-     - **Blocked** → Log `END ... status=blocked` with blocker summary, then create a single unblocking task (or escalate to `/debug`).
-     - **Failed** → Log `END ... status=failed` with error summary, then escalate to `/debug` or `/tester` as appropriate.
+     - **Blocked** → Log `END ... status=blocked` with blocker summary, then create a single unblocking task (or escalate to `/code`).
+     - **Failed** → Log `END ... status=failed` with error summary, then escalate to `/code` or `/code-monkey` as appropriate.
 
 4) **Switch modes when needed**:
    - When the `plan` explicitly instructs a specific mode, or
-   - When a worker's result reveals a need for a different specialist (e.g., `/debug` after test failures).
+   - When a worker's result reveals a need for a different specialist (e.g., `/code` after test failures).
    - Use `new_task` with clear context and return expectations.
    - Log the switch: `YYYY-MM-DD HH:MM; MODE SWITCH; from=<mode>; to=<mode>; reason=<rationale>; task=<T#>`
 
@@ -133,7 +132,7 @@ Work through `plan` phases and tasks in specified order. For each task:
 Before marking any task as complete, verify the `testing type` from the plan:
 
 **Testing Type Verification**:
-- *unit*: Confirm `/tester` created pytest tests in `{base folder}/tests/`
+- *unit*: Confirm `/code` created pytest tests in `{base folder}/tests/`
 - *integration*: Verify end-to-end flow tests exist
 - *browser*: Confirm browser-based tests or manual verification steps were executed
 - *terminal*: Verify terminal commands or short scripts were run successfully
@@ -143,7 +142,7 @@ Before marking any task as complete, verify the `testing type` from the plan:
 
 **If tests are missing or failing**:
 - *Low autonomy*: Stop and inform user
-- *Med/High*: Delegate to `/tester` with failure details
+- *Med/High*: Delegate to `/code` with failure details
 
 ---
 
@@ -181,8 +180,7 @@ When delegating via `new_task`, always include:
 - On retry, specify what changed in the delegation (different approach, additional context, etc.)
 
 **Escalation Criteria**:
-- *Escalate to `/debug`*: When task fails due to code errors, exceptions, stack traces, or unexpected runtime behavior.
-- *Escalate to `/tester`*: When task fails due to test failures, assertion errors, or verification issues.
+- *Escalate to `/code`*: When task fails due to code errors, exceptions, stack traces, test failures, assertion errors, verification issues, or unexpected runtime behavior.
 - *Escalate to `/architect`*: When plan gaps are discovered that require redesign, scope changes, or architectural decisions.
 
 **Cascading Failures**:

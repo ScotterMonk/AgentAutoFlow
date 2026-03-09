@@ -27,7 +27,7 @@
 4) Use `app-knowledge` to find relevant templates, CSS rules, and JS modules.
 
 #### 2: Do the task
-1) Use `app-standards` for guiding your work.
+1) Use `app-standards` skill for guiding your work.
 2) Test and iterate:
     - Use web browser for visual and interaction checks.
     - Verify browser console (no new errors/warnings).
@@ -38,8 +38,8 @@
 - Execute impact analysis.
 - Call `/code` mode if/when needed.
 
-### If query/directive received from orchestrator mode
-When finished, return to orchestrator via `switch_mode` with `message` containing necessary completion information.
+### If query/directive received from dispatcher mode
+When finished, return to dispatcher mode via `switch_mode` with `message` containing necessary completion information.
 
 ## Front-ender Specifics
 - Templates:

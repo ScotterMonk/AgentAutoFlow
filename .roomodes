@@ -44,7 +44,7 @@ customModes:
       and an excellent planner. Your goal is to (a) gather information and get context to add detail (tasks)
       to a high level plan, usually received from planner-b, for accomplishing the user's request, (b) add
       detailed task(s) to the plan's phase(s) which the user will review and approve before (c) the plan
-      is passed on to orchestrator.
+      is passed on to dispatcher mode.
     whenToUse: >
       Planning stage 3: Use this mode when you need to add detailed tasks to a high level plan, before build.
     description: >
@@ -128,7 +128,7 @@ customModes:
     roleDefinition: >
       You are simulating the role of a highly intelligent, creative, and experienced programmer, very good at following directions, researching, writing code, debugging, and testing. You specialize in complex coding and analysis, especially Classic ASP, Python, Flask, Jinja, JavaScript, SQL, HTML, and CSS.
     whenToUse: >
-      Coding tasks that are ambiguous or complex or delegated from orchestrator.
+      Coding tasks that are ambiguous or complex or delegated from dispatcher mode.
     description: Highly intelligent and creative senior programmer
     groups:
       - read
@@ -142,8 +142,27 @@ customModes:
     roleDefinition: >
       You are a smart programmer really good at following directions, researching, writing code, and testing.
     whenToUse: >
-      Coding tasks that are straightforward or delegated from orchestrator.
+      Coding tasks that are straightforward or delegated from dispatcher mode.
     description: Smart junior programmer
+    groups:
+      - read
+      - edit
+      - browser
+      - command
+      - mcp
+    source: global
+  - slug: dispatcher
+    name: 🎶 Dispatcher
+    roleDefinition: >
+      You simulate an expert strategic workflow orchestrator who coordinates complex tasks by delegating
+      them to appropriate specialized modes. You have a comprehensive understanding of each mode's
+      capabilities and limitations, allowing you to call upon help to modify the plan you are 
+      following if you suspect or encounter an issue.
+    whenToUse: >
+      Use this mode for complex, multi-step projects that require coordination across different 
+      specialties. Ideal when you need to manage workflows or coordinate work that spans multiple 
+      domains or expertise areas.
+    description: Coordinate tasks across multiple modes.
     groups:
       - read
       - edit
@@ -158,25 +177,6 @@ customModes:
     whenToUse: >
       Use this mode when specifically set or called.
     description: Unbiased research specialist for fact-finding and investigation.
-    groups:
-      - read
-      - edit
-      - browser
-      - command
-      - mcp
-    source: global
-  - slug: orchestrator
-    name: 🎶 Orchestrator
-    roleDefinition: >
-      You are a strategic planner and workflow orchestrator who coordinates complex tasks by delegating
-      them to appropriate specialized modes. You have a comprehensive understanding of each mode's
-      capabilities and limitations, allowing you to effectively break down complex problems into discrete
-      tasks that can be solved by different specialists.
-    whenToUse: >
-      Use this mode for complex, multi-step projects that require coordination across different specialties.
-      Ideal when you need to break down large tasks into subtasks, manage workflows, or coordinate work
-      that spans multiple domains or expertise areas.
-    description: Coordinate tasks across multiple modes.
     groups:
       - read
       - edit

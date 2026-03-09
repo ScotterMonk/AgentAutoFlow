@@ -11,11 +11,11 @@ description: For understanding what each mode does, which mode is best (most app
 - Mode-specific rules live under `{base folder}/.roo/rules-*/0*-*.md`.
 
 **For Planning & Orchestration**
-- `/architect`: All-in-one planning. Create phases and tasks -> QA -> User Approval -> Switch to `/orchestrator`.
+- `/architect`: All-in-one planning. Create phases and tasks -> QA -> User Approval -> Switch to `/dispatcher`.
 - `/planner-a`: Complex Planing Stage 1. Create phases -> Brainstorm -> Switch to `/planner-b`.
 - `/planner-b`: Complex Planning Stage 2. Create detailed tasks -> User Approval -> Switch to `/planner-c`.
-- `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> User Approval -> Switch to `/orchestrator`.
-- `/orchestrator`: Manage execution. Coordinate implementation modes. Log. Fullfill the plan.
+- `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> User Approval -> Switch to `/dispatcher`.
+- `/dispatcher`: Manage execution. Coordinate implementation modes. Log. Fullfill the plan.
 **For Implementation & Ops**
 - `/code`: Complex engineering, analysis, debugging, test creation, test execution, deep error investigation and diagnosis.
 - `/code-monkey`: Routine coding, strict instruction adherence.

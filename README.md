@@ -13,7 +13,7 @@ Using the built-in-to-Roo ability to use "rules" files, this archive is a set of
 - **Other new modes**: Added "Front-ender", "GitHubber", "Docs Writer", etc.
 
 Notes:
-- **Smart but cheap**: Designed both Architect and Planner modes  to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like "Orchestrator," "Coder", "Code Monkey", etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
+- **Smart but cheap**: Designed both Architect and Planner modes  to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like "Dispatcher," "Coder", "Code Monkey", etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
 - **Look how fast they grow up**: This set of instructions is ever-evolving. 
 - **Virtuous circle**: The author, Scott Howard Swain, uses this "Team" every day, is constantly tinkering with it, and is always eager to hear ideas to improve it.
 
@@ -69,7 +69,7 @@ Scenario: Fixing a bug, modifying Front-ender, or adding a function.
 Scenario: Building a new dashboard screen.
 **Planning**
 1) Start with "planner-a" (for med/high size work) or "architect" (for low/med size work) mode. 
-- For this mode, I choose a model with high reasoning and large-as-possible context window. Why? Because AgentAutoFlow's planning modes do the "heavy lifting," creating a plan file that has atomic detail so that orchestrator and the other modes in the chain can be relatively "dumb".
+- For this mode, I choose a model with high reasoning and large-as-possible context window. Why? Because AgentAutoFlow's planning modes do the "heavy lifting," creating a plan file that has atomic detail so that Dispatcher and the other modes in the chain can be relatively "dumb".
 - *Mode choice examples* (note - I change these often, your mileage may vary):
     - Architect: *Use Reasoning model* for intelligence and context window. I choose the large context window here because this modified architect mode does what Planners a/b/c all do, combined.
     - Planner-a: This mode seeks to understand your goal, investigates relevant project files/functions, and creates a big picture. Brainstorms with user to determine high level plan. Creates "Phase(s)". *Use reasoning model*.
@@ -86,10 +86,10 @@ Scenario: Building a new dashboard screen.
   - Keep track of goals.
   - Keep track of progress - if planning or execution is interrupted, you can easily get back on track.
 3) Once you approve the plan, if using planner-a, it will pass on to the other planner modes to flesh out and add detail to the plan. If using architect mode, that mode will do what planners a/b/c all do but with a bit less "care" and cost in time/tokens.
-- Eventually, once you approve, it will pass the plan (with detailed instructions, mode hints, etc.) on to the "orchestrator" mode. 
+- Eventually, once you approve, it will pass the plan (with detailed instructions, mode hints, etc.) on to the "Dispatcher" mode. 
 
-**Orchestration**
-- As you probably gathered, I've moved much more of the detail work (like making atomic tasks) out of orchestrator and into the planning phase so that orchestrator can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
+**Dispatcher (based on Orchestration)**
+- As you probably gathered, I've moved much more of the detail work (like making atomic tasks) out of the old/default Orchestrator and into the planning phase so that Dispatcher can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
 
 **Mode budgeting**
 - Note: This workflow will sets the plan to choose between "code," "code monkey," and "task-simple" modes, depending on complexity. If "task-simple" or "code monkey" get confused because a task is too difficult or complex, they have instructions to pass the task up to "code" mode which I assign a "smarter" LLM to.
@@ -129,14 +129,14 @@ app/
     │   └── 01-code.md
     ├── rules-code-monkey/
     │   └── 01-code-monkey.md
+    ├── rules-dispatcher/
+    │   └── 01-dispatcher.md
     ├── rules-docs-writer/
     │   └── 01-docs-writer.md
     ├── rules-Front-ender/
     │   └── 01-Front-ender.md
     ├── rules-githubber/
     │   └── 01-githubber.md
-    ├── rules-orchestrator/
-    │   └── 01-orchestrator.md
     ├── rules-planner-a/
     │   └── 01-planner-a.md
     ├── rules-planner-b/
@@ -202,7 +202,7 @@ Be sure to modify the content of files to fit your project. Especially:
 Really, I'd look through all the rules files to modify to YOUR preferences.
 
 ### Misc
-- I've added "Orchestrator" to .roomodes local mode file so that I can give it read, edit, and command permissions. Without those permissions, it can sometimes have issues, depending on what LLM model you have it using. Example: I've seen it find an issue with The Plan and spend extra tokens to delegate minor textual changes to The Plan when it could have more quickly done the changes itself.
+- I've added "Dispatcher" to .roomodes local mode file so that I can give it read, edit, and command permissions. Without those permissions, it can't update the log file. Also, depending on what LLM model you have it using, I've seen it find an issue with The Plan and spend extra tokens to delegate minor textual changes to The Plan when it could have more quickly done the changes itself.
 
 ### IMPORTANT: agents.md
 If your agentic assistant has an /init or other command that analyzes your codebase and creates tailored configuration files, use it. Roo Code uses /init. 
@@ -225,7 +225,7 @@ When creating a plan based on user input, for larger projects, I divided "archit
 	- Mode hints. Ex: "Use this mode: Code (Senior Coder)", "Code Monkey (Jr Coder)", "Task-Simple", etc.
 - **Architect** and **Planner (team)**: GPT-5.4-R-H or M | Sonnet 4.6-R.
 - **Code (Senior Coder)**, **Front-ender**: Sonnet 4.6 | GPT-5.4-R-M. Note: On paper, GPT 5.4 seems far more expensive than it really is (especially when you choose Flex tier) but I find it runs so efficiently that it ends up doing a lot for pennies! I use it through OpenRouter or through OpenAI, choosing "Flex" service tier because I'm fine with how slow it is for saving $.
-- **Code Monkey (Jr Coder)**: GPT-5.4-Low | Gemini 3.x Flash (through OpenRouter is least expensive) or any comparable model because "Architect" (AgentAutoFlow's version) and "Planner" team write a very detailed plan that even includes pseudocode or code so that when the plan gets delegated by Orchestrator, Code and Code Monkey know *exactly* what they are expected to do.
+- **Code Monkey (Jr Coder)**: GPT-5.4-Low | Gemini 3.x Flash (through OpenRouter is least expensive) or any comparable model because "Architect" (AgentAutoFlow's version) and "Planner" team write a very detailed plan that even includes pseudocode or code so that when the plan gets delegated by Delegator, Code and Code Monkey know *exactly* what they are expected to do.
 - **Task-Simple** and **Githubber**: GPT-5.4-non-reasoning or one of those dumb-and-cheap models mentioned above. The AgentAutoFlow's "Architect" and "Planner" subteam both know to delegate all file copying, and other simple tasks to this mode so your expensive models aren't wasting money on stuff like that.
 
 ## Markdown vs XML

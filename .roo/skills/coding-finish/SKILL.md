@@ -22,8 +22,8 @@ description: When a coding or scripting mode ("code", "code-monkey", "front-ende
 If any lessons potentially learned from working through this task: Check with `learning` skill.
 
 4) **Completion**
-- **ONLY IF current coding/scripting mode was called by orchestrator**:
-    - Return to `/orchestrator`. *Do not go further in this skill or the mode that called it.*
+- **ONLY IF current coding/scripting mode was called by dispatcher mode**:
+    - Return to `/dispatcher` mode. *Do not go further in this skill or the mode that called it.*
 - **ELSE IF this mode was called by user**:
     - Present a brief summary of what was changed (files, functions, logic).
     - Ask: "Does this look good, or do you have additional instructions?"

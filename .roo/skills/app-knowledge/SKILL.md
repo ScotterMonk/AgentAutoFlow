@@ -6,7 +6,8 @@ description: When any part of the application needs to be found or understood, i
 # App knowledge instructions
 
 ## Sources of knowledge and tools
-- **Primary**: `agents.md`.
+- **Learnings**: Check `{base folder}/.roo/docs/learning/` by using `learning` skill for prior solutions or patterns that apply to your current task.
+- **Site basics**: `agents.md`.
 - **Codebase**: `codebase_search`, `read_file`, `search_files`.
     - Include `{base folder}/utils/` and `{base folder}/utils_db/` folders for similar or same functionality.
 - **Git diff**: recent commits.
@@ -14,4 +15,3 @@ description: When any part of the application needs to be found or understood, i
 - **Backups folder**: `{base folder}/.roo/docs/old_versions/`.
 - **Completed plans folder**: `{base folder}/.roo/docs/plans_completed/`.
 - **Web automation** & **browsing**: `browser-use` skill.
-- **Learnings**: See `{base folder}/.roo/docs/learning/`

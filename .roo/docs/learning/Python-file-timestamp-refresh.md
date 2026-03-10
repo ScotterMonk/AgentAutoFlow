@@ -8,4 +8,3 @@ When you need to refresh modification times across many files (e.g., everything 
 - For binary files, only update timestamps (e.g., `os.utime(path, None)`).
 
 This preserves file integrity while still meeting the goal of updated mtimes.
-

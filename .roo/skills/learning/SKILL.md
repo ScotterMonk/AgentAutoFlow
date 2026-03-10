@@ -21,7 +21,7 @@ For any file writes, be sure to follow `## Formatting Rules` section in the `cod
 ---
 
 ### Phase 0: Find Learnings (when stuck or researching)
-*Use this phase when the calling mode asks you to "check learning skill for prior solutions."*
+*Use this phase when the calling mode asks you to "check learning skill for prior solutions" or "patterns that apply to your current task" or similar instruction involving the learning skill.*
 
 1. **List** files in `{learnings folder}` to see what categories exist.
 2. **Read** the most relevant file(s) based on the current problem domain.
@@ -50,7 +50,6 @@ Use telegraphic language (→ ✅ ❌ ⚠️).
 - **Cause/Mistake**: [Why it failed or common wrong approach]
 - **Fix/Correct**: [The solution or right approach]
 - **Why**: [1-line reason]
-
 *(Optional: If the issue took 3+ attempts to solve, append a brief `Timeline:` and `Blind Spots:` section).*
 
 ### Phase 3: Micro-Approval (BLOCKING)

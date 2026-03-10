@@ -19,7 +19,7 @@ description: When a coding or scripting mode ("code", "code-monkey", "front-ende
 - If a `plan file` was active, move it to `.roo/docs/plans_completed/` now that the task is done.
 
 3) **Lessons learned?**
-If any lessons potentially learned from working through this task: Check with `learning` skill.
+If any lessons were learned from working through this task: Use the `learning` skill to decide whether to save the lesson you learned.
 
 4) **Completion**
 - **ONLY IF current coding/scripting mode was called by dispatcher mode**:

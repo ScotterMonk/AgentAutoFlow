@@ -78,9 +78,8 @@ Follow the `Testing` section in `rules/01-general.md`. For Python scripts:
 
 ### If Stuck in a Loop
 1) Try one completely different approach (different layout strategy, CSS technique, or component structure).
-2) Check using `learning` skill for prior solutions or patterns.
-3) Try two more novel solutions.
-4) If still stuck:
+2) Try two more novel solutions.
+3) If still stuck:
     - Prepare two new, clearly different approach ideas.
     - Present them to the user along with the option: "Abandon this task and return to `plan` flow."
     - Wait for user direction.

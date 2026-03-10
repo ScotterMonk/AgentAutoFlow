@@ -19,7 +19,7 @@ description: For understanding what each mode does, which mode is best (most app
 **For Implementation & Ops**
 - `/coder-sr`: Complex engineering, analysis, debugging, test creation, test execution, deep error investigation and diagnosis.
 - `/coder-jr`: Routine coding, strict instruction adherence.
-- `/front-ender`: UI implementation.
+- `/front-ender`: Frontend (UI, HTML, JS, CSS, etc.) implementation.
 - `/githubber`: GitHub CLI operations.
 - `/tasky`: Small, isolated work, including simple file operations.
 - `/ask`: General inquiries.

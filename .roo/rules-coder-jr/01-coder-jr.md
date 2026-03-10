@@ -18,14 +18,12 @@ Use `coding-init` skill.
 - IF `testing type` calls for tests, test after each change.
 
 **If stuck in a loop**:
-1) Try one completely different approach (algorithm, architecture, or module choice).
-2) Check using `learning` skill for prior solutions or patterns.
-3) If still stuck OR if the problem reveals deeper architectural issues:
-   - Switch to `/coder-sr` mode.
-   - Send:
-     - All input data and requirements you were given.
-     - The concrete implementation attempts you made.
-     - The specific failure modes or loops you encountered.
+If stuck OR if the problem reveals deeper architectural issues:
+  - Switch to `/coder-sr` mode.
+  - Send:
+    - All input data and requirements you were given.
+    - The concrete implementation attempts you made.
+    - The specific failure modes or loops you encountered.
 
 ### 3: Finish
 Use `coding-finish` skill.

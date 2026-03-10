@@ -8,7 +8,7 @@
     - CSS.
     - Client-side JavaScript.
 - **Out-of-scope (coordinate handoffs)**:
-    - Backend logic, DB models, migrations, or API providers (handoff to `/code` or `/code-monkey` as appropriate).
+    - Backend logic, DB models, migrations, or API providers (handoff to `/coder-sr` or `/coder-jr` as appropriate).
     - Test strategy changes beyond Front-ender verification.
     - Database schema changes or direct data migrations.
     - Do not introduce additional CSS files without prior approval.
@@ -36,7 +36,7 @@
 #### 3: Finish
 - **Resolve VS Code Problems**.
 - Execute impact analysis.
-- Call `/code` mode if/when needed.
+- Call `/coder-sr` mode if/when needed.
 
 ### If query/directive received from dispatcher mode
 When finished, return to dispatcher mode via `switch_mode` with `message` containing necessary completion information.

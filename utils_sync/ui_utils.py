@@ -143,6 +143,7 @@ class FolderItem:
         remove_callback,
         overwrite_remove_callback=None,
         file_delete_callback=None,
+        file_and_folder_delete_callback=None,
         toggle_favorite_callback=None,
         is_favorite: bool = False,
         project_name_font=None,
@@ -161,7 +162,8 @@ class FolderItem:
             folder_path: The full path to the folder
             remove_callback: Callback function to call when remove button is clicked
             overwrite_remove_callback: Callback when an individual planned overwrite is removed
-            file_delete_callback: Callback when file delete button is clicked (receives folder_path, relative_path)
+            file_delete_callback: Callback when file delete button is clicked (receives folder_path, action)
+            file_and_folder_delete_callback: Callback when file+folder delete button is clicked (receives folder_path, action)
             toggle_favorite_callback: Callback when favorite star is toggled (receives folder_path, is_favorite)
             is_favorite: Whether this folder is currently marked as favorite
             project_name_font: Optional font tuple for the primary folder name label.
@@ -191,6 +193,7 @@ class FolderItem:
         self.folder_path = folder_path
         self.overwrite_remove_callback = overwrite_remove_callback
         self.file_delete_callback = file_delete_callback
+        self.file_and_folder_delete_callback = file_and_folder_delete_callback
         self._toggle_favorite_callback = toggle_favorite_callback
         self.is_favorite = is_favorite
 
@@ -389,12 +392,24 @@ class FolderItem:
             self._preview_rows[rel_key] = label
 
             # Per-file controls live ONLY on file rows (never on the folder header row):
-            # - Skip update: existing black "X" (removes planned overwrite action)
-            # - Delete file: new red "X" (deletes only this file in this folder)
+            # - Skip update: black "X" (removes planned overwrite action)
+            # - Delete file: red "X" (deletes file across all favorites)
+            # - Delete file+folder: red "XX" (deletes file and its containing folder across all favorites)
             if "action" in item:
                 # IMPORTANT (pack order): with pack(side=RIGHT), the first packed widget becomes
-                # the right-most. We want the red delete X to appear to the RIGHT of the black
-                # skip-update X, with 5px between them.
+                # the right-most. Panel order right-to-left: "XX" → red "X" → black "X"
+                # so we pack "XX" first.
+                if self.file_and_folder_delete_callback is not None:
+                    delete_folder_button = ttk.Button(
+                        row_frame,
+                        text="XX",
+                        width=3,
+                        command=lambda action=item["action"], fp=self.folder_path: self.file_and_folder_delete_callback(fp, action),
+                        style="AFDangerMini.TButton",
+                    )
+                    delete_folder_button.pack(side=tk.RIGHT, padx=(5, 0))
+                    ToolTip(delete_folder_button, "Delete this file and folder")
+
                 if self.file_delete_callback is not None:
                     delete_button = ttk.Button(
                         row_frame,

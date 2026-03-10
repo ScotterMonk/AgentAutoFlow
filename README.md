@@ -8,12 +8,12 @@ This set of instructions (markdown files) enhances and extends the modes/agents 
 Using the built-in-to-Roo ability to use "rules" files, this archive is a set of custom instructions for the built-in modes/agents and some new ones, including:
 - **Architect Super Team**: a 3-step "Planner" process (planner-a, planner-b, planner-c). Brainstorms with user. While planning and working, creates detailed files to keep track of its goals, progress, and lessons learned.
 - **Architect Quick**: a 1-step "Planner" process; modified Roo's built-in Architect mode to be more detailed but for smaller tasks than full on 3-step "Planner" process.
-- **Coder on Crack**: Juiced up "Code" mode to follow The Plan, whether created by the new superpowered Architect or hastily typed out by a user running 3 days on caffeine.
-- **Code Monkey** (Junior coder): Supplemented "Code" with a tightly controlled budget-friendly "Code Monkey" created to work with the short, detailed tasks created for it by Planner.
-- **Other new modes**: Added "Front-ender", "GitHubber", "Docs Writer", etc.
+- **Coder-Sr**: Juiced up Code mode to follow The Plan, whether created by the new superpowered Architect or hastily typed out by a user running 3 days on caffeine.
+- **Coder-Jr**: Supplemented Coder-Sr with a tightly controlled budget-friendly Junior Coder created to work with the short, detailed tasks created for it by Planner or do simple coding tasks for the user.
+- **Other new modes**: Added Front-ender, GitHubber, Tasky, Docs Writer, etc.
 
 Notes:
-- **Smart but cheap**: Designed both Architect and Planner modes  to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like "Dispatcher," "Coder", "Code Monkey", etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
+- **Smart but cheap**: Designed both Architect and Planner modes  to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like Dispatcher, Coder-Sr, Coder-Jr, etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
 - **Look how fast they grow up**: This set of instructions is ever-evolving. 
 - **Virtuous circle**: The author, Scott Howard Swain, uses this "Team" every day, is constantly tinkering with it, and is always eager to hear ideas to improve it.
 
@@ -92,7 +92,7 @@ Scenario: Building a new dashboard screen.
 - As you probably gathered, I've moved much more of the detail work (like making atomic tasks) out of the old/default Orchestrator and into the planning phase so that Dispatcher can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
 
 **Mode budgeting**
-- Note: This workflow will sets the plan to choose between "code," "code monkey," and "task-simple" modes, depending on complexity. If "task-simple" or "code monkey" get confused because a task is too difficult or complex, they have instructions to pass the task up to "code" mode which I assign a "smarter" LLM to.
+- Note: This workflow will sets the plan to choose between "code," "code monkey," and "tasky" modes, depending on complexity. If "tasky" or "code monkey" get confused because a task is too difficult or complex, they have instructions to pass the task up to "code" mode which I assign a "smarter" LLM to.
 
 ## Roo Code specific
 
@@ -125,10 +125,10 @@ app/
     │   ├── 01-ask.md
     │   ├── 02-ask-health.md
     │   └── 03-ask-flora-growing.md
-    ├── rules-code/
-    │   └── 01-code.md
-    ├── rules-code-monkey/
-    │   └── 01-code-monkey.md
+    ├── rules-coder-jr/
+    │   └── 01-coder-jr.md
+    ├── rules-coder-sr/
+    │   └── 01-coder-sr.md
     ├── rules-dispatcher/
     │   └── 01-dispatcher.md
     ├── rules-docs-writer/
@@ -143,8 +143,8 @@ app/
     │   └── 01-planner-b.md
     ├── rules-planner-c/
     │   └── 01-planner-c.md
-    ├── rules-task-simple/
-    │   └── 01-task-simple.md
+    ├── rules-tasky/
+    │   └── 01-tasky.md
     └── skills/
         └── big list that changes often
 ```
@@ -222,11 +222,11 @@ The following tips are based on the way AgentAutoFlow "front loads" the heavy-li
 **Modularity and low context usage**:
 When creating a plan based on user input, for larger projects, I divided "architect" up into "planner-a, b, c" so that, for example, "planner-a" will process user query and brainstorm with user to create a high level "plan" file. It will then pass that file on to "planner-b". This mode-switch provides a new fresh context window to do its work in. It will then create *very* detailed tasks that may include, per task:
 	- Either pseudo-code or code.
-	- Mode hints. Ex: "Use this mode: Code (Senior Coder)", "Code Monkey (Jr Coder)", "Task-Simple", etc.
+	- Mode hints. Ex: "Use this mode: Code (Senior Coder)", "Code Monkey (Jr Coder)", "Tasky", etc.
 - **Architect** and **Planner (team)**: GPT-5.4-R-H or M | Sonnet 4.6-R.
 - **Code (Senior Coder)**, **Front-ender**: Sonnet 4.6 | GPT-5.4-R-M. Note: On paper, GPT 5.4 seems far more expensive than it really is (especially when you choose Flex tier) but I find it runs so efficiently that it ends up doing a lot for pennies! I use it through OpenRouter or through OpenAI, choosing "Flex" service tier because I'm fine with how slow it is for saving $.
 - **Code Monkey (Jr Coder)**: GPT-5.4-Low | Gemini 3.x Flash (through OpenRouter is least expensive) or any comparable model because "Architect" (AgentAutoFlow's version) and "Planner" team write a very detailed plan that even includes pseudocode or code so that when the plan gets delegated by Delegator, Code and Code Monkey know *exactly* what they are expected to do.
-- **Task-Simple** and **Githubber**: GPT-5.4-non-reasoning or one of those dumb-and-cheap models mentioned above. The AgentAutoFlow's "Architect" and "Planner" subteam both know to delegate all file copying, and other simple tasks to this mode so your expensive models aren't wasting money on stuff like that.
+- **Tasky** and **Githubber**: GPT-5.4-non-reasoning or one of those dumb-and-cheap models mentioned above. The AgentAutoFlow's "Architect" and "Planner" subteam both know to delegate all file copying, and other simple tasks to this mode so your expensive models aren't wasting money on stuff like that.
 
 ## Markdown vs XML
 For LLM instruction following, which should you choose?

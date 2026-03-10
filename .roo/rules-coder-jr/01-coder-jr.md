@@ -21,7 +21,7 @@ Use `coding-init` skill.
 1) Try one completely different approach (algorithm, architecture, or module choice).
 2) Check using `learning` skill for prior solutions or patterns.
 3) If still stuck OR if the problem reveals deeper architectural issues:
-   - Switch to `/code` mode.
+   - Switch to `/coder-sr` mode.
    - Send:
      - All input data and requirements you were given.
      - The concrete implementation attempts you made.

@@ -6,6 +6,7 @@ Provides a Tkinter-based interface for managing file synchronization.
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import queue
+import shutil
 from pathlib import Path
 from functools import partial
 import datetime
@@ -461,6 +462,7 @@ class MainApp:
                 self._remove_folder,
                 self._remove_planned_action,
                 file_delete_callback=self._delete_file_from_preview_row,
+                file_and_folder_delete_callback=self._delete_file_and_folder_from_preview_row,
                 toggle_favorite_callback=lambda p, fav, fp=folder_path: self._set_folder_favorite(fp, fav),
                 is_favorite=is_fav,
                 project_name_font=("TkDefaultFont", self.config["ui_font_size_project"]),
@@ -576,6 +578,137 @@ class MainApp:
         print("DEBUG: Triggering rescan")
         self._rescan_after_delete()
     
+    def _delete_file_and_folder_from_preview_row(self, folder_path: str, action: dict) -> None:
+        """Delete the file in ALL favorite folders AND delete its containing folder.
+
+        Behavior:
+        - Deletes the file (by relative path) in EVERY folder in favorite_folders
+        - Also deletes source and destination from the action
+        - After deleting each file, removes its immediate parent directory (within .roo/)
+          using shutil.rmtree — skips if parent is the .roo root itself
+        - Fail-safe: continues even if files/folders don't exist
+
+        After deletion, triggers a rescan to refresh the UI.
+        """
+        if not folder_path:
+            print("DEBUG: No folder_path provided for file+folder delete")
+            return
+        if not isinstance(action, dict):
+            print("DEBUG: Action is not a dict for file+folder delete")
+            return
+
+        source_path = action.get("source_path")
+        dest_path = action.get("destination_path")
+        relative_path = action.get("relative_path", "")
+
+        if not relative_path:
+            print("DEBUG: No relative_path for file+folder delete")
+            return
+
+        print(f"DEBUG: Delete file+folder in ALL favorite folders:")
+        print(f"  Relative path: {relative_path}")
+
+        deleted_files = 0
+        deleted_folders = 0
+        errors = []
+
+        def _delete_file_and_parent(target: Path, roo_base: Path) -> None:
+            """Delete target file then its immediate parent folder (if not the .roo root)."""
+            nonlocal deleted_files, deleted_folders
+            if target.exists():
+                if target.is_dir():
+                    errors.append(f"Refusing to delete folder as file:\n{target}")
+                    return
+                target.unlink()
+                print(f"DEBUG:   Deleted file: {target}")
+                deleted_files += 1
+
+            # Delete the immediate parent folder, but never the .roo root itself
+            parent = target.parent
+            try:
+                # Resolve both to compare safely
+                if parent.resolve() != roo_base.resolve():
+                    if parent.exists():
+                        shutil.rmtree(parent)
+                        print(f"DEBUG:   Deleted folder: {parent}")
+                        deleted_folders += 1
+            except Exception as exc:
+                print(f"DEBUG:   Folder delete failed for {parent}: {exc}")
+                errors.append(f"Folder delete failed:\n{parent}\n{exc}")
+
+        # Delete in ALL favorite folders
+        for fav_folder in self.favorite_folders:
+            try:
+                roo_base = Path(fav_folder) / ".roo"
+                target = roo_base / relative_path
+                print(f"DEBUG: Checking favorite: {fav_folder}")
+                _delete_file_and_parent(target, roo_base)
+            except Exception as exc:
+                print(f"DEBUG:   Failed in favorite {fav_folder}: {exc}")
+                errors.append(f"Failed in favorite:\n{fav_folder}/{relative_path}\n{exc}")
+
+        # Also handle source path (if different from favorites)
+        if source_path:
+            try:
+                source = Path(source_path)
+                # Find the .roo base for the source by walking up to find the .roo parent
+                roo_base = None
+                for fav_folder in self.favorite_folders:
+                    candidate = Path(fav_folder) / ".roo"
+                    try:
+                        source.relative_to(candidate)
+                        roo_base = candidate
+                        break
+                    except ValueError:
+                        continue
+                if roo_base and source.exists() and not source.is_dir():
+                    _delete_file_and_parent(source, roo_base)
+                elif not roo_base and source.exists() and not source.is_dir():
+                    # Fallback: just delete the file, guess parent is not .roo root
+                    source.unlink()
+                    deleted_files += 1
+            except Exception as exc:
+                print(f"DEBUG: Source file+folder delete failed: {exc}")
+                errors.append(f"Source delete failed:\n{source_path}\n{exc}")
+
+        # Also handle destination path
+        if dest_path:
+            try:
+                dest = Path(dest_path)
+                roo_base = None
+                for fav_folder in self.favorite_folders:
+                    candidate = Path(fav_folder) / ".roo"
+                    try:
+                        dest.relative_to(candidate)
+                        roo_base = candidate
+                        break
+                    except ValueError:
+                        continue
+                if roo_base and dest.exists() and not dest.is_dir():
+                    _delete_file_and_parent(dest, roo_base)
+                elif not roo_base and dest.exists() and not dest.is_dir():
+                    dest.unlink()
+                    deleted_files += 1
+            except Exception as exc:
+                print(f"DEBUG: Dest file+folder delete failed: {exc}")
+                errors.append(f"Dest delete failed:\n{dest_path}\n{exc}")
+
+        # Show results
+        if errors:
+            messagebox.showerror(
+                "Delete File+Folder - Partial Failure",
+                f"Deleted {deleted_files} file(s) and {deleted_folders} folder(s) with errors:\n\n"
+                + "\n\n".join(errors[:3])
+            )
+        elif deleted_files == 0 and deleted_folders == 0:
+            messagebox.showinfo("Nothing Deleted", "No files or folders were found to delete.")
+        else:
+            print(f"DEBUG: Deleted {deleted_files} file(s) and {deleted_folders} folder(s)")
+
+        # Always rescan to refresh the UI
+        print("DEBUG: Triggering rescan after file+folder delete")
+        self._rescan_after_delete()
+
     # [Created] by Claude Sonnet 4.5 | 2026-01-16_02
     def _rescan_after_delete(self) -> None:
         """Re-scan folders to refresh preview after deleting a file via red X button."""

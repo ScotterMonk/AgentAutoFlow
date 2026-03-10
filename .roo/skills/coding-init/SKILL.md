@@ -9,9 +9,6 @@ description: When a coding or scripting mode needs to initiate coding execution.
 - `plans folder`: `{base folder}/.roo/docs/plans/`.
 - `backups folder`: `{base folder}/.roo/docs/old_versions/[filename]_[timestamp]`
 - `completed plans folder`: `{base folder}/.roo/docs/plans_completed/`
-- `user query file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-user.md`.
-- `log file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-log.md`.
-- `plan file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name].md`.
 
 ## Variables
 - `testing type`.

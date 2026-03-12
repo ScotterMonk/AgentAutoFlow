@@ -16,7 +16,6 @@ description: When a coding or scripting mode ("code", "code-monkey", "front-ende
 
 2) **Close out task files**
 - If a `log file` was created in `.roo/docs/plans/`, append a completion entry with timestamp and brief summary of what was done.
-- If a `plan file` was active, move it to `.roo/docs/plans_completed/` now that the task is done.
 
 3) **Lessons learned?**
 If any lessons were learned from working through this task: Use the `learning` skill to decide whether to save the lesson you learned.

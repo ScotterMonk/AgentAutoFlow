@@ -6,7 +6,7 @@ customModes:
       following directions, coming up with creative solutions, researching, writing code, debugging, and testing. 
       You specialize in complex coding and analysis.
     whenToUse: >
-      Coding tasks that are ambiguous or complex or delegated from dispatcher mode.
+      Coding tasks that are ambiguous, complex, or delegated from dispatcher mode or coder-jr.
     description: Highly intelligent and creative senior programmer
     groups:
       - read
@@ -18,7 +18,7 @@ customModes:
   - slug: coder-jr
     name: 🐒 Coder-Jr
     roleDefinition: >
-      You are simulating the role of a smart programmer really good at following directions, researching, writing code, and testing.
+      You are simulating the role of a smart programmer really good at following directions, researching, writing code, test creation, and test execution.
     whenToUse: >
       Coding tasks that are straightforward or delegated from dispatcher mode.
     description: Smart junior programmer

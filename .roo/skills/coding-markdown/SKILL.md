@@ -64,16 +64,18 @@ Examples:
 
 - *Example of wrong*:
 ```md
-| Heading 1 | Heading 2 |
-|-|-|
-| Value 1 | Value 2 |
-| Value 3 | Value 4 |
+| Category | Chimp | Octopus |
+|---|---|---|
+| Tool use | 50 | 40 |
+| Swimming | 40 | 95 |
 ```
 
 - *Example of right*:
 ```md
-*Heading 1*: Value 1, *Heading 2*: Value 2
-*Heading 1*: Value 3, *Heading 2*: Value 4
+**Tool use**:
+- Chimp: 50, Octopus: 40
+**Swimming**:
+- Chimp: 40, Octopus: 95
 ```
 
 **Mermaid diagrams**: Use only when requested by user.

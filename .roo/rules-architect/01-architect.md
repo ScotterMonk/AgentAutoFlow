@@ -69,16 +69,18 @@
 1) **Draft Tasks**:
     - **Guidelines**:
         - For Mode hint below: Assign modes based on `Mode selection strategy` (Low Budget -> High Budget).
-        - For Actions below: When giving instructions on what to change, use both (a) function names and (b) line numbers.
+        - For `Detailed actions` below: When giving instructions on what to change, use both (a) function names and (b) line numbers. *Write pseudocode when appropriate*.
     - **Task format template (follow exactly)**:
-    ```markdown
-    {Goal description}
-    - Task 01: {Action description}
-        Mode hint: /{mode-name}
-        Actions: Notes/code/pseudocode.
-        Testing: `testing type`
-        **Log progress** to {`log file`}.
-    ```
+        ```markdown
+        Task {task-number}: {task summary}.
+        Mode hint: /{mode-name}.
+        Goal: {goal description}.
+        Acceptance criteria: {acceptance criteria}.
+        Files involved: {files involved, if known}.
+        Detailed actions: {notes/code/pseudocode}.
+        Constraints: {files that cannot be modified, patterns to follow, etc.}
+        Testing: `testing type`.
+        ```
 2) **Review**: Open `plan file` in editor.
 3) **Refine Loop**:
     - Validate against `app-standards`.

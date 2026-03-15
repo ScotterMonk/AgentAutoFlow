@@ -11,7 +11,7 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
 
 --- do not remove this ---
 ## Environment & Shell
-**Context**: Windows 11, VS Code, PowerShell Core (`pwsh`).
+- **Context**: Windows 11, VS Code, PowerShell Core (`pwsh`).
 - **Base folder**: `d:/Dropbox/Projects/AgentAutoFlow/app/`.
    - **Rule**: Always use forward slashes `/` in paths to avoid escaping errors.
 - **Terminal**: **STRICTLY PowerShell**. Do not use `cmd.exe`, `bash`, or `wsl`.
@@ -19,7 +19,20 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
   - **Chaining**: Use `;` (sequential) or `&&` (conditional).
   - **Variables**: Use `$env:VAR = 'val'` (not `export` or `set`).
   - **Replacements**: Use `Select-String` (not `grep`), `Get-Content` (not `cat`), `New-Item` (not `touch`), `Remove-Item` (not `rm`).
+   - **NO terminal line feeds**: 
+      - **No:**:
+         ```
+         python -c "
+         print('stuff')
+         print('more')
+         "
+         ```
+      - **Yes:**:
+         ```
+         python -c "print('stuff'); print('more')"
+         ```
 - **Prohibited**: `tail`, `sed`, `awk`, `sudo`, and `cmd.exe` flags (like `/d`).
+
 
 ## Run Commands
 - Never use Linux commands in terminal.

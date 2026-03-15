@@ -21,6 +21,7 @@ description: When a coding or scripting mode needs to initiate coding execution.
    - Do I know the target files/components?
 3) **If any answer is "no"**: Use `resolve-ambiguity` skill now. Do not proceed until resolved.
 4) **If all answers are "yes"**: Continue to Step 2.
+5) **Check for `testing type`** from user or delegating mode. 
 
 ### 2. Pre-planning
 - Use `app-knowledge` skill.
@@ -28,7 +29,8 @@ description: When a coding or scripting mode needs to initiate coding execution.
 2) **Recall**: Retrieve project history/memory.
 3) **Risk**: Identify potential challenges.
 4) **Analysis**: Define problem, intent, scope, constraints, and dependencies (routes, models, utils, APIs).
-5) **Configuration**: If following config item is empty:
+5) **Configuration**: 
+6) **If `testing type` is empty**:
    - *Question: `testing type`*.
       - Display all 7 options verbatim in the question text, one per line, in exactly this order - **do not omit, merge, reorder, or summarize any of them**.
       - Accept either the option number or the exact option text as a valid answer.

@@ -17,10 +17,9 @@ description: For understanding what each mode does, which mode is best (most app
 - `/planner-c`: Complex Planning Stage 3. QA -> Finalize -> User Approval -> Switch to `/dispatcher`.
 - `/dispatcher`: Manage execution. Coordinate implementation modes. Log. Fullfill the plan.
 **For Implementation & Ops**
-- `/coder-sr`: Complex engineering, analysis, debugging, test creation, test execution, deep error investigation and diagnosis.
-- `/coder-jr`: Routine coding, test creation, test execution, strict instruction adherence.
-- `/front-ender`: Frontend (UI, HTML, JS, CSS, etc.) implementation.
-- `/githubber`: GitHub CLI operations.
+- `/coder-sr`: Complex engineering, analysis, debugging, test creation, test execution, deep error investigation and diagnosis. Front-end and back-end.
+- `/coder-jr`: Routine coding, test creation, test execution, strict instruction adherence. Front-end and back-end.
+- `/githubber`: Git/GitHub operations.
 - `/tasky`: Small, isolated work, including simple file operations.
 - `/ask`: General inquiries.
 
@@ -35,11 +34,9 @@ description: For understanding what each mode does, which mode is best (most app
 
 **Prioritize** budget-friendly modes in this order (Low to High):
 1.  **Low Budget** (Renaming, moving files, simple text replacement, DB column copying)
-    - Use `/tasky`
-2.  **Medium Budget** (Refactoring, simple function creation, writing)
-    - Use `/coder-jr`
+    - Use `/tasky`.
+2.  **Medium Budget** (Refactoring, simple function creation, writing, or if Low fails)
+    - Use `/coder-jr`.
 3.  **High Budget** (Complex modification, test creation and use, debugging, or if Medium fails)
     - Use `/coder-sr`.
-**Special Exception**:
-- **Front-ender Tasks** (Medium or High complexity): **Always use** `/Front-ender`
  

@@ -1,6 +1,6 @@
 ---
 name: coding-finish
-description: When a coding or scripting mode ("coder-sr", "coder-jr", "front-ender") has finished its primary task(s) and it is time for cleanup.
+description: When a coding or scripting mode ("coder-sr", "coder-jr") has finished its primary task(s) and it is time for cleanup.
 ---
 
 # Workflow

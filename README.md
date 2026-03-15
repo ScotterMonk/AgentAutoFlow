@@ -11,7 +11,7 @@ Using the built-in-to-Roo ability to use "rules" files, this archive is a set of
 - **Dispatcher**: I've moved much more of the detail work (like making atomic tasks) out of the old/default Orchestrator and into the planning phase so that Dispatcher can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
 - **Coder-Sr**: Juiced up Code mode to follow The Plan, whether created by the new superpowered Architect or hastily typed out by a user running 3 days on caffeine.
 - **Coder-Jr**: Supplemented Coder-Sr with a tightly controlled budget-friendly Junior Coder created to work with the short, detailed tasks created for it by Planner or do simple coding tasks for the user.
-- **Other new modes**: Added Front-ender, GitHubber, Tasky, Docs Writer, etc.
+- **Other modes added**: Added GitHubber, Tasky, Docs Writer, Researcher, etc.
 
 Notes:
 - **Smart but cheap**: Designed both Architect and Planner modes  to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like Dispatcher, Coder-Sr, Coder-Jr, etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
@@ -22,7 +22,7 @@ Notes:
 
 **Give credit to the creator**.
 This application is a labor of love.
-It's free to use, fork, change with no licensing rules.
+It's *free to use, fork, change with no licensing rules*.
 Please show *your* love by starring the repo at:
 https://github.com/ScotterMonk/AgentAutoFlow
 
@@ -61,8 +61,9 @@ If building a new app, *Architect* and *Planner abc* assume you already know *sp
 
 #### Pre-planning
 Possibly coming soon: a level above "Planner" where you brainstorm on a high level to get ideas for *specs* to feed planner.
-Until then, use "Ask" mode in Roo or query your favorite LLM chat to help you sculpt your *specs*.
+Until then, use "Ask" mode in Roo or - more economical - query your favorite LLM chat to help you sculpt your *specs*.
 **Save money** by using the following in your browser for free until they reach their limits: 
+- https://grok.com <- This one may require you have an x/titter account.
 - https://claude.ai
 - https://chatgpt.com
 - https://aistudio.google.com/prompts/new_chat
@@ -70,8 +71,8 @@ Until then, use "Ask" mode in Roo or query your favorite LLM chat to help you sc
 ### Use cases for modifying your existing app
 
 #### Example of small workflow
-Scenario: Fixing a bug, modifying Front-ender, or adding a function.
-- Use "code", "code monkey", "Front-ender", etc., as appropriate.
+Scenario: Fixing a bug, modifying front-end, or adding a function.
+- Use "coder-sr", "coder-jr", "githubber", "tasky", etc., as appropriate.
 
 #### Example of a medium or large workflow
 Scenario: Building a new dashboard screen.
@@ -141,8 +142,6 @@ app/
     │   └── 01-dispatcher.md
     ├── rules-docs-writer/
     │   └── 01-docs-writer.md
-    ├── rules-Front-ender/
-    │   └── 01-Front-ender.md
     ├── rules-githubber/
     │   └── 01-githubber.md
     ├── rules-planner-a/
@@ -160,7 +159,7 @@ app/
 ## Todo list tool
 
 In Roo Code settings, under "Providers", when you set up a Configuration Profile:
-Like let's say you are adding "GPT-5x-R-M" as the profile name, with API provider "OpenAI". The new configuration one will have "Enable todo list tool" (in "Advanced settings") turned on by default. 
+Like let's say you are adding "Claude-Sonnet-4x-R-M" as the profile name, with API provider "OpenRouter" or "Anthropic". The new configuration one will have "Enable todo list tool" (in "Advanced settings") turned on by default. 
 
 The todo list tool burns extra tokens and - especially if you are using AgentAutoFlow - you don't need the todo list tool. I recommend going to the bottom of all the models you have set up and turning "Enable todo list tool" off.
 
@@ -230,11 +229,11 @@ The following tips are based on the way AgentAutoFlow "front loads" the heavy-li
 **Modularity and low context usage**:
 When creating a plan based on user input, for larger projects, I divided "architect" up into "planner-a, b, c" so that, for example, "planner-a" will process user query and brainstorm with user to create a high level "plan" file. It will then pass that file on to "planner-b". This mode-switch provides a new fresh context window to do its work in. It will then create *very* detailed tasks that may include, per task:
 	- Either pseudo-code or code.
-	- Mode hints. Ex: "Use this mode: Code (Senior Coder)", "Code Monkey (Jr Coder)", "Tasky", etc.
-- **Architect** and **Planner (team)**: GPT-5.4-R-H or M | Sonnet 4.6-R.
-- **Code (Senior Coder)**, **Front-ender**: Sonnet 4.6 | GPT-5.4-R-M. Note: On paper, GPT 5.4 seems far more expensive than it really is (especially when you choose Flex tier) but I find it runs so efficiently that it ends up doing a lot for pennies! I use it through OpenRouter or through OpenAI, choosing "Flex" service tier because I'm fine with how slow it is for saving $.
-- **Code Monkey (Jr Coder)**: GPT-5.4-Low | Gemini 3.x Flash (through OpenRouter is least expensive) or any comparable model because "Architect" (AgentAutoFlow's version) and "Planner" team write a very detailed plan that even includes pseudocode or code so that when the plan gets delegated by Delegator, Code and Code Monkey know *exactly* what they are expected to do.
-- **Tasky** and **Githubber**: GPT-5.4-non-reasoning or one of those dumb-and-cheap models mentioned above. The AgentAutoFlow's "Architect" and "Planner" subteam both know to delegate all file copying, and other simple tasks to this mode so your expensive models aren't wasting money on stuff like that.
+	- Mode hints. Ex: "Use this mode: Coder-Sr", "Coder-Jr", "Tasky", etc.
+- **Architect** and **Planner (team)**: Opus 4.x | Sonnet 4.x.
+- **Coder-Sr**: Sonnet 4.x. Note: Current GPT 5.4 is lazy and sloppy. I had found 5.1-5.2 to be very efficient but I'm taking a break from OpenAI until they get back on track. IF you must use it: I used it OpenAI, choosing "Flex" service tier because I'm fine with how slow it is for saving $. 
+- **Coder-Jr**: Grok 4.x | Gemini 3.x Flash (through OpenRouter is least expensive) or any comparable model because "Architect" (AgentAutoFlow's version) and "Planner" team write a very detailed plan that even includes pseudocode or code so that when the plan gets delegated by Delegator, Code and Code Monkey know *exactly* what they are expected to do.
+- **Tasky** and **Githubber**: Gemini 3.x Flash or one of those dumb-and-cheap models mentioned above. The AgentAutoFlow's "Architect" and "Planner" subteam both know to delegate all file copying, and other simple tasks to this mode so your expensive models aren't wasting money on stuff like that.
 
 ## Markdown vs XML
 For LLM instruction following, which should you choose?
@@ -246,9 +245,6 @@ This universal adoption of Markdown isn't documented as a deliberate choice over
 
 2025-11-19: Talked with a Roo Code dev. He said he uses XML and - from within the Roo Code extension - download "Mode Writer" from the Marketplace. It's now part of this repo. I used it to make an XML version of my custom version of the Architect mode. So, according to him, you *can* use XML instead of MD for your custom mode instructions. Because I find XML to be so wordy and ugly, I'll stick with MD until I see a clear problem with models getting confused by or ignoring my instructions. 
 
-### If not Roo Code, model preferences
-GPT-5.1, Sonnet 4.5, Gemini 3 all prefer XML and will score a few percentage points higher in prompt adherence when XML is used but understand MD.
-
 ### The human factor
 Why I still use and prefer markdown:
 - Ease of human read/write.
@@ -256,11 +252,15 @@ Why I still use and prefer markdown:
 - I find that no matter what model I'm using, they follow the rules I've created in markdown format.
 
 ## Use and share as you wish
-Created in 2025 by
+Created in Summer 2025 by
 Scott Howard Swain
 https://OceanMedia.net
 
-Free to use, modify, and share.
+**Give credit to the creator**.
+This application is a labor of love.
+It's *free to use, fork, change with no licensing rules*.
+Please show *your* love by starring the repo at:
+https://github.com/ScotterMonk/AgentAutoFlow
 
 You are responsible for 
 any benefits or problems

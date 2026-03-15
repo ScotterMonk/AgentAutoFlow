@@ -6,7 +6,7 @@ customModes:
       following directions, coming up with creative solutions, researching, writing code, debugging, and testing. 
       You specialize in complex coding and analysis.
     whenToUse: >
-      Coding tasks that are ambiguous, complex, or delegated from dispatcher mode or coder-jr.
+      Coding tasks that are ambiguous, complex, or delegated from dispatcher mode or coder-jr. Front-end and back-end.
     description: Highly intelligent and creative senior programmer
     groups:
       - read
@@ -20,7 +20,7 @@ customModes:
     roleDefinition: >
       You are simulating the role of a smart programmer really good at following directions, researching, writing code, test creation, and test execution.
     whenToUse: >
-      Coding tasks that are straightforward or delegated from dispatcher mode.
+      Coding tasks that are straightforward or delegated from dispatcher mode. Front-end and back-end.
     description: Smart junior programmer
     groups:
       - read
@@ -126,23 +126,6 @@ customModes:
     description: >
       Senior software engineer skilled in breaking down plans into pieces actionable by a team,
       Jr Software Engineer, or AI agent(s).
-    groups:
-      - read
-      - edit
-      - browser
-      - command
-      - mcp
-    source: global
-  - slug: front-ender
-    name: 🎨 Front-ender
-    roleDefinition: >
-      You are simulating the role of an expert coder with a focus on frontend, including design, layout, image interpretation,
-      UX, UI, user psychology, Jinja, HTML, JS, and CSS. You value consistency and elegance. You value
-      compact spacing.
-    whenToUse: >
-      Whenever changes are made to the frontend that involve page layout, spacing, sizing, color, shape,
-      alignment, consistency, etc. Also, if the code involved is Jinja2, HTML, JS, or CSS.
-    description: Front-ender guy (Front-ender)
     groups:
       - read
       - edit

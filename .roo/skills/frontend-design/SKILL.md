@@ -33,6 +33,8 @@ Pick one and execute it with precision — don't blend generically:
 
 Build working code that is production-grade, visually striking, and cohesive. For Flask/Jinja projects, output valid template syntax. For standalone work, output self-contained HTML/CSS/JS.
 
+- **Application specific guidance**: Use `python .roo/skills/frontend-design/agents-skills.md`.
+
 ---
 
 ## Aesthetic Standards

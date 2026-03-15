@@ -34,6 +34,14 @@ description: When a planning mode (architect, planner-a, planner-b, planner-c) s
         - **Critical** to not include any other context.
      - **Plan = finished**: Move `log file`, `plan file`, `user query file` to `completed plans folder`, inform user, **STOP**.
 
+### 1.5: Ambiguity gate
+After capturing the `user query`, answer these silently:
+- Can I state the user's goal in one sentence without "probably" or "I assume"?
+- Is there exactly one plausible interpretation?
+- Are scope boundaries clear (what's in vs. out)?
+
+**If any answer is "no"**: Use `resolve-ambiguity` skill. Do not proceed to pre-planning until resolved.
+
 2) **Determine previous mode**:
     The following input instructions depend on which mode called the current mode (user or a planning mode):
     - IF **Previous mode = query from user**:
@@ -64,7 +72,7 @@ description: When a planning mode (architect, planner-a, planner-b, planner-c) s
     **Vital that you give exactly the choices listed below for each question**.
     - *Question 1: `complexity`*: `[] One Phase (Tiny/Small), [] One Phase (Small/Med), [] Few Phases (Med), [] Multi-Phase (Large)`. Recommend best option for this `plan`.
     *Stop and wait for user response before proceeding to next question.*
-    - *Question 2: `autonomy level`*: `[] Low (frequent checks), [] Medium, [] High (rare checks)`. Default to High.
+    - *Question 2: `autonomy level`*: `[] High (rare checks), [] Medium, [] Low (frequent checks)`. Default to High.
     *Stop and wait for user response before proceeding to next question.*
     - *Question 3: `testing type`*.
         - Display all 7 options verbatim in the question text, one per line, in exactly this order — **do not omit, merge, reorder, or summarize any of them**.

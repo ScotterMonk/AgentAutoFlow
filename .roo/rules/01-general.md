@@ -90,4 +90,16 @@ Before finishing, verify:
 3.  [ ] **Tests**: Do tests still pass?
 4.  [ ] **Docs**: Updated agents.md, docstrings, and comments?
 5.  [ ] **VS Code**: No errors in the Problems panel?
- 
+
+## Ambiguity Gate (Mandatory)
+**Scope**: All modes that plan or write code.
+
+**Before starting work on any task**, perform this self-check:
+1. Can I state the user's intent in one sentence without using "probably", "likely", "I think", or "I assume"?
+2. Is there exactly one plausible interpretation of what they want?
+3. Do I know which files/components are in scope?
+
+**If ANY answer is "no"**: Load and follow the `resolve-ambiguity` skill before proceeding.
+**If ALL answers are "yes"**: Proceed normally.
+
+**Key rule**: Discovery reads (exploring code) are allowed, but if after discovery you still have multiple plausible directions, you MUST ask — do not pick one silently.

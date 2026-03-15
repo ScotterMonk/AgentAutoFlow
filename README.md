@@ -20,6 +20,13 @@ Notes:
 
 ## Setup
 
+**Give credit to the creator**.
+This application is a labor of love.
+It's free to use, fork, change with no licensing rules.
+Please show *your* love by starring the repo at:
+https://github.com/ScotterMonk/AgentAutoFlow
+
+
 ```bash
 py -m pip install -r requirements.txt 
 ```

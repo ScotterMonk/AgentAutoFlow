@@ -3,14 +3,14 @@
 Your customizable AI coding team that learns!
 Use it to create apps or make changes/additions to existing ones. 
 
-This set of instructions (markdown files) enhances and extends the modes/agents that come with many coding agents/assistants. The instructions are tailored to work with Roo Code (free highly customizable VS Code extension) but - with small modifications - will work with many others, including Cursor, CLine, Kilo,Github Copilot, etc.
+This set of instructions (markdown files) enhances and extends the modes/agents that come with many coding agents/assistants/scaffolds. The instructions are tailored to work with Roo Code (free highly customizable VS Code extension) but - with small modifications - will work with many others, including Cursor, CLine, Kilo, Github Copilot, etc.
 
 Using the built-in-to-Roo ability to use "rules" files, this archive is a set of custom instructions for the built-in modes/agents and some new ones, including:
 - **Architect Super Team**: a 3-step "Planner" process (planner-a, planner-b, planner-c). Brainstorms with user. While planning and working, creates detailed files to keep track of its goals, progress, and lessons learned.
 - **Architect Quick**: a 1-step "Planner" process; modified Roo's built-in Architect mode to be more detailed but for smaller tasks than full on 3-step "Planner" process.
 - **Dispatcher**: I've moved much more of the detail work (like making atomic tasks) out of the old/default Orchestrator and into the planning phase so that Dispatcher can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
 - **Coder-Sr**: Juiced up Code mode to follow The Plan, whether created by the new superpowered Architect or hastily typed out by a user running 3 days on caffeine.
-- **Coder-Jr**: Supplemented Coder-Sr with a tightly controlled budget-friendly Junior Coder created to work with the short, detailed tasks created for it by Planner or do simple coding tasks for the user.
+- **Coder-Jr**: Supplemented Coder-Sr with a tightly controlled budget-friendly Junior Coder created to work with the short, detailed tasks created for it by Planner or Architect or do simple coding tasks for the user.
 - **Other modes added**: Added GitHubber, Tasky, Docs Writer, Researcher, etc.
 
 Notes:
@@ -23,7 +23,7 @@ Notes:
 **Give credit to the creator**.
 This application is a labor of love.
 It's *free to use, fork, change with no licensing rules*.
-Please show *your* love by starring the repo at:
+Please show your love by starring the repo at:
 https://github.com/ScotterMonk/AgentAutoFlow
 
 
@@ -259,7 +259,7 @@ https://OceanMedia.net
 **Give credit to the creator**.
 This application is a labor of love.
 It's *free to use, fork, change with no licensing rules*.
-Please show *your* love by starring the repo at:
+Please show your love by starring the repo at:
 https://github.com/ScotterMonk/AgentAutoFlow
 
 You are responsible for 

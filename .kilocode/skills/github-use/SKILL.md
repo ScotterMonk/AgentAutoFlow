@@ -1,6 +1,6 @@
 ---
 name: github-use
-description: Any time github or git activity is required, including committing and pushing changes, creating or switching branches, merging, creating issues, checking status or logs, or reverting commits. Trigger whenever the user says "update", "commit", "push", "merge", "create branch", "checkout", "create issue", "git status", "revert", or any git/GitHub-related request — even if not framed explicitly as a "GitHub task."
+description: Any time github or git activity is required, including committing and pushing changes, creating or switching branches, merging, creating issues, checking status or logs, or reverting commits. Trigger whenever the user says "update", "commit", "push", "merge", "create branch", "checkout", "create issue", "git status", "revert", or any git/GitHub-related request - even if not framed explicitly as a "GitHub task."
 ---
 
 # Command index
@@ -38,7 +38,7 @@ description: Any time github or git activity is required, including committing a
 
 **Remote**: Default to `origin` unless the user specifies otherwise.
 
-**Command chaining**: Run each git command separately — never chain with `;` or `&&`.
+**Command chaining**: Run each git command separately - never chain with `;` or `&&`.
 
 **Backticks in commit messages**: PowerShell treats `` ` `` as an escape character, so never use backticks in commit message text. Write identifiers as plain text (e.g., `_derive_source`, not `` `_derive_source` ``).
 
@@ -47,7 +47,7 @@ description: Any time github or git activity is required, including committing a
 ## Update
 Stage, commit, and push all changes to the remote.
 
-1. **Status check**: `git status` — see all modified, untracked, and staged files.
+1. **Status check**: `git status` - see all modified, untracked, and staged files.
 2. **Research changes**: Understand *what* changed and *why*, not just which files changed. Use `codebase_search`, `read_file`, or `search_files` as needed. A meaningful commit message describes the work, not just the filenames.
 3. **Stage all changes**: `git add -A` (handle special cases as needed).
 4. **Craft commit message**:
@@ -70,7 +70,7 @@ Stage, commit, and push all changes to the remote.
       ```
       git commit -m "Fix...: (1) An item that was changed... (2) Another item that was changed... Files: file.py, another_file.py"
       ```
-5. **Commit**: `git commit -m "[message]"` — no permission needed, just run it.
+5. **Commit**: `git commit -m "[message]"` - no permission needed, just run it.
 6. **Verify**: Confirm commit succeeded and note the hash.
 7. **Push**: `git push origin <branch>`. If credentials are requested, check the `Critical Resources` section in `{base folder}/{scaffold folder}/rules/01-general.md`.
 8. **Confirm sync**: Verify local and remote are in sync.
@@ -79,7 +79,7 @@ Stage, commit, and push all changes to the remote.
 Create a new branch and switch to it.
 
 1. **Branch name**: If not provided, stop and ask. Prefer `feature/<short-name>` or `fix/<short-name>`.
-2. **Current state**: `git branch --show-current` then `git status -sb`. Note any uncommitted changes — they carry over to the new branch.
+2. **Current state**: `git branch --show-current` then `git status -sb`. Note any uncommitted changes - they carry over to the new branch.
 3. **Validate name**: `git check-ref-format --branch "<branch_name>"`. If invalid, stop and tell the user why.
 4. **Existence check**: Confirm the branch doesn't already exist locally. If it does, suggest the **checkout branch** workflow.
 5. **Create and switch**: `git switch -c <branch_name>`.
@@ -89,12 +89,12 @@ Create a new branch and switch to it.
 Switch to an existing branch.
 
 1. **Branch name**: If not provided, stop and ask (or show available branches with `git branch -a` first).
-2. **Dirty check**: `git status -sb` — if uncommitted changes exist, warn the user they won't automatically carry over. Do not auto-stash; let the user decide.
+2. **Dirty check**: `git status -sb` - if uncommitted changes exist, warn the user they won't automatically carry over. Do not auto-stash; let the user decide.
 3. **Switch**: `git switch <branch_name>`.
 4. **Verify**: Confirm the active branch is the requested one.
 
 ## List branches
-1. `git branch -a` — shows all local and remote-tracking branches.
+1. `git branch -a` - shows all local and remote-tracking branches.
 2. Clearly indicate which branch is currently active.
 
 ## Create issue
@@ -106,7 +106,7 @@ Create a GitHub issue using the `gh` CLI.
 3. **Confirm**: Share the new issue URL.
 
 ## Revert
-Revert a specific commit by creating a new undo commit — history is preserved, nothing is deleted.
+Revert a specific commit by creating a new undo commit - history is preserved, nothing is deleted.
 
 1. **Confirm hash**: If not provided, show `git log --oneline -n 10` to help the user identify the target commit, then ask.
 2. **Revert**: `git revert <hash>`.
@@ -116,15 +116,15 @@ Revert a specific commit by creating a new undo commit — history is preserved,
 ## Merge to main
 Merge the current branch into main.
 
-1. **Identify branch**: `git branch --show-current` — store the name for later.
-2. **Clean check**: `git status -sb` — if uncommitted changes exist, stop and run the **Update** workflow first. Do not auto-stash or discard anything.
+1. **Identify branch**: `git branch --show-current` - store the name for later.
+2. **Clean check**: `git status -sb` - if uncommitted changes exist, stop and run the **Update** workflow first. Do not auto-stash or discard anything.
 3. **Fetch**: `git fetch origin` to sync remote state before merging.
 4. **Switch to main**: `git checkout main`. If it doesn't exist locally, create it tracking `origin/main`.
-5. **Pull main**: `git pull origin main` — ensure main is current.
+5. **Pull main**: `git pull origin main` - ensure main is current.
 6. **Merge**: `git merge --no-ff <branch_name> -m "<descriptive merge message>"`. Using `--no-ff` keeps an explicit merge commit in history, making it easier to trace what was introduced.
    - On conflicts: list conflicting files, stop, and summarize so the user can resolve manually. Do not attempt destructive auto-resolution.
-7. **Verify**: `git log --oneline -n 5` — confirm the merge commit is present.
-8. **Push main**: `git push origin main`. Handle credentials via `Critical Resources` in `{base folder}/{scaffold folder}/rules/01-general.md`.
+7. **Verify**: `git log --oneline -n 5` - confirm the merge commit is present.
+8. **Push main**: `git push origin main`.
 9. **Confirm sync**: Verify local and remote main are in sync.
 10. **Restore context**: Optionally switch back to the original branch so the user can continue working.
 

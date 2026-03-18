@@ -3,11 +3,11 @@
 Your customizable AI coding team that learns!
 Use it to create apps or make changes/additions to existing ones. 
 
-This set of instructions (markdown files) enhances and extends the modes/agents that come with many coding agents/assistants/scaffolds. The instructions are tailored to work with Kilo Code (free highly customizable VS Code extension) but - with small modifications - will work with many others, including Cursor, CLine, Roo Code, Github Copilot, etc.
+This set of instructions (markdown files) enhances and extends the modes/agents that come with many coding agents/assistants/scaffolds. The instructions are tailored to work with Roo Code (free highly customizable VS Code extension) but - with small modifications - will work with many others, including Cursor, CLine, Kilo, Github Copilot, etc.
 
-Using the built-in-to-Kilo ability to use "rules" files, this archive is a set of custom instructions for the built-in modes/agents and some new ones, including:
+Using the built-in-to-Roo ability to use "rules" files, this archive is a set of custom instructions for the built-in modes/agents and some new ones, including:
 - **Architect Super Team**: a 3-step "Planner" process (planner-a, planner-b, planner-c). Brainstorms with user. While planning and working, creates detailed files to keep track of its goals, progress, and lessons learned.
-- **Architect Quick**: a 1-step "Planner" process; modified Kilo's built-in Architect mode to be more detailed but for smaller tasks than full on 3-step "Planner" process.
+- **Architect Quick**: a 1-step "Planner" process; modified Roo's built-in Architect mode to be more detailed but for smaller tasks than full on 3-step "Planner" process.
 - **Dispatcher**: I've moved much more of the detail work (like making atomic tasks) out of the old/default Orchestrator and into the planning phase so that Dispatcher can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
 - **Coder-Sr**: Juiced up Code mode to follow The Plan, whether created by the new superpowered Architect or hastily typed out by a user running 3 days on caffeine.
 - **Coder-Jr**: Supplemented Coder-Sr with a tightly controlled budget-friendly Junior Coder created to work with the short, detailed tasks created for it by Planner or Architect or do simple coding tasks for the user.
@@ -17,10 +17,6 @@ Notes:
 - **Smart but cheap**: Designed both Architect and Planner modes  to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like Dispatcher, Coder-Sr, Coder-Jr, etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
 - **Look how fast they grow up**: This set of instructions is ever-evolving. 
 - **Virtuous circle**: The author, Scott Howard Swain, uses this "Team" every day, is constantly tinkering with it, and is always eager to hear ideas to improve it.
-- **Every time you see .kilocode below, that means the folder containing rules and skills for whatever scaffold you are using.**
-    - For example, it may be ".kilocode" or ".roo".
-- **Every time you see Kilo Code below, that means the name of the scaffold you are using.**
-    - For example, it may be "Kilo Code" or "Roo Code" or "CLine" or one of the others supported by AgentAutoFlow.
 
 ## Setup
 
@@ -49,8 +45,7 @@ playwright install chromium
 - Reduced need for costly MCP.
 
 **Location/use**:
-I've added quite a few skills in the `{base folder}/.kilocode/skills` folder.
-- Kilo Code's docs: https://kilo.ai/docs/
+I've added quite a few skills in the `{base folder}/.roo/skills` folder.
 - Roo Code's docs: https://docs.roocode.com/features/skills
 - They use the *Agent Skills Open Format*.
 
@@ -66,7 +61,7 @@ If building a new app, *Architect* and *Planner abc* assume you already know *sp
 
 #### Pre-planning
 Possibly coming soon: a level above "Planner" where you brainstorm on a high level to get ideas for *specs* to feed planner.
-Until then, use "Ask" mode in Kilo Code or - more economical - query your favorite LLM chat to help you sculpt your *specs*.
+Until then, use "Ask" mode in Roo or - more economical - query your favorite LLM chat to help you sculpt your *specs*.
 **Save money** by using the following in your browser for free until they reach their limits: 
 - https://grok.com <- This one may require you have an x/titter account.
 - https://claude.ai
@@ -108,7 +103,7 @@ Scenario: Building a new dashboard screen.
 **Mode budgeting**
 - Note: This workflow will sets the plan to choose between "code," "code monkey," and "tasky" modes, depending on complexity. If "tasky" or "code monkey" get confused because a task is too difficult or complex, they have instructions to pass the task up to "code" mode which I assign a "smarter" LLM to.
 
-## Kilo Code specific
+## Roo Code specific
 
 ### Terminal commands
 For me, in Windows with a preference for Powershell, I've found termminal commands work better with the following setting:
@@ -116,13 +111,13 @@ For me, in Windows with a preference for Powershell, I've found termminal comman
 Your mileage may vary.
 
 ## Folder structure
-These files go in your project root ("app" in this case). You'll see they coincide with where your current .kilocode folder is.
+These files go in your project root ("app" in this case). You'll see they coincide with where your current .roo folder is.
 
 ```
 app/
 ├── agents.md (generate with `/init` command.)
-├── .kilocodemodes
-└── .kilocode/
+├── .roomodes/
+└── .roo/
     ├── docs/
     │   ├── database_schema.md
     │   ├── learning/
@@ -163,17 +158,17 @@ app/
 
 ## Todo list tool
 
-In Kilo Code settings, under "Providers", when you set up a Configuration Profile:
+In Roo Code settings, under "Providers", when you set up a Configuration Profile:
 Like let's say you are adding "Claude-Sonnet-4x-R-M" as the profile name, with API provider "OpenRouter" or "Anthropic". The new configuration one will have "Enable todo list tool" (in "Advanced settings") turned on by default. 
 
 The todo list tool burns extra tokens and - especially if you are using AgentAutoFlow - you don't need the todo list tool. I recommend going to the bottom of all the models you have set up and turning "Enable todo list tool" off.
 
 ## AgentAutoFlow File Sync Utility
 
-**Helpful utility included**: A Python utility for synchronizing `{scaffold folder}` directories across multiple project folders based on file modification times.
+**Helpful utility included**: A Python utility for synchronizing `.roo` directories across multiple project folders based on file modification times.
 
 ### Overview
-The AgentAutoFlow File Sync Utility scans `{scaffold folder}` subdirectories in multiple project folders (you designate), identifies files that need updating based on modification times, and performs intelligent file synchronization with atomic operations and backup support.
+The AgentAutoFlow File Sync Utility scans `.roo` subdirectories in multiple project folders (you designate), identifies files that need updating based on modification times, and performs intelligent file synchronization with atomic operations and backup support.
 
 ### GUI Usage
 Launch the graphical interface with:
@@ -182,7 +177,7 @@ python main_gui.py
 ```
 
 Use the interface to:
-- Select multiple folders containing `{scaffold folder}` directories.
+- Select multiple folders containing `.roo` directories.
 - Configure sync settings via the Settings window and config.txt (dry-run mode, backup options).
 - Monitor live progress during synchronization.
 - Overwrite preview panel that shows planned overwrites before execution.
@@ -206,27 +201,27 @@ Settings are stored in `config.txt` See `README-file-sync.MD` for details.
 
 ## Fit to you
 Be sure to modify the content of files to fit your project. Especially:
-- "agents.md" (In root, "above" {scaffold folder}). Important file. See `/init` in this document.
-- "{scaffold folder}/docs/database_schema.md".
-- "{scaffold folder}/rules/01-general.md".
-- "{scaffold folder}/skills/{skill name}/agents*.md" <-- within skill folders, name your project-specific information with this pattern and refer to it from the SKILL.md file.
+- "agents.md" (In root, "above" .roo folder). Important file. See `/init` in this document.
+- ".roo/docs/database_schema.md".
+- ".roo/rules/01-general.md".
+- ".roo/skills/{skill name}/agents*.md" <-- within skill folders, name your project-specific information with this pattern and refer to it from the SKILL.md file.
 
 Really, I'd look through all the rules files to modify to YOUR preferences.
 
 ### Misc
-- I've added "Dispatcher" to .kilocodemodes local mode file so that I can give it read, edit, and command permissions. Without those permissions, it can't update the log file. Also, depending on what LLM model you have it using, I've seen it find an issue with The Plan and spend extra tokens to delegate minor textual changes to The Plan when it could have more quickly done the changes itself.
+- I've added "Dispatcher" to .roomodes local mode file so that I can give it read, edit, and command permissions. Without those permissions, it can't update the log file. Also, depending on what LLM model you have it using, I've seen it find an issue with The Plan and spend extra tokens to delegate minor textual changes to The Plan when it could have more quickly done the changes itself.
 
 ### IMPORTANT: agents.md
-If your agentic assistant has an /init or other command that analyzes your codebase and creates tailored configuration files, use it. Kilo Code uses /init. 
+If your agentic assistant has an /init or other command that analyzes your codebase and creates tailored configuration files, use it. Roo Code uses /init. 
 
 #### Init
 Optimally, use a high reasoning, large context-window model.
 Type into chat: "/init".
-Note: If you type only "/init", the LLM may create agent.md files in other folders (like within the various rules subfolders in the .kilocode folder).
+Note: If you type only "/init", the LLM may create agent.md files in other folders (like within the various rules subfolders in the .roo folder).
 
 ## My recipe for getting a lot done inexpensively:
 Some of the tips below are subject to change often, especially which models to use for which mode.
-1) Use *free* Kilo Code.
+1) Use *free* Roo Code.
 2) Use *free* AgentAutoFlow (just a bunch of .md files telling modes exactly how to act, delegate, and more).
 3) Pick the right models for each mode:
 **Front-loading the intelligence**:
@@ -243,15 +238,17 @@ When creating a plan based on user input, for larger projects, I divided "archit
 ## Markdown vs XML
 For LLM instruction following, which should you choose?
 
-### If Kilo Code, your choice is clear
-Kilo Code's native architecture employs Markdown files (.md or .txt) stored in `{base folder}/.kilocode/rules/` directories for all custom instructions. After reviewing 171+ community-created custom modes, zero use XML formatting. The platform concatenates these Markdown files directly into Claude's system prompt in alphabetical order. YAML or JSON handle mode configuration, while instruction content remains plain Markdown.
+### If Roo Code, your choice is clear
+Roo Code's native architecture employs Markdown files (.md or .txt) stored in `{base folder}/.roo/rules/` directories for all custom instructions. After reviewing 171+ community-created custom modes, zero use XML formatting. Roo Coderoocode The platform concatenates these Markdown files directly into Claude's system prompt in alphabetical order. YAML or JSON handle mode configuration, while instruction content remains plain Markdown.
 
-This universal adoption of Markdown isn't documented as a deliberate choice over XML—the official Kilo Code documentation simply doesn't address XML at all. The format appears to be selected for developer experience and ecosystem compatibility rather than AI performance optimization. Markdown files integrate seamlessly with version control, text editors, and documentation workflows that developers already use.
+This universal adoption of Markdown isn't documented as a deliberate choice over XML—the official Roo Code documentation simply doesn't address XML at all. The format appears to be selected for developer experience and ecosystem compatibility rather than AI performance optimization. Markdown files integrate seamlessly with version control, text editors, and documentation workflows that developers already use.
+
+2025-11-19: Talked with a Roo Code dev. He said he uses XML and - from within the Roo Code extension - download "Mode Writer" from the Marketplace. It's now part of this repo. I used it to make an XML version of my custom version of the Architect mode. So, according to him, you *can* use XML instead of MD for your custom mode instructions. Because I find XML to be so wordy and ugly, I'll stick with MD until I see a clear problem with models getting confused by or ignoring my instructions. 
 
 ### The human factor
 Why I still use and prefer markdown:
 - Ease of human read/write.
-- Kilo Code (my current favorite framework) prefers it.
+- Roo Code (my current favorite framework) prefers it.
 - I find that no matter what model I'm using, they follow the rules I've created in markdown format.
 
 ## Use and share as you wish

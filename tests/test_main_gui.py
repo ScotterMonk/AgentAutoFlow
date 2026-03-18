@@ -17,8 +17,8 @@ def test_load_favorite_folders_resets_screen_before_reloading(monkeypatch):
     ui_snapshots = []
 
     monkeypatch.setattr(main_gui.file_path_utils, "normalize_path", lambda p: p)
-    monkeypatch.setattr(main_gui.file_path_utils, "ensure_roo_dir", lambda p: None)
-    monkeypatch.setattr(main_gui.file_path_utils, "has_roo_dir", lambda p: True)
+    monkeypatch.setattr(main_gui.file_path_utils, "ensure_scaffold_dir", lambda p, sf=".kilocode": None)
+    monkeypatch.setattr(main_gui.file_path_utils, "has_scaffold_dir", lambda p, sf=".kilocode": True)
 
     dummy = SimpleNamespace(
         is_syncing=False,
@@ -30,6 +30,7 @@ def test_load_favorite_folders_resets_screen_before_reloading(monkeypatch):
         delete_bak_button=_ButtonStub(),
         sync_button=_ButtonStub(),
         browse_button=_ButtonStub(),
+        config={"scaffold_folder": ".kilocode"},
     )
 
     dummy.event_queue.put("stale-event")

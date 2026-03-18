@@ -32,49 +32,49 @@ def test_deduplicate_paths_preserves_order_and_normalizes(tmp_path):
     assert result[0] == file_path_utils.normalize_path(a)
     assert result[1] == file_path_utils.normalize_path(b)
 
-def test_has_roo_dir_positive_and_negative(tmp_path):
+def test_has_scaffold_dir_positive_and_negative(tmp_path):
     base = tmp_path / "project"
     base.mkdir()
-    # Negative: no .roo
-    assert file_path_utils.has_roo_dir(base) is False
-    # Positive: create .roo directory (real dir)
-    roo = base / ".roo"
+    # Negative: no scaffold dir
+    assert file_path_utils.has_scaffold_dir(base, ".kilocode") is False
+    # Positive: create scaffold directory (real dir)
+    roo = base / ".kilocode"
     roo.mkdir()
-    assert file_path_utils.has_roo_dir(base) is True
-    # If .roo is a symlink (if filesystem supports), create a symlink and expect False
+    assert file_path_utils.has_scaffold_dir(base, ".kilocode") is True
+    # If scaffold dir is a symlink (if filesystem supports), create a symlink and expect False
     # Some filesystems or platforms (Windows) may require admin rights; skip symlink test if not permitted
     try:
-        target = tmp_path / "target_roo"
+        target = tmp_path / "target_scaffold"
         target.mkdir()
-        link = base / ".roo_link"
+        link = base / ".kilocode_link"
         # create symlink pointing at target
         link.symlink_to(target, target_is_directory=True)
-        # has_roo_dir expects a directory named ".roo" specifically; symlink check ensures symlinks are ignored
+        # has_scaffold_dir checks for the exact scaffold_folder name; symlinks are ignored
         # Ensure the function does not crash when encountering symlinked entries
-        # This is just to confirm behavior doesn't raise; result may be False since name isn't ".roo"
-        _ = file_path_utils.has_roo_dir(base)
+        # This is just to confirm behavior doesn't raise; result may be False since name isn't ".kilocode"
+        _ = file_path_utils.has_scaffold_dir(base, ".kilocode")
     except (OSError, NotImplementedError):
         # symlink creation not allowed on this platform; that's acceptable for test portability
         pass
 
-def test_get_roo_relative_path_returns_relative_when_inside_roo(tmp_path):
+def test_get_scaffold_relative_path_returns_relative_when_inside_scaffold(tmp_path):
     base = tmp_path / "proj"
     base.mkdir()
-    roo = base / ".roo"
-    roo.mkdir()
-    nested = roo / "rules"
+    scaffold = base / ".kilocode"
+    scaffold.mkdir()
+    nested = scaffold / "rules"
     nested.mkdir(parents=True)
     file = nested / "01.md"
     file.write_text("content")
-    # full path inside .roo should return relative path 'rules/01.md'
-    rel = file_path_utils.get_roo_relative_path(file, base)
+    # full path inside scaffold dir should return relative path 'rules/01.md'
+    rel = file_path_utils.get_scaffold_relative_path(file, base, ".kilocode")
     assert rel == "rules/01.md"
-    # calling with the .roo directory itself returns None
-    assert file_path_utils.get_roo_relative_path(roo, base) is None
+    # calling with the scaffold directory itself returns None
+    assert file_path_utils.get_scaffold_relative_path(scaffold, base, ".kilocode") is None
     # outside path returns None
     outside = tmp_path / "other.txt"
     outside.write_text("x")
-    assert file_path_utils.get_roo_relative_path(outside, base) is None
+    assert file_path_utils.get_scaffold_relative_path(outside, base, ".kilocode") is None
 
 
 def test_get_project_folder_name_prefers_parent_of_app(tmp_path):
@@ -87,9 +87,9 @@ def test_get_project_folder_name_prefers_parent_of_app(tmp_path):
 
 
 def test_get_project_folder_name_falls_back_to_selected_folder_name(tmp_path):
-    # No /app/ segment -> return the selected folder name (houses .roo)
+    # No /app/ segment -> return the selected folder name (houses scaffold dir)
     project = tmp_path / "project_x"
     project.mkdir(parents=True)
-    (project / ".roo").mkdir()
+    (project / ".kilocode").mkdir()
 
     assert file_path_utils.get_project_folder_name(project) == "project_x"

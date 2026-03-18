@@ -18,20 +18,20 @@ def drain_queue(q):
             break
     return items
 
-def test_scan_folders_indexes_only_roo_files_respects_ignore_patterns(tmp_path):
+def test_scan_folders_indexes_only_scaffold_files_respects_ignore_patterns(tmp_path):
     q = queue.Queue()
-    config = {"ignore_patterns": [".git", "__pycache__"]}
+    config = {"ignore_patterns": [".git", "__pycache__"], "scaffold_folder": ".kilocode"}
     engine = SyncEngine(config, q)
 
-    # create folder1 and folder2 with .roo
+    # create folder1 and folder2 with .kilocode scaffold dirs
     base1 = tmp_path / "f1"; base1.mkdir()
-    roo1 = base1 / ".roo"; roo1.mkdir()
+    roo1 = base1 / ".kilocode"; roo1.mkdir()
     (roo1 / "a.txt").write_text("v1")
     (roo1 / ".git").mkdir()
     (roo1 / ".git" / "ignore.txt").write_text("secret")
 
     base2 = tmp_path / "f2"; base2.mkdir()
-    roo2 = base2 / ".roo"; roo2.mkdir()
+    roo2 = base2 / ".kilocode"; roo2.mkdir()
     (roo2 / "a.txt").write_text("v2")
 
     index = engine.scan_folders([base1, base2])
@@ -55,11 +55,11 @@ def test_scan_folders_indexes_only_roo_files_respects_ignore_patterns(tmp_path):
 def test_scan_folders_ignores_bak_files(tmp_path):
     """Backup files should be informational-only and never indexed for planning."""
     q = queue.Queue()
-    config = {"ignore_patterns": []}
+    config = {"ignore_patterns": [], "scaffold_folder": ".kilocode"}
     engine = SyncEngine(config, q)
 
     base = tmp_path / "proj"; base.mkdir()
-    roo = base / ".roo"; roo.mkdir()
+    roo = base / ".kilocode"; roo.mkdir()
     (roo / "rules").mkdir()
     (roo / "rules" / "01.md").write_text("content")
     (roo / "rules" / "01.md_20260101T000000Z.bak").write_text("backup")
@@ -72,20 +72,21 @@ def test_scan_folders_ignores_bak_files(tmp_path):
     assert not any(str(k).endswith(".bak") for k in index.keys())
 
 
-# [Created-or-Modified] by openai/gpt-5.1 | 2025-11-16_01
-def test_scan_folders_ignores_roo_docs_when_config_uses_roo_prefix(tmp_path):
+# [Created-or-Modified] by claude-sonnet-4.6 | 2026-03-18_01
+def test_scan_folders_ignores_scaffold_docs_when_config_uses_legacy_roo_prefix(tmp_path):
     """
-    When ignore_patterns contains ".roo/docs" or ".roo\\docs", the .roo/docs folder
-    and all files beneath it should be skipped during scanning.
+    When ignore_patterns contains ".roo/docs" or ".roo\\docs" (legacy prefix), the docs folder
+    inside the scaffold directory should be skipped during scanning.
+    This verifies backward compatibility: legacy .roo/-prefixed ignore patterns still work.
     """
     q = queue.Queue()
-    config = {"ignore_patterns": [".roo/docs", r".roo\docs"]}
+    config = {"ignore_patterns": [".roo/docs", r".roo\docs"], "scaffold_folder": ".kilocode"}
     engine = SyncEngine(config, q)
 
     base = tmp_path / "proj"; base.mkdir()
-    roo = base / ".roo"; roo.mkdir()
+    roo = base / ".kilocode"; roo.mkdir()
 
-    # File under .roo/docs should be ignored
+    # File under .kilocode/docs should be ignored (matched by legacy .roo/docs pattern)
     docs_dir = roo / "docs"; docs_dir.mkdir()
     ignored_file = docs_dir / "ignored.md"
     ignored_file.write_text("to be ignored")
@@ -105,17 +106,17 @@ def test_scan_folders_ignores_roo_docs_when_config_uses_roo_prefix(tmp_path):
 
 def test_plan_actions_picks_newest_source(tmp_path):
     q = queue.Queue()
-    config = {"ignore_patterns": []}
+    config = {"ignore_patterns": [], "scaffold_folder": ".kilocode"}
     engine = SyncEngine(config, q)
 
     base1 = tmp_path / "p1"; base1.mkdir()
-    (base1 / ".roo").mkdir()
-    file1 = base1 / ".roo" / "rules" / "01.md"; file1.parent.mkdir(parents=True)
+    (base1 / ".kilocode").mkdir()
+    file1 = base1 / ".kilocode" / "rules" / "01.md"; file1.parent.mkdir(parents=True)
     file1.write_text("old")
 
     base2 = tmp_path / "p2"; base2.mkdir()
-    (base2 / ".roo").mkdir()
-    file2 = base2 / ".roo" / "rules" / "01.md"; file2.parent.mkdir(parents=True)
+    (base2 / ".kilocode").mkdir()
+    file2 = base2 / ".kilocode" / "rules" / "01.md"; file2.parent.mkdir(parents=True)
     file2.write_text("new")
 
     # set mtimes: file2 newer
@@ -150,17 +151,17 @@ def test_plan_actions_respects_file_compare_threshold_seconds(tmp_path):
     copy when src is newer than dst by > file_compare_threshold_sec.
     """
     q = queue.Queue()
-    config = {"ignore_patterns": [], "file_compare_threshold_sec": 2}
+    config = {"ignore_patterns": [], "file_compare_threshold_sec": 2, "scaffold_folder": ".kilocode"}
     engine = SyncEngine(config, q)
 
     base1 = tmp_path / "p1"; base1.mkdir()
-    (base1 / ".roo").mkdir()
-    file1 = base1 / ".roo" / "rules" / "01.md"; file1.parent.mkdir(parents=True)
+    (base1 / ".kilocode").mkdir()
+    file1 = base1 / ".kilocode" / "rules" / "01.md"; file1.parent.mkdir(parents=True)
     file1.write_text("older")
 
     base2 = tmp_path / "p2"; base2.mkdir()
-    (base2 / ".roo").mkdir()
-    file2 = base2 / ".roo" / "rules" / "01.md"; file2.parent.mkdir(parents=True)
+    (base2 / ".kilocode").mkdir()
+    file2 = base2 / ".kilocode" / "rules" / "01.md"; file2.parent.mkdir(parents=True)
     file2.write_text("newer")
 
     # Make file2 only 2 seconds newer (== threshold) => no action
@@ -182,13 +183,13 @@ def test_execute_actions_performs_copy_backup_and_respects_dry_run(tmp_path):
     q = queue.Queue()
     # prepare two bases
     base1 = tmp_path / "s1"; base1.mkdir()
-    (base1 / ".roo").mkdir()
-    src = (base1 / ".roo" / "x.txt")
+    (base1 / ".kilocode").mkdir()
+    src = (base1 / ".kilocode" / "x.txt")
     src.write_text("SRC")
 
     base2 = tmp_path / "s2"; base2.mkdir()
-    (base2 / ".roo").mkdir()
-    dst = (base2 / ".roo" / "x.txt")
+    (base2 / ".kilocode").mkdir()
+    dst = (base2 / ".kilocode" / "x.txt")
     dst.write_text("OLD")
 
     # set mtimes so src is newer than dst
@@ -197,7 +198,7 @@ def test_execute_actions_performs_copy_backup_and_respects_dry_run(tmp_path):
     os.utime(dst, (now - 200, now - 200))
 
     # build index and actions with dry_run=True
-    config = {"ignore_patterns": [], "dry_run": True, "backup_mode": "timestamped"}
+    config = {"ignore_patterns": [], "dry_run": True, "backup_mode": "timestamped", "scaffold_folder": ".kilocode"}
     engine = SyncEngine(config, q)
     index = engine.scan_folders([base1, base2])
     actions = engine.plan_actions(index)
@@ -210,7 +211,7 @@ def test_execute_actions_performs_copy_backup_and_respects_dry_run(tmp_path):
 
     # now perform real copy with backup_mode timestamped
     q2 = queue.Queue()
-    config2 = {"ignore_patterns": [], "dry_run": False, "backup_mode": "timestamped"}
+    config2 = {"ignore_patterns": [], "dry_run": False, "backup_mode": "timestamped", "scaffold_folder": ".kilocode"}
     engine2 = SyncEngine(config2, q2)
     engine2.execute_actions(actions)
     evs = drain_queue(q2)
@@ -226,50 +227,50 @@ def test_execute_actions_performs_copy_backup_and_respects_dry_run(tmp_path):
 # [Created-or-Modified] by tester | 2025-11-13_1
 def test_append_allowlisted_root_file_to_index(tmp_path):
     """
-    Test that allowlisted root files are appended to the index after .roo is scanned.
+    Test that allowlisted root files are appended to the index after scaffold dir is scanned.
     Validates that root_allowlist config includes specified files in the index with
-    synthetic keys (just the filename) and that .roo files continue to be indexed normally.
+    synthetic keys (just the filename) and that scaffold files continue to be indexed normally.
     """
     q = queue.Queue()
-    # Configure with root_allowlist including .roomodes
-    config = {"ignore_patterns": [], "root_allowlist": [".roomodes"]}
+    # Configure with root_allowlist including .kilocodemodes
+    config = {"ignore_patterns": [], "root_allowlist": [".kilocodemodes"], "scaffold_folder": ".kilocode"}
     engine = SyncEngine(config, q)
 
-    # Create temporary project folder with .roo directory
+    # Create temporary project folder with .kilocode directory
     project = tmp_path / "project1"
     project.mkdir()
-    roo_dir = project / ".roo"
-    roo_dir.mkdir()
-    
-    # Add a file in .roo/docs for normal scanning
-    docs_dir = roo_dir / "docs"
+    scaffold_dir = project / ".kilocode"
+    scaffold_dir.mkdir()
+
+    # Add a file in .kilocode/docs for normal scanning
+    docs_dir = scaffold_dir / "docs"
     docs_dir.mkdir()
     readme = docs_dir / "README.md"
     readme.write_text("# Documentation")
-    
+
     # Add allowlisted root file
-    roomodes = project / ".roomodes"
-    roomodes.write_text("mode1\nmode2\n")
+    modes_file = project / ".kilocodemodes"
+    modes_file.write_text("mode1\nmode2\n")
 
     # Scan the folder
     index = engine.scan_folders([project])
 
-    # Assert .roomodes is in the index with synthetic key
-    assert ".roomodes" in index, "Allowlisted root file .roomodes should be in index"
-    assert len(index[".roomodes"]) == 1, "Should have exactly one entry for .roomodes"
-    
+    # Assert .kilocodemodes is in the index with synthetic key
+    assert ".kilocodemodes" in index, "Allowlisted root file .kilocodemodes should be in index"
+    assert len(index[".kilocodemodes"]) == 1, "Should have exactly one entry for .kilocodemodes"
+
     # Verify the path points to the actual root file
-    roomodes_entry = index[".roomodes"][0]
-    assert roomodes_entry["path"] == roomodes, "Path should point to root .roomodes file"
-    assert roomodes_entry["base_folder"] == project
-    
-    # Assert .roo files continue to be indexed normally
-    assert any("docs/README.md" in k for k in index.keys()), ".roo files should still be indexed"
-    
+    modes_entry = index[".kilocodemodes"][0]
+    assert modes_entry["path"] == modes_file, "Path should point to root .kilocodemodes file"
+    assert modes_entry["base_folder"] == project
+
+    # Assert scaffold files continue to be indexed normally
+    assert any("docs/README.md" in k for k in index.keys()), "scaffold files should still be indexed"
+
     # Verify events were emitted
     events = drain_queue(q)
     assert any(e.event_type == EventType.SCAN_START for e in events)
-    assert any(".roomodes" in e.file_path for e in events if e.event_type == EventType.SCAN_FILE)
+    assert any(".kilocodemodes" in e.file_path for e in events if e.event_type == EventType.SCAN_FILE)
 
 # [Created-or-Modified] by tester | 2025-11-13_1
 def test_root_allowlist_safety_checks(tmp_path):
@@ -277,61 +278,61 @@ def test_root_allowlist_safety_checks(tmp_path):
     Test safety checks for root allowlist files:
     - Symlinks are not included
     - Directories are not included (only regular files)
-    - Allowlist files are ignored if project lacks a real .roo directory
+    - Allowlist files are ignored if project lacks a real scaffold directory
     """
     import pytest
     q = queue.Queue()
-    config = {"ignore_patterns": [], "root_allowlist": [".roomodes", "config.txt"]}
+    config = {"ignore_patterns": [], "root_allowlist": [".kilocodemodes", "config.txt"], "scaffold_folder": ".kilocode"}
     engine = SyncEngine(config, q)
 
     # Test case 1: Symlink should NOT be included
     project1 = tmp_path / "proj_symlink"
     project1.mkdir()
-    (project1 / ".roo").mkdir()
-    real_file = tmp_path / "real_roomodes.txt"
+    (project1 / ".kilocode").mkdir()
+    real_file = tmp_path / "real_modes.txt"
     real_file.write_text("real content")
-    symlink_path = project1 / ".roomodes"
-    
+    symlink_path = project1 / ".kilocodemodes"
+
     # Try to create symlink; skip if not supported on Windows
     try:
         symlink_path.symlink_to(real_file)
         index1 = engine.scan_folders([project1])
-        assert ".roomodes" not in index1, "Symlinks should NOT be included in index"
+        assert ".kilocodemodes" not in index1, "Symlinks should NOT be included in index"
     except (OSError, NotImplementedError) as e:
         pytest.skip(f"Symlink creation not supported: {e}")
 
     # Test case 2: Directory should NOT be included (only regular files)
     project2 = tmp_path / "proj_directory"
     project2.mkdir()
-    (project2 / ".roo").mkdir()
-    dir_path = project2 / ".roomodes"
+    (project2 / ".kilocode").mkdir()
+    dir_path = project2 / ".kilocodemodes"
     dir_path.mkdir()  # Create as directory, not file
-    
-    index2 = engine.scan_folders([project2])
-    assert ".roomodes" not in index2, "Directories should NOT be included in index"
 
-    # Test case 3: No .roo directory means allowlist files are NOT considered
-    project3 = tmp_path / "proj_no_roo"
+    index2 = engine.scan_folders([project2])
+    assert ".kilocodemodes" not in index2, "Directories should NOT be included in index"
+
+    # Test case 3: No scaffold directory means allowlist files are NOT considered
+    project3 = tmp_path / "proj_no_scaffold"
     project3.mkdir()
-    # Do NOT create .roo directory
-    roomodes3 = project3 / ".roomodes"
-    roomodes3.write_text("should be ignored")
-    
+    # Do NOT create scaffold directory
+    modes3 = project3 / ".kilocodemodes"
+    modes3.write_text("should be ignored")
+
     index3 = engine.scan_folders([project3])
-    assert ".roomodes" not in index3, "Allowlist files should be ignored without .roo directory"
-    
-    # Verify error event was emitted for missing .roo
+    assert ".kilocodemodes" not in index3, "Allowlist files should be ignored without scaffold directory"
+
+    # Verify error event was emitted for missing scaffold dir
     events = drain_queue(q)
-    assert any(e.event_type == EventType.ERROR and "does not contain .roo" in e.message
-               for e in events), "Should emit error for missing .roo directory"
-    
+    assert any(e.event_type == EventType.ERROR and ".kilocode" in e.message
+               for e in events), "Should emit error for missing scaffold directory"
+
     # Test case 4: Valid regular file IS included
     project4 = tmp_path / "proj_valid"
     project4.mkdir()
-    (project4 / ".roo").mkdir()
+    (project4 / ".kilocode").mkdir()
     valid_file = project4 / "config.txt"
     valid_file.write_text("valid config")
-    
+
     q4 = queue.Queue()
     engine4 = SyncEngine(config, q4)
     index4 = engine4.scan_folders([project4])

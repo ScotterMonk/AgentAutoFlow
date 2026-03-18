@@ -52,22 +52,27 @@ class SyncEngine:
         self.event_queue = event_queue
     
     def scan_folders(self, folders: List[Path]) -> Dict[str, List[Dict[str, Any]]]:
-        # [Modified] by gpt-5.2 | 2026-01-11_01
+        # [Modified] by claude-sonnet-4.6 | 2026-03-18_01
         """
         Scan folders to build a file index.
         
-        Recursively scans the .roo/ subdirectory within each provided folder,
-        collecting file metadata and building an index keyed by relative paths.
+        Recursively scans the scaffold subdirectory (configured via `scaffold_folder`)
+        within each provided folder, collecting file metadata and building an index
+        keyed by relative paths.
         
         Args:
             folders: List of folder paths to scan
         
         Returns:
-            Dictionary mapping relative paths (within .roo) to lists of file metadata dicts.
+            Dictionary mapping relative paths (within scaffold dir) to lists of file metadata dicts.
             Each file dict contains: path, mtime, size, base_folder
         """
         # Emit scan start event
         self._emit_event(EventType.SCAN_START, message="Starting folder scan")
+
+        # Resolve scaffold folder name from config (e.g. ".kilocode" or ".roo")
+        scaffold_folder = self.config.get("scaffold_folder", ".kilocode")
+        scaffold_prefix = scaffold_folder.lower().rstrip("/") + "/"
         
         # Initialize file index - maps relative paths to list of file metadata
         file_index: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
@@ -75,10 +80,10 @@ class SyncEngine:
         # Get ignore patterns from config and categorize them.
         # We support these kinds of ignore rules:
         # - Simple names (".git", "__pycache__"): skip any path component with that name.
-        # - .roo-scoped folder paths (".roo/docs", ".roo/docs/"): skip everything under that folder.
-        # - .roo-scoped file paths (".roo/commands/run-sync.md"): skip exactly that file.
-        # - Filename-only exact matches ("agents.md"): match anywhere within .roo subfolders (case-insensitive).
-        # - Glob patterns ("*.txt", "*.pyc", "rules/*.md", ".roo/docs/*.md"): matched case-insensitively.
+        # - Scaffold-scoped folder paths (e.g. ".kilocode/docs"): skip everything under that folder.
+        # - Scaffold-scoped file paths (e.g. ".kilocode/commands/run-sync.md"): skip exactly that file.
+        # - Filename-only exact matches ("agents.md"): match anywhere within scaffold subfolders (case-insensitive).
+        # - Glob patterns ("*.txt", "*.pyc", "rules/*.md", ".kilocode/docs/*.md"): matched case-insensitively.
         raw_ignore_patterns = self.config.get("ignore_patterns", [])
         name_ignores = set()
         folder_path_ignores = set()
@@ -96,13 +101,19 @@ class SyncEngine:
             norm = str(pattern).replace("\\", "/").strip()
             norm_lower = norm.lower()
             
-            # Treat .roo-prefixed patterns as paths relative to the .roo/ directory
-            if norm_lower.startswith(".roo/"):
-                rel = norm_lower[len(".roo/"):].rstrip("/")
+            # Treat scaffold-prefixed patterns as paths relative to the scaffold directory
+            # (e.g. ".kilocode/docs" or the legacy ".roo/docs")
+            if norm_lower.startswith(scaffold_prefix) or norm_lower.startswith(".roo/"):
+                # Strip either the scaffold prefix or the legacy .roo/ prefix for backward compat
+                if norm_lower.startswith(scaffold_prefix):
+                    rel = norm_lower[len(scaffold_prefix):].rstrip("/")
+                else:
+                    # Legacy: strip old .roo/ prefix so existing ignore_patterns still work
+                    rel = norm_lower[len(".roo/"):].rstrip("/")
                 if not rel:
                     continue
 
-                # If the .roo-scoped pattern contains globs, treat as a .roo-relative path glob.
+                # If the scaffold-scoped pattern contains globs, treat as a scaffold-relative path glob.
                 if _has_glob_chars(rel):
                     path_glob_ignores.append(rel)
                     continue
@@ -116,7 +127,7 @@ class SyncEngine:
                     # Store as lowercase for case-insensitive matching
                     folder_path_ignores.add(rel)
             else:
-                # Non-.roo patterns:
+                # Non-scaffold patterns:
                 # - If contains glob chars, treat as filename glob (no slashes) or path glob (has slashes).
                 # - Otherwise, keep current behavior (filename-only exact match for things like "agents.md",
                 #   or simple name ignores for things like ".git" and "__pycache__").
@@ -127,10 +138,10 @@ class SyncEngine:
                         filename_glob_ignores.append(norm_lower)
                 elif "." in norm_lower and "/" not in norm_lower:
                     # Store as lowercase for case-insensitive matching
-                    # This will match anywhere within .roo subfolders
+                    # This will match anywhere within scaffold subfolders
                     filename_only_ignores.add(norm_lower)
                 elif "/" in norm_lower:
-                    # For non-.roo paths with slashes, fall back to matching on the last component
+                    # For non-scaffold paths with slashes, fall back to matching on the last component
                     last_seg = norm_lower.rstrip("/").split("/")[-1]
                     if last_seg:
                         # Store as lowercase for case-insensitive matching
@@ -142,33 +153,33 @@ class SyncEngine:
         
         # Scan each folder
         for folder in folders:
-            # Validate folder contains .roo directory
-            if not file_path_utils.has_roo_dir(folder):
+            # Validate folder contains scaffold directory
+            if not file_path_utils.has_scaffold_dir(folder, scaffold_folder):
                 self._emit_event(
                     EventType.ERROR,
                     folder=str(folder),
-                    message=f"Folder does not contain .roo directory: {folder}"
+                    message=f"Folder does not contain {scaffold_folder} directory: {folder}"
                 )
                 continue
             
-            # Define scan root as .roo subdirectory
-            scan_root = folder.joinpath(".roo")
+            # Define scan root as scaffold subdirectory
+            scan_root = folder.joinpath(scaffold_folder)
             
-            # Recursively scan all files in .roo directory
+            # Recursively scan all files in scaffold directory
             for item_path in scan_root.rglob("*"):
-                # Compute .roo-relative path once for all ignore checks
-                relative_path_roo = item_path.relative_to(scan_root)
-                relative_str = relative_path_roo.as_posix()
+                # Compute scaffold-relative path once for all ignore checks
+                relative_path_scaffold = item_path.relative_to(scan_root)
+                relative_str = relative_path_scaffold.as_posix()
                 relative_str_lower = relative_str.lower()
-                relative_parts = relative_path_roo.parts
+                relative_parts = relative_path_scaffold.parts
                 
                 # 1) Simple name ignores: match any component (e.g., ".git", "__pycache__")
                 # Case-insensitive comparison
                 if any(part.lower() in name_ignores for part in relative_parts):
                     continue
                 
-                # 2) .roo-scoped folder path ignores: match direct prefix under .roo
-                #    Example: ".roo/docs" ignores ".roo/docs" and everything beneath it,
+                # 2) Scaffold-scoped folder path ignores: match direct prefix under scaffold dir
+                #    Example: "scaffold_folder/docs" ignores that docs folder and everything beneath it,
                 #    but does not ignore unrelated ".../docs" directories elsewhere.
                 # Case-insensitive comparison
                 skip_for_folder = False
@@ -179,14 +190,14 @@ class SyncEngine:
                 if skip_for_folder:
                     continue
                 
-                # 3) .roo-scoped file path ignores: match exact relative path under .roo
-                #    Example: ".roo/commands/run-sync.md" ignores only that one file.
+                # 3) Scaffold-scoped file path ignores: match exact relative path under scaffold dir
+                #    Example: "scaffold_folder/commands/run-sync.md" ignores only that one file.
                 # Case-insensitive comparison
                 if relative_str_lower in file_path_ignores:
                     continue
                 
-                # 4) Filename-only ignores: match filename anywhere within .roo subfolders
-                #    Example: "agents.md" ignores any file named "agents.md" in any .roo subfolder
+                # 4) Filename-only ignores: match filename anywhere within scaffold subfolders
+                #    Example: "agents.md" ignores any file named "agents.md" in any scaffold subfolder
                 # Case-insensitive comparison
                 filename = item_path.name.lower()
                 if filename in filename_only_ignores:
@@ -194,7 +205,7 @@ class SyncEngine:
 
                 # 5) Glob ignores
                 # - filename globs: match against the filename only
-                # - path globs: match against the .roo-relative path (POSIX style)
+                # - path globs: match against the scaffold-relative path (POSIX style)
                 if filename_glob_ignores and any(fnmatch.fnmatchcase(filename, pat) for pat in filename_glob_ignores):
                     continue
                 if path_glob_ignores and any(fnmatch.fnmatchcase(relative_str_lower, pat) for pat in path_glob_ignores):
@@ -216,8 +227,8 @@ class SyncEngine:
                     mtime_ns = getattr(stats, "st_mtime_ns", int(mtime * 1_000_000_000))
                     size = stats.st_size
                     
-                    # Get relative path within .roo scope
-                    relative_path = file_path_utils.get_roo_relative_path(item_path, folder)
+                    # Get relative path within scaffold scope
+                    relative_path = file_path_utils.get_scaffold_relative_path(item_path, folder, scaffold_folder)
                     
                     # Emit scan file event
                     self._emit_event(
@@ -236,7 +247,7 @@ class SyncEngine:
                         "base_folder": folder
                     })
             
-            # After scanning .roo, attempt to include root-level allowlisted files
+            # After scanning scaffold dir, attempt to include root-level allowlisted files
             root_allowlist = self.config.get("root_allowlist", [])
             for allowlist_entry in root_allowlist:
                 candidate_path = folder / allowlist_entry
@@ -279,14 +290,14 @@ class SyncEngine:
         
         In addition to updating existing peers, this method will also plan copy
         actions for folders that are missing a given file (including root-level
-        allowlisted files such as ".roomodes") so that new files are created
-        where needed.
+        allowlisted files such as the scaffold modes file) so that new files are
+        created where needed.
         
         Args:
             file_index: File index from scan_folders(), mapping relative paths to
                         lists of file metadata dictionaries.
             scanned_folders: Optional list of all folders that were scanned, including
-                           those with empty .roo directories. If not provided, will be
+                           those with empty scaffold directories. If not provided, will be
                            derived from file_index (which may miss empty folders).
         
         Returns:
@@ -294,12 +305,15 @@ class SyncEngine:
             - action: 'copy'
             - source_path: Path object of the source file
             - destination_path: Path object of the destination file
-            - relative_path: Relative path within .roo directory or synthetic key
+            - relative_path: Relative path within scaffold directory or synthetic key
             - source_mtime: Modification time of source file
             - destination_mtime: Modification time of destination file (or None
               when the destination did not previously exist)
         """
         actions: List[Dict[str, Any]] = []
+
+        # Resolve scaffold folder name from config (must match what scan_folders used)
+        scaffold_folder = self.config.get("scaffold_folder", ".kilocode")
 
         # Compare mtimes with second granularity and a tolerance window.
         # This makes sync less sensitive to filesystem timestamp noise.
@@ -378,15 +392,15 @@ class SyncEngine:
                     actions.append(action)
             
             # Create copy actions for folders that are missing this file entirely.
-            # This applies both to .roo-relative paths and root-level allowlisted
-            # files (which use a synthetic key such as ".roomodes").
+            # This applies both to scaffold-relative paths and root-level allowlisted
+            # files (which use a synthetic key such as the modes filename).
             for base_folder in missing_base_folders:
                 # Determine destination path:
-                # - If the relative path contains a '/', treat it as under .roo/.
+                # - If the relative path contains a '/', treat it as under scaffold_folder/.
                 # - Otherwise, treat it as a root-level allowlisted file.
                 rel_str = str(relative_path)
                 if "/" in rel_str:
-                    destination_path = base_folder / ".roo" / Path(rel_str)
+                    destination_path = base_folder / scaffold_folder / Path(rel_str)
                 else:
                     destination_path = base_folder / rel_str
                 

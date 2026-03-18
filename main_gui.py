@@ -210,9 +210,10 @@ class MainApp:
         if folder_path:
             # Normalize the path
             normalized_path = file_path_utils.normalize_path(folder_path)
-            # Validate folder has .roo directory
-            if not file_path_utils.has_roo_dir(normalized_path):
-                print(f"Error: Folder does not contain a .roo subdirectory: {normalized_path}")
+            # Validate folder has scaffold directory
+            scaffold_folder = self.config.get("scaffold_folder", ".kilocode")
+            if not file_path_utils.has_scaffold_dir(normalized_path, scaffold_folder):
+                print(f"Error: Folder does not contain a {scaffold_folder} subdirectory: {normalized_path}")
                 return
             # Check if folder is already in the list
             if normalized_path in self.selected_folders:
@@ -313,7 +314,8 @@ class MainApp:
         if not relative_path:
             return
         deleted_count, errors = file_delete_utils.delete_file_across_folders(
-            relative_path, action, self.favorite_folders
+            relative_path, action, self.favorite_folders,
+            scaffold_folder=self.config.get("scaffold_folder", ".kilocode")
         )
         if errors:
             messagebox.showerror(
@@ -329,8 +331,8 @@ class MainApp:
         Behavior:
         - Deletes the file (by relative path) in EVERY folder in favorite_folders
         - Also deletes source and destination from the action
-        - After deleting each file, removes its immediate parent directory (within .roo/)
-        using shutil.rmtree — skips if parent is the .roo root itself
+        - After deleting each file, removes its immediate parent directory (within scaffold dir)
+        using shutil.rmtree — skips if parent is the scaffold root itself
         - Fail-safe: continues even if files/folders don't exist
         After deletion, triggers a rescan to refresh the UI.
         """
@@ -344,7 +346,8 @@ class MainApp:
         if not relative_path:
             return
         deleted_files, deleted_folders, errors = file_delete_utils.delete_file_and_folder_across_folders(
-            relative_path, action, self.favorite_folders
+            relative_path, action, self.favorite_folders,
+            scaffold_folder=self.config.get("scaffold_folder", ".kilocode")
         )
         if errors:
             messagebox.showerror(
@@ -736,15 +739,16 @@ class MainApp:
                 print(f"Error normalizing favorite folder {fav!r}: {exc}")
                 skipped.append(str(fav))
                 continue
-            # If the project doesn't have a .roo yet, create it (user-friendly behavior for new projects).
+            # If the project doesn't have a scaffold dir yet, create it (user-friendly behavior for new projects).
+            scaffold_folder = self.config.get("scaffold_folder", ".kilocode")
             try:
-                file_path_utils.ensure_roo_dir(normalized)
+                file_path_utils.ensure_scaffold_dir(normalized, scaffold_folder)
             except Exception as exc:
-                print(f"Error ensuring .roo directory under {normalized!s}: {exc}")
+                print(f"Error ensuring {scaffold_folder} directory under {normalized!s}: {exc}")
                 skipped.append(str(normalized))
                 continue
-            # Validate folder has a .roo directory
-            if not file_path_utils.has_roo_dir(normalized):
+            # Validate folder has a scaffold directory
+            if not file_path_utils.has_scaffold_dir(normalized, scaffold_folder):
                 skipped.append(str(normalized))
                 continue
             if normalized not in self.selected_folders:

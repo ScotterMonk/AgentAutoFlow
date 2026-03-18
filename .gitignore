@@ -23,4 +23,5 @@ temp/
 *.afphoto
 
 # Reports
-.roo/docs/reports/
+.roo/docs/
+.kilocode/docs/

@@ -1,4 +1,4 @@
-"""File deletion utilities for synced .roo folders (no Tkinter dependency)."""
+"""File deletion utilities for synced scaffold folders (no Tkinter dependency)."""
 
 from pathlib import Path
 import shutil
@@ -8,13 +8,15 @@ def delete_file_across_folders(
     relative_path: str,
     action: dict,
     favorite_folders: list[str],
+    scaffold_folder: str = ".kilocode",
 ) -> tuple[int, list[str]]:
-    """Delete a .roo-relative file from every favorite folder plus source/dest.
+    """Delete a scaffold-relative file from every favorite folder plus source/dest.
 
     Args:
-        relative_path: Path relative to the .roo/ subdirectory.
+        relative_path: Path relative to the scaffold subdirectory.
         action: Sync action dict with optional 'source_path' and 'destination_path'.
         favorite_folders: List of absolute folder paths to search.
+        scaffold_folder: Scaffold subdirectory name (e.g. ".kilocode" or ".roo").
 
     Returns:
         (deleted_count, errors): count of files deleted and list of error strings.
@@ -25,10 +27,10 @@ def delete_file_across_folders(
     deleted_count = 0
     errors = []
 
-    # Delete in ALL favorite folders (files are in .roo/ subdirectory)
+    # Delete in ALL favorite folders (files are in scaffold subdirectory)
     for fav_folder in favorite_folders:
         try:
-            fav_base = Path(fav_folder) / ".roo"
+            fav_base = Path(fav_folder) / scaffold_folder
             target = fav_base / relative_path
 
             if target.exists():
@@ -67,13 +69,15 @@ def delete_file_and_folder_across_folders(
     relative_path: str,
     action: dict,
     favorite_folders: list[str],
+    scaffold_folder: str = ".kilocode",
 ) -> tuple[int, int, list[str]]:
-    """Delete a .roo-relative file AND its parent folder from every favorite folder.
+    """Delete a scaffold-relative file AND its parent folder from every favorite folder.
 
     Args:
-        relative_path: Path relative to the .roo/ subdirectory.
+        relative_path: Path relative to the scaffold subdirectory.
         action: Sync action dict with optional 'source_path' and 'destination_path'.
         favorite_folders: List of absolute folder paths to search.
+        scaffold_folder: Scaffold subdirectory name (e.g. ".kilocode" or ".roo").
 
     Returns:
         (deleted_files, deleted_folders, errors).
@@ -85,8 +89,8 @@ def delete_file_and_folder_across_folders(
     deleted_folders = 0
     errors = []
 
-    def _delete_file_and_parent(target: Path, roo_base: Path) -> None:
-        """Delete target file then its immediate parent folder (if not the .roo root)."""
+    def _delete_file_and_parent(target: Path, scaffold_base: Path) -> None:
+        """Delete target file then its immediate parent folder (if not the scaffold root)."""
         nonlocal deleted_files, deleted_folders
         if target.exists():
             if target.is_dir():
@@ -95,11 +99,11 @@ def delete_file_and_folder_across_folders(
             target.unlink()
             deleted_files += 1
 
-        # Delete the immediate parent folder, but never the .roo root itself
+        # Delete the immediate parent folder, but never the scaffold root itself
         parent = target.parent
         try:
             # Resolve both to compare safely
-            if parent.resolve() != roo_base.resolve():
+            if parent.resolve() != scaffold_base.resolve():
                 if parent.exists():
                     shutil.rmtree(parent)
                     deleted_folders += 1
@@ -109,9 +113,9 @@ def delete_file_and_folder_across_folders(
     # Delete in ALL favorite folders
     for fav_folder in favorite_folders:
         try:
-            roo_base = Path(fav_folder) / ".roo"
-            target = roo_base / relative_path
-            _delete_file_and_parent(target, roo_base)
+            scaffold_base = Path(fav_folder) / scaffold_folder
+            target = scaffold_base / relative_path
+            _delete_file_and_parent(target, scaffold_base)
         except Exception as exc:
             errors.append(f"Failed in favorite:\n{fav_folder}/{relative_path}\n{exc}")
 
@@ -119,20 +123,20 @@ def delete_file_and_folder_across_folders(
     if source_path:
         try:
             source = Path(source_path)
-            # Find the .roo base for the source by walking up to find the .roo parent
-            roo_base = None
+            # Find the scaffold base for the source by walking up to find the scaffold parent
+            scaffold_base = None
             for fav_folder in favorite_folders:
-                candidate = Path(fav_folder) / ".roo"
+                candidate = Path(fav_folder) / scaffold_folder
                 try:
                     source.relative_to(candidate)
-                    roo_base = candidate
+                    scaffold_base = candidate
                     break
                 except ValueError:
                     continue
-            if roo_base and source.exists() and not source.is_dir():
-                _delete_file_and_parent(source, roo_base)
-            elif not roo_base and source.exists() and not source.is_dir():
-                # Fallback: just delete the file, guess parent is not .roo root
+            if scaffold_base and source.exists() and not source.is_dir():
+                _delete_file_and_parent(source, scaffold_base)
+            elif not scaffold_base and source.exists() and not source.is_dir():
+                # Fallback: just delete the file, guess parent is not scaffold root
                 source.unlink()
                 deleted_files += 1
         except Exception as exc:
@@ -142,18 +146,18 @@ def delete_file_and_folder_across_folders(
     if dest_path:
         try:
             dest = Path(dest_path)
-            roo_base = None
+            scaffold_base = None
             for fav_folder in favorite_folders:
-                candidate = Path(fav_folder) / ".roo"
+                candidate = Path(fav_folder) / scaffold_folder
                 try:
                     dest.relative_to(candidate)
-                    roo_base = candidate
+                    scaffold_base = candidate
                     break
                 except ValueError:
                     continue
-            if roo_base and dest.exists() and not dest.is_dir():
-                _delete_file_and_parent(dest, roo_base)
-            elif not roo_base and dest.exists() and not dest.is_dir():
+            if scaffold_base and dest.exists() and not dest.is_dir():
+                _delete_file_and_parent(dest, scaffold_base)
+            elif not scaffold_base and dest.exists() and not dest.is_dir():
                 dest.unlink()
                 deleted_files += 1
         except Exception as exc:

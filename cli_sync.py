@@ -12,7 +12,7 @@ Usage:
 
 This script:
 - Loads configuration via load_config()
-- Validates provided folders contain a .roo directory
+- Validates provided folders contain a scaffold directory (configured via scaffold_folder)
 - Creates a SyncEngine with a Queue for events
 - Runs a synchronous sync via engine.run_sync(folders)
 - Prints basic progress events from the event queue to stdout
@@ -20,7 +20,7 @@ This script:
 
 from utils_sync.sync_core import SyncEngine
 from utils_sync.config_sync import load_config
-from utils_sync.file_path_utils import has_roo_dir
+from utils_sync.file_path_utils import has_scaffold_dir
 from utils_sync.progress_events import EventType, ProgressEvent
 
 def _print_event(event: ProgressEvent) -> None:
@@ -61,20 +61,21 @@ def run_cli_sync(folders):
         print("Error: At least two folders must be provided for sync.", file=sys.stderr)
         sys.exit(1)
 
-    # Ensure each folder has a .roo directory (create if missing)
+    # Ensure each folder has a scaffold directory (create if missing)
+    scaffold_folder = config.get("scaffold_folder", ".kilocode")
     created = []
     for f in folders:
         try:
-            if not has_roo_dir(f):
-                # create .roo directory for new projects
+            if not has_scaffold_dir(f, scaffold_folder):
+                # create scaffold directory for new projects
                 from utils_sync import file_path_utils
-                file_path_utils.ensure_roo_dir(f)
+                file_path_utils.ensure_scaffold_dir(f, scaffold_folder)
                 created.append(str(f))
         except Exception as exc:
-            print(f"Error: Could not ensure .roo subdirectory in {f}: {exc}", file=sys.stderr)
+            print(f"Error: Could not ensure {scaffold_folder} subdirectory in {f}: {exc}", file=sys.stderr)
             sys.exit(1)
     if created:
-        print("Created missing .roo directories in:\n" + "\n".join(created))
+        print(f"Created missing {scaffold_folder} directories in:\n" + "\n".join(created))
 
     # Create event queue and engine
     event_queue = queue.Queue()
@@ -112,7 +113,7 @@ def _parse_args():
     p.add_argument(
         "folders",
         nargs="+",
-        help="Folders to synchronize (must contain a .roo subdirectory)"
+        help="Folders to synchronize (must contain a scaffold subdirectory, see config scaffold_folder)"
     )
     p.add_argument(
         "--config",

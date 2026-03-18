@@ -14,7 +14,7 @@ playwright install chromium
 ```
 
 **Helper scripts available** (all paths relative to project root):
-- `{base folder}/.roo/skills/browser-use/scripts/with_server.py` - Optional. Manages local dev server lifecycle (supports multiple servers).
+- `{base folder}/{scaffold folder}/skills/browser-use/scripts/with_server.py` - Optional. Manages local dev server lifecycle (supports multiple servers).
 
 **Always run scripts with `--help` first** to see usage. DO NOT read the source until you try running the script first and find that a customized solution is absolutely necessary. These scripts can be very large and thus pollute your context window. They exist to be called directly as black-box scripts rather than ingested into your context window.
 
@@ -53,7 +53,7 @@ python .roo/skills/browser-use/scripts/with_server.py `
 ```
 
 Your automation script only needs Playwright logic — servers are managed automatically by `with_server.py`.
-See `{base folder}/.roo/skills/browser-use/examples/basic_automation.py` for a robust, ready-to-use boilerplate.
+See `{base folder}/{scaffold folder}/skills/browser-use/examples/basic_automation.py` for a robust, ready-to-use boilerplate.
 
 ## Reconnaissance-Then-Action Pattern
 💡 **Tip for Users:** You can rapidly generate selectors and scripts by running `playwright codegen <url>` in your terminal.
@@ -76,7 +76,7 @@ See `{base folder}/.roo/skills/browser-use/examples/basic_automation.py` for a r
 ✅ **Do** use `sync_playwright()` (synchronous) unless you have an explicit reason to use async (e.g., integrating with an async framework).
 
 ## Best Practices
-- **Use bundled scripts as black boxes** - To accomplish a task, consider whether one of the scripts available in `{base folder}/.roo/skills/browser-use/scripts/` can help. These scripts handle common, complex workflows reliably without cluttering the context window. Use `--help` to see usage, then invoke directly.
+- **Use bundled scripts as black boxes** - To accomplish a task, consider whether one of the scripts available in `{base folder}/{scaffold folder}/skills/browser-use/scripts/` can help. These scripts handle common, complex workflows reliably without cluttering the context window. Use `--help` to see usage, then invoke directly.
 - Use `sync_playwright()` for synchronous scripts
 - Always close the browser when done (use `try/finally`)
 - Use descriptive selectors: `text=`, `role=`, CSS selectors, or IDs
@@ -88,10 +88,10 @@ See `{base folder}/.roo/skills/browser-use/examples/basic_automation.py` for a r
 All paths below are relative to the project root.
 
 - **scripts/** - Helper scripts (call with `--help` first; do NOT read source):
-  - `{base folder}/.roo/skills/browser-use/scripts/with_server.py` - Starts one or more local dev servers, runs your automation script, then cleans up
+  - `{base folder}/{scaffold folder}/skills/browser-use/scripts/with_server.py` - Starts one or more local dev servers, runs your automation script, then cleans up
 
 - **examples/** - Automation scripts (pass these to `with_server.py` or run standalone):
-  - `{base folder}/.roo/skills/browser-use/examples/basic_automation.py` - Robust boilerplate with error handling and `wait_for_selector`
-  - `{base folder}/.roo/skills/browser-use/examples/element_discovery.py` - Discovering buttons, links, and inputs on a page
-  - `{base folder}/.roo/skills/browser-use/examples/static_html_automation.py` - Using file:// URLs for local HTML
-  - `{base folder}/.roo/skills/browser-use/examples/console_logging.py` - Capturing console logs during automation
+  - `{base folder}/{scaffold folder}/skills/browser-use/examples/basic_automation.py` - Robust boilerplate with error handling and `wait_for_selector`
+  - `{base folder}/{scaffold folder}/skills/browser-use/examples/element_discovery.py` - Discovering buttons, links, and inputs on a page
+  - `{base folder}/{scaffold folder}/skills/browser-use/examples/static_html_automation.py` - Using file:// URLs for local HTML
+  - `{base folder}/{scaffold folder}/skills/browser-use/examples/console_logging.py` - Capturing console logs during automation

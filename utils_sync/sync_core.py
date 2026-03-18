@@ -104,10 +104,11 @@ class SyncEngine:
             # Treat scaffold-prefixed patterns as paths relative to the scaffold directory
             # (e.g. ".kilocode/docs" or the legacy ".roo/docs")
             if norm_lower.startswith(scaffold_prefix) or norm_lower.startswith(".roo/"):
-                # Strip either the scaffold prefix or the legacy .roo/ prefix
+                # Strip either the scaffold prefix or the legacy .roo/ prefix for backward compat
                 if norm_lower.startswith(scaffold_prefix):
                     rel = norm_lower[len(scaffold_prefix):].rstrip("/")
                 else:
+                    # Legacy: strip old .roo/ prefix so existing ignore_patterns still work
                     rel = norm_lower[len(".roo/"):].rstrip("/")
                 if not rel:
                     continue
@@ -137,10 +138,10 @@ class SyncEngine:
                         filename_glob_ignores.append(norm_lower)
                 elif "." in norm_lower and "/" not in norm_lower:
                     # Store as lowercase for case-insensitive matching
-                    # This will match anywhere within .roo subfolders
+                    # This will match anywhere within scaffold subfolders
                     filename_only_ignores.add(norm_lower)
                 elif "/" in norm_lower:
-                    # For non-.roo paths with slashes, fall back to matching on the last component
+                    # For non-scaffold paths with slashes, fall back to matching on the last component
                     last_seg = norm_lower.rstrip("/").split("/")[-1]
                     if last_seg:
                         # Store as lowercase for case-insensitive matching
@@ -167,18 +168,18 @@ class SyncEngine:
             # Recursively scan all files in scaffold directory
             for item_path in scan_root.rglob("*"):
                 # Compute scaffold-relative path once for all ignore checks
-                relative_path_roo = item_path.relative_to(scan_root)
-                relative_str = relative_path_roo.as_posix()
+                relative_path_scaffold = item_path.relative_to(scan_root)
+                relative_str = relative_path_scaffold.as_posix()
                 relative_str_lower = relative_str.lower()
-                relative_parts = relative_path_roo.parts
+                relative_parts = relative_path_scaffold.parts
                 
                 # 1) Simple name ignores: match any component (e.g., ".git", "__pycache__")
                 # Case-insensitive comparison
                 if any(part.lower() in name_ignores for part in relative_parts):
                     continue
                 
-                # 2) .roo-scoped folder path ignores: match direct prefix under .roo
-                #    Example: ".roo/docs" ignores ".roo/docs" and everything beneath it,
+                # 2) Scaffold-scoped folder path ignores: match direct prefix under scaffold dir
+                #    Example: "scaffold_folder/docs" ignores that docs folder and everything beneath it,
                 #    but does not ignore unrelated ".../docs" directories elsewhere.
                 # Case-insensitive comparison
                 skip_for_folder = False
@@ -189,14 +190,14 @@ class SyncEngine:
                 if skip_for_folder:
                     continue
                 
-                # 3) .roo-scoped file path ignores: match exact relative path under .roo
-                #    Example: ".roo/commands/run-sync.md" ignores only that one file.
+                # 3) Scaffold-scoped file path ignores: match exact relative path under scaffold dir
+                #    Example: "scaffold_folder/commands/run-sync.md" ignores only that one file.
                 # Case-insensitive comparison
                 if relative_str_lower in file_path_ignores:
                     continue
                 
-                # 4) Filename-only ignores: match filename anywhere within .roo subfolders
-                #    Example: "agents.md" ignores any file named "agents.md" in any .roo subfolder
+                # 4) Filename-only ignores: match filename anywhere within scaffold subfolders
+                #    Example: "agents.md" ignores any file named "agents.md" in any scaffold subfolder
                 # Case-insensitive comparison
                 filename = item_path.name.lower()
                 if filename in filename_only_ignores:
@@ -204,7 +205,7 @@ class SyncEngine:
 
                 # 5) Glob ignores
                 # - filename globs: match against the filename only
-                # - path globs: match against the .roo-relative path (POSIX style)
+                # - path globs: match against the scaffold-relative path (POSIX style)
                 if filename_glob_ignores and any(fnmatch.fnmatchcase(filename, pat) for pat in filename_glob_ignores):
                     continue
                 if path_glob_ignores and any(fnmatch.fnmatchcase(relative_str_lower, pat) for pat in path_glob_ignores):
@@ -246,7 +247,7 @@ class SyncEngine:
                         "base_folder": folder
                     })
             
-            # After scanning .roo, attempt to include root-level allowlisted files
+            # After scanning scaffold dir, attempt to include root-level allowlisted files
             root_allowlist = self.config.get("root_allowlist", [])
             for allowlist_entry in root_allowlist:
                 candidate_path = folder / allowlist_entry

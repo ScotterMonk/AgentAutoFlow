@@ -72,7 +72,7 @@ Stage, commit, and push all changes to the remote.
       ```
 5. **Commit**: `git commit -m "[message]"` — no permission needed, just run it.
 6. **Verify**: Confirm commit succeeded and note the hash.
-7. **Push**: `git push origin <branch>`. If credentials are requested, check the `Critical Resources` section in `{base folder}/.roo/rules/01-general.md`.
+7. **Push**: `git push origin <branch>`. If credentials are requested, check the `Critical Resources` section in `{base folder}/{scaffold folder}/rules/01-general.md`.
 8. **Confirm sync**: Verify local and remote are in sync.
 
 ## Create branch
@@ -124,7 +124,7 @@ Merge the current branch into main.
 6. **Merge**: `git merge --no-ff <branch_name> -m "<descriptive merge message>"`. Using `--no-ff` keeps an explicit merge commit in history, making it easier to trace what was introduced.
    - On conflicts: list conflicting files, stop, and summarize so the user can resolve manually. Do not attempt destructive auto-resolution.
 7. **Verify**: `git log --oneline -n 5` — confirm the merge commit is present.
-8. **Push main**: `git push origin main`. Handle credentials via `Critical Resources` in `{base folder}/.roo/rules/01-general.md`.
+8. **Push main**: `git push origin main`. Handle credentials via `Critical Resources` in `{base folder}/{scaffold folder}/rules/01-general.md`.
 9. **Confirm sync**: Verify local and remote main are in sync.
 10. **Restore context**: Optionally switch back to the original branch so the user can continue working.
 

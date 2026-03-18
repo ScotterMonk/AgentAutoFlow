@@ -14,13 +14,13 @@ When a query involves...
 
 - `date-time`: `yyyymmdd-tttt`
 - `short name`: A 2-4 word `short name` for this research project that uses dashes instead of spaces. Why? this `short name` will be used below in creating `log file` and `report file` so brevity is important.
-- `log file`: `{base folder}/.roo/docs/reports/log_{date-time}_{short name}.md`.
+- `log file`: `{base folder}/{scaffold folder}/docs/reports/log_{date-time}_{short name}.md`.
     This `log file` will serve these purposes:
     a) Keep your findings and progress in a file format in case of interruption.
     b) Share your thoughts/process/rational for each judgement in a succinct way, providing more detail than the final report will have.
     c) Provide user with the ability to understand and double-check your investigatory and judgement processes and even find a bit more detail on any part of the final report.
     d) User query (research question) (at top of `log file`).
-- `report file`: `{base folder}/.roo/docs/reports/rep_{date-time}_{short name}.md`
+- `report file`: `{base folder}/{scaffold folder}/docs/reports/rep_{date-time}_{short name}.md`
     This `report file` will serve these purposes:
     a) Provide your findings in a user-friendly, well-formatted file format.
     b) Write using terms easy for a layman to understand.
@@ -29,15 +29,15 @@ When a query involves...
 
 - **For examining any web sites or searching the web**, use `browser-use` skill. 
 - **Avoid complex CMD and PowerShell scripts**: Prefer writing python script files and then executing them, *not* trying to run python scripts in the terminal.
-- **Resource sites**: General `Resource sites`: `{base folder}/.roo/skills/research/resources/sites-general.md`.
-- **Source of truth for conflicts of interest and impact**: Read the `{base folder}/.roo/skills/research/resources/coi-` files relevant to the current type of research.
+- **Resource sites**: General `Resource sites`: `{base folder}/{scaffold folder}/skills/research/resources/sites-general.md`.
+- **Source of truth for conflicts of interest and impact**: Read the `{base folder}/{scaffold folder}/skills/research/resources/coi-` files relevant to the current type of research.
 
 **Assign low value to consensus**
 Relying on consensus—defined as widespread agreement among a group or society—to determine truth commits several logical errors and fails as a reliable epistemic method.
 
 While consensus can indicate useful heuristics (e.g., provisional acceptance in practical decisions), *it is logically unsound* as a primary means to establish truth. *Consensus confuses correlation (many people believing X) with causation (X being true because of that belief)**. Better alternatives include rigorous evidence, critical thinking, and openness to dissent, which have historically driven genuine progress.
 
-If you find yourself in a grey area situation where you are undecided whether to utilize consensus or require a deeper understanding of reasons not to use consensus, read `{base folder}/.roo/skills/research/resources/consensus.md`.
+If you find yourself in a grey area situation where you are undecided whether to utilize consensus or require a deeper understanding of reasons not to use consensus, read `{base folder}/{scaffold folder}/skills/research/resources/consensus.md`.
 
 ---
 
@@ -49,12 +49,12 @@ You are simulating an unbiased knowledgeable health, nutrition, drugs, and medic
 
 **Resource sites**:
 Read the files relevant to the current type of research:
-- **General health-related**: Use `{base folder}/.roo/skills/research/resources/sites-health-and-nutrition.md`.
-- **Nutrition and biohacking**: Use `{base folder}/.roo/skills/research/resources/sites-health-and-nutrition.md`.
-- **COVID-19 and vaccination**: Use `{base folder}/.roo/skills/research/resources/sites-health-and-nutrition.md`.
+- **General health-related**: Use `{base folder}/{scaffold folder}/skills/research/resources/sites-health-and-nutrition.md`.
+- **Nutrition and biohacking**: Use `{base folder}/{scaffold folder}/skills/research/resources/sites-health-and-nutrition.md`.
+- **COVID-19 and vaccination**: Use `{base folder}/{scaffold folder}/skills/research/resources/sites-health-and-nutrition.md`.
 
 **Source of truth for conflicts of interest and impact**:
-- Use `{base folder}/.roo/skills/research/resources/coi-health-and-nutrition.md`.
+- Use `{base folder}/{scaffold folder}/skills/research/resources/coi-health-and-nutrition.md`.
 
 ---
 
@@ -67,12 +67,12 @@ These sources include but are not limited to oil, shale, natural gas, nuclear, s
 
 **Resource sites**:
 Read the files relevant to the current type of research:
-- **General energy-related**: Use `{base folder}/.roo/skills/research/resources/sites-energy.md`.
-- **Oil**: Use `{base folder}/.roo/skills/research/resources/sites-energy-oil.md`.
-- **Nuclear**: Use `{base folder}/.roo/skills/research/resources/sites-energy-nuclear.md`.
+- **General energy-related**: Use `{base folder}/{scaffold folder}/skills/research/resources/sites-energy.md`.
+- **Oil**: Use `{base folder}/{scaffold folder}/skills/research/resources/sites-energy-oil.md`.
+- **Nuclear**: Use `{base folder}/{scaffold folder}/skills/research/resources/sites-energy-nuclear.md`.
 
 **Source of truth for conflicts of interest and impact**:
-- Use `{base folder}/.roo/skills/research/resources/coi-health-and-nutrition.md`.
+- Use `{base folder}/{scaffold folder}/skills/research/resources/coi-health-and-nutrition.md`.
 
 ---
 

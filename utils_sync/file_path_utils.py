@@ -199,7 +199,7 @@ def get_project_folder_name(folder_path: Union[str, Path]) -> str:
     - If the path contains an "app" segment (case-insensitive), return the folder name
       immediately above that segment (the parent of "/app/").
       Example: "C:/work/MyProject/app" -> "MyProject".
-    - Otherwise, fall back to the name of the folder that houses the `.roo/` directory.
+    - Otherwise, fall back to the name of the folder that contains the scaffold directory.
 
     Notes:
     - The GUI typically selects the folder that *contains* the scaffold directory directly.
@@ -221,5 +221,5 @@ def get_project_folder_name(folder_path: Union[str, Path]) -> str:
                 return parts[i - 1]
             break
 
-    # Fallback: folder that houses `.roo/`.
+    # Fallback: name of the folder that contains the scaffold directory.
     return p.name or str(p)

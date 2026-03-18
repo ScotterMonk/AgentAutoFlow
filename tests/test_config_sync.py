@@ -50,24 +50,25 @@ import pytest
 def test_root_allowlist_parsing(tmp_path):
     """
     Test that root_allowlist config is correctly parsed from config file.
+    Uses .kilocodemodes as the primary scaffold modes filename example.
     """
-    # Test 1: Verify root_allowlist with explicit value
+    # Test 1: Verify root_allowlist with a single value
     cfg_file = tmp_path / "config_test1.txt"
-    cfg_file.write_text("root_allowlist=.roomodes\n", encoding="utf-8")
+    cfg_file.write_text("root_allowlist=.kilocodemodes\n", encoding="utf-8")
     cfg = config_sync.load_config(str(cfg_file))
     assert isinstance(cfg["root_allowlist"], list)
-    assert cfg["root_allowlist"] == [".roomodes"]
-    
+    assert cfg["root_allowlist"] == [".kilocodemodes"]
+
     # Test 2: Verify root_allowlist with multiple values
     cfg_file2 = tmp_path / "config_test2.txt"
-    cfg_file2.write_text("root_allowlist=.roomodes,.gitignore,README.md\n", encoding="utf-8")
+    cfg_file2.write_text("root_allowlist=.kilocodemodes,.gitignore,README.md\n", encoding="utf-8")
     cfg2 = config_sync.load_config(str(cfg_file2))
     assert isinstance(cfg2["root_allowlist"], list)
-    assert ".roomodes" in cfg2["root_allowlist"]
+    assert ".kilocodemodes" in cfg2["root_allowlist"]
     assert ".gitignore" in cfg2["root_allowlist"]
     assert "README.md" in cfg2["root_allowlist"]
     assert len(cfg2["root_allowlist"]) == 3
-    
+
     # Test 3: Verify default behavior (empty list when not specified)
     cfg_file3 = tmp_path / "config_test3.txt"
     cfg_file3.write_text("window_width=800\n", encoding="utf-8")
@@ -121,11 +122,12 @@ def test_comma_space_parsing_for_lists(tmp_path):
     # [Created-or-Modified] by Claude Sonnet 4.5 | 2025-11-15_02
     """
     Config list values should parse correctly when values are separated by ', '.
+    Uses .kilocodemodes as the scaffold modes filename example.
     """
     cfg_file = tmp_path / "config_comma_space.txt"
     cfg_file.write_text(
         "ignore_patterns=.git, build, __pycache__\n"
-        "root_allowlist=.roomodes, .gitignore, README.md\n"
+        "root_allowlist=.kilocodemodes, .gitignore, README.md\n"
         "folders_faves=/one, /two, /three\n",
         encoding="utf-8",
     )
@@ -134,7 +136,7 @@ def test_comma_space_parsing_for_lists(tmp_path):
     assert isinstance(cfg["root_allowlist"], list)
     assert isinstance(cfg["folders_faves"], list)
     assert cfg["ignore_patterns"] == [".git", "build", "__pycache__"]
-    assert cfg["root_allowlist"] == [".roomodes", ".gitignore", "README.md"]
+    assert cfg["root_allowlist"] == [".kilocodemodes", ".gitignore", "README.md"]
     assert cfg["folders_faves"] == ["/one", "/two", "/three"]
 
 
@@ -142,11 +144,12 @@ def test_save_config_uses_comma_space_for_lists(tmp_path):
     # [Created-or-Modified] by Claude Sonnet 4.5 | 2025-11-15_02
     """
     save_config should serialize list values using ', ' between items.
+    Uses .kilocodemodes as the scaffold modes filename example.
     """
     cfg_file = tmp_path / "config_pretty_lists.txt"
     config_in = {
         "ignore_patterns": [".git", "build", "__pycache__"],
-        "root_allowlist": [".roomodes", "README.md"],
+        "root_allowlist": [".kilocodemodes", "README.md"],
         "folders_faves": ["/one", "/two"],
         "backup_mode": "none",
     }
@@ -154,6 +157,6 @@ def test_save_config_uses_comma_space_for_lists(tmp_path):
     assert ok is True
     text = cfg_file.read_text(encoding="utf-8")
     assert "ignore_patterns=.git, build, __pycache__" in text
-    assert "root_allowlist=.roomodes, README.md" in text
+    assert "root_allowlist=.kilocodemodes, README.md" in text
     assert "folders_faves=/one, /two" in text
 

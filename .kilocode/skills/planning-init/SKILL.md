@@ -6,12 +6,12 @@ description: When a planning mode (architect, planner-a, planner-b, planner-c) s
 # Planning instructions
 
 ## Folders and files
-- `plans folder`: `{base folder}/.roo/docs/plans/`. Create if non-existent.
-- `backups folder`: `{base folder}/.roo/docs/old_versions/[filename]_[timestamp]`. Create if non-existent.
-- `completed plans folder`: `{base folder}/.roo/docs/plans_completed/`. Create if non-existent.
-- `user query file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-user.md`.
-- `log file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name]-log.md`.
-- `plan file`: `{base folder}/.roo/docs/plans/p_[timestamp]_[short name].md`.
+- `plans folder`: `{base folder}/{scaffold folder}/docs/plans/`. Create if non-existent.
+- `backups folder`: `{base folder}/{scaffold folder}/docs/old_versions/[filename]_[timestamp]`. Create if non-existent.
+- `completed plans folder`: `{base folder}/{scaffold folder}/docs/plans_completed/`. Create if non-existent.
+- `user query file`: `{base folder}/{scaffold folder}/docs/plans/p_[timestamp]_[short name]-user.md`.
+- `log file`: `{base folder}/{scaffold folder}/docs/plans/p_[timestamp]_[short name]-log.md`.
+- `plan file`: `{base folder}/{scaffold folder}/docs/plans/p_[timestamp]_[short name].md`.
 
 ## Variables
 - `complexity`.

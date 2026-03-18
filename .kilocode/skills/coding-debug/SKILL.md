@@ -38,7 +38,7 @@ Use `coding-init` skill.
         - Use logging plus reproduction to prove or disprove each hypothesis.
         - Summarize findings for the user before implementing permanent fixes when appropriate.
     - Create backup:
-        - Save the current state of files you will modify under `{base folder}/.roo/docs/old_versions/` with a timestamp.
+        - Save the current state of files you will modify under `{base folder}/{scaffold folder}/docs/old_versions/` with a timestamp.
 5) **Form a fix plan based on confirmed or most likely hypotheses**.
     - Prioritize by risk/impact: address high-impact, low-risk changes first.
     - Break complex fixes into small, independent steps.
@@ -48,7 +48,7 @@ Use `coding-init` skill.
     - Plan rollback:
         - Know how to revert to previous state quickly if a fix fails.
 6) **Implement the fix systematically**.
-    - Create a backup before each file modification under `{base folder}/.roo/docs/old_versions/`.
+    - Create a backup before each file modification under `{base folder}/{scaffold folder}/docs/old_versions/`.
     - Make ONE logical change at a time; do not bundle unrelated fixes.
     - IF `testing type` calls for tests, test after each change.
     - If a change does not help:

@@ -13,7 +13,7 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
 ## Environment & Shell
 - **Context**: Windows 11, VS Code, PowerShell Core (`pwsh`).
 - **Base folder**: `d:/Dropbox/Projects/AgentAutoFlow/app/`.
-   - **Rule**: Always use forward slashes `/` in paths to avoid escaping errors.
+- **Rule**: Always use forward slashes `/` in paths to avoid escaping errors.
 - **Terminal**: **STRICTLY PowerShell**. Do not use `cmd.exe`, `bash`, or `wsl`.
 - **Syntax Rules**:
   - **Chaining**: Use `;` (sequential) or `&&` (conditional).
@@ -33,15 +33,16 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
          ```
 - **Prohibited**: `tail`, `sed`, `awk`, `sudo`, and `cmd.exe` flags (like `/d`).
 
-
 ## Run Commands
 - Never use Linux commands in terminal.
 - Start app: `py app.py` (not `flask run`). Do not test to see if it worked.
 - Activate venv: `.\activate.ps1`
-
 --- do not remove this ---
 
 ## Common paths through app
+
+- **Scaffold folder**: `.kilocode`.
+- **Scaffold_file_modes**: `.kilocodemodes`.
 
 ### GUI: app startup
 1) `main_gui.py` (module entrypoint): creates the Tk root window.
@@ -100,7 +101,7 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
 
 ### Configuration
 Settings in `config.txt` (NOT .ini, .json, or .yaml):
-- `root_allowlist`: Comma-separated list of root files to sync (e.g., `.roomodes`)
+- `root_allowlist`: Comma-separated list of root files to sync (e.g., `.kilocodemodes`)
 - `backup_mode`: "timestamped" or "none"
 - `preserve_mtime`: Must be true to maintain file timestamps
 

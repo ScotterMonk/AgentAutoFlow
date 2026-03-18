@@ -7,7 +7,7 @@ description: Self-improvement system for managing (finding/using, saving/adding,
 **Purpose**: Knowledge base for solutions, patterns, lessons, and workarounds.
 
 ## Definitions
-**Learnings folder**: `{base folder}/.roo/docs/learning/` (Create if missing).
+**Learnings folder**: `{base folder}/{scaffold folder}/docs/learning/` (Create if missing).
 **File format**: `{Category}-{subcategory}.md`.
 
 **Category examples**: `python`, `flask`, `javascript`, `sql`, `css`, `testing`, `sync`, `config`, `git`, `patterns`.

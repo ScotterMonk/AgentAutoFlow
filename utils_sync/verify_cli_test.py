@@ -1,19 +1,41 @@
 # Created by claude-sonnet-4-5 | 2025-11-13_1
+# [Modified] by claude-sonnet-4.6 | 2026-03-18_01
 """
 Verification script for CLI integration test results.
 Checks file content, timestamps, and backup creation.
+
+The scaffold folder name is read from config.txt (scaffold_folder key),
+defaulting to ".kilocode" if not found.
 """
 import os
+import sys
 from pathlib import Path
 
-def verify_cli_test():
-    """Verify the results of the CLI integration test."""
+# Allow running this script from any working directory by adjusting the import path.
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from utils_sync.config_sync import load_config
+
+
+def verify_cli_test(scaffold_folder: str = None):
+    """Verify the results of the CLI integration test.
+
+    Args:
+        scaffold_folder: Name of the scaffold subdirectory (e.g. ".kilocode").
+                         If None, reads from config.txt via load_config().
+    """
+    # Resolve scaffold folder from config if not explicitly provided
+    if scaffold_folder is None:
+        config = load_config()
+        scaffold_folder = config.get("scaffold_folder", ".kilocode")
+
     print("=== CLI Integration Test Verification ===\n")
-    
-    # File paths
-    file_a = Path("test_integration/project_a/.roo/file.txt")
-    file_b = Path("test_integration/project_b/.roo/file.txt")
-    backup_dir = Path("test_integration/project_b/.roo")
+    print(f"Using scaffold_folder: {scaffold_folder!r}\n")
+
+    # File paths (resolved via config scaffold_folder)
+    file_a = Path(f"test_integration/project_a/{scaffold_folder}/file.txt")
+    file_b = Path(f"test_integration/project_b/{scaffold_folder}/file.txt")
+    backup_dir = Path(f"test_integration/project_b/{scaffold_folder}")
     
     # Check files exist
     if not file_a.exists():

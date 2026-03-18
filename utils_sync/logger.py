@@ -52,7 +52,7 @@ def init_logger(log_dir: Optional[str] = None, plan_log_path: Optional[str] = No
     
     Args:
         log_dir: Directory for rolling log files (default: "logs" under project root)
-        plan_log_path: Path to plan log file (default: .roo/docs/plans/plan_251113_file_sync_log.md)
+        plan_log_path: Path to plan log file (default: .kilocode/docs/plans/plan_251113_file_sync_log.md)
     
     Raises:
         OSError: If directories cannot be created due to permissions or other OS errors
@@ -94,7 +94,10 @@ def init_logger(log_dir: Optional[str] = None, plan_log_path: Optional[str] = No
         
         # Set up plan log path
         if plan_log_path is None:
-            _plan_log_path = project_root / ".roo" / "docs" / "plans" / "plan_251113_file_sync_log.md"
+            # Default to scaffold-agnostic path under .kilocode (configured via scaffold_folder).
+            # The plan log path is not loaded from config here to avoid circular dependencies,
+            # so we hard-reference the current default scaffold folder name.
+            _plan_log_path = project_root / ".kilocode" / "docs" / "plans" / "plan_251113_file_sync_log.md"
         else:
             _plan_log_path = Path(plan_log_path)
         

@@ -18,6 +18,8 @@ DEFAULTS = {
     "dry_run": False,
     "root_allowlist": [],  # comma-separated list of root-level files to sync
     "folders_faves": [],  # comma-separated list of favorite folders for UI
+    "scaffold_folder": ".kilocode",  # scaffold subdirectory name (e.g. .kilocode or .roo)
+    "scaffold_file_modes": ".kilocodemodes",  # scaffold modes filename (e.g. .kilocodemodes or .roomodes)
     # UI Colors for dark mode
     "ui_dark_bg": "#000000",
     "ui_dark_bg_alt": "#111111",
@@ -152,6 +154,10 @@ def load_config(config_path: Optional[str] = None):
                 elif key == "folders_faves":
                     parts: List[str] = [p.strip() for p in val.split(",") if p.strip()]
                     config[key] = parts
+                elif key in ("scaffold_folder", "scaffold_file_modes"):
+                    # Store as plain string; non-empty values only
+                    if val:
+                        config[key] = val
                 elif key.startswith("ui_"):
                     # UI color/string settings - store as string
                     config[key] = val

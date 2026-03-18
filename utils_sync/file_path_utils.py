@@ -82,36 +82,42 @@ def ensure_folder(path: Union[str, Path]) -> Path:
     p.mkdir(parents=True, exist_ok=True)
     return p
 
-def has_roo_dir(folder_path: Union[str, Path]) -> bool:
-    # [Created-or-Modified] by [LLM model] | 2025-11-13_01
+def has_scaffold_dir(folder_path: Union[str, Path], scaffold_folder: str = ".kilocode") -> bool:
+    # [Created-or-Modified] by claude-sonnet-4.6 | 2026-03-18_01
     """
-    Return True if a `.roo` directory exists directly under the provided folder_path.
+    Return True if the scaffold directory exists directly under the provided folder_path.
+
+    The scaffold directory name is controlled by the `scaffold_folder` config value
+    (e.g. ".kilocode" for Kilo Code, ".roo" for Roo Code).
 
     - Accepts str or Path.
     - Normalizes path using normalize_path().
     - Returns False if folder_path doesn't exist or is not a directory.
-    - Treats a symlinked `.roo` as absent (symlinks are ignored).
+    - Treats a symlinked scaffold dir as absent (symlinks are ignored).
     """
     if folder_path is None:
         raise ValueError("folder_path must not be None")
     # normalize_path will raise ValueError for empty/invalid inputs.
     base = normalize_path(folder_path)
-    # If base doesn't exist or is not a directory, no .roo can be present.
+    # If base doesn't exist or is not a directory, no scaffold dir can be present.
     if not base.exists() or not base.is_dir():
         return False
-    candidate = base / ".roo"
-    # Treat symlinked `.roo` as absent: require it be a real directory and not a symlink.
+    candidate = base / scaffold_folder
+    # Treat symlinked scaffold dir as absent: require it be a real directory and not a symlink.
     return candidate.exists() and candidate.is_dir() and not candidate.is_symlink()
 
 
-def ensure_roo_dir(folder_path: Union[str, Path]) -> Path:
-    # [Created-or-Modified] by gpt-5.2 | 2026-01-07_01
-    """Ensure `<folder_path>/.roo` exists as a real directory (not a symlink).
+def ensure_scaffold_dir(folder_path: Union[str, Path], scaffold_folder: str = ".kilocode") -> Path:
+    # [Created-or-Modified] by claude-sonnet-4.6 | 2026-03-18_01
+    """Ensure `<folder_path>/<scaffold_folder>` exists as a real directory (not a symlink).
 
-    If the `.roo` directory is missing, it is created.
+    The scaffold directory name is controlled by the `scaffold_folder` config value
+    (e.g. ".kilocode" for Kilo Code, ".roo" for Roo Code).
+
+    If the scaffold directory is missing, it is created.
 
     Raises:
-        ValueError: if folder_path is invalid, not a directory, or `.roo` exists but is not
+        ValueError: if folder_path is invalid, not a directory, or the scaffold dir exists but is not
             a real directory (e.g., is a file or a symlink).
         OSError: if the directory cannot be created.
     """
@@ -122,32 +128,39 @@ def ensure_roo_dir(folder_path: Union[str, Path]) -> Path:
     if not base.exists() or not base.is_dir():
         raise ValueError(f"Folder does not exist or is not a directory: {base}")
 
-    roo_dir = base / ".roo"
+    scaffold_dir = base / scaffold_folder
 
-    if roo_dir.exists():
-        # Keep safety rail: never operate on symlinked .roo
-        if roo_dir.is_symlink():
-            raise ValueError(f".roo is a symlink (not allowed): {roo_dir}")
-        if not roo_dir.is_dir():
-            raise ValueError(f".roo exists but is not a directory: {roo_dir}")
-        return roo_dir
+    if scaffold_dir.exists():
+        # Keep safety rail: never operate on a symlinked scaffold dir
+        if scaffold_dir.is_symlink():
+            raise ValueError(f"{scaffold_folder} is a symlink (not allowed): {scaffold_dir}")
+        if not scaffold_dir.is_dir():
+            raise ValueError(f"{scaffold_folder} exists but is not a directory: {scaffold_dir}")
+        return scaffold_dir
 
-    roo_dir.mkdir(parents=True, exist_ok=True)
-    return roo_dir
+    scaffold_dir.mkdir(parents=True, exist_ok=True)
+    return scaffold_dir
 
 
-# [Created-or-Modified] by [LLM model] | 2025-11-13_01
-def get_roo_relative_path(full_path: Union[str, Path], base_folder: Union[str, Path]) -> Optional[str]:
+# [Created-or-Modified] by claude-sonnet-4.6 | 2026-03-18_01
+def get_scaffold_relative_path(
+    full_path: Union[str, Path],
+    base_folder: Union[str, Path],
+    scaffold_folder: str = ".kilocode",
+) -> Optional[str]:
     """
-    If `full_path` is inside `<base_folder>/.roo/`, return the path relative to that `{base folder}/.roo/` directory
-    as a POSIX-style string (no leading slash), e.g. "rules/01.md".
-    If not under `<base_folder>/.roo/`, return None.
+    If `full_path` is inside `<base_folder>/<scaffold_folder>/`, return the path relative
+    to that scaffold directory as a POSIX-style string (no leading slash), e.g. "rules/01.md".
+    If not under the scaffold directory, return None.
+
+    The scaffold directory name is controlled by the `scaffold_folder` config value
+    (e.g. ".kilocode" for Kilo Code, ".roo" for Roo Code).
 
     Behavior:
     - Accepts strings or pathlib.Path.
     - Uses normalize_path() to resolve inputs.
-    - Ensures `.roo` must be a normal directory (not a symlink) under base_folder.
-    - Handles case where full_path equals the `.roo` directory or is the directory itself (return None).
+    - Ensures the scaffold directory must be a normal directory (not a symlink) under base_folder.
+    - Handles case where full_path equals the scaffold directory itself (return None).
     - Returns None for invalid inputs (or raise ValueError for clearly invalid inputs like empty strings).
     """
     if full_path is None:
@@ -159,19 +172,19 @@ def get_roo_relative_path(full_path: Union[str, Path], base_folder: Union[str, P
     fp = normalize_path(full_path)
     base = normalize_path(base_folder)
 
-    roo_dir = base / ".roo"
+    scaffold_dir = base / scaffold_folder
 
-    # Require .roo to exist as a real directory and not be a symlink.
-    if not roo_dir.exists() or not roo_dir.is_dir() or roo_dir.is_symlink():
+    # Require scaffold dir to exist as a real directory and not be a symlink.
+    if not scaffold_dir.exists() or not scaffold_dir.is_dir() or scaffold_dir.is_symlink():
         return None
 
-    # If the provided path equals the .roo directory itself, return None.
-    if fp == roo_dir:
+    # If the provided path equals the scaffold directory itself, return None.
+    if fp == scaffold_dir:
         return None
 
-    # If full path is inside roo_dir, compute relative path.
+    # If full path is inside scaffold_dir, compute relative path.
     try:
-        rel = fp.relative_to(roo_dir)
+        rel = fp.relative_to(scaffold_dir)
     except Exception:
         return None
 
@@ -189,7 +202,7 @@ def get_project_folder_name(folder_path: Union[str, Path]) -> str:
     - Otherwise, fall back to the name of the folder that houses the `.roo/` directory.
 
     Notes:
-    - The GUI typically selects the folder that *contains* `.roo/` directly.
+    - The GUI typically selects the folder that *contains* the scaffold directory directly.
     - This function is purely for display; it does not touch the filesystem.
     """
     p = normalize_path(folder_path)

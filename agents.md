@@ -3,7 +3,7 @@
 This file provides guidance to agents when working with code in this repository.
 
 ## Project Type
-Python file synchronization utility for `.roo` directories across multiple project folders.
+Python file synchronization utility for `.kilocode` directories across multiple project folders.
 
 ## Run Commands
 GUI: `py main_gui.py` or `py app.py`
@@ -55,8 +55,8 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
 2) Loads the favorites list from in-memory `MainApp.favorite_folders` (initialized from config during `MainApp.__init__()`).
 3) For each favorite folder:
    - `file_path_utils.normalize_path(fav)`
-   - `file_path_utils.ensure_roo_dir(normalized)` (creates `{base folder}/.roo/` for new projects)
-   - `file_path_utils.has_roo_dir(normalized)` (validates folder has `.roo/`)
+   - `file_path_utils.ensure_roo_dir(normalized)` (creates `{base folder}/{scaffold_folder}/` for new projects)
+   - `file_path_utils.has_roo_dir(normalized)` (validates folder has `{scaffold_folder}/`)
    - if valid and not already selected, appends to `MainApp.selected_folders`.
 4) If any folders were added, refreshes the folder list via `MainApp._update_folder_list_ui()`.
 5) If any favorites were invalid, shows an informational dialog via `messagebox.showinfo("Favorites Skipped", ...)`.
@@ -64,7 +64,7 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
 ### GUI: "Scan" (plan/preview only)
 1) User clicks **Scan** → `MainApp._start_sync()`.
 2) `SyncEngine.scan_folders(folders)`
-   - emits `EventType.SCAN_START`, then many `EventType.SCAN_FILE` events while walking each `{folder}/.roo/**`.
+   - emits `EventType.SCAN_START`, then many `EventType.SCAN_FILE` events while walking each `{base folder}/{scaffold_folder}/*`.
    - also scans any `root_allowlist` files at the folder root.
 3) `SyncEngine.plan_actions(file_index, scanned_folders=folders)`
    - computes the newest source file per relative path, then creates a list of copy actions for older/missing destinations.
@@ -81,7 +81,7 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
 ### CLI: headless sync
 1) `cli_sync.py` (module entrypoint) → `_parse_args()` → `run_cli_sync(args.folders)`.
 2) `load_config(args.config)`.
-3) Ensures each folder has a `.roo/` directory (creates it if missing).
+3) Ensures each folder has a `{scaffold_folder}/` directory (creates it if missing).
 4) Constructs `SyncEngine(config, event_queue)`.
 5) Runs sync:
    - tries `SyncEngine.run_sync(folders)` if present; otherwise falls back to:
@@ -91,7 +91,7 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
 ## Critical Non-Standard Patterns
 
 ### File Sync Behavior
-- Scans `{base folder}/.roo/` subdirectories ONLY (not entire project folders)
+- Scans `{base folder}/{scaffold_folder}/` subdirectories ONLY (not entire project folders)
 - Uses mtime (modification time) to determine newest file as source
 - Root-level files require explicit `root_allowlist` in config.txt
 - Atomic copy: temp file + rename (not direct copy)

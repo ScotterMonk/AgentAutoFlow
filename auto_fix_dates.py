@@ -1,14 +1,14 @@
 # Created by gpt-5.2 | 2026-02-09_01
 """auto_fix_dates
 
-Walks the local `.roo/` directory recursively and forces all files to have a
+Walks the local `{scaffold_folder}` directory recursively and forces all files to have a
 fresh modification time by making a minimal, semantics-preserving whitespace
 change.
 
 Rules implemented (per request):
 - For `.md` files: append a single space to the very end of the file.
 - For scripting-style files: add a single space to an existing comment line; if
-  no comment is found, append a new comment line.
+    no comment is found, append a new comment line.
 - For all other text-like files: append a single space to end of file.
 
 If a file appears binary, the script will only `os.utime()` it (to avoid
@@ -143,8 +143,8 @@ def _fix_one_file(path: Path, *, dry_run: bool) -> FixResult:
 
 
 # Created by gpt-5.2 | 2026-02-09_01
-def _iter_roo_files(root: Path) -> Iterable[Path]:
-    """Yield all files under `.roo/` recursively."""
+def _iter_scaffold_files(root: Path) -> Iterable[Path]:
+    """Yield all files under `{scaffold_folder}/` recursively."""
 
     # Use rglob("*") to include all extensions and nested folders.
     for p in root.rglob("*"):
@@ -154,8 +154,8 @@ def _iter_roo_files(root: Path) -> Iterable[Path]:
 
 # Created by gpt-5.2 | 2026-02-09_01
 def main(argv: Optional[list[str]] = None) -> int:
-    parser = argparse.ArgumentParser(description="Force .roo file mtimes to now via harmless whitespace edits")
-    parser.add_argument("--root", default=".roo", help="Root folder to process (default: .roo)")
+    parser = argparse.ArgumentParser(description="Force {scaffold_folder} file mtimes to now via harmless whitespace edits")
+    parser.add_argument("--root", default=".kilocode", help="Root folder to process (default: .kilocode)")
     parser.add_argument("--dry-run", action="store_true", help="Preview actions without writing")
     args = parser.parse_args(argv)
 
@@ -164,7 +164,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         print(f"ERROR: root folder not found or not a directory: {root}")
         return 2
 
-    files = sorted(_iter_roo_files(root))
+    files = sorted(_iter_scaffold_files(root))
     if not files:
         print(f"No files found under: {root}")
         return 0

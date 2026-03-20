@@ -55,7 +55,7 @@ I've added quite a few skills in the `{base folder}/.kilocode/skills` folder.
 - They use the *Agent Skills Open Format*.
 
 **Some Skills libraries**:
-- A skill marketplace with over 230,000 skills! https://skillsmp.com
+- A skill marketplace with over 530,778 skills! https://skillsmp.com
 - https://agentskills.io/home
 - https://skills.sh/jeffallan/claude-skills
 

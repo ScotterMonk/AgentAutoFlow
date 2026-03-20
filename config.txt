@@ -1,11 +1,10 @@
 # folders
 scaffold_folder=.kilocode
-
 scaffold_file_modes=.kilocodemodes
 
-root_allowlist=.kilocodemodes
+root_allowlist=.kilocodemodes, config.txt
 
-ignore_patterns=.kilocode\commands\run-sync.md, .kilocode\docs, .kilocode\reports, .kilocode\temp, .kilocode\rules\02-database.md, .kilocode\commands\run-sync.md, .kilocode\docs, .kilocode\reports, .kilocode\temp, .kilocode\rules\02-database.md, .kilocode\*\agents*.md, *.txt, *.png, *.jpg, */__pycache__/*
+ignore_patterns=.kilocode\commands\run-sync.md, .kilocode\docs, .kilocode\temp, .kilocode\rules\02-database.md, .kilocode\*\agents*.md, *.png, *.jpg, */__pycache__/*
 
 folders_faves=D:\Dropbox\Projects\AgentAutoFlow\app, D:\Dropbox\Projects\AV-cleaner\app, D:\Dropbox\Projects\AV-clean-one-stream\app, D:\Dropbox\Projects\MediaShare\app, D:\Dropbox\Projects\SpartanRecruiting\app, D:\Dropbox\Projects\CyberMage\app
 

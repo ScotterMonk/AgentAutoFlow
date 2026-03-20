@@ -120,7 +120,7 @@ These files go in your project root ("app" in this case). You'll see they coinci
 
 ```
 app/
-├── agents.md (generate with `/init` command.)
+├── AGENTS.md (must be all caps)
 ├── .kilocodemodes
 └── .kilocode/
     ├── docs/

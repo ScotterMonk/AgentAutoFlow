@@ -2,7 +2,7 @@
 scaffold_folder=.kilocode
 scaffold_file_modes=.kilocodemodes
 
-root_allowlist=.kilocodemodes, config.txt
+root_allowlist=.kilocodemodes
 
 ignore_patterns=.kilocode\commands\run-sync.md, .kilocode\docs, .kilocode\temp, .kilocode\rules\02-database.md, .kilocode\*\agents*.md, *.png, *.jpg, */__pycache__/*
 

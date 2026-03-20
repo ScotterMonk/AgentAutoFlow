@@ -338,3 +338,91 @@ def test_root_allowlist_safety_checks(tmp_path):
     index4 = engine4.scan_folders([project4])
     assert "config.txt" in index4, "Valid regular files should be included"
     assert index4["config.txt"][0]["path"] == valid_file
+
+
+# [Created-or-Modified] by anthropic/claude-sonnet-4.6 | 2026-03-20_01
+def test_scan_folders_ignores_single_level_wildcard_agents_pattern(tmp_path):
+    """
+    When ignore_patterns contains '.kilocode\\*\\agents*.md' (Windows backslash style),
+    any file matching agents*.md exactly one folder deep under the scaffold dir is skipped.
+    Non-matching files in the same folder (e.g. regular .md or non-agents_ files) are NOT skipped.
+    """
+    q = queue.Queue()
+    # Use Windows-style backslash pattern as it appears in config.txt
+    config = {
+        "ignore_patterns": [r".kilocode\*\agents*.md"],
+        "scaffold_folder": ".kilocode",
+    }
+    engine = SyncEngine(config, q)
+
+    proj = tmp_path / "proj"
+    proj.mkdir()
+    scaffold = proj / ".kilocode"
+    scaffold.mkdir()
+
+    # One level deep: should be ignored
+    rules_dir = scaffold / "rules"
+    rules_dir.mkdir()
+    ignored_file = rules_dir / "agents-roo.md"
+    ignored_file.write_text("agent content")
+
+    # Same folder, different name: should NOT be ignored
+    kept_file = rules_dir / "README.md"
+    kept_file.write_text("readme content")
+
+    index = engine.scan_folders([proj])
+
+    assert "rules/agents-roo.md" not in index, (
+        "agents-roo.md one level deep should be ignored by .kilocode\\*\\agents*.md"
+    )
+    assert "rules/README.md" in index, (
+        "README.md should NOT be ignored — it does not match agents*.md"
+    )
+
+
+# [Created-or-Modified] by anthropic/claude-sonnet-4.6 | 2026-03-20_01
+def test_scan_folders_ignores_double_level_wildcard_agents_pattern(tmp_path):
+    """
+    When ignore_patterns contains '.kilocode\\*\\*\\agents*.md' (Windows backslash style),
+    any file matching agents*.md exactly two folders deep under the scaffold dir is skipped.
+    A file only one level deep should NOT be affected by this pattern alone.
+    """
+    q = queue.Queue()
+    # Use Windows-style backslash pattern as it appears in config.txt
+    config = {
+        "ignore_patterns": [r".kilocode\*\*\agents*.md"],
+        "scaffold_folder": ".kilocode",
+    }
+    engine = SyncEngine(config, q)
+
+    proj = tmp_path / "proj"
+    proj.mkdir()
+    scaffold = proj / ".kilocode"
+    scaffold.mkdir()
+
+    # Two levels deep: should be ignored
+    sub_dir = scaffold / "rules" / "sub"
+    sub_dir.mkdir(parents=True)
+    ignored_deep = sub_dir / "agents-custom.md"
+    ignored_deep.write_text("deep agent content")
+
+    # One level deep: should NOT be ignored by this pattern
+    rules_dir = scaffold / "rules"
+    kept_shallow = rules_dir / "agents-roo.md"
+    kept_shallow.write_text("shallow agent — not targeted")
+
+    # Two levels deep, different name: should NOT be ignored
+    kept_deep = sub_dir / "README.md"
+    kept_deep.write_text("deep readme, untouched")
+
+    index = engine.scan_folders([proj])
+
+    assert "rules/sub/agents-custom.md" not in index, (
+        "agents-custom.md two levels deep should be ignored by .kilocode\\*\\*\\agents*.md"
+    )
+    assert "rules/agents-roo.md" in index, (
+        "agents-roo.md one level deep should NOT be ignored by the double-wildcard pattern"
+    )
+    assert "rules/sub/README.md" in index, (
+        "README.md two levels deep should NOT be ignored — it does not match agents*.md"
+    )

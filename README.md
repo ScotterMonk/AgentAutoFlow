@@ -55,7 +55,7 @@ I've added quite a few skills in the `{base folder}/.kilocode/skills` folder.
 - They use the *Agent Skills Open Format*.
 
 **Some Skills libraries**:
-- A skill marketplace with over 530,778 skills! https://skillsmp.com
+- A skill marketplace with over 572,000 skills! https://skillsmp.com
 - https://agentskills.io/home
 - https://skills.sh/jeffallan/claude-skills
 
@@ -109,11 +109,7 @@ Scenario: Building a new dashboard screen.
 - Note: This workflow will sets the plan to choose between "code," "code monkey," and "tasky" modes, depending on complexity. If "tasky" or "code monkey" get confused because a task is too difficult or complex, they have instructions to pass the task up to "code" mode which I assign a "smarter" LLM to.
 
 ## Kilo Code specific
-
-### Terminal commands
-For me, in Windows with a preference for Powershell, I've found termminal commands work better with the following setting:
-`Setting -> Terminal -> Use Inline Terminal <- Unchecked.`
-Your mileage may vary.
+CLine and Roo Code have very similar folder structure, with only a change to .kilocodemodes file and .kilocode/ folder. Be sure to change those in config.txt.
 
 ## Folder structure
 These files go in your project root ("app" in this case). You'll see they coincide with where your current .kilocode folder is.
@@ -158,7 +154,7 @@ app/
     ├── rules-tasky/
     │   └── 01-tasky.md
     └── skills/
-        └── big list that changes often
+        └── big list that changes semi-often
 ```
 
 ## Todo list tool
@@ -260,7 +256,7 @@ Scott Howard Swain
 https://OceanMedia.net
 
 **Give credit to the creator**.
-This application is a labor of love.
+This application is a labor of love from Scott Howard Swain.
 It's *free to use, fork, change with no licensing rules*.
 Please show your love by starring the repo at:
 https://github.com/ScotterMonk/AgentAutoFlow

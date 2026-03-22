@@ -67,15 +67,18 @@ If building a new app, *Architect* and *Planner a/b/c* both assume you already k
 #### Pre-planning
 Possibly coming soon: a level above "Planner" where you brainstorm on a high level to get ideas for *specs* to feed planner.
 Until then, use "Ask" mode in Kilo Code or - more economical - query your favorite LLM chat to help you sculpt your *specs*.
-**Save money** by using the following in your browser for free until they reach their limits: 
-
+**Save money** by using the following chat pages in your browser for free until they reach their limits: 
+- https://grok.com/
+- https://claude.ai/chat
+- https://chatgpt.com/
+- https://aistudio.google.com/prompts/new_chat
 
 **Get API keys**
 Where to get API keys for your Kilo Code:
-- https://console.x.ai (For grok models. Right now they are good bang for the buck for Coder-Jr mode)
+- https://console.x.ai (For grok models. Right now they are good bang for the buck for Coder-Jr mode and sometimes Sr!)
 - https://https://platform.anthropic.com (For Claude. I'd assign 4.6 to Coder-Sr mode)
 - https://platform.openai.com/api-keys 
-- https://aistudio.google.com/prompts/new_chat
+- https://aistudio.google.com/app/apikey
 
 ### Model recommendations for planning modes/agents
 - Architect: *Use Reasoning model* for intelligence and context window. I choose the large context window here because this modified architect mode does what Planners a/b/c all do, combined.

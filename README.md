@@ -55,23 +55,33 @@ I've added quite a few skills in the `{base folder}/.kilocode/skills` folder.
 - They use the *Agent Skills Open Format*.
 
 **Some Skills libraries**:
-- A skill marketplace with over 572,000 skills! https://skillsmp.com
+- A skill marketplace with over *572,000* skills! https://skillsmp.com
 - https://agentskills.io/home
 - https://skills.sh/jeffallan/claude-skills
 
 ## When/how to use AgentAutoFlow?
 
 ### Building a new app
-If building a new app, *Architect* and *Planner abc* assume you already know *specs* for the project (stack, guidelines, etc). That's just one layer "higher" than these instructions are built for.
+If building a new app, *Architect* and *Planner a/b/c* both assume you already know *specs* for your project (stack you want, guidelines, constraints, etc). That's just one layer "higher" than these instructions are built for.
 
 #### Pre-planning
 Possibly coming soon: a level above "Planner" where you brainstorm on a high level to get ideas for *specs* to feed planner.
 Until then, use "Ask" mode in Kilo Code or - more economical - query your favorite LLM chat to help you sculpt your *specs*.
 **Save money** by using the following in your browser for free until they reach their limits: 
-- https://grok.com <- This one may require you have an x/titter account.
-- https://claude.ai
-- https://chatgpt.com
+
+
+**Get API keys**
+Where to get API keys for your Kilo Code:
+- https://console.x.ai (For grok models. Right now they are good bang for the buck for Coder-Jr mode)
+- https://https://platform.anthropic.com (For Claude. I'd assign 4.6 to Coder-Sr mode)
+- https://platform.openai.com/api-keys 
 - https://aistudio.google.com/prompts/new_chat
+
+### Model recommendations for planning modes/agents
+- Architect: *Use Reasoning model* for intelligence and context window. I choose the large context window here because this modified architect mode does what Planners a/b/c all do, combined.
+- Planner-a: *Use reasoning model* for intelligence and context window. This mode seeks to understand your goal, investigates relevant project files/functions, and creates a big picture. Brainstorms with user to determine high level plan. Creates "Phase(s)". It's best for this mode to have a large enough context window to deeply understand the codebase and your goals.
+- Planner-b: *Use reasoning model* for intelligence and context window. Populates Phase(s) with detailed atomic Task(s).  Don't worry about planner-b receiving a large context window from planner-a, because it won't. It will only receive the in-progress plan file from planner-a. But it's still best for this mode to have a large enough context window to deeply understand the codebase and your goals.
+- Planner-c: *Use reasoning model* for intelligence and context window. Detailed task simulation and refinement. Don't worry about planner-c receiving a large context window from planner-b, because it won't. It will only receive the in-progress plan file from planner-b. But it's still best for this mode to have a large enough context window to deeply understand the codebase and your goals.
 
 ### Use cases for modifying your existing app
 
@@ -84,11 +94,6 @@ Scenario: Building a new dashboard screen.
 **Planning**
 1) Start with "planner-a" (for med/high size work) or "architect" (for low/med size work) mode. 
 - For this mode, I choose a model with high reasoning and large-as-possible context window. Why? Because AgentAutoFlow's planning modes do the "heavy lifting," creating a plan file that has atomic detail so that Dispatcher and the other modes in the chain can be relatively "dumb".
-- *Mode choice examples* (note - I change these often, your mileage may vary):
-    - Architect: *Use Reasoning model* for intelligence and context window. I choose the large context window here because this modified architect mode does what Planners a/b/c all do, combined.
-    - Planner-a: This mode seeks to understand your goal, investigates relevant project files/functions, and creates a big picture. Brainstorms with user to determine high level plan. Creates "Phase(s)". *Use reasoning model*.
-    - Planner-b: Populates Phase(s) with detailed atomic Task(s).  Don't worry about planner-b receiving a large context window from planner-a. It will only receive the in-progress plan file from planner-a. *Use reasoning model*
-    - Planner-c: Detailed task simulation and refinement. Don't worry about planner-c receiving a large context window from planner-b. It will only receive the in-progress plan file from planner-b. *Use reasoning model*.
 2) Tell it what you want.
 - It will brainstorm with you, asking questions, including:
     - *Complexity*: How do you want the work plan to be structured in terms of size, phase(s), and task(s)? It will recommend one. It will automatically create tasks so they are "bite-size" chunks less smart/lower-cost LLM models can more easily do the actual work.

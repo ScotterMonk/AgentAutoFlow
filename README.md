@@ -210,7 +210,7 @@ Settings are stored in `config.txt` See `README-file-sync.MD` for details.
 
 ## Codebase indexing
 **Very important!**
-Ask an LLM (Ideally, use `Ask` mode here) "How do I set up Qdrant within a docker container?"
+Ask an LLM (Ideally, use `Ask` mode here) "How do I set up Qdrant locally within a docker container?"
 This is a quick and easy setup that will provide LLMs you use here with a comprehensive way to search the codebase using more than just key words.
 
 ## Fit to you

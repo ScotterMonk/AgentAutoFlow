@@ -114,7 +114,7 @@ Scenario: Building a new dashboard screen.
 - As you probably gathered, I've moved much more of the detail work (like making atomic tasks) out of the old/default Orchestrator and into the planning phase so that Dispatcher can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
 
 **Mode budgeting**
-- Note: This workflow will sets the plan to choose between "code," "code monkey," and "tasky" modes, depending on complexity. If "tasky" or "code monkey" get confused because a task is too difficult or complex, they have instructions to pass the task up to "code" mode which I assign a "smarter" LLM to.
+- Note: This workflow will sets the plan to choose between "Coder-Sr," "Coder-Jr," and "Tasky" modes, depending on complexity. If "Tasky" or "Code-Jr" get confused because a task is too difficult or complex, they have instructions to pass the task up to "Coder-Sr" mode which I assign a "smarter" LLM to.
 
 ## Kilo Code specific
 CLine and Roo Code have very similar folder structure, with only a change to .kilocodemodes file and .kilocode/ folder. Be sure to change those in config.txt.
@@ -208,9 +208,14 @@ python cli_sync.py /path/to/project1 /path/to/project2 /path/to/project3
 ### Configuration
 Settings are stored in `config.txt` See `README-file-sync.MD` for details.
 
+## Codebase indexing
+**Very important!**
+Ask an LLM (Ideally, use `Ask` mode here) "How do I set up Qdrant within a docker container?"
+This is a quick and easy setup that will provide LLMs you use here with a comprehensive way to search the codebase using more than just key words.
+
 ## Fit to you
 Be sure to modify the content of files to fit your project. Especially:
-- "agents.md" (In root, "above" {scaffold folder}). Important file. See `/init` in this document.
+- "AGENTS.md" (All caps important. In root, "above" {scaffold folder}). Important file. See `/init` in this document. 
 - "{scaffold folder}/docs/database_schema.md".
 - "{scaffold folder}/rules/01-general.md".
 - "{scaffold folder}/skills/{skill name}/agents*.md" <-- within skill folders, name your project-specific information with this pattern and refer to it from the SKILL.md file.

@@ -14,7 +14,7 @@ Using the built-in-to-Kilo ability to use "rules" files, this archive is a set o
 - **Other modes added**: Added GitHubber, Tasky, Docs Writer, Researcher, etc.
 
 Notes:
-- **Smart but cheap**: Designed both Architect and Planner modes  to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like Dispatcher, Coder-Sr, Coder-Jr, etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
+- **Smart but cheap**: Designed both Architect and Planner modes to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like Dispatcher, Coder-Sr, Coder-Jr, etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
 - **Look how fast they grow up**: This set of instructions is ever-evolving. 
 - **Virtuous circle**: The author, Scott Howard Swain, uses this "Team" every day, is constantly tinkering with it, and is always eager to hear ideas to improve it.
 - **Every time you see .kilocode below, that means the folder containing rules and skills for whatever scaffold you are using.**
@@ -30,11 +30,6 @@ It's *free to use, fork, change with no licensing rules*.
 Please show your love by starring the repo at:
 https://github.com/ScotterMonk/AgentAutoFlow
 
-
-```bash
-py -m pip install -r requirements.txt 
-```
-
 The browser-use skill requires a download of browser binaries:
 ```bash
 playwright install chromium
@@ -44,7 +39,7 @@ playwright install chromium
 
 **Benefits**:
 - Consume far less tokens.
-- Use up less of models' oh-so-precious context memory.
+- Use up less of models' precious context memory.
 - Follow instructions better.
 - Reduced need for costly MCP.
 
@@ -125,7 +120,7 @@ These files go in your project root ("app" in this case). You'll see they coinci
 
 ```
 app/
-├── AGENTS.md (must be all caps)
+├── AGENTS.md (all caps)
 ├── .kilocodemodes
 └── .kilocode/
     ├── docs/
@@ -166,49 +161,6 @@ app/
         └── big list that changes semi-often
 ```
 
-## Todo list tool
-
-In Kilo Code settings, under "Providers", when you set up a Configuration Profile:
-Like let's say you are adding "Claude-Sonnet-4x-R-M" as the profile name, with API provider "OpenRouter" or "Anthropic". The new configuration one will have "Enable todo list tool" (in "Advanced settings") turned on by default. 
-
-The todo list tool burns extra tokens and - especially if you are using AgentAutoFlow - you don't need the todo list tool. I recommend going to the bottom of all the models you have set up and turning "Enable todo list tool" off.
-
-## AgentAutoFlow File Sync Utility
-
-**Helpful utility included**: A Python utility for synchronizing `{scaffold folder}` directories across multiple project folders based on file modification times.
-
-### Overview
-The AgentAutoFlow File Sync Utility scans `{scaffold folder}` subdirectories in multiple project folders (you designate), identifies files that need updating based on modification times, and performs intelligent file synchronization with atomic operations and backup support.
-
-### GUI Usage
-Launch the graphical interface with:
-```bash
-python main_gui.py
-```
-
-Use the interface to:
-- Select multiple folders containing `{scaffold folder}` directories.
-- Configure sync settings via the Settings window and config.txt (dry-run mode, backup options).
-- Monitor live progress during synchronization.
-- Overwrite preview panel that shows planned overwrites before execution.
-- Favorite folder sets (based on folders_faves in config) to quickly re-load common project combinations.
-- Auto-creates .bak versions of all modified files.
-- Button to remove all .bak files.
-
-### CLI Usage
-Run headless synchronization with:
-```bash
-python cli_sync.py <folder1> <folder2> ...
-```
-
-Example:
-```bash
-python cli_sync.py /path/to/project1 /path/to/project2 /path/to/project3
-```
-
-### Configuration
-Settings are stored in `config.txt` See `README-file-sync.MD` for details.
-
 ## Codebase indexing
 **Very important!**
 Ask an LLM (Ideally, use `Ask` mode here) "How do I set up Qdrant locally within a docker container?"
@@ -226,13 +178,13 @@ Really, I'd look through all the rules files to modify to YOUR preferences.
 ### Misc
 - I've added "Dispatcher" to .kilocodemodes local mode file so that I can give it read, edit, and command permissions. Without those permissions, it can't update the log file. Also, depending on what LLM model you have it using, I've seen it find an issue with The Plan and spend extra tokens to delegate minor textual changes to The Plan when it could have more quickly done the changes itself.
 
-### IMPORTANT: agents.md
-If your agentic assistant has an /init or other command that analyzes your codebase and creates tailored configuration files, use it. Kilo Code uses /init. 
+### IMPORTANT: AGENTS.md
+If your agentic assistant has an /init or other command that analyzes your codebase and creates tailored configuration files, use it. Kilo Code and Roo Code use /init. 
 
 #### Init
 Optimally, use a high reasoning, large context-window model.
 Type into chat: "/init".
-Note: If you type only "/init", the LLM may create agent.md files in other folders (like within the various rules subfolders in the .kilocode folder).
+Note: If you type only "/init", the model *may* create agent.md files in other folders (like within the various rules subfolders in the .kilocode or .roo folder).
 
 ## My recipe for getting a lot done inexpensively:
 Some of the tips below are subject to change often, especially which models to use for which mode.
@@ -258,6 +210,10 @@ Kilo Code's native architecture employs Markdown files (.md or .txt) stored in `
 
 This universal adoption of Markdown isn't documented as a deliberate choice over XML—the official Kilo Code documentation simply doesn't address XML at all. The format appears to be selected for developer experience and ecosystem compatibility rather than AI performance optimization. Markdown files integrate seamlessly with version control, text editors, and documentation workflows that developers already use.
 
+### AgentAutoFlow File Sync Utility
+
+**Helpful utility included**: A Python utility for synchronizing `{scaffold folder}` directories across multiple project folders based on file modification times. See the README-file-sync.md file for details.
+
 ### The human factor
 Why I still use and prefer markdown:
 - Ease of human read/write.
@@ -278,6 +234,5 @@ https://github.com/ScotterMonk/AgentAutoFlow
 You are responsible for 
 any benefits or problems
 encountered as a result
-of using this archive.
-
-Also, I'm looking for work.
+of using either this archive
+or the file sync application.

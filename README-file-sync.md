@@ -1,6 +1,6 @@
 # AgentAutoFlow File Sync
 
-Sync the `{base folder}/{scaffold_folder}/` rules/docs folders across multiple project directories safely and reproducibly. The utility compares modification times and copies the newest version of each file to older peers, with dry-run, timestamped backups, atomic writes, and live progress.
+Syncs the `{base folder}/{scaffold_folder}/` rules/docs folders across multiple project directories safely and reproducibly. The utility compares modification times and copies the newest version of each file to older peers, with dry-run, timestamped backups, atomic writes, and live progress.
 
 ## What this is
 
@@ -11,15 +11,16 @@ A small, focused app inside this repo to keep your `{base folder}/{scaffold_fold
 
 ## Key features
 
-- Multi-folder sync for `{base folder}/{scaffold_folder}/` subdirectories
-- mtime-based conflict resolution (copy newest to older)
-- Dry-run mode to preview changes
-- Timestamped backups before overwriting (optional)
-- Atomic writes (temp file + rename) to avoid partial copies
-- Ignore patterns for files/folders you do not want to sync
-- Threaded worker for responsive GUI with progress events
-- Simple, human-editable `config.txt`
-- Cross-platform (Windows/macOS/Linux)
+- **Multi-folder sync** — select any number of folders; the engine syncs all `{scaffold_folder}/` subdirectories across them using mtime-based conflict resolution (newest file wins).
+- **Scan → preview → execute** — an overwrite preview panel shows every planned copy before anything is written; confirm or cancel before committing.
+- **Dry-run mode** — preview changes without touching any files; toggle via the Settings window or `config.txt`.
+- **Safe writes** — atomic copies (temp file + rename) prevent partial overwrites; optional timestamped `.bak` backups are created before every overwrite.
+- **Backup cleanup** — one-click button removes all `.bak` files when they are no longer needed.
+- **Favorite folder sets** — save common project combinations via `folders_faves` in config and reload them instantly.
+- **Ignore patterns** — exclude specific files or subdirectories from sync.
+- **Live progress** — threaded worker streams progress events to the GUI so the interface stays responsive during long syncs.
+- **Simple configuration** — all settings live in a human-editable `config.txt`; no database, no registry.
+- **Cross-platform** — runs on Windows, macOS, and Linux.
 
 ## How it works
 
@@ -43,10 +44,13 @@ The engine orchestrates a scan → plan → execute workflow:
 2) Clone this repo
 3) Optional but recommended: create and activate a virtual environment
 4) Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-   The only dependency is `python-dotenv` for .env file support
+  ```
+  pip install -r requirements.txt
+  ```
+or
+  ```bash
+    py -m pip install -r requirements.txt 
+```
 
 ## Quick start
 

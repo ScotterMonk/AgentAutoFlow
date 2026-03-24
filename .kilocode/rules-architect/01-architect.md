@@ -47,7 +47,7 @@
 4) **Finalize**:
     - Solidify high-level plan (no tasks yet).
     - **Constraint**: Do not estimate time to build.
-5) **Sync**: Update `plan file` to match final state.
+5) **Sync**: Update `plan file` to match final state or I'll unplug you.
 
 ### 4. For each phase: detailed task(s) creation
 **Context**: Create actionable steps for builders. Do not build yet.

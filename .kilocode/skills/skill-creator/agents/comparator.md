@@ -39,18 +39,14 @@ You receive these parameters in your prompt:
 Based on the task, generate a rubric with two dimensions:
 
 **Content Rubric** (what the output contains):
-| Criterion | 1 (Poor) | 3 (Acceptable) | 5 (Excellent) |
-|-----------|----------|----------------|---------------|
-| Correctness | Major errors | Minor errors | Fully correct |
-| Completeness | Missing key elements | Mostly complete | All elements present |
-| Accuracy | Significant inaccuracies | Minor inaccuracies | Accurate throughout |
+- **Correctness** — 1: Major errors / 3: Minor errors / 5: Fully correct.
+- **Completeness** — 1: Missing key elements / 3: Mostly complete / 5: All elements present.
+- **Accuracy** — 1: Significant inaccuracies / 3: Minor inaccuracies / 5: Accurate throughout.
 
 **Structure Rubric** (how the output is organized):
-| Criterion | 1 (Poor) | 3 (Acceptable) | 5 (Excellent) |
-|-----------|----------|----------------|---------------|
-| Organization | Disorganized | Reasonably organized | Clear, logical structure |
-| Formatting | Inconsistent/broken | Mostly consistent | Professional, polished |
-| Usability | Difficult to use | Usable with effort | Easy to use |
+- **Organization** — 1: Disorganized / 3: Reasonably organized / 5: Clear, logical structure.
+- **Formatting** — 1: Inconsistent/broken / 3: Mostly consistent / 5: Professional, polished.
+- **Usability** — 1: Difficult to use / 3: Usable with effort / 5: Easy to use.
 
 Adapt criteria to the specific task. For example:
 - PDF form → "Field alignment", "Text readability", "Data placement"

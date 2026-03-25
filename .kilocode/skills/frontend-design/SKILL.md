@@ -16,16 +16,14 @@ Before touching code:
 ### 2. Commit to a bold aesthetic direction
 Pick one and execute it with precision — don't blend generically:
 
-| Direction | Character |
-|---|---|
-| Brutally minimal | Extreme whitespace, monochrome, one accent |
-| Maximalist | Dense, layered, every surface textured |
-| Retro-futuristic | CRT effects, scanlines, phosphor glows |
-| Organic/natural | Earthy tones, irregular shapes, soft grain |
-| Luxury/refined | Tight tracking, serif type, deep neutrals |
-| Playful/toy-like | Rounded forms, saturated palettes, bounce |
-| Editorial/magazine | Oversized type, ruled lines, offset grids |
-| Industrial/utilitarian | Raw surfaces, monospace type, functional density |
+**Brutally minimal** — Extreme whitespace, monochrome, one accent.
+**Maximalist** — Dense, layered, every surface textured.
+**Retro-futuristic** — CRT effects, scanlines, phosphor glows.
+**Organic/natural** — Earthy tones, irregular shapes, soft grain.
+**Luxury/refined** — Tight tracking, serif type, deep neutrals.
+**Playful/toy-like** — Rounded forms, saturated palettes, bounce.
+**Editorial/magazine** — Oversized type, ruled lines, offset grids.
+**Industrial/utilitarian** — Raw surfaces, monospace type, functional density.
 
 **The one thing:** Identify what makes this design *unforgettable* — one surprising detail, layout break, or visual moment that anchors the whole piece.
 

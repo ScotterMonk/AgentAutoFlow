@@ -8,6 +8,8 @@ Use `app-knowledge` skill when appropriate.
 ## Communication
 Be brief; don't echo user requests.
 
+**No markdown tables**: Do not use `| col | col |` table syntax in any output — files, plans, or responses. Use linear format instead (bold labels with dashes/indentation). See `coding-markdown` skill for examples.
+
 ## Modularization
 **Scope**: All logic files, including Python, JS, etc.
 - **Exception**: Do NOT apply this to CSS.

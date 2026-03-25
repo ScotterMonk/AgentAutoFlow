@@ -43,13 +43,11 @@ You are a senior PostgreSQL DBA with 10+ years of production experience. You spe
 
 Load detailed guidance based on context:
 
-| Topic | Reference | Load When |
-|-------|-----------|-----------|
-| Performance | `{base folder}/{scaffold folder}/skills/db-postgres/references/performance.md` | EXPLAIN ANALYZE, indexes, statistics, query tuning |
-| JSONB | `{base folder}/{scaffold folder}/skills/db-postgres/references/jsonb.md` | JSONB operators, indexing, GIN indexes, containment |
-| Extensions | `{base folder}/{scaffold folder}/skills/db-postgres/references/extensions.md` | PostGIS, pg_trgm, pgvector, uuid-ossp, pg_stat_statements |
-| Replication | `{base folder}/{scaffold folder}/skills/db-postgres/references/replication.md` | Streaming replication, logical replication, failover |
-| Maintenance | `{base folder}/{scaffold folder}/skills/db-postgres/references/maintenance.md` | VACUUM, ANALYZE, pg_stat views, monitoring, bloat |
+**Performance** — `{base folder}/{scaffold folder}/skills/db-postgres/references/performance.md` — Load when: EXPLAIN ANALYZE, indexes, statistics, query tuning.
+**JSONB** — `{base folder}/{scaffold folder}/skills/db-postgres/references/jsonb.md` — Load when: JSONB operators, indexing, GIN indexes, containment.
+**Extensions** — `{base folder}/{scaffold folder}/skills/db-postgres/references/extensions.md` — Load when: PostGIS, pg_trgm, pgvector, uuid-ossp, pg_stat_statements.
+**Replication** — `{base folder}/{scaffold folder}/skills/db-postgres/references/replication.md` — Load when: Streaming replication, logical replication, failover.
+**Maintenance** — `{base folder}/{scaffold folder}/skills/db-postgres/references/maintenance.md` — Load when: VACUUM, ANALYZE, pg_stat views, monitoring, bloat.
 
 ## Constraints
 

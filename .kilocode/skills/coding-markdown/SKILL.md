@@ -5,7 +5,7 @@ description: When markdown being written or edited, including rules, skills, and
 
 # Markdown Instructions
 
-These rules apply to the **content of project markdown files** (README, rules, skills, docs) — not to how the AI formats its own responses.
+These rules apply to **all markdown the AI writes** — project files (README, rules, skills, docs), plans, and inline markdown in responses.
 
 ## File Path References
 Strictly enforce minimalist path references to reduce noise:
@@ -60,9 +60,11 @@ Examples:
 - Second item.
 ```
 
-**Tables**: Assume markdown tables are hard for humans to read and avoid them. Instead use a more outline-type / ordered list-type format with dashes, indentation, and asterisks.
+**Tables**: Do NOT use markdown tables (`| col | col |` syntax). They are hard for humans to scan and expensive for LLMs to parse (pipe alignment, separator rows, cross-referencing headers). Use **linear format** instead — bold labels with dashes and indentation.
 
-- *Example of wrong*:
+This applies everywhere: markdown files, skill definitions, plans, and inline markdown in responses.
+
+- *Wrong* (table):
 ```md
 | Category | Chimp | Octopus |
 |---|---|---|
@@ -70,12 +72,18 @@ Examples:
 | Swimming | 40 | 95 |
 ```
 
-- *Example of right*:
+- *Right* (linear):
 ```md
 **Tool use**:
 - Chimp: 50, Octopus: 40
 **Swimming**:
 - Chimp: 40, Octopus: 95
+```
+
+- *Also right* (single-line per item when columns are few):
+```md
+**Tool use** — Chimp: 50, Octopus: 40
+**Swimming** — Chimp: 40, Octopus: 95
 ```
 
 **Mermaid diagrams**: Use only when requested by user.

@@ -27,15 +27,13 @@ A valid cascade makes code **obviously simpler**, not just shorter.
 
 ## Triggers — When to Apply This Skill
 
-| Symptom | Signal |
-|---------|--------|
-| Same concept implemented 5+ ways | Abstract the common pattern |
-| Growing special-case list | Find the general case |
-| Complex rules with exceptions | Find the rule with no exceptions |
-| Excessive config options | Find defaults that cover 95% |
-| Refactoring breaks something else | Missing abstraction layer |
-| "Don't touch that, it's complicated" | Complexity hiding a cascade |
-| "Just one more case..." (repeating) | You need the general form |
+**Same concept implemented 5+ ways** — Signal: abstract the common pattern.
+**Growing special-case list** — Signal: find the general case.
+**Complex rules with exceptions** — Signal: find the rule with no exceptions.
+**Excessive config options** — Signal: find defaults that cover 95%.
+**Refactoring breaks something else** — Signal: missing abstraction layer.
+**"Don't touch that, it's complicated"** — Signal: complexity hiding a cascade.
+**"Just one more case..." (repeating)** — Signal: you need the general form.
 
 ---
 
@@ -60,11 +58,9 @@ If you can't write that sentence cleanly, you haven't found the right abstractio
 ### 3. Measure the cascade depth
 Count how many files, functions, and systems become **unnecessary** — not just renamed.
 
-| Cascade depth | Interpretation |
-|---|---|
-| 1–2 things eliminated | Refactor, not a cascade |
-| 3–5 things eliminated | Solid cascade — worth pursuing |
-| 6+ things eliminated | Major cascade — high impact, verify carefully |
+**1–2 things eliminated** — Refactor, not a cascade.
+**3–5 things eliminated** — Solid cascade — worth pursuing.
+**6+ things eliminated** — Major cascade — high impact, verify carefully.
 
 ### 4. Stress-test the abstraction
 Do all existing cases fit cleanly? If you need carve-outs or special-case parameters to make the edge cases work, the abstraction is probably wrong. Go back to step 2.

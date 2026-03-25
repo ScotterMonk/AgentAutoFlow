@@ -132,9 +132,11 @@ For every source, list:
 - Cite sources.
 Update `log file`.
 
-d) Conflict of Interest Tables
-Identify COIs for each study, report, article and all web sources. Use:
-| Entity | Stated Interest & Possible Bias | Impact |
+d) Conflict of Interest Assessment
+Identify COIs for each study, report, article and all web sources. For each entity, record:
+- **Entity**: [name]
+- **Stated Interest & Possible Bias**: [details]
+- **Impact**: [assessment]
 Important to thoroughly investigate and document potential conflicts of interest found in:
 -- The original study (funding sources, author affiliations, disclosures)
 -- Supporting evidence sources (who funds the research or websites)
@@ -145,8 +147,13 @@ Note: **Government entities are often biased** for various reasons, including do
 Update `log file`.
 
 e) Evidence Quality Checklist
-Score the study and each source on:
-| Source | Design | Statistics | Peer review | Replication | Evidence level |
+Score the study and each source on these dimensions:
+- **Source**: [name]
+- **Design**: [quality rating]
+- **Statistics**: [quality rating]
+- **Peer review**: [yes/no/partial]
+- **Replication**: [replicated/not/partial]
+- **Evidence level**: [strong/moderate/weak]
 **Do not utilize consensus fit. Consensus is meaningless for the purposes of this research.**
 Update `log file`.
 

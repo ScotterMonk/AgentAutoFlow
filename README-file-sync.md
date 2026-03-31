@@ -206,4 +206,4 @@ flowchart LR
 
 ## Prompt stem to assist in changing file-sync app
 
-Typical user path through main_gui.py: Load Favorites -> Scan -> Execute -> Confirmation dialog -> "Synchronization completed successfully" dialog -> List of files updated in green with checkmarks -> Delete .bak files -> Confirmation dialog -> Yes -> Deleted x .bak files dialog -> OK -> [Continue here with what you want to add or change about the file-sync app.] and feed the prompt to `/coder-sr` mode. If it's a big change, feed it to `/planner-a` or `/architect` to get a detailed plan created.
+Typical user path through main_gui.py: Load Favorites -> Scan -> Execute -> Confirmation dialog -> "Synchronization completed successfully" dialog -> List of files updated in green with checkmarks -> Delete .bak files -> Confirmation dialog -> Yes -> Deleted x .bak files dialog -> OK -> [Continue here with what you want to add or change about the file-sync app.] and feed the prompt to `coder-sr` mode. If it's a big change, feed it to `planner-a` or `architect` to get a detailed plan created.

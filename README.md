@@ -51,7 +51,7 @@ I've added quite a few skills in the `{base folder}/.kilocode/skills` folder.
 - *OpenCode foundation*: Something more unique to Kilo Code and powerful: The new version, already in pre-release, has been rebuilt from the ground up to use OpenCode as a foundation: https://blog.kilo.ai/p/kilo-cli
 
 **Some Skills libraries**:
-- A skill marketplace with over *~700,000* skills! https://skillsmp.com
+- A skill marketplace with over *~800,000* skills! https://skillsmp.com
 - https://agentskills.io/home
 - https://skills.sh/jeffallan/claude-skills
 

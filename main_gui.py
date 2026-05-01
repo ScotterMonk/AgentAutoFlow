@@ -684,7 +684,10 @@ class MainApp:
             updated_config: The mutated config dict returned from the settings dialog.
         """
         self.config = updated_config
-        self.favorite_folders = list(updated_config.get("folders_faves", []))
+        self.favorite_folders = [
+            file_path_utils.normalize_path(folder_path)
+            for folder_path in updated_config.get("folders_faves", [])
+        ]
         self._update_dry_run_status()
         self._update_ignore_patterns_display()
 
@@ -713,7 +716,7 @@ class MainApp:
 
     def _save_favorites_to_config(self) -> None:
         """Persist favorite folders to config."""
-        self.config["folders_faves"] = list(self.favorite_folders)
+        self.config["folders_faves"] = [str(folder_path) for folder_path in self.favorite_folders]
         config_sync.save_config(self.config)
 
     def _load_favorite_folders(self) -> None:

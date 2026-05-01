@@ -1,8 +1,31 @@
 """Modal settings dialog for AgentAutoFlow sync configuration."""
 
+import re
 import tkinter as tk
 from tkinter import ttk, messagebox
 from utils_sync import config_sync, file_path_utils
+
+
+def _text_values_join(values) -> str:
+    """Return a safe comma-separated string for list-like config values."""
+    if not values:
+        return ""
+    return ", ".join(
+        text_value
+        for item in values
+        if (text_value := str(item).strip())
+    )
+
+
+def _folders_faves_text_parse(raw_text: str) -> list[str]:
+    """Parse favorites entered as comma-separated and/or newline-separated paths."""
+    if not raw_text:
+        return []
+    return [
+        part.strip()
+        for part in re.split(r"[\r\n,]+", raw_text)
+        if part.strip()
+    ]
 
 
 def open_settings_window(
@@ -106,7 +129,7 @@ def open_settings_window(
     ).pack(anchor=tk.W)
 
     current_patterns = config.get("ignore_patterns", [])
-    patterns_str = ", ".join(current_patterns) if current_patterns else ""
+    patterns_str = _text_values_join(current_patterns)
     ignore_text = tk.Text(
         ignore_frame,
         height=5,
@@ -129,7 +152,7 @@ def open_settings_window(
     ).pack(anchor=tk.W)
 
     current_faves = config.get("folders_faves", [])
-    faves_str = ", ".join(current_faves) if current_faves else ""
+    faves_str = _text_values_join(current_faves)
     faves_text = tk.Text(
         faves_frame,
         height=8,
@@ -158,15 +181,15 @@ def open_settings_window(
         patterns = [p.strip() for p in ignore_patterns_str.split(",") if p.strip()]
 
         # Parse favorite folders (folders_faves)
-        raw_faves = [p.strip() for p in folders_faves_str.split(",") if p.strip()]
+        raw_faves = _folders_faves_text_parse(folders_faves_str)
         normalized_faves = []
         for fav in raw_faves:
             try:
-                normalized_faves.append(file_path_utils.normalize_path(fav))
+                normalized_faves.append(str(file_path_utils.normalize_path(fav)))
             except Exception as exc:
                 # Fail soft on bad paths; keep original string
                 print(f"Error normalizing favorite folder from settings {fav!r}: {exc}")
-                normalized_faves.append(fav)
+                normalized_faves.append(str(fav))
 
         # Update config (mutates the passed-in dict in-place — intentional)
         config["backup_mode"] = backup_mode

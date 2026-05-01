@@ -6,6 +6,7 @@
 - https://off-guardian.org
 
 **General health-related**
+- https://principia-scientific.com/
 - https://tdefender.substack.com
 - https://worldcouncilforhealth.substack.com
 - https://tristanhealth.substack.com

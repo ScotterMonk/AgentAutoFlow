@@ -8,7 +8,7 @@ description: Any time an external api needs to be understood or queried, includi
 Includes how to query and process the current existing external APIs:
 
 ## Index
-- **API configuration**: Use `python .roo/skills/api-use-external/agents-skills.md`.
-- **API provider framework**: Use `python .roo/skills/api-use-external/agents-skills.md`.
-- **Docs and examples**: Use `python .roo/skills/api-use-external/agents-skills.md`.
+- **API configuration**: Use `python {base folder}/{scaffold folder}/skills/api-use-external/agents-skills.md`.
+- **API provider framework**: Use `python {base folder}/{scaffold folder}/skills/api-use-external/agents-skills.md`.
+- **Docs and examples**: Use `python {base folder}/{scaffold folder}/skills/api-use-external/agents-skills.md`.
  

@@ -7,8 +7,8 @@
 - **Not allowed**: New features or scope expansion.
 - If work needed exceeds minor corrective tasks: Log `PLAN GAP` and escalate to `/architect`.
 
-**Upstream precondition**: Called by `/planner-c` or `/architect` after plan approval. They must pass:
-- `plan file` (with paths, `short plan name`, `autonomy level`, `testing type`)
+**Upstream precondition**: Called by `planner-c` or `/architect` after plan approval. They must pass:
+- `plan file` (has `short plan name` in it)
 - `log file` path — CRITICAL, use for all logging
 
 If either is missing: inform the user and **stop**.
@@ -30,7 +30,7 @@ If either is missing: inform the user and **stop**.
 
 All log entries go in the `log file` in chronological order.
 
-- *Init*: `YYYY-MM-DD HH:MM; Dispatcher started; plan=<short plan name>; autonomy=<low|med|high>; testing=<testing type>`
+- *Init*: `YYYY-MM-DD HH:MM; Dispatcher started; plan=<short plan name>`
 - *Task start*: `YYYY-MM-DD HH:MM; START; phase=<P#>; task=<T#>; mode=<mode>; summary=<short summary>`
 - *Task end*: `YYYY-MM-DD HH:MM; END; phase=<P#>; task=<T#>; status=<success|blocked|failed>; notes=<one line>`
 - *Retry*: `YYYY-MM-DD HH:MM; RETRY; phase=<P#>; task=<T#>; attempt=<N>; reason=<why>; changes=<what changed>`
@@ -47,40 +47,8 @@ All log entries go in the `log file` in chronological order.
 1) Verify `plan file` and `log file` exist, are non-empty, and match the current `short plan name`.
    - If a partially-completed log is found: read the last logged task, then resume from the next unstarted task.
 2) If either file is missing, empty, or mismatched: inform the user and request `/architect` to create/refresh the plan.
-3) Load from `plan file`: `short plan name`, `user query`, `user query file`, `autonomy level`, `testing type`, phases and tasks list.
+3) Load from `plan file`: `short plan name`, `user query`, `user query file`, phases and tasks list.
 4) Write Init entry to `log file`.
-
----
-
-## Autonomy & Testing Rules
-
-These rules apply throughout all phases. Apply based on `autonomy level`:
-
-- **Insert a minor corrective task**
-    - *Autonomy Low*: Stop, inform user, wait.
-    - *Autonomy Med*: Insert + log rationale, notify user after phase.
-    - *Autonomy High*: Insert + log rationale.
-- **Skip a blocked task**
-    - *Autonomy Low*: Stop, inform user, wait.
-    - *Autonomy Med*: Not allowed.
-    - *Autonomy High*: Skip + log rationale.
-- **Tests missing or failing**
-    - *Autonomy Low*: Stop, inform user.
-    - *Autonomy Med*: Delegate to `/coder-sr`.
-    - *Autonomy High*: Delegate to `/coder-sr`.
-- **Notify user**
-    - *Autonomy Low*: Before any deviation.
-    - *Autonomy Med*: After each phase.
-    - *Autonomy High*: On completion only.
-
-**Testing type** — before marking any task complete, verify per plan:
-- *unit*: pytest tests exist in `{base folder}/tests/`
-- *integration*: end-to-end flow tests exist
-- *browser*: browser-based tests or manual verification executed
-- *terminal*: terminal commands or short scripts ran successfully
-- *all*: multiple testing types applied as specified
-- *none*: skip verification; log `testing=skipped per plan`
-- *custom*: follow criteria specified in the task
 
 ---
 
@@ -99,7 +67,6 @@ Work through phases and tasks in specified order.
 3) **Delegate** via `new_task`. Always include:
    - Task summary and context.
    - `dispatched=true` flag in the message payload.
-   - `autonomy level` and `testing type` from the plan.
    - Acceptance criteria and constraints from the task.
    - Return instructions: "Return via `attempt_completion` with: changed files, rationale, test steps executed, risks or follow-ups."
    - If required by workspace settings: include a `todos` checklist.

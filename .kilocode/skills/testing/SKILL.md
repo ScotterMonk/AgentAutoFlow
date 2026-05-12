@@ -9,6 +9,12 @@ For creating, running, and verifying tests for this application.
 
 **Constraint**: Do not execute multi-line Python scripts directly in the terminal.
 
+**Hard rule — silent stdout means write a script**:
+- If `python -c "..."` produces no terminal output, do NOT keep tweaking the same one-liner. After 2 silent runs (first = warning, second = trigger), STOP and save it as a `.py` file under `scripts/` or `tests/`, then run that file.
+- Multi-line `python -c` invocations are forbidden inline. Even when they appear to work, output is unreliable in this Windows/PowerShell environment.
+- Pipelines that mix `python -c` with `Select-String`, `Out-File`, etc. can also drop stdout. Same rule: write a script.
+- Quick PowerShell sanity checks (`python --version`, `Test-Path`, single short prints) are fine and do not count.
+
 **Procedure for Multi-line Scripts**:
 1) **Search**: Check codebase and memory for existing scripts.
 2) **Evaluate**:

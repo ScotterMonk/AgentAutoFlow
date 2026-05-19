@@ -12,6 +12,7 @@ Using the built-in-to-Kilo ability to use "rules" files, this archive is a set o
 - **Coder-Sr**: Juiced up Code mode to follow The Plan, whether created by the new superpowered Architect or hastily typed out by a user running 3 days on caffeine.
 - **Coder-Jr**: Supplemented Coder-Sr with a tightly controlled budget-friendly Junior Coder created to work with the short, detailed tasks created for it by Planner or Architect or do simple coding tasks for the user.
 - **Other modes added**: Added GitHubber, Tasky, Docs Writer, Researcher, etc.
+- **Modes removed**: Tester and debugger removed in the name of increasing simplicity, reducing bloat, increasing token savings of this framework, and considering the growth of LLM capabilities.
 
 Notes:
 - **Smart but cheap**: Designed both Architect and Planner modes to "front load" spend on high "intelligence" thinking models to create a plan that is so detailed, the "Workers" like Dispatcher, Coder-Sr, Coder-Jr, etc. can be faster/cheaper models. Overall, I'm finding this method burns *far less* tokens, has *far less* errors, and runs longer without a need for human intervention.
@@ -77,10 +78,10 @@ Where to get API keys for your Kilo Code:
 - https://aistudio.google.com/app/apikey
 
 ### Model recommendations for planning modes/agents
-- Architect: *Use Reasoning model* for intelligence and context window. I choose the large context window here because this modified architect mode does what Planners a/b/c all do, combined.
-- Planner-a: *Use reasoning model* for intelligence and context window. This mode seeks to understand your goal, investigates relevant project files/functions, and creates a big picture. Brainstorms with user to determine high level plan. Creates "Phase(s)". It's best for this mode to have a large enough context window to deeply understand the codebase and your goals.
-- Planner-b: *Use reasoning model* for intelligence and context window. Populates Phase(s) with detailed atomic Task(s).  Don't worry about planner-b receiving a large context window from planner-a, because it won't. It will only receive the in-progress plan file from planner-a. But it's still best for this mode to have a large enough context window to deeply understand the codebase and your goals.
-- Planner-c: *Use reasoning model* for intelligence and context window. Detailed task simulation and refinement. Don't worry about planner-c receiving a large context window from planner-b, because it won't. It will only receive the in-progress plan file from planner-b. But it's still best for this mode to have a large enough context window to deeply understand the codebase and your goals.
+- Architect: *Use Reasoning model set to high or extra high* for intelligence and context window. I choose the large context window here because this modified architect mode does what Planners a/b/c all do, combined.
+- Planner-a: *Use reasoning model set to high or extra high* for intelligence and context window. This mode seeks to understand your goal, investigates relevant project files/functions, and creates a big picture. Brainstorms with user to determine high level plan. Creates "Phase(s)". It's best for this mode to have a large enough context window to deeply understand the codebase and your goals.
+- Planner-b: *Use reasoning model set to high or extra high* for intelligence and context window. Populates Phase(s) with detailed atomic Task(s).  Don't worry about planner-b receiving a large context window from planner-a, because it won't. It will only receive the in-progress plan file from planner-a. But it's still best for this mode to have a large enough context window to deeply understand the codebase and your goals.
+- Planner-c: *Use reasoning model set to high or extra high* for intelligence and context window. Detailed task simulation and refinement. Don't worry about planner-c receiving a large context window from planner-b, because it won't. It will only receive the in-progress plan file from planner-b. But it's still best for this mode to have a large enough context window to deeply understand the codebase and your goals.
 
 ### Use cases for modifying your existing app
 
@@ -91,13 +92,16 @@ Scenario: Fixing a bug, modifying front-end, or adding a function.
 #### Example of a medium or large workflow
 Scenario: Building a new dashboard screen.
 **Planning**
-1) Start with "planner-a" (for med/high size work) or "architect" (for low/med size work) mode. 
+1) Start with "planner-a" (for med/high-size work) or "architect" (for low/med-size work) mode. 
 - For this mode, I choose a model with high reasoning and large-as-possible context window. Why? Because AgentAutoFlow's planning modes do the "heavy lifting," creating a plan file that has atomic detail so that Dispatcher and the other modes in the chain can be relatively "dumb".
 2) Tell it what you want.
+Removed:
+---
 - It will brainstorm with you, asking questions, including:
     - *Complexity*: How do you want the work plan to be structured in terms of size, phase(s), and task(s)? It will recommend one. It will automatically create tasks so they are "bite-size" chunks less smart/lower-cost LLM models can more easily do the actual work.
     - *Autonomy*: What level of autonomy do you want it to have when it does the work?
     - *Testing*: What type of testing (browser, unit tests, custom, none) do you want it to do as it completes tasks?
+---
 - It will create a plan and ask you if you want to modify it or approve.
 - It will then create a plan file and log file.
   *Why are these files useful for the plan?*
@@ -106,7 +110,7 @@ Scenario: Building a new dashboard screen.
 3) Once you approve the plan, if using planner-a, it will pass on to the other planner modes to flesh out and add detail to the plan. If using architect mode, that mode will do what planners a/b/c all do but with a bit less "care" and cost in time/tokens.
 - Eventually, once you approve, it will pass the plan (with detailed instructions, mode hints, etc.) on to the "Dispatcher" mode. 
 
-**Dispatcher (based on Orchestration)**
+**Dispatcher (based on Orchestrator)**
 - As you probably gathered, I've moved much more of the detail work (like making atomic tasks) out of the old/default Orchestrator and into the planning phase so that Dispatcher can be relatively dumb/cheap and merely follow orders to send out detailed tasks to whatever modes are part of each task description.
 
 **Mode budgeting**

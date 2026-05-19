@@ -3,7 +3,7 @@
 Your customizable AI coding team that learns!
 Use it to create apps or make changes/additions to existing ones. 
 
-This set of instructions (markdown files) enhances and extends the modes/agents that come with many coding agents/assistants/scaffolds. The instructions are tailored to work with Kilo Code (free highly customizable VS Code extension) but - with small modifications - will work with many others, including Cursor, CLine, Roo Code, Github Copilot, etc.
+This set of instructions (markdown files) enhances and extends the modes/agents that come with many coding agents/assistants/scaffolds for increased efficacy and security. It's a combination of spec-driven and test-driven but can easily be modified to any dev philosophy you want. The instructions are tailored to work with Kilo Code (free highly customizable VS Code extension) but - with small modifications - will work with many others, including Cursor, CLine, Roo Code, Github Copilot, etc.
 
 Using the built-in-to-Kilo ability to use "rules" files, this archive is a set of custom instructions for the built-in modes/agents and some new ones, including:
 - **Architect Super Team**: a 3-step "Planner" process (planner-a, planner-b, planner-c). Brainstorms with user. While planning and working, creates detailed files to keep track of its goals, progress, and lessons learned.

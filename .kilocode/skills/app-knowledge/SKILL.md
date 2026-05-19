@@ -6,12 +6,9 @@ description: When any part of the application needs to be found or understood, i
 # App knowledge instructions
 
 ## Sources of knowledge and tools
-- **Learnings**: Check `{base folder}/{scaffold folder}/docs/learning/` by using `learning` skill for prior solutions or patterns that apply to your current task.
-- **Site basics**: `agents.md`.
+- **Project-specific guidance**: Read local `AGENTS.md` in this skill folder if it exists.
+- **Project basics**: Read the root agent guidance file and README when repository context matters.
 - **Codebase**: `codebase_search`, `read_file`, `search_files`.
-    - Include `{base folder}/utils/` and `{base folder}/utils_db/` folders for similar or same functionality.
+- **Learnings**: Use the `learning` skill for prior solutions or patterns that apply to your current task.
 - **Git diff**: recent commits.
-- **Credentials**: `{base folder}/.env`.
-- **Backups folder**: `{base folder}/{scaffold folder}/docs/old_versions/`.
-- **Completed plans folder**: `{base folder}/{scaffold folder}/docs/plans_completed/`.
 - **Web automation** & **browsing**: `browser-use` skill.

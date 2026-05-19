@@ -5,15 +5,15 @@ description: When creating tests and using tests for testing of application oper
 
 # Testing instructions
 
-For creating, running, and verifying tests for this application.
+For creating, running, and verifying tests. Read local `AGENTS.md` in this skill folder if it exists for project-specific commands, paths, and environment notes.
 
 **Constraint**: Do not execute multi-line Python scripts directly in the terminal.
 
 **Hard rule — silent stdout means write a script**:
-- If `python -c "..."` produces no terminal output, do NOT keep tweaking the same one-liner. After 2 silent runs (first = warning, second = trigger), STOP and save it as a `.py` file under `scripts/` or `tests/`, then run that file.
-- Multi-line `python -c` invocations are forbidden inline. Even when they appear to work, output is unreliable in this Windows/PowerShell environment.
+- If `python -c "..."` produces no terminal output, do NOT keep tweaking the same one-liner. After 2 silent runs (first = warning, second = trigger), STOP and save it as a `.py` file in an appropriate project folder, then run that file.
+- Multi-line `python -c` invocations are forbidden inline. Even when they appear to work, output can be unreliable in some terminal environments.
 - Pipelines that mix `python -c` with `Select-String`, `Out-File`, etc. can also drop stdout. Same rule: write a script.
-- Quick PowerShell sanity checks (`python --version`, `Test-Path`, single short prints) are fine and do not count.
+- Quick shell sanity checks (`python --version`, path existence checks, single short prints) are fine and do not count.
 
 **Procedure for Multi-line Scripts**:
 1) **Search**: Check codebase and memory for existing scripts.
@@ -29,36 +29,24 @@ For creating, running, and verifying tests for this application.
     Index: Terminal Scripts, Python Tests, Browser.
 
 ### Terminal Scripts
-**One-line tests**: Run directly in the terminal (PowerShell).
+**One-line tests**: Run directly in the terminal.
 **Multi-line tests**:
 - Search the codebase and memory to see if an equivalent script already exists.
     - If exact: reuse it.
-    - If similar: create or modify a `.py` script in `{base folder}/tests/`.
+    - If similar: create or modify an appropriate `.py` script.
 - Run the script from its `.py` file instead of pasting multiple lines.
 
 ### Python tests
-**Framework**: `pytest` (see `pytest.ini` at project root).
-**Test locations**:
-- Unit tests: `{base folder}/tests/`
-- Integration tests: `{base folder}/test_integration/` (uses `project_a/` and `project_b/` fixture folders)
-- Utility/verification scripts: `{base folder}/utils_sync/` (e.g., `verify_cli_test.py`)
+**Framework**: Use the project's existing Python test framework.
+**Test locations**: Use the project's established test folders.
 
 **Running tests**:
-```powershell
-# All unit tests
-pytest
-
-# Specific test file
-pytest tests/test_sync_core.py
-
-# Specific test by name
-pytest tests/test_sync_core.py::test_function_name -v
-```
+Use the commands documented in local `AGENTS.md` or the project root guidance.
 
 **Creating tests**:
-- Use `pytest` as the testing library.
-- There is no database — do not add DB setup/teardown or connection logic.
-- Tests should be self-contained: use `tmp_path` fixtures or `test_integration/` folder structures.
+- Use the existing test library and project fixtures.
+- Do not add database setup/teardown unless the project has a database and the test requires it.
+- Tests should be self-contained; prefer temporary paths and fixtures over real project paths.
 - Create tests so that success/green yields only the test name and "pass" for output — no descriptions or explanations in the output.
 
 ### Browser

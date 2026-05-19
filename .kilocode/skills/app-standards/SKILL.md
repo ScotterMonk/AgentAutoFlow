@@ -3,4 +3,4 @@ name: app-standards
 description: When any mode needs to apply, reference, or verify app standards including modularization limits, naming conventions, communication style, utility strategy, and refactoring rules.
 ---
 
-See `{base folder}/{scaffold folder}/rules/01-general.md`.
+Read the project root agent guidance and local `AGENTS.md` in this skill folder if it exists.

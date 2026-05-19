@@ -5,7 +5,7 @@ ignore_patterns=.kilocode\commands\run-sync.md, .kilocode\docs, .kilocode\temp, 
 backup_mode=timestamped
 dry_run=false
 root_allowlist=.kilocodemodes
-folders_faves=D:\Dropbox\Projects\AgentAutoFlow\app, D:\Dropbox\Projects\DealOtter\app, D:\Dropbox\Projects\AV-cleaner\app, D:\Dropbox\Projects\AV-clean-one-stream\app, D:\Dropbox\Projects\MediaShare\app, D:\Dropbox\Projects\SpartanRecruiting\app, D:\Dropbox\Projects\CyberMage\app
+folders_faves=D:\Dropbox\Projects\AgentAutoFlow\app, D:\Dropbox\Projects\SpartanRecruiting\app, D:\Dropbox\Projects\CyberMage\app, D:\Dropbox\Projects\DealOtter\app, D:\Dropbox\Projects\AV-cleaner\app, D:\Dropbox\Projects\AV-clean-one-stream\app, D:\Dropbox\Projects\MediaShare\app
 D:\Dropbox\Projects\DealOtter\app
 scaffold_folder=.kilocode
 scaffold_file_modes=.kilocodemodes

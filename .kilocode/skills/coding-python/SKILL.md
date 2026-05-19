@@ -43,21 +43,6 @@ Use the current model name from context and today's date.
   def user_get(user_id: int) -> dict:
   ```
 
-## Imports
-Organize imports in this order (one blank line between groups):
-1. Standard library (`os`, `sys`, `datetime`, etc.)
-2. Third-party libraries (`flask`, `pytest`, etc.)
-3. Local/project modules
-
-```python
-import os
-import sys
-
-from flask import Flask, request, jsonify
-
-from utils_sync.config_sync import config_load
-```
-
 ## Error Handling
 - Use specific exception types — avoid bare `except:`.
 - Log errors with context before re-raising or returning.
@@ -95,7 +80,7 @@ from utils_sync.config_sync import config_load
   ```
 
 ### Response Pattern
-- Use `jsonify()` for all API responses; set explicit status codes.
+- Use `jsonify()` for API responses; set explicit status codes.
 
 ---
 
@@ -104,7 +89,7 @@ from utils_sync.config_sync import config_load
 ### Template Inheritance
 - All page templates should extend a base layout:
   ```jinja
-  {% extends "base.html" %}
+  {% extends "layout.jinja" %}
   {% block content %}
     {# page content here #}
   {% endblock %}
@@ -123,7 +108,8 @@ from utils_sync.config_sync import config_load
 ---
 
 ## Testing (pytest)
-- The test files live in `{base folder}/tests/` and follow `test_[module_name].py` naming.
+- Read local `AGENTS.md` in this skill folder if it exists for project-specific Python, Flask, Jinja, and test paths.
+- Test files generally follow `test_[module_name].py` naming.
 - Each test function name describes what it verifies: `test_user_sync_creates_backup`.
 - Use `tmp_path` fixture for file system tests — never write to real project paths.
 - Confirm a test doesn't already exist before writing a new one.

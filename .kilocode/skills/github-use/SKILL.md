@@ -16,8 +16,7 @@ description: Any time github or git activity is required, including committing a
 - **branch**: Show current branch name. See "## Branch".
 
 # Environment
-- **Shell**: Windows PowerShell in VS Code.
-- **Virtual environment**: *If deactivated*, reactivate with `./activate` *before and separate from other commands*. *Only do this once, at the start and only if needed.*
+- Read local `AGENTS.md` in this skill folder if it exists for project-specific shell, virtualenv, and credential guidance.
 
 # Response style
 - Skip narration ("Now I will…"). Just act and report at the end.
@@ -40,7 +39,7 @@ description: Any time github or git activity is required, including committing a
 
 **Command chaining**: Run each git command separately - never chain with `;` or `&&`.
 
-**Backticks in commit messages**: PowerShell treats `` ` `` as an escape character, so never use backticks in commit message text. Write identifiers as plain text (e.g., `_derive_source`, not `` `_derive_source` ``).
+**Backticks in commit messages**: Avoid backticks in commit message text because some shells treat them as escape or substitution characters. Write identifiers as plain text.
 
 # Command workflows
 
@@ -72,7 +71,7 @@ Stage, commit, and push all changes to the remote.
       ```
 5. **Commit**: `git commit -m "[message]"` - no permission needed, just run it.
 6. **Verify**: Confirm commit succeeded and note the hash.
-7. **Push**: `git push origin <branch>`. If credentials are requested, check the `Critical Resources` section in `{base folder}/{scaffold folder}/rules/01-general.md`.
+7. **Push**: `git push origin <branch>`. If credentials are requested, follow the project's credential guidance.
 8. **Confirm sync**: Verify local and remote are in sync.
 
 ## Create branch

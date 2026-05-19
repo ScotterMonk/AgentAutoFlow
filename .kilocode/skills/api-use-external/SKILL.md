@@ -5,10 +5,10 @@ description: Any time an external api needs to be understood or queried, includi
 
 # External API use
 
-Includes how to query and process the current existing external APIs:
+Use this skill when an external API must be understood, queried, or integrated.
 
 ## Index
-- **API configuration**: Use `python {base folder}/{scaffold folder}/skills/api-use-external/agents-skills.md`.
-- **API provider framework**: Use `python {base folder}/{scaffold folder}/skills/api-use-external/agents-skills.md`.
-- **Docs and examples**: Use `python {base folder}/{scaffold folder}/skills/api-use-external/agents-skills.md`.
- 
+- **Project API guidance**: Read local `AGENTS.md` in this skill folder if it exists.
+- **API configuration**: Prefer existing project configuration and environment-loading patterns.
+- **Provider framework**: Reuse or extend existing provider abstractions instead of creating provider-specific one-offs.
+- **Docs and examples**: Check project docs and existing integration examples before writing new code.

@@ -4,7 +4,8 @@ description: When css being written or edited.
 ---
 
 # CSS coding standards
-CSS in a single stylesheet: `static/css/main.css`.
+
+Read local `AGENTS.md` in this skill folder if it exists for project-specific stylesheet locations and constraints.
 
 ## Syntax & Style
 **Vertical spacing**: Keep vertical spacing compact (no excessive blank lines).
@@ -15,5 +16,3 @@ CSS in a single stylesheet: `static/css/main.css`.
 **Preserve comments**:
 - Do NOT delete existing, still relevant comments.
 - Organize by component/section with clear comments.
-
- 

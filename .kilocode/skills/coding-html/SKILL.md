@@ -12,7 +12,7 @@ description: When html or jinja are being written or edited. Use this skill any 
 - **Spacing**: Keep vertical spacing compact — no excessive blank lines between elements.
 - **Indentation**: 2 spaces per level for HTML and Jinja blocks.
 - **Readability**: Prioritize readable, explicit markup over terse or clever one-liners.
-- **Language mode**: Set VS Code language mode to `jinja-html` for template files.
+- **Editor mode**: Read local `AGENTS.md` in this skill folder if it exists for project-specific editor mode guidance.
 
 ## CSS
 **Inline CSS**: Prefer classes from `.css` files over inline `style=""` attributes, unless explicitly justified (e.g., dynamic values injected by Python).

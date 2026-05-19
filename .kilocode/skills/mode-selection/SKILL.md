@@ -8,7 +8,7 @@ description: For understanding what each mode does, which mode is best (most app
 ## Mode descriptions
 
 **Location**
-- Mode-specific rules live under `{base folder}/{scaffold folder}/rules-*/0*-*.md`.
+- Read local `AGENTS.md` in this skill folder if it exists for project-specific mode-rule locations.
 
 **For Planning & Orchestration**
 - `/architect`: All-in-one planning. Create phases and tasks -> QA -> User Approval -> Switch to `/dispatcher`.

@@ -6,12 +6,13 @@ description: When a planning mode (architect, planner-a, planner-b, planner-c) s
 # Planning instructions
 
 ## Folders and files
-- `plans folder`: `{base folder}/{scaffold folder}/docs/plans/`. Create if non-existent.
-- `backups folder`: `{base folder}/{scaffold folder}/docs/old_versions/[filename]_[timestamp]`. Create if non-existent.
-- `completed plans folder`: `{base folder}/{scaffold folder}/docs/plans_completed/`. Create if non-existent.
-- `user query file`: `{base folder}/{scaffold folder}/docs/plans/p_[timestamp]_[short name]-user.md`.
-- `log file`: `{base folder}/{scaffold folder}/docs/plans/p_[timestamp]_[short name]-log.md`.
-- `plan file`: `{base folder}/{scaffold folder}/docs/plans/p_[timestamp]_[short name].md`.
+- Read local `AGENTS.md` in this skill folder if it exists for project-specific plan, backup, and completed-plan folders.
+- `plans folder`: Create if non-existent.
+- `backups folder`: Create if non-existent.
+- `completed plans folder`: Create if non-existent.
+- `user query file`: Use the project plan folder and `p_[timestamp]_[short name]-user.md`.
+- `log file`: Use the project plan folder and `p_[timestamp]_[short name]-log.md`.
+- `plan file`: Use the project plan folder and `p_[timestamp]_[short name].md`.
 
 ## Variables
 - `complexity`.

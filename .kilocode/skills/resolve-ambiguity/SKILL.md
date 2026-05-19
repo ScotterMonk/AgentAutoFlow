@@ -156,7 +156,7 @@ Once you have answers:
 2. If the user answered compactly (e.g., `1b 2a`), restate in plain language
    so both sides confirm alignment
 3. **Return to the calling workflow step** — reference it explicitly
-   (e.g., "Returning to coding-init Step 2: Pre-planning")
+   (e.g., "Returning to coding-lifecycle Start coding work, Step 4: Discover relevant context")
 
 ---
 

@@ -5,11 +5,10 @@ description: For debugging, testing, or any purpose a mode may have for browsing
 
 # Login instructions
 
-**Configuration**:
-Reference `{base folder}/{scaffold folder}/skills/login-using-querystring/agents-skills.md`.
+Read local `AGENTS.md` in this skill folder if it exists for project-specific login URL, host restrictions, and credential lookup.
 
-**Credentials**:
-Reference `{base folder}/{scaffold folder}/skills/login-using-querystring/agents-skills.md`.
-
-**Browsing**:
-Use `browser-use` skill. 
+Generic workflow:
+- Confirm the target app supports querystring login before using this shortcut.
+- Confirm the shortcut is restricted to safe local or test hosts.
+- Retrieve credentials from the project's approved secret source; never hard-code them.
+- Use `browser-use` skill for browsing and verification.

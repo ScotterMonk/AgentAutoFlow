@@ -5,14 +5,16 @@ description: Troubleshooting issues, investigating errors, diagnosing problems, 
 
 # Debugging
 
+Before choosing project-specific backup locations or environment assumptions, read the local `AGENTS.md` in this skill folder if it exists.
+
 ## Workflow
 **Constraint**: Execute sequentially. Skip nothing.
 
 ### 1: Get ready
-Use `coding-init` skill.
+Use `coding-lifecycle` skill, Entrypoint: Start coding work.
 
 ### 2: Systematic debugging process
-- Incorporate testing into the plan, based on user's `testing type` choice.
+- Incorporate testing into the debugging work according to the verification strategy established by `coding-lifecycle`.
 - Use `app-standards` to accomplish the task to the best of your abilities.
 **Steps**:
 - **You must complete each step below in order before continuing to the next**, unless explicitly overridden by the user.
@@ -38,7 +40,7 @@ Use `coding-init` skill.
         - Use logging plus reproduction to prove or disprove each hypothesis.
         - Summarize findings for the user before implementing permanent fixes when appropriate.
     - Create backup:
-        - Save the current state of files you will modify under `{base folder}/{scaffold folder}/docs/old_versions/` with a timestamp.
+        - Save the current state of files you will modify under the project-approved backup location with a timestamp.
 5) **Form a fix plan based on confirmed or most likely hypotheses**.
     - Prioritize by risk/impact: address high-impact, low-risk changes first.
     - Break complex fixes into small, independent steps.
@@ -48,9 +50,9 @@ Use `coding-init` skill.
     - Plan rollback:
         - Know how to revert to previous state quickly if a fix fails.
 6) **Implement the fix systematically**.
-    - Create a backup before each file modification under `{base folder}/{scaffold folder}/docs/old_versions/`.
+    - Create a backup before each file modification under the project-approved backup location.
     - Make ONE logical change at a time; do not bundle unrelated fixes.
-    - IF `testing type` calls for tests, test after each change.
+    - If the verification strategy calls for tests, test after each change.
     - If a change does not help:
         - Revert immediately.
         - Update your notes and return to the hypothesis step above.
@@ -69,4 +71,4 @@ Use `coding-init` skill.
     - Wait for user direction.
 
 ### 3: Finish
-Use `coding-finish` skill.
+Use `coding-lifecycle` skill, Entrypoint: Finish coding work.

@@ -5,13 +5,10 @@ description: Any time database-related activity is required.
 
 # Database use instructions
 
-For the following uses, see `{base folder}/{scaffold folder}/skills/db-use/agents-skills.md`:
-- **Configuration & Standards**
-- **Credentials**
-- **Structure**
-- **Preferred Utilities**
-- **Source of Truth Hierarchy**
-- **Schema Update Workflow**
-- **Schema Inspector Utility**
-- **Testing**
- 
+Read local `AGENTS.md` in this skill folder if it exists for project-specific database guidance.
+
+Generic workflow:
+- Identify the database engine, schema source of truth, migration process, and credential-loading path before making changes.
+- Prefer existing database utilities and migration conventions over new ad-hoc scripts.
+- Never hard-code credentials.
+- Verify database changes with the project's test strategy.

@@ -7,7 +7,7 @@ description: Self-improvement system for managing (finding/using, saving/adding,
 **Purpose**: Knowledge base for solutions, patterns, lessons, and workarounds.
 
 ## Definitions
-**`learnings folder`**: `{base folder}/{scaffold folder}/docs/learning/` (Create if missing).
+**`learnings folder`**: Read local `AGENTS.md` in this skill folder if it exists for the project-specific learning folder and archive location.
 **File format**: `{category}-{subcategory}.md` (all lowercase, hyphen-separated).
 
 **Category examples**: `python`, `flask`, `javascript`, `sql`, `css`, `testing`, `sync`, `config`, `git`, `patterns`.
@@ -78,5 +78,5 @@ Present a highly condensed summary to the user for approval:
 Agents do not run on a schedule. Maintenance happens during active use:
 - **When reading an existing learning file** to solve a current problem, check the `date` metadata.
 - If an entry is > 6 months old AND you determine it is obsolete/superseded, propose to the user as part of your current response:
-    - **Archive**: Move the entry to `{learnings folder}/archive/` (unchanged filename).
+    - **Archive**: Move the entry to the learning archive folder (unchanged filename).
     - **Delete**: Remove entirely (only if the entry is proven incorrect, not just outdated).

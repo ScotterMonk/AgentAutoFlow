@@ -9,6 +9,12 @@ Behavioral guidelines to reduce common LLM coding mistakes.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
+## Project path and guidance loading
+- Use project-relative paths with forward slashes for file-tool calls.
+- Do not pass drive-prefixed Windows paths or copied skill-registry locations into file tools.
+- Convert any skill resource under the workspace to `.kilocode/skills/<skill-name>/...` before reading it.
+- Read skill-local guidance only when `.kilocode/skills/coding-guidelines/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project guidance.
+
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**

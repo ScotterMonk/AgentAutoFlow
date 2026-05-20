@@ -7,7 +7,7 @@ description: Use when a coding-capable agent is starting or finishing implementa
 
 This skill is the portable coding-work wrapper. Use the entrypoint that matches the current phase.
 
-Before applying project-specific lifecycle checks, read the local `AGENTS.md` in this skill folder if it exists.
+Before applying project-specific lifecycle checks, read skill-local guidance only when `.kilocode/skills/coding-lifecycle/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md`.
 
 ## Constraints
 

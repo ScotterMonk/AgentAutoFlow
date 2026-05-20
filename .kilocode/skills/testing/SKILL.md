@@ -5,7 +5,7 @@ description: When creating tests and using tests for testing of application oper
 
 # Testing instructions
 
-For creating, running, and verifying tests. Read local `AGENTS.md` in this skill folder if it exists for project-specific commands, paths, and environment notes.
+For creating, running, and verifying tests. Read skill-local guidance only when `.kilocode/skills/testing/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project-specific commands, paths, and environment notes.
 
 **Constraint**: Do not execute multi-line Python scripts directly in the terminal.
 

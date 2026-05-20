@@ -12,7 +12,7 @@ description: When html or jinja are being written or edited. Use this skill any 
 - **Spacing**: Keep vertical spacing compact — no excessive blank lines between elements.
 - **Indentation**: 2 spaces per level for HTML and Jinja blocks.
 - **Readability**: Prioritize readable, explicit markup over terse or clever one-liners.
-- **Editor mode**: Read local `AGENTS.md` in this skill folder if it exists for project-specific editor mode guidance.
+- **Editor mode**: Read skill-local guidance only when `.kilocode/skills/coding-html/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project-specific editor mode guidance.
 
 ## CSS
 **Inline CSS**: Prefer classes from `.css` files over inline `style=""` attributes, unless explicitly justified (e.g., dynamic values injected by Python).

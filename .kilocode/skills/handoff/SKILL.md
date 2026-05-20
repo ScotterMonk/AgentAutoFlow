@@ -6,7 +6,7 @@ argument-hint: What will the next session be used for?
 
 # Handoff
 
-Write a handoff document summarising the current conversation so a fresh agent can continue the work. Read local `AGENTS.md` in this skill folder if it exists for the project-specific save location. Read the target file before you write to it when modifying an existing handoff.
+Write a handoff document summarising the current conversation so a fresh agent can continue the work. Read skill-local guidance only when `.kilocode/skills/handoff/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for the project-specific save location. Read the target file before you write to it when modifying an existing handoff.
 
 Suggest the skills to be used, if any, by the next session.
 

@@ -17,12 +17,14 @@ If either is missing: inform the user and **stop**.
 
 ## File Paths
 
-- `plans folder`: `{base folder}/{scaffold folder}/docs/plans/`. Create if non-existent.
-- `completed plans folder`: `{base folder}/{scaffold folder}/docs/plans_completed/`. Create if non-existent.
-- `backups folder`: `{base folder}/{scaffold folder}/docs/old_versions/[filename]_[timestamp]`. Create if non-existent.
-- `user query file`: `{base folder}/{scaffold folder}/docs/plans/p_[timestamp]_[short name]-user.md`
-- `log file`: `{base folder}/{scaffold folder}/docs/plans/p_[timestamp]_[short name]-log.md`
-- `plan file`: `{base folder}/{scaffold folder}/docs/plans/p_[timestamp]_[short name].md`
+- Use project-relative paths only.
+- `plans folder`: `plans/`. Create if non-existent.
+- `completed plans folder`: `plans/completed/`. Create if non-existent.
+- `backups folder`: `.kilocode/docs/old_versions/[filename]_[timestamp]`. Create if non-existent.
+- `user query file`: `plans/p_[timestamp]_[short name]-user.md`
+- `log file`: `plans/p_[timestamp]_[short name]-log.md`
+- `plan file`: `plans/p_[timestamp]_[short name].md`
+- Historical scaffold plans may exist in `.kilocode/docs/plans/`; do not use that folder for new active dispatcher work unless the incoming plan explicitly names it.
 
 ---
 
@@ -62,7 +64,7 @@ Work through phases and tasks in specified order.
 
 2) **Determine mode**:
    - Use the mode hint in the task.
-   - If ambiguous or absent: load `{base folder}/{scaffold folder}/skills/mode-selection/SKILL.md` and log a *Mode decision* entry.
+   - If ambiguous or absent: load `.kilocode/skills/mode-selection/SKILL.md` and log a *Mode decision* entry.
 
 3) **Delegate** via `new_task`. Always include:
    - Task summary and context.
@@ -106,6 +108,6 @@ When all tasks are completed, deferred, or cancelled with user agreement:
    - Residual risks or TODOs.
 3) Suggest next steps (e.g., if follow-on work warrants a new `plan`).
 4) On user confirmation — **File organization**:
-   - Move `plan file` to `{base folder}/{scaffold folder}/docs/plans_completed/` (append `_[timestamp]` on collision).
+   - Move `plan file` to `plans/completed/` (append `_[timestamp]` on collision).
    - Move `log file` to the same folder with the same collision rule.
 5) Declare the `plan` completed. Dispatcher's responsibility ends here.

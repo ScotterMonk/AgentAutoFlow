@@ -7,10 +7,10 @@ description: Skill for web browser automation using Playwright for both local an
 Use native Python Playwright scripts to automate browsing and UI verification for any URL, including local development servers and external sites.
 
 ## Prerequisites
-Read local `AGENTS.md` in this skill folder if it exists for project-specific Playwright installation notes, server commands, and local URLs.
+Read skill-local guidance only when `.kilocode/skills/browser-use/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project-specific Playwright installation notes, server commands, and local URLs.
 
-**Helper scripts available** (all paths relative to project root):
-- `scripts/with_server.py` in this skill folder - Optional. Manages local dev server lifecycle (supports multiple servers).
+**Helper scripts available** (all paths project-relative):
+- `.kilocode/skills/browser-use/scripts/with_server.py` - Optional. Manages local dev server lifecycle (supports multiple servers).
 
 **Always run scripts with `--help` first** to see usage. DO NOT read the source until you try running the script first and find that a customized solution is absolutely necessary. These scripts can be very large and thus pollute your context window. They exist to be called directly as black-box scripts rather than ingested into your context window.
 
@@ -25,7 +25,7 @@ User task → What is the target?
     │     └─ Fails/Incomplete → Treat as dynamic (below).
     └─ URL (http/https) → Do you control the server process?
           ├─ Yes (local dev server) → Is it already running?
-          │     ├─ No → Run the local `scripts/with_server.py` helper with `--help`
+          │     ├─ No → Run the local `.kilocode/skills/browser-use/scripts/with_server.py` helper with `--help`
           │     │        Then use the helper + write a simplified Playwright script.
           │     └─ Yes → Reconnaissance-then-action (below).
           └─ No (external site) → Reconnaissance-then-action (below).
@@ -37,14 +37,14 @@ Use this only when you need to start and manage one or more local dev servers as
 
 **Single server** (run from project root):
 ```
-python <skill-folder>/scripts/with_server.py --server "<start command>" --port <port> -- python <automation-script>.py
+python .kilocode/skills/browser-use/scripts/with_server.py --server "<start command>" --port <port> -- python <automation-script>.py
 ```
 
 **Multiple servers (e.g., backend + frontend)**:
 ```
-python <skill-folder>/scripts/with_server.py \
-  --server "<backend start command>" --port <backend-port> \
-  --server "<frontend start command>" --port <frontend-port> \
+python .kilocode/skills/browser-use/scripts/with_server.py `
+  --server "<backend start command>" --port <backend-port> `
+  --server "<frontend start command>" --port <frontend-port> `
   -- python <automation-script>.py --url <url>
 ```
 
@@ -81,13 +81,13 @@ See this skill folder's examples for robust, ready-to-use boilerplate.
 
 ## Reference Files
 
-All paths below are relative to the project root.
+All paths below are project-relative.
 
 - **scripts/** - Helper scripts (call with `--help` first; do NOT read source):
-  - `scripts/with_server.py` - Starts one or more local dev servers, runs your automation script, then cleans up
+  - `.kilocode/skills/browser-use/scripts/with_server.py` - Starts one or more local dev servers, runs your automation script, then cleans up
 
 - **examples/** - Automation scripts (pass these to `with_server.py` or run standalone):
-  - `examples/basic_automation.py` - Robust boilerplate with error handling and `wait_for_selector`
-  - `examples/element_discovery.py` - Discovering buttons, links, and inputs on a page
-  - `examples/static_html_automation.py` - Using file:// URLs for local HTML
-  - `examples/console_logging.py` - Capturing console logs during automation
+  - `.kilocode/skills/browser-use/examples/basic_automation.py` - Robust boilerplate with error handling and `wait_for_selector`
+  - `.kilocode/skills/browser-use/examples/element_discovery.py` - Discovering buttons, links, and inputs on a page
+  - `.kilocode/skills/browser-use/examples/static_html_automation.py` - Using file:// URLs for local HTML
+  - `.kilocode/skills/browser-use/examples/console_logging.py` - Capturing console logs during automation

@@ -108,7 +108,7 @@ Use the current model name from context and today's date.
 ---
 
 ## Testing (pytest)
-- Read local `AGENTS.md` in this skill folder if it exists for project-specific Python, Flask, Jinja, and test paths.
+- Read skill-local guidance only when `.kilocode/skills/coding-python/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project-specific Python, Flask, Jinja, and test paths.
 - Test files generally follow `test_[module_name].py` naming.
 - Each test function name describes what it verifies: `test_user_sync_creates_backup`.
 - Use `tmp_path` fixture for file system tests — never write to real project paths.

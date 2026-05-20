@@ -7,7 +7,7 @@ description: Self-improvement system for managing (finding/using, saving/adding,
 **Purpose**: Knowledge base for solutions, patterns, lessons, and workarounds.
 
 ## Definitions
-**`learnings folder`**: Read local `AGENTS.md` in this skill folder if it exists for the project-specific learning folder and archive location.
+**`learnings folder`**: Read skill-local guidance only when `.kilocode/skills/learning/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for the project-specific learning folder and archive location.
 **File format**: `{category}-{subcategory}.md` (all lowercase, hyphen-separated).
 
 **Category examples**: `python`, `flask`, `javascript`, `sql`, `css`, `testing`, `sync`, `config`, `git`, `patterns`.

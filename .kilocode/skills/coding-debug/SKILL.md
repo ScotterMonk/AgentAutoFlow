@@ -5,7 +5,7 @@ description: Troubleshooting issues, investigating errors, diagnosing problems, 
 
 # Debugging
 
-Before choosing project-specific backup locations or environment assumptions, read the local `AGENTS.md` in this skill folder if it exists.
+Before choosing project-specific backup locations or environment assumptions, read skill-local guidance only when `.kilocode/skills/coding-debug/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md`.
 
 ## Workflow
 **Constraint**: Execute sequentially. Skip nothing.

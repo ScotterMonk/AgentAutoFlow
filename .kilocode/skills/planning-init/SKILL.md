@@ -6,13 +6,16 @@ description: When a planning mode (architect, planner-a, planner-b, planner-c) s
 # Planning instructions
 
 ## Folders and files
-- Read local `AGENTS.md` in this skill folder if it exists for project-specific plan, backup, and completed-plan folders.
+- Read skill-local guidance only when `.kilocode/skills/planning-init/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project-specific plan, backup, and completed-plan folders.
 - `plans folder`: Create if non-existent.
 - `backups folder`: Create if non-existent.
 - `completed plans folder`: Create if non-existent.
-- `user query file`: Use the project plan folder and `p_[timestamp]_[short name]-user.md`.
-- `log file`: Use the project plan folder and `p_[timestamp]_[short name]-log.md`.
-- `plan file`: Use the project plan folder and `p_[timestamp]_[short name].md`.
+- `plans folder`: `plans/`.
+- `completed plans folder`: `plans/completed/`.
+- `backups folder`: `.kilocode/docs/old_versions/`.
+- `user query file`: `plans/p_[timestamp]_[short name]-user.md`.
+- `log file`: `plans/p_[timestamp]_[short name]-log.md`.
+- `plan file`: `plans/p_[timestamp]_[short name].md`.
 
 ## Variables
 - `complexity`.

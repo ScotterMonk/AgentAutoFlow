@@ -7,6 +7,12 @@ description: Create new skills, modify and improve existing skills, and measure 
 
 A skill for creating new skills and iteratively improving skills.
 
+## Project path and shell rules
+- Use project-relative paths with forward slashes for all file tools and examples.
+- Skill folders live under `.kilocode/skills/<skill-name>/` unless the user explicitly provides another project-relative path.
+- In this Windows workspace, examples must be PowerShell-compatible. Do not use Unix-only commands such as `cp`, `nohup`, `tail`, `kill`, `open`, or `/tmp` paths.
+- When running bundled skill-creator modules from the project root, set `PYTHONPATH` to `.kilocode/skills/skill-creator` before using `python -m scripts.<module>`.
+
 At a high level, the process of creating a skill goes like this:
 
 - Decide what you want the skill to do and roughly how it should do it
@@ -181,7 +187,7 @@ Execute this task:
 
 **Baseline run** (same prompt, but the baseline depends on context):
 - **Creating a new skill**: no skill at all. Same prompt, no skill path, save to `without_skill/outputs/`.
-- **Improving an existing skill**: the old version. Before editing, snapshot the skill (`cp -r <skill-path> <workspace>/skill-snapshot/`), then point the baseline subagent at the snapshot. Save to `old_skill/outputs/`.
+- **Improving an existing skill**: the old version. Before editing, snapshot the skill (`Copy-Item -Recurse -Path <skill-path> -Destination <workspace>/skill-snapshot/`), then point the baseline subagent at the snapshot. Save to `old_skill/outputs/`.
 
 Write an `eval_metadata.json` for each test case (assertions can be empty for now). Give each eval a descriptive name based on what it's testing — not just "eval-0". Use this name for the directory too. If this iteration uses new or modified eval prompts, create these files for each new eval directory — don't assume they carry over from previous iterations.
 
@@ -222,9 +228,9 @@ Once all runs are done:
 
 1. **Grade each run** — spawn a grader subagent (or grade inline) that reads `agents/grader.md` and evaluates each assertion against the outputs. Save results to `grading.json` in each run directory. The grading.json expectations array must use the fields `text`, `passed`, and `evidence` (not `name`/`met`/`details` or other variants) — the viewer depends on these exact field names. For assertions that can be checked programmatically, write and run a script rather than eyeballing it — scripts are faster, more reliable, and can be reused across iterations.
 
-2. **Aggregate into benchmark** — run the aggregation script from the skill-creator directory:
-   ```bash
-   python -m scripts.aggregate_benchmark <workspace>/iteration-N --skill-name <name>
+2. **Aggregate into benchmark** — run the aggregation script from the project root:
+   ```powershell
+   $env:PYTHONPATH = ".kilocode/skills/skill-creator"; python -m scripts.aggregate_benchmark <workspace>/iteration-N --skill-name <name>
    ```
    This produces `benchmark.json` and `benchmark.md` with pass_rate, time, and tokens for each configuration, with mean ± stddev and the delta. If generating benchmark.json manually, see `references/schemas.md` for the exact schema the viewer expects.
 Put each with_skill version before its baseline counterpart.
@@ -232,13 +238,9 @@ Put each with_skill version before its baseline counterpart.
 3. **Do an analyst pass** — read the benchmark data and surface patterns the aggregate stats might hide. See `agents/analyzer.md` (the "Analyzing Benchmark Results" section) for what to look for — things like assertions that always pass regardless of skill (non-discriminating), high-variance evals (possibly flaky), and time/token tradeoffs.
 
 4. **Launch the viewer** with both qualitative outputs and quantitative data:
-   ```bash
-   nohup python <skill-creator-path>/eval-viewer/generate_review.py \
-     <workspace>/iteration-N \
-     --skill-name "my-skill" \
-     --benchmark <workspace>/iteration-N/benchmark.json \
-     > /dev/null 2>&1 &
-   VIEWER_PID=$!
+   ```powershell
+   $viewer = Start-Process -FilePath python -ArgumentList @(".kilocode/skills/skill-creator/eval-viewer/generate_review.py", "<workspace>/iteration-N", "--skill-name", "my-skill", "--benchmark", "<workspace>/iteration-N/benchmark.json") -PassThru
+   $VIEWER_PID = $viewer.Id
    ```
    For iteration 2+, also pass `--previous-workspace <workspace>/iteration-<N-1>`.
 
@@ -279,10 +281,10 @@ When the user tells you they're done, read `feedback.json`:
 
 Empty feedback means the user thought it was fine. Focus your improvements on the test cases where the user had specific complaints.
 
-Kill the viewer server when you're done with it:
+Stop the viewer server when you're done with it:
 
-```bash
-kill $VIEWER_PID 2>/dev/null
+```powershell
+Stop-Process -Id $VIEWER_PID -ErrorAction SilentlyContinue
 ```
 
 ---
@@ -364,9 +366,9 @@ Present the eval set to the user for review using the HTML template:
    - `__EVAL_DATA_PLACEHOLDER__` → the JSON array of eval items (no quotes around it — it's a JS variable assignment)
    - `__SKILL_NAME_PLACEHOLDER__` → the skill's name
    - `__SKILL_DESCRIPTION_PLACEHOLDER__` → the skill's current description
-3. Write to a temp file (e.g., `/tmp/eval_review_<skill-name>.html`) and open it: `open /tmp/eval_review_<skill-name>.html`
+3. Write to a project-relative temp file (e.g., `outputs/eval_review_<skill-name>.html`) and open it: `Start-Process outputs/eval_review_<skill-name>.html`
 4. The user can edit queries, toggle should-trigger, add/remove entries, then click "Export Eval Set"
-5. The file downloads to `~/Downloads/eval_set.json` — check the Downloads folder for the most recent version in case there are multiple (e.g., `eval_set (1).json`)
+5. The file downloads to the browser's Downloads folder as `eval_set.json` — check the Downloads folder for the most recent version in case there are multiple (e.g., `eval_set (1).json`).
 
 This step matters — bad eval queries lead to bad descriptions.
 
@@ -374,20 +376,20 @@ This step matters — bad eval queries lead to bad descriptions.
 
 Tell the user: "This will take some time — I'll run the optimization loop in the background and check on it periodically."
 
-Save the eval set to the workspace, then run in the background:
+Save the eval set to the workspace, then run from the project root:
 
-```bash
-python -m scripts.run_loop \
-  --eval-set <path-to-trigger-eval.json> \
-  --skill-path <path-to-skill> \
-  --model <model-id-powering-this-session> \
-  --max-iterations 5 \
+```powershell
+$env:PYTHONPATH = ".kilocode/skills/skill-creator"; python -m scripts.run_loop `
+  --eval-set <path-to-trigger-eval.json> `
+  --skill-path <path-to-skill> `
+  --model <model-id-powering-this-session> `
+  --max-iterations 5 `
   --verbose
 ```
 
 Use the model ID from your system prompt (the one powering the current session) so the triggering test matches what the user actually experiences.
 
-While it runs, periodically tail the output to give the user updates on which iteration it's on and what the scores look like.
+While it runs, periodically inspect the process output or generated files with PowerShell-compatible commands to give the user updates on which iteration it's on and what the scores look like.
 
 This handles the full optimization loop automatically. It splits the eval set into 60% train and 40% held-out test, evaluates the current description (running each query 3 times to get a reliable trigger rate), then calls Claude with extended thinking to propose improvements based on what failed. It re-evaluates each new description on both train and test, iterating up to 5 times. When it's done, it opens an HTML report in the browser showing the results per iteration and returns JSON with `best_description` — selected by test score rather than train score to avoid overfitting.
 
@@ -407,8 +409,8 @@ Take `best_description` from the JSON output and update the skill's SKILL.md fro
 
 Check whether you have access to the `present_files` tool. If you don't, skip this step. If you do, package the skill and present the .skill file to the user:
 
-```bash
-python -m scripts.package_skill <path/to/skill-folder>
+```powershell
+python .kilocode/skills/skill-creator/scripts/package_skill.py <path/to/skill-folder>
 ```
 
 After packaging, direct the user to the resulting `.skill` file path so they can install it.

@@ -16,7 +16,7 @@ description: Any time github or git activity is required, including committing a
 - **branch**: Show current branch name. See "## Branch".
 
 # Environment
-- Read local `AGENTS.md` in this skill folder if it exists for project-specific shell, virtualenv, and credential guidance.
+- Read skill-local guidance only when `.kilocode/skills/github-use/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project-specific shell, virtualenv, and credential guidance.
 
 # Response style
 - Skip narration ("Now I will…"). Just act and report at the end.

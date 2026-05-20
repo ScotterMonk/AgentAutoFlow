@@ -8,7 +8,7 @@ description: For understanding what each mode does, which mode is best (most app
 ## Mode descriptions
 
 **Location**
-- Read local `AGENTS.md` in this skill folder if it exists for project-specific mode-rule locations.
+- Read skill-local guidance only when `.kilocode/skills/mode-selection/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project-specific mode-rule locations.
 
 **For Planning & Orchestration**
 - `/architect`: All-in-one planning. Create phases and tasks -> QA -> User Approval -> Switch to `/dispatcher`.

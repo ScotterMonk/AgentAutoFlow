@@ -5,7 +5,7 @@ description: When css being written or edited.
 
 # CSS coding standards
 
-Read local `AGENTS.md` in this skill folder if it exists for project-specific stylesheet locations and constraints.
+Read skill-local guidance only when `.kilocode/skills/coding-css/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project-specific stylesheet locations and constraints.
 
 ## Syntax & Style
 **Vertical spacing**: Keep vertical spacing compact (no excessive blank lines).

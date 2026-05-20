@@ -28,7 +28,7 @@ modes:
 
 # Hermes API Client — Kilo Code Skill
 
-Call a Hermes agent from Kilo Code. Hermes may have browser tools, web search, and saved site credentials that Kilo Code lacks. Delegate scraping/browsing/research tasks via a single Python function. Read local `AGENTS.md` in this skill folder if it exists for project-specific gateway, host, credential, and site notes.
+Call a Hermes agent from Kilo Code. Hermes may have browser tools, web search, and saved site credentials that Kilo Code lacks. Delegate scraping/browsing/research tasks via a single Python function. Read skill-local guidance only when `.kilocode/skills/hermes-api-client/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project-specific gateway, host, credential, and site notes.
 
 ## Prerequisites
 
@@ -37,7 +37,7 @@ Call a Hermes agent from Kilo Code. Hermes may have browser tools, web search, a
 
 ## The Tool Script
 
-Use `/scripts/hermes_api.py`.
+Use `.kilocode/skills/hermes-api-client/scripts/hermes_api.py`. When importing it from a project-root script, add `.kilocode/skills/hermes-api-client/scripts` to `sys.path` or run a small wrapper from that directory.
 
 ## Modes
 

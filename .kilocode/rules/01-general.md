@@ -21,9 +21,9 @@ Be brief; don't echo user requests.
 
 **Utility Strategy**:
 - **Extract** logic liberally into utility folders.
-- **Location Naming Convention**: Use `{base folder}/utils/` or `{base folder}/utils_db/`.
+- **Location Naming Convention**: Use `utils/` or `utils_db/` relative to the project root.
 For JS in Flask:
-- **Location Naming Convention**: Use `{base folder}/static/js/utils/`.
+- **Location Naming Convention**: Use `static/js/utils/` relative to the project root.
 
 **Build Abstractly, Reuse Aggressively**:
 Take the time needed to think and search before coding.
@@ -83,6 +83,13 @@ Examples:
 - **Avoid broad, global edits** unless explicitly planned and approved. Keep changes as small and reversible as reasonable.
 - **Logging**: For complex code, build in a logging call.
 - **Avoid complex CMD and PowerShell scripts**: Prefer writing python script files and then executing them, *not* trying to run python scripts in the terminal.
+
+## Path handling
+- **File-tool paths**: Always pass project-relative paths using forward slashes. Never pass drive-prefixed Windows paths to file tools.
+- **Skill paths**: Treat skill registry locations as informational. Before reading a skill resource, normalize it to `.kilocode/skills/<skill-name>/...`.
+- **Skill-local AGENTS.md**: Only read `.kilocode/skills/<skill-name>/AGENTS.md` after confirming that exact path exists. If it does not exist, use root `AGENTS.md`.
+- **Plans**: Use `plans/` for active plans and `plans/completed/` for completed plans. Do not substitute `.kilocode/docs/plans/` for current work unless a task explicitly names that historical scaffold path.
+- **Shell examples**: All commands must be PowerShell-compatible and run from the project root unless the command explicitly uses a tool-supported working directory.
 
 ## Refactoring
 **If you rename a symbol, you MUST fix all references.**

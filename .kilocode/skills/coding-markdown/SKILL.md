@@ -1,6 +1,6 @@
 ---
 name: coding-markdown
-description: When markdown being written or edited, including rules, skills, and documentation. Trigger any time a .md file is being created or modified, a skill's SKILL.md is being updated, rules files ({base folder}/{scaffold folder}/rules/) are being edited, or a user says "update the docs", "fix the readme", "edit this skill", "write documentation", or "format this markdown".
+description: When markdown being written or edited, including rules, skills, and documentation. Trigger any time a .md file is being created or modified, a skill's SKILL.md is being updated, rules files under .kilocode/rules*/ are being edited, or a user says "update the docs", "fix the readme", "edit this skill", "write documentation", or "format this markdown".
 ---
 
 # Markdown Instructions
@@ -9,12 +9,13 @@ These rules apply to **all markdown the AI writes** — project files (README, r
 
 ## File Path References
 Strictly enforce minimalist path references to reduce noise:
-- **No links**: Never use `[name](path)` syntax. Use plain backticks only.
-- **No line numbers**: Strip all line number suffixes (e.g., `:22`).
+- **Follow platform link requirements first**: If the active harness requires clickable file references or line numbers, that requirement overrides this section.
+- **Default for markdown files**: When no platform requirement says otherwise, use plain backticks instead of `[name](path)` syntax.
+- **Line numbers**: Include line numbers only when the active harness or planning workflow requires them.
 - **No redundancy**: Do not repeat the filename in both brackets and parentheses.
 - **Contextual pointers**: Reference section names instead of line numbers.
 
-**Exception**: Planner modes (`/architect`, `/planner-a`, `/planner-b`, `/planner-c`) may use links when creating or modifying a plan.
+**Exceptions**: Planner modes (`/architect`, `/planner-a`, `/planner-b`, `/planner-c`) may use links when creating or modifying a plan; any harness-level clickable-link rule also overrides the default plain-backtick preference.
 
 Examples:
 - Bad: `[app/models/user.py](app/models/user.py)` → Good: `` `app/models/user.py` ``
@@ -24,7 +25,7 @@ Examples:
 ## Formatting Standards
 
 **Style & Typography**
-- *Files/code*: Always use inline backtick (`file.py`). Never use brackets or links.
+- *Files/code*: Prefer inline backticks (`file.py`) unless the active harness requires clickable file links.
 - *Indentation*: Use exactly 4 spaces for nested items.
 
 **Lists & Spacing**

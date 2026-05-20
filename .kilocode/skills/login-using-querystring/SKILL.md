@@ -5,7 +5,7 @@ description: For debugging, testing, or any purpose a mode may have for browsing
 
 # Login instructions
 
-Read local `AGENTS.md` in this skill folder if it exists for project-specific login URL, host restrictions, and credential lookup.
+Read skill-local guidance only when `.kilocode/skills/login-using-querystring/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for project-specific login URL, host restrictions, and credential lookup.
 
 Generic workflow:
 - Confirm the target app supports querystring login before using this shortcut.

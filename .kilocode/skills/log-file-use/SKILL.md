@@ -10,7 +10,7 @@ description: When a mode needs to read, create, or write (log progress) to a log
 - `date + time; action summary` (semicolon separated).
     - Ex: `"2026-02-14 07:23; Approved to begin"`.
     - Ex: `"2026-02-14 07:25; Task completed: Added update_query() to utils_sql.py, refactored utils_sql.py, junk.py"`.
-**Project-specific paths**: Read local `AGENTS.md` in this skill folder if it exists.
+**Project-specific paths**: Read skill-local guidance only when `.kilocode/skills/log-file-use/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md`.
 
 ## Initialization tasks
 
@@ -28,7 +28,7 @@ b) Create `short_2_word_description` of current task based on current context.
 c) `short plan name`: `yymmdd_{short_2_word_description}`.
 
 ### 3 Determine **Log file name and path**:
-- `log file`: `{plans folder}_[short plan name]_log.md`.
+- `log file`: `plans/[short plan name]_log.md` unless a dispatcher or planner task provides a more specific project-relative log path.
 
 ## Log file use instructions
 

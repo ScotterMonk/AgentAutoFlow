@@ -32,6 +32,7 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
          python -c "print('stuff'); print('more')"
          ```
 - **Prohibited**: `tail`, `sed`, `awk`, `sudo`, and `cmd.exe` flags (like `/d`).
+- **When calling file tools for skill resources**, never use copied absolute skill-registry locations or Windows backslash paths; first normalize any skill path to a project-relative, forward-slash path such as .kilocode/skills/<skill-name>/SKILL.md, and keep the tool-call payload strictly machine-readable with no surrounding markdown, single-quoted objects, or appended prose.
 
 ## Run Commands
 - Never use Linux commands in terminal.

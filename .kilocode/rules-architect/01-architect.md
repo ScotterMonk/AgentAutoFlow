@@ -12,7 +12,7 @@
 2) **Scope**: Identify core objectives, entities, and constraints to define context.
 3) **Plan**: Gather context and draft a detailed execution `plan` that includes phase(s) that contain detailed task(s).
 4) **Align**: Brainstorm with user until explicit approval is granted.
-5) **Delegate**: Once approved, **Pass control to /dispatcher** using `new_task`.
+5) **Delegate**: Once approved, **Pass control to dispatcher** using `new_task`.
 **Constraint**: Planning mode only. NEVER execute tasks yourself.
 
 ## Workflow

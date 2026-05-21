@@ -15,7 +15,7 @@ Strictly enforce minimalist path references to reduce noise:
 - **No redundancy**: Do not repeat the filename in both brackets and parentheses.
 - **Contextual pointers**: Reference section names instead of line numbers.
 
-**Exceptions**: Planner modes (`/architect`, `/planner-a`, `/planner-b`, `/planner-c`) may use links when creating or modifying a plan; any harness-level clickable-link rule also overrides the default plain-backtick preference.
+**Exceptions**: Planner modes (`architect`, `planner-a`, `planner-b`, `planner-c`) may use links when creating or modifying a plan; any harness-level clickable-link rule also overrides the default plain-backtick preference.
 
 Examples:
 - Bad: `[app/models/user.py](app/models/user.py)` → Good: `` `app/models/user.py` ``

@@ -1,6 +1,6 @@
 ---
 name: testing
-description: When creating tests and using tests for testing of application operation. Use this skill any time you are writing, running, or verifying tests — including pytest unit tests, integration tests, terminal verification scripts, or browser-based E2E flows. Trigger even for partial requests like "run the tests", "write a test for X", "verify this works", "check that the sync works", or "does this pass?". If any form of testing or verification is involved, use this skill.
+description: When creating tests and using tests for testing of application operation. Use this skill any time you are writing, running, or verifying tests — including pytest unit tests, integration tests, terminal verification scripts, or browser-based E2E flows. Trigger even for partial requests like "run the tests", "write a test for X", "verify this works", "check that the sync works", or "does this pass?". If any form of testing or verification is involved, use this skill. Load with read_file on .kilocode/skills/testing/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Testing instructions

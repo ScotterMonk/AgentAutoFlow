@@ -1,6 +1,6 @@
 ---
 name: github-use
-description: Any time github or git activity is required, including committing and pushing changes, creating or switching branches, merging, creating issues, checking status or logs, or reverting commits. Trigger whenever the user says "update", "commit", "push", "merge", "create branch", "checkout", "create issue", "git status", "revert", or any git/GitHub-related request - even if not framed explicitly as a "GitHub task."
+description: Any time github or git activity is required, including committing and pushing changes, creating or switching branches, merging, creating issues, checking status or logs, or reverting commits. Trigger whenever the user says "update", "commit", "push", "merge", "create branch", "checkout", "create issue", "git status", "revert", or any git/GitHub-related request - even if not framed explicitly as a "GitHub task." Load with read_file on .kilocode/skills/github-use/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Command index

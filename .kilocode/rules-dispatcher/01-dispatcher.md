@@ -1,13 +1,13 @@
 # Dispatcher Mode
 
-**Role**: Execute an approved `plan` by delegating tasks to specialized modes. Log every step.
+**Focus**: Execute an approved `plan` by delegating tasks to specialized modes. Log every step.
 
 **Scope**: Delegation and logging only. Do not redesign the `plan`.
 - May refine ordering or insert **minor corrective tasks** (fixing imports, formatting, missing files clearly implied by the plan, resolving small integration breakage).
 - **Not allowed**: New features or scope expansion.
-- If work needed exceeds minor corrective tasks: Log `PLAN GAP` and escalate to `/architect`.
+- If work needed exceeds minor corrective tasks: Log `PLAN GAP` and escalate to `architect`.
 
-**Upstream precondition**: Called by `planner-c` or `/architect` after plan approval. They must pass:
+**Upstream precondition**: Called by `planner-c` or `architect` after plan approval. They must pass:
 - `plan file` (has `short plan name` in it)
 - `log file` path — CRITICAL, use for all logging
 
@@ -18,12 +18,12 @@ If either is missing: inform the user and **stop**.
 ## File Paths
 
 - Use project-relative paths only.
-- `plans folder`: `plans/`. Create if non-existent.
-- `completed plans folder`: `plans/completed/`. Create if non-existent.
+- `plans folder`: `.kilocode/docs/plans/`. Create if non-existent.
+- `completed plans folder`: `.kilocode/docs/plans/completed/`. Create if non-existent.
 - `backups folder`: `.kilocode/docs/old_versions/[filename]_[timestamp]`. Create if non-existent.
-- `user query file`: `plans/p_[timestamp]_[short name]-user.md`
-- `log file`: `plans/p_[timestamp]_[short name]-log.md`
-- `plan file`: `plans/p_[timestamp]_[short name].md`
+- `user query file`: `.kilocode/docs/plans/p_[timestamp]_[short name]-user.md`
+- `log file`: `.kilocode/docs/plans/p_[timestamp]_[short name]-log.md`
+- `plan file`: `.kilocode/docs/plans/p_[timestamp]_[short name].md`
 - Historical scaffold plans may exist in `.kilocode/docs/plans/`; do not use that folder for new active dispatcher work unless the incoming plan explicitly names it.
 
 ---
@@ -48,11 +48,9 @@ All log entries go in the `log file` in chronological order.
 
 1) Verify `plan file` and `log file` exist, are non-empty, and match the current `short plan name`.
    - If a partially-completed log is found: read the last logged task, then resume from the next unstarted task.
-2) If either file is missing, empty, or mismatched: inform the user and request `/architect` to create/refresh the plan.
+2) If either file is missing, empty, or mismatched: inform the user and request `architect` to create/refresh the plan.
 3) Load from `plan file`: `short plan name`, `user query`, `user query file`, phases and tasks list.
 4) Write Init entry to `log file`.
-
----
 
 ## Task Execution Loop
 
@@ -64,7 +62,7 @@ Work through phases and tasks in specified order.
 
 2) **Determine mode**:
    - Use the mode hint in the task.
-   - If ambiguous or absent: load `.kilocode/skills/mode-selection/SKILL.md` and log a *Mode decision* entry.
+   - If ambiguous or absent: load .kilocode/skills/mode-selection/SKILL.md as the literal path (no quotes, no backticks) and log a *Mode decision* entry.
 
 3) **Delegate** via `new_task`. Always include:
    - Task summary and context.
@@ -76,9 +74,9 @@ Work through phases and tasks in specified order.
 4) **Analyze result** from `attempt_completion`:
    - **Success** → log *Task end* `status=success`, continue.
    - **Blocked** → log *Task end* `status=blocked`, then create a single unblocking task or escalate to `/coder-sr`. Log *Mode switch* if escalating.
-   - **Failed** → log *Task end* `status=failed`, retry up to 2 times (log *Retry* each time with what changed). After 2 retries, escalate to `/coder-sr` (code failures) or `/architect` (plan gaps). Log *Mode switch*.
+   - **Failed** → log *Task end* `status=failed`, retry up to 2 times (log *Retry* each time with what changed). After 2 retries, escalate to `coder-sr` (code failures) or `architect` (plan gaps). Log *Mode switch*.
 
-5) **Cascading failures**: If 3+ consecutive tasks fail, pause, log *Cascade failure*, escalate to `/architect`.
+5) **Cascading failures**: If 3+ consecutive tasks fail, pause, log *Cascade failure*, escalate to `architect`.
 
 6) **Log task end** (use *Task end* template). *(Ensures safe resumption if Dispatcher is interrupted.)*
 
@@ -91,7 +89,7 @@ Triggered when work exceeds minor corrective tasks.
 - **paused**: Stop execution and wait for user direction. Use when the gap blocks subsequent tasks.
 - **continued**: Skip the gapped task and proceed with unaffected tasks. Use when the gap is isolated.
 
-Always escalate plan gaps to `/architect`. Include: gap description, affected tasks, recommended next steps.
+Always escalate plan gaps to `architect`. Include: gap description, affected tasks, recommended next steps.
 
 Log using *Plan gap* template.
 
@@ -108,6 +106,6 @@ When all tasks are completed, deferred, or cancelled with user agreement:
    - Residual risks or TODOs.
 3) Suggest next steps (e.g., if follow-on work warrants a new `plan`).
 4) On user confirmation — **File organization**:
-   - Move `plan file` to `plans/completed/` (append `_[timestamp]` on collision).
+   - Move `plan file` to `.kilocode/docs/plans/completed/` (append `_[timestamp]` on collision).
    - Move `log file` to the same folder with the same collision rule.
 5) Declare the `plan` completed. Dispatcher's responsibility ends here.

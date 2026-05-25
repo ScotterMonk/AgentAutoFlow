@@ -1,6 +1,6 @@
 ---
 name: planning-init
-description: When a planning mode (architect, planner-a, planner-b, planner-c) starts its work. This skill is *not* to be loaded for use with any other modes unless specifically called.
+description: When a planning mode (architect, planner-a, planner-b, planner-c) starts its work. This skill is *not* to be loaded for use with any other modes unless specifically called. Load with read_file on .kilocode/skills/planning-init/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Planning instructions

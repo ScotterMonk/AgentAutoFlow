@@ -1,6 +1,6 @@
 ---
 name: learning
-description: Self-improvement system for managing (finding/using, saving/adding, and pruning) solutions, patterns, lessons learned, and workarounds. Use this skill whenever a mode says "check learnings", "check memories", "prior solutions", "remember this", "save this pattern", or when you discover a non-obvious fix after 2+ failed attempts. Also trigger when encountering unexpected behavior that others might hit.
+description: Self-improvement system for managing (finding/using, saving/adding, and pruning) solutions, patterns, lessons learned, and workarounds. Use this skill whenever a mode says "check learnings", "check memories", "prior solutions", "remember this", "save this pattern", or when you discover a non-obvious fix after 2+ failed attempts. Also trigger when encountering unexpected behavior that others might hit. Load with read_file on .kilocode/skills/learning/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Learning System

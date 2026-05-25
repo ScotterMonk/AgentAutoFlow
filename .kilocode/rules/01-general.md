@@ -1,9 +1,6 @@
-# app-standards — Standards-all-modes instructions
+# Standards-all-modes instructions
 
 **app-standards**: "app-standards" are for all modes that plan or write scripts or code follow these app standards for communication, modularization, creation, editing, naming conventions, refactoring.
-
-## Application knowledge
-Use `app-knowledge` skill when appropriate.
 
 ## Communication
 Be brief; don't echo user requests.
@@ -15,7 +12,7 @@ Be brief; don't echo user requests.
 - **Exception**: Do NOT apply this to CSS.
 
 **Hard Limit**:
-- **Enforce** a maximum of **600 lines of code** per file (exception: main.css)
+- **Enforce** a maximum of **650 lines of code** per file (exception: main.css)
 - **Split** larger files: Create more files with fewer functions rather than exceeding this limit.
 - **Do not remove blank rows before functions** in order to save on line count.
 
@@ -85,11 +82,8 @@ Examples:
 - **Avoid complex CMD and PowerShell scripts**: Prefer writing python script files and then executing them, *not* trying to run python scripts in the terminal.
 
 ## Path handling
-- **File-tool paths**: Always pass project-relative paths using forward slashes. Never pass drive-prefixed Windows paths to file tools.
-- **Skill paths**: Treat skill registry locations as informational. Before reading a skill resource, normalize it to `.kilocode/skills/<skill-name>/...`.
 - **Skill-local AGENTS.md**: Only read `.kilocode/skills/<skill-name>/AGENTS.md` after confirming that exact path exists. If it does not exist, use root `AGENTS.md`.
 - **Plans**: Use `plans/` for active plans and `plans/completed/` for completed plans. Do not substitute `.kilocode/docs/plans/` for current work unless a task explicitly names that historical scaffold path.
-- **Shell examples**: All commands must be PowerShell-compatible and run from the project root unless the command explicitly uses a tool-supported working directory.
 
 ## Refactoring
 **If you rename a symbol, you MUST fix all references.**
@@ -98,7 +92,7 @@ Before finishing, verify:
 2.  [ ] **Calls**: Function/Class usage updated everywhere?
 3.  [ ] **Tests**: Do tests still pass?
 4.  [ ] **Docs**: Updated agents.md, docstrings, and comments?
-5.  [ ] **VS Code**: No errors in the Problems panel?
+5.  [ ] **VS Code**: Errors in the Problems panel?
 
 ## Ambiguity Gate (Mandatory)
 **Scope**: All modes that plan or write code.

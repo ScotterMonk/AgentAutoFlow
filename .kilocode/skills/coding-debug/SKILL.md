@@ -1,6 +1,6 @@
 ---
 name: coding-debug
-description: Troubleshooting issues, investigating errors, diagnosing problems, systematic debugging, analyzing stack traces, and identifying root causes before applying fixes.
+description: Troubleshooting issues, investigating errors, diagnosing problems, systematic debugging, analyzing stack traces, and identifying root causes before applying fixes. Load with read_file on .kilocode/skills/coding-debug/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Debugging

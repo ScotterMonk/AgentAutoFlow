@@ -32,7 +32,37 @@ CLI: `python cli_sync.py <folder1> <folder2> ...`
          python -c "print('stuff'); print('more')"
          ```
 - **Prohibited**: `tail`, `sed`, `awk`, `sudo`, and `cmd.exe` flags (like `/d`).
-- **When calling file tools for skill resources**, never use copied absolute skill-registry locations or Windows backslash paths; first normalize any skill path to a project-relative, forward-slash path such as .kilocode/skills/<skill-name>/SKILL.md, and keep the tool-call payload strictly machine-readable with no surrounding markdown, single-quoted objects, or appended prose.
+
+## Tool-Call Path Hygiene (read_file, write_to_file, etc.)
+
+**The `path` field must be a clean string. Nothing else.**
+
+### Required format
+- Project-relative, forward slashes only.
+- Begins with a single `.` or a directory name — NEVER `..kilocode` (that is a typo for `.kilocode`).
+- Skills live at: `.kilocode/skills/<skill-name>/SKILL.md`
+- Skill AGENTS lives at: `.kilocode/skills/<skill-name>/AGENTS.md`
+
+### Correct
+- `.kilocode/skills/testing/SKILL.md`
+- `utils_sync/sync_core.py`
+- `tests/test_sync_core.py`
+
+### Wrong — do not emit any of these
+- `..kilocode/skills/testing/SKILL.md`        ← missing dot+slash
+- `.kilocode/skills/testing/SKILL.md'}]}`     ← JSON closers leaked into string
+- `'.kilocode/skills/testing/SKILL.md'`       ← quotes inside the string value
+- `D:\Dropbox\...\skills\testing\SKILL.md`    ← absolute + backslashes
+- `D:/Dropbox/.../skills/testing/SKILL.md`    ← absolute, even with forward slashes
+
+### Construction rule
+When building a `read_file` payload, write the JSON literally — do not template the
+path from a Python repr, a `<location>` block, or any rendered list. The `<location>`
+field in `<available_skills>` is INFORMATIONAL ONLY; normalize it to the project-
+relative form above before placing it into any tool argument.
+
+If you are uncertain whether a path is well-formed, type it character by character
+rather than copying.
 
 ## Run Commands
 - Never use Linux commands in terminal.
@@ -120,6 +150,13 @@ There is no database for this project. Ignore any references to a database.
 - Tests verify .roo sync behavior, not general file sync.
 - Use `pytest` for this application.
 - Pytest fixtures in `{base folder}/tests/` create temporary .roo structures.
+
+## Agent Knowledge & Research
+- User-facing docs: `README.md`, `README-file-sync.md`.
+- Use `codebase_search` first for unexplored implementation areas.
+- Use the `learning` skill for prior solutions or patterns that apply to your current task.
+- Use `git diff` to review recent commits for context.
+- For web automation and browsing, use the `browser-use` skill.
 
 ## Tooling Preference (Web interfaces)
 Primary: Use `web browser`.

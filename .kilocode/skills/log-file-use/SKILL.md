@@ -1,6 +1,6 @@
 ---
 name: log-file-use
-description: When a mode needs to read, create, or write (log progress) to a log file.
+description: When a mode needs to read, create, or write (log progress) to a log file. Load with read_file on .kilocode/skills/log-file-use/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Log file use instructions

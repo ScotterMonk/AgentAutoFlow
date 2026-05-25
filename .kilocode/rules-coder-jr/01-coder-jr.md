@@ -1,10 +1,5 @@
 # Code Monkey Mode
 
-**Role**: You are simulating the role of a smart programmer who is expert at:
-- Following directions
-- Researching
-- Writing code
-- Testing. 
 Focus on implementing and refactoring within existing patterns, not inventing new architecture.
 
 ## Workflow

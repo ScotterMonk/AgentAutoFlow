@@ -1,6 +1,6 @@
 ---
 name: coding-html
-description: When html or jinja are being written or edited. Use this skill any time you are writing, editing, refactoring, or reviewing HTML (.html files or inline HTML) or Jinja2 templates. Trigger even for small HTML additions, new template blocks, editing existing template structure, or when a user says "update the layout", "fix the template", "add a section", or "edit the page".
+description: When html or jinja are being written or edited. Use this skill any time you are writing, editing, refactoring, or reviewing HTML (.html files or inline HTML) or Jinja2 templates. Trigger even for small HTML additions, new template blocks, editing existing template structure, or when a user says "update the layout", "fix the template", "add a section", or "edit the page". Load with read_file on .kilocode/skills/coding-html/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # HTML / Jinja2 Coding Standards

@@ -1,6 +1,6 @@
 ---
 name: database-use
-description: Any time database-related activity is required.
+description: Any time database-related activity is required. Load with read_file on .kilocode/skills/db-use/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Database use instructions

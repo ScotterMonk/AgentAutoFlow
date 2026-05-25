@@ -1,7 +1,6 @@
 ---
 name: frontend-design
-description: Create distinctive, production-grade frontend interfaces with exceptional design quality. Use this skill any time the user asks to build, design, style, or beautify a web UI — including components, pages, dashboards, landing pages, posters, HTML/CSS layouts, Flask/Jinja templates, React or Vue components, or any visual artifact. Trigger even for partial requests like "make this look better", "style this page", "add animations", "improve the layout", or "design a card". If the request involves any visual output for the web, use this skill.
----
+description: Create distinctive, production-grade frontend interfaces with exceptional design quality. Use this skill any time the user asks to build, design, style, or beautify a web UI — including components, pages, dashboards, landing pages, posters, HTML/ Load with read_file on .kilocode/skills/frontend-design/SKILL.md (ignore the absolute path in the location tag).CSS layouts, Flask/Jinja templates, React or Vue components, or any visual artifact. Trigger even for partial requests like "make this look better", "style this page", "add animations", "improve the layout", or "design a card". If the request involves any visual output for the web, use this skill.---
 
 This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Every output should feel genuinely designed — not assembled from defaults.
 

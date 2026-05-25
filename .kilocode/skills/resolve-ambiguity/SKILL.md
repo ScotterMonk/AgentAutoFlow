@@ -9,6 +9,7 @@ description: >
   approaches, unsure which files are in scope, or filling in gaps with
   "probably" or "I assume", that's ambiguity. Don't skip this skill just
   because you *could* guess; the cost of guessing wrong is wasted work.
+   Load with read_file on .kilocode/skills/resolve-ambiguity/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Resolve Ambiguity

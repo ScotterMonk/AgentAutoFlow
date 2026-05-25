@@ -1,6 +1,6 @@
 ---
 name: coding-python
-description: When python, flask, or jinja are being written or edited. Use this skill any time you are writing, editing, refactoring, or reviewing Python (.py), Django-related, Flask routes/blueprints, or Jinja2 templates (.jinja or .html with Jinja). Trigger even if the user only mentions a .py file, a Flask endpoint, a template, or asks about Python patterns, imports, error handling, or structure.
+description: When python, flask, or jinja are being written or edited. Use this skill any time you are writing, editing, refactoring, or reviewing Python (.py), Django-related, Flask routes/blueprints, or Jinja2 templates (.jinja or .html with Jinja). Trigger even if the user only mentions a .py file, a Flask endpoint, a template, or asks about Python patterns, imports, error handling, or structure. Load with read_file on .kilocode/skills/coding-python/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Python Coding Standards

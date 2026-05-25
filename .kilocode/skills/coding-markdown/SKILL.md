@@ -1,6 +1,6 @@
 ---
 name: coding-markdown
-description: When markdown being written or edited, including rules, skills, and documentation. Trigger any time a .md file is being created or modified, a skill's SKILL.md is being updated, rules files under .kilocode/rules*/ are being edited, or a user says "update the docs", "fix the readme", "edit this skill", "write documentation", or "format this markdown".
+description: When markdown being written or edited, including rules, skills, and documentation. Trigger any time a .md file is being created or modified, a skill's SKILL.md is being updated, rules files under .kilocode/rules*/ are being edited, or a user says "update the docs", "fix the readme", "edit this skill", "write documentation", or "format this markdown". Load with read_file on .kilocode/skills/coding-markdown/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Markdown Instructions

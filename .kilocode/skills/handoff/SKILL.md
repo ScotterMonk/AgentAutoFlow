@@ -1,12 +1,12 @@
 ---
 name: handoff
-description: Compact the current conversation into a handoff document for another agent to pick up. Use this skill whenever the user asks for a handoff, continuation note, session summary for another agent, compacted context, or a document that lets a fresh agent continue the work.
+description: Compact the current conversation into a handoff document for another agent to pick up. Use this skill whenever the user asks for a handoff, continuation note, session summary for another agent, compacted context, or a document that lets a fresh agent continue the work. Load with read_file on .kilocode/skills/handoff/SKILL.md (ignore the absolute path in the location tag).
 argument-hint: What will the next session be used for?
 ---
 
 # Handoff
 
-Write a handoff document summarising the current conversation so a fresh agent can continue the work. Read skill-local guidance only when `.kilocode/skills/handoff/AGENTS.md` is confirmed to exist; otherwise use root `AGENTS.md` for the project-specific save location. Read the target file before you write to it when modifying an existing handoff.
+Write a handoff document summarising the current conversation so a fresh agent can continue the work. Read the target file before you write to it when modifying an existing handoff.
 
 Suggest the skills to be used, if any, by the next session.
 
@@ -15,6 +15,11 @@ Do not duplicate content already captured in other artifacts such as PRDs, plans
 If the user passed arguments, treat them as a description of what the next session will focus on and tailor the document accordingly.
 
 ## Handoff document guidance
+
+**handoff location**
+- Save handoff documents under `.kilocode/docs/handoffs/`.
+- Use a timestamped filename such as `handoff-YYYYMMDD-HHMMSS.md`.
+- Create the folder if it does not exist.
 
 Include only context that helps the next agent continue efficiently:
 

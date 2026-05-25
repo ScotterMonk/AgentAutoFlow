@@ -1,6 +1,6 @@
 ---
 name: research
-description: When a query was called directly from the research mode.
+description: When a query was called directly from the research mode. Load with read_file on .kilocode/skills/research/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Research index

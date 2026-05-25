@@ -1,6 +1,6 @@
 ---
 name: login-using-querystring
-description: For debugging, testing, or any purpose a mode may have for browsing the app's web site.
+description: For debugging, testing, or any purpose a mode may have for browsing the app's web site. Load with read_file on .kilocode/skills/login-using-querystring/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Login instructions

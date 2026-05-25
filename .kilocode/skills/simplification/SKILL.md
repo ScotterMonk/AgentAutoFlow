@@ -1,6 +1,6 @@
 ---
 name: simplification
-description: Finds insights that eliminate multiple components at once — "if this is true, we don't need X, Y, or Z." Use this skill whenever you notice the same concept implemented multiple ways, a growing list of special cases, complexity that keeps spiraling, or when you hear "we just need to add one more case." Also trigger when refactoring feels like whack-a-mole, config files are growing, or someone says "don't touch that, it's complicated." Trigger immediately when asked to add yet another special case to an already long list. Otherwise known as "Simplification Cascades" — one insight that collapses 10 things at once.
+description: Finds insights that eliminate multiple components at once — "if this is true, we don't need X, Y, or Z." Use this skill whenever you notice the same concept implemented multiple ways, a growing list of special cases, complexity that keeps spiraling, or when you hear "we just need to add one more case." Also trigger when refactoring feels like whack-a-mole, config files are growing, or someone says "don't touch that, it's complicated." Trigger immediately when asked to add yet another special case to an already long list. Otherwise known as "Simplification Cascades" — one insight that collapses 10 things at once. Load with read_file on .kilocode/skills/simplification/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Simplification Cascades

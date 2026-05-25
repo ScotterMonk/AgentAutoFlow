@@ -1,6 +1,6 @@
 ---
 name: api-use-external
-description: Any time an external api needs to be understood or queried, including post and get.
+description: Any time an external api needs to be understood or queried, including post and get. Load with read_file on .kilocode/skills/api-use-external/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # External API use

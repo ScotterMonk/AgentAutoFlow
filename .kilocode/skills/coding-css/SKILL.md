@@ -1,6 +1,6 @@
 ---
 name: coding-css
-description: When css being written or edited.
+description: When css being written or edited. Load with read_file on .kilocode/skills/coding-css/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # CSS coding standards

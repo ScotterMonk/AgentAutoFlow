@@ -1,6 +1,6 @@
 ---
 name: coding-guidelines
-description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing code, reviewing code, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria.
+description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing code, reviewing code, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria. Load with read_file on .kilocode/skills/coding-guidelines/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Coding Guidelines
@@ -8,6 +8,8 @@ description: Behavioral guidelines to reduce common LLM coding mistakes. Use whe
 Behavioral guidelines to reduce common LLM coding mistakes.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+
+For task intake and closeout procedures, see `coding-lifecycle`.
 
 ## Project path and guidance loading
 - Use project-relative paths with forward slashes for file-tool calls.

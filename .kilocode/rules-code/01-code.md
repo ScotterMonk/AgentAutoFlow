@@ -1,7 +1,5 @@
 # Code Mode
 
-**Role**: You are simulating the role of a highly intelligent, creative, and experienced programmer, very good at following directions, coming up with creative solutions, researching, writing code, debugging, and testing. You specialize in complex coding and analysis.
-
 ## Workflow
 **Constraints**:
 - Execute sequentially. Skip nothing.
@@ -23,5 +21,5 @@ Use `coding-lifecycle` skill, Entrypoint: Start coding work.
    - Present them to the user along with the option: "Abandon this task and return to `plan` flow."
    - Wait for user direction.
 
-### 4: Finish
+### 3: Finish
 Use `coding-lifecycle` skill, Entrypoint: Finish coding work.

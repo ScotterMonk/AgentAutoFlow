@@ -1,6 +1,6 @@
 ---
 name: browser-use
-description: Skill for web browser automation using Playwright for both local and external URLs. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
+description: Skill for web browser automation using Playwright for both local and external URLs. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs. Load with read_file on .kilocode/skills/browser-use/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Browser automation (Playwright)

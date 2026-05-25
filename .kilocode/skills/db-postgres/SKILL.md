@@ -1,6 +1,6 @@
 ---
 name: db-postgres
-description: Use when the task is specifically about PostgreSQL or Supabase behavior such as slow queries, EXPLAIN plans, index design, JSONB querying, pg_stat analysis, VACUUM/autovacuum, replication, extensions, pgvector, pg_trgm, or PostGIS. Invoke whenever the user needs Postgres-specific diagnosis or exact SQL/config guidance rather than generic database advice, including cases framed as query tuning, replication lag, database bloat, managed Postgres limits, or production-safe performance work.
+description: Use when the task is specifically about PostgreSQL or Supabase behavior such as slow queries, EXPLAIN plans, index design, JSONB querying, pg_stat analysis, VACUUM/autovacuum, replication, extensions, pgvector, pg_trgm, or PostGIS. Invoke whenever the user needs Postgres-specific diagnosis or exact SQL/config guidance rather than generic database advice, including cases framed as query tuning, replication lag, database bloat, managed Postgres limits, or production-safe performance work. Load with read_file on .kilocode/skills/db-postgres/SKILL.md (ignore the absolute path in the location tag).
 license: MIT
 metadata:
   author: https://github.com/Jeffallan

@@ -4,6 +4,7 @@ description: >
   Call a Hermes agent from Kilo Code via the local chat completions API.
   Use for web scraping, browser automation, and research tasks that
   Hermes handles better (saved credentials, browser tools, web search).
+   Load with read_file on .kilocode/skills/hermes-api-client/SKILL.md (ignore the absolute path in the location tag).
 modes:
   - name: scrape
     description: Extract structured JSON data from a website

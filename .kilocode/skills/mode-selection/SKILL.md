@@ -1,6 +1,6 @@
 ---
 name: mode-selection
-description: For understanding what each mode does, which mode is best (most appropriate mode) for a given situation, and establishing a pattern for choosing when and how a mode delegates or passes operation to another mode. This skill provides `mode selection strategy`.
+description: For understanding what each mode does, which mode is best (most appropriate mode) for a given situation, and establishing a pattern for choosing when and how a mode delegates or passes operation to another mode. This skill provides `mode selection strategy`. Load with read_file on .kilocode/skills/mode-selection/SKILL.md (ignore the absolute path in the location tag).
 ---
 
 # Mode selection
